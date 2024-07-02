@@ -8,11 +8,11 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>Home</title>
-  	<%@ include file = "/WEB-INF/views/include/bs4.jsp"%>
+	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 </head>
 <body class="skin-orange">
-<%@ include file = "/WEB-INF/views/include/header.jsp"%>
-<%@ include file = "/WEB-INF/views/include/nav.jsp"%>
+<jsp:include page="/WEB-INF/views/include/header.jsp" />
+<jsp:include page="/WEB-INF/views/include/nav.jsp" />
 	<section class="home">
 		<div class="container">
 			<div class="row">
@@ -42,7 +42,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/basic/img04.jpg" alt="Sample Article">
+									<img src="${ctp}/basic/img04.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">Computer</a></div>
@@ -55,7 +55,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/basic/img14.jpg" alt="Sample Article">
+									<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">Travel</a></div>
@@ -68,7 +68,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/basic/img13.jpg" alt="Sample Article">
+									<img src="${ctp}/basic/img13.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">International</a></div>
@@ -81,7 +81,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/basic/img05.jpg" alt="Sample Article">
+									<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">Lifestyle</a></div>
@@ -101,7 +101,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img10.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -125,7 +125,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img06.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img06.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -153,7 +153,7 @@
 									<div class="inner">
 										<figure>                                
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img05.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -177,7 +177,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img07.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img07.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -202,7 +202,7 @@
 					</div>
 					<div class="banner">
 						<a href="#">
-							<img src="${ctp}/images/basic/ads.png" alt="Sample Article">
+							<img src="${ctp}/basic/ads.png" alt="Sample Article">
 						</a>
 					</div>
 					<div class="line transparent little"></div>
@@ -241,7 +241,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img09.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -257,7 +257,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img01.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -273,7 +273,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img05.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -289,7 +289,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img02.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -305,7 +305,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img13.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img13.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -321,7 +321,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img08.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img08.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -344,7 +344,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img11.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -375,7 +375,7 @@
 								</div>
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img02.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -403,7 +403,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img03.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -431,7 +431,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img09.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -463,13 +463,13 @@
 						<div class="aside-body">
 							<div class="featured-author">
 								<div class="featured-author-inner">
-									<div class="featured-author-cover" style="background-image: url('{ctp}/images/basic/img15.jpg');">
+									<div class="featured-author-cover" style="background-image: url('{ctp}/basic/img15.jpg');">
 										<div class="badges">
 											<div class="badge-item"><i class="ion-star"></i> Featured</div>
 										</div>
 										<div class="featured-author-center">
 											<figure class="featured-author-picture">
-												<img src="${ctp}/images/basic/img01.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
 											</figure>
 											<div class="featured-author-info">
 												<h2 class="name">John Doe</h2>
@@ -507,15 +507,15 @@
 											<h2 class="block-title">Photos</h2>
 											<div class="block-body">
 												<ul class="item-list-round" data-magnific="gallery">
-													<li><a href="${ctp}/images/basic/img06.jpg" style="background-image: url('${ctp}/images/basic/img06.jpg');"></a></li>
-													<li><a href="${ctp}/images/basic/img07.jpg" style="background-image: url('${ctp}/images/basic/img07.jpg');"></a></li>
-													<li><a href="${ctp}/images/basic/img08.jpg" style="background-image: url('${ctp}/images/basic/img08.jpg');"></a></li>
-													<li><a href="${ctp}/images/basic/img09.jpg" style="background-image: url('${ctp}/images/basic/img09.jpg');"></a></li>
-													<li><a href="${ctp}/images/basic/img10.jpg" style="background-image: url('${ctp}/images/basic/img10.jpg');"></a></li>
-													<li><a href="${ctp}/images/basic/img11.jpg" style="background-image: url('${ctp}/images/basic/img11.jpg');"></a></li>
-													<li><a href="${ctp}/images/basic/img12.jpg" style="background-image: url('${ctp}/images/basic/img12.jpg');"><div class="more">+2</div></a></li>
-													<li class="hidden"><a href="${ctp}/images/basic/img13.jpg" style="background-image: url('${ctp}/images/basic/img13.jpg');"></a></li>
-													<li class="hidden"><a href="${ctp}/images/basic/img14.jpg" style="background-image: url('${ctp}/images/basic/img14.jpg');"></a></li>
+													<li><a href="${ctp}/basic/img06.jpg" style="background-image: url('${ctp}/basic/img06.jpg');"></a></li>
+													<li><a href="${ctp}/basic/img07.jpg" style="background-image: url('${ctp}/basic/img07.jpg');"></a></li>
+													<li><a href="${ctp}/basic/img08.jpg" style="background-image: url('${ctp}/basic/img08.jpg');"></a></li>
+													<li><a href="${ctp}/basic/img09.jpg" style="background-image: url('${ctp}/basic/img09.jpg');"></a></li>
+													<li><a href="${ctp}/basic/img10.jpg" style="background-image: url('${ctp}/basic/img10.jpg');"></a></li>
+													<li><a href="${ctp}/basic/img11.jpg" style="background-image: url('${ctp}/basic/img11.jpg');"></a></li>
+													<li><a href="${ctp}/basic/img12.jpg" style="background-image: url('${ctp}/basic/img12.jpg');"><div class="more">+2</div></a></li>
+													<li class="hidden"><a href="${ctp}/basic/img13.jpg" style="background-image: url('${ctp}/basic/img13.jpg');"></a></li>
+													<li class="hidden"><a href="${ctp}/basic/img14.jpg" style="background-image: url('${ctp}/basic/img14.jpg');"></a></li>
 												</ul>
 											</div>
 										</div>
@@ -534,7 +534,7 @@
 								<div class="inner">
 									<figure>
 										<a href="single.html">
-											<img src="${ctp}/images/basic/img07.jpg" alt="Sample Article">
+											<img src="${ctp}/basic/img07.jpg" alt="Sample Article">
 										</a>
 									</figure>
 									<div class="padding">
@@ -546,7 +546,7 @@
 								<div class="inner">
 									<figure>
 										<a href="single.html">
-											<img src="${ctp}/images/basic/img14.jpg" alt="Sample Article">
+											<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
 										</a>
 									</figure>
 									<div class="padding">
@@ -558,7 +558,7 @@
 								<div class="inner">
 									<figure>
 										<a href="single.html">
-											<img src="${ctp}/images/basic/img09.jpg" alt="Sample Article">
+											<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
 										</a>
 									</figure>
 									<div class="padding">
@@ -570,7 +570,7 @@
 								<div class="inner">
 									<figure>
 										<a href="single.html">
-											<img src="${ctp}/images/basic/img11.jpg" alt="Sample Article">
+											<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
 										</a>
 									</figure>
 									<div class="padding">
@@ -582,7 +582,7 @@
 								<div class="inner">
 									<figure>
 										<a href="single.html">
-											<img src="${ctp}/images/basic/img06.jpg" alt="Sample Article">
+											<img src="${ctp}/basic/img06.jpg" alt="Sample Article">
 										</a>
 									</figure>
 									<div class="padding">
@@ -594,7 +594,7 @@
 								<div class="inner">
 									<figure>
 										<a href="single.html">
-											<img src="${ctp}/images/basic/img03.jpg" alt="Sample Article">
+											<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
 										</a>
 									</figure>
 									<div class="padding">
@@ -640,7 +640,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img16.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="details">
@@ -660,7 +660,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img05.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -676,7 +676,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img02.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -692,7 +692,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/images/basic/img10.jpg" alt="Sample Article">
+												<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -710,7 +710,7 @@
 									<div class="item">
 										<div class="user">                                
 											<figure>
-												<img src="${ctp}/images/basic/img01.jpg" alt="User Picture">
+												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
 											</figure>
 											<div class="details">
 												<h5 class="name">Mark Otto</h5>
@@ -724,7 +724,7 @@
 									<div class="item">
 										<div class="user">                                
 											<figure>
-												<img src="${ctp}/images/basic/img01.jpg" alt="User Picture">
+												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
 											</figure>
 											<div class="details">
 												<h5 class="name">Mark Otto</h5>
@@ -738,7 +738,7 @@
 									<div class="item">
 										<div class="user">                                
 											<figure>
-												<img src="${ctp}/images/basic/img01.jpg" alt="User Picture">
+												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
 											</figure>
 											<div class="details">
 												<h5 class="name">Mark Otto</h5>
@@ -774,22 +774,22 @@
 							<ul class="sponsored">
 								<li>
 									<a href="#">
-										<img src="${ctp}/images/basic/sponsored.png" alt="Sponsored">
+										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/images/basic/sponsored.png" alt="Sponsored">
+										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/images/basic/sponsored.png" alt="Sponsored">
+										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/images/basic/sponsored.png" alt="Sponsored">
+										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 							</ul>
@@ -818,7 +818,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/images/basic/img03.jpg" alt="Sample Article">
+								<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -835,7 +835,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/images/basic/img16.jpg" alt="Sample Article">
+								<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -852,7 +852,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/images/basic/img15.jpg" alt="Sample Article">
+								<img src="${ctp}/basic/img15.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -869,7 +869,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/images/basic/img14.jpg" alt="Sample Article">
+								<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -886,7 +886,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/images/basic/img01.jpg" alt="Sample Article">
+								<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -903,7 +903,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/images/basic/img11.jpg" alt="Sample Article">
+								<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -919,6 +919,6 @@
 			</div>
 		</div>
 	</section>
-<%@ include file = "/WEB-INF/views/include/footer.jsp"%>
+<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

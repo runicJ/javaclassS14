@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}"/>
 
 <header class="primary">
 	<div class="firstbar">
@@ -7,7 +9,7 @@
 				<div class="col-md-3 col-sm-12">
 					<div class="brand">
 						<a href="index.html">
-							<img src="resources/images/basic/logo.png" alt="Magz Logo">
+							<img src="${ctp}/basic/logo.png" alt="Magz Logo">
 						</a>
 					</div>						
 				</div>
@@ -35,8 +37,8 @@
 				</div>
 				<div class="col-md-3 col-sm-12 text-right">
 					<ul class="nav-icons">
-						<li><a href="register.html"><i class="ion-person-add"></i><div>Register</div></a></li>
-						<li><a href="login.html"><i class="ion-person"></i><div>Login</div></a></li>
+						<li><a href="${ctp}/users/userRegister"><i class="ion-person-add"></i><span>회원가입</span></a></li>
+						<li><a href="${ctp}/users/userLogin"><i class="ion-person"></i><span>로그인</span></a></li>
 					</ul>
 				</div>
 			</div>

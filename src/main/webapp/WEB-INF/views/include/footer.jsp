@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}"/>
 
 <!-- Start footer -->
 <footer class="footer">
@@ -9,7 +11,7 @@
 					<h1 class="block-title">Company Info</h1>
 					<div class="block-body">
 						<figure class="foot-logo">
-							<img src="${ctp}/images/basic/logo-light.png" class="img-responsive" alt="Logo">
+							<img src="${ctp}/basic/logo-light.png" class="img-responsive" alt="Logo">
 						</figure>
 						<p class="brand-description">
 							Magz is a HTML5 &amp; CSS3 magazine template based on Bootstrap 3.
@@ -58,7 +60,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img12.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img12.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="padding">
@@ -70,7 +72,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img14.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="padding">
@@ -82,7 +84,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img15.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img15.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="padding">
@@ -94,7 +96,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/images/basic/img16.jpg" alt="Sample Article">
+										<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="padding">
@@ -202,13 +204,13 @@
 </footer>
 <!-- End Footer -->
 <!-- JS -->
-<script src="resources/js/jquery.migrate.js"></script>
+<script src="${ctp}/js/jquery.migrate.js"></script>
 <script>var $target_end=$(".best-of-the-week");</script>
-<script src="resources/js/jquery-number/jquery.number.min.js"></script>
-<script src="resources/js/owlcarousel/owl.carousel.min.js"></script>
-<script src="resources/js/jquery.magnific-popup.min.js"></script>
-<script src="resources/js/jquery.easeScroll.js"></script>
-<script src="resources/js/sweetalert.min.js"></script>
-<script src="resources/js/jquery.toast.min.js"></script>
-<script src="resources/js/demo.js"></script>
-<script src="resources/js/e-magz.js"></script>
+<script src="${ctp}/js/jquery-number/jquery.number.min.js"></script>
+<script src="${ctp}/js/owlcarousel/owl.carousel.min.js"></script>
+<script src="${ctp}/js/jquery.magnific-popup.min.js"></script>
+<script src="${ctp}/js/jquery.easeScroll.js"></script>
+<script src="${ctp}/js/sweetalert.min.js"></script>
+<script src="${ctp}/js/jquery.toast.min.js"></script>
+<script src="${ctp}/js/demo.js"></script>
+<script src="${ctp}/js/e-magz.js"></script>

@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}"/>
 
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
@@ -10,14 +12,14 @@
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 
 <!-- Toast -->
-<link rel="stylesheet" href="resources/css/jquery.toast.min.css">
+<link rel="stylesheet" href="${ctp}/css/jquery.toast.min.css">
 <!-- OwlCarousel -->
-<link rel="stylesheet" href="resources/css/owl.carousel.min.css">
-<link rel="stylesheet" href="resources/css/owl.theme.default.min.css">
+<link rel="stylesheet" href="${ctp}/css/owl.carousel.min.css">
+<link rel="stylesheet" href="${ctp}/css/owl.theme.default.min.css">
 <!-- Magnific Popup -->
-<link rel="stylesheet" href="resources/css/magnific-popup.css">
-<link rel="stylesheet" href="resources/css/sweetalert.css">
+<link rel="stylesheet" href="${ctp}/css/magnific-popup.css">
+<link rel="stylesheet" href="${ctp}/css/sweetalert.css">
 <!-- Custom style -->
-<link rel="stylesheet" href="resources/css/style.css">
-<link rel="stylesheet" href="resources/css/all.css">
-<link rel="stylesheet" href="resources/css/demo.css">
+<link rel="stylesheet" href="${ctp}/css/style.css">
+<link rel="stylesheet" href="${ctp}/css/all.css">
+<link rel="stylesheet" href="${ctp}/css/demo.css">

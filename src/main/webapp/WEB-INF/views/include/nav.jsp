@@ -1,3 +1,7 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}"/>
+
 	<!-- Start nav -->
 	<nav class="menu">
 		<div class="container">
@@ -15,18 +19,18 @@
 			<div id="menu-list">
 				<ul class="nav-list">
 					<li class="for-tablet nav-title"><a>Menu</a></li>
-					<li class="for-tablet"><a href="login.html">Login</a></li>
-					<li class="for-tablet"><a href="register.html">Register</a></li>
+					<li class="for-tablet"><a href="${ctp}/users/userLogin">로그인</a></li>
+					<li class="for-tablet"><a href="${ctp}/users/userRegister">회원가입</a></li>
 					<li><a href="category.html">Standard</a></li>
 					<li class="dropdown magz-dropdown">
 						<a href="category.html">Pages <i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="index.html">Home</a></li>
+							<li><a href="${ctp}/">Home</a></li>
 							<li class="dropdown magz-dropdown">
 								<a href="#">Authentication <i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
-									<li><a href="login.html">Login</a></li>
-									<li><a href="register.html">Register</a></li>
+									<li><a href="${ctp}/users/userLogin">Login</a></li>
+									<li><a href="${ctp}/users/userRegister">Register</a></li>
 									<li><a href="forgot.html">Forgot Password</a></li>
 									<li><a href="reset.html">Reset Password</a></li>
 								</ul>
@@ -114,7 +118,7 @@
 												<div class="inner">
 													<figure>
 														<a href="single.html">
-															<img src="images/news/img10.jpg" alt="Sample Article">
+															<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
 														</a>
 													</figure>
 													<div class="padding">
@@ -130,7 +134,7 @@
 												<div class="inner">
 													<figure>
 														<a href="single.html">
-															<img src="images/news/img11.jpg" alt="Sample Article">
+															<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
 														</a>
 													</figure>
 													<div class="padding">
@@ -146,7 +150,7 @@
 												<div class="inner">
 													<figure>
 														<a href="single.html">
-															<img src="images/news/img14.jpg" alt="Sample Article">
+															<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
 														</a>
 													</figure>
 													<div class="padding">
