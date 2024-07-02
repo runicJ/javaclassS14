@@ -97,10 +97,10 @@
 			return false;
 		}
 		
-    	if(postcode.trim() == "") {
+/*     	if(postcode.trim() == "") {
     		alert("주소를 입력하세요");
     		return false;
-    	}
+    	} */
     	
   		if(tel2 == "" || tel3 == "") {
 			alert("전화번호를 입력하세요");
@@ -152,7 +152,7 @@
     		return false;
     	}
         if (emailCheckSw == 0) {
-            alert("전화번호 중복체크 버튼을 눌러주세요");
+            alert("이메일 중복체크 버튼을 눌러주세요");
             document.getElementById("emailCheckSw").focus();
             return false;
         }
@@ -337,7 +337,7 @@
 								<div class="invalid-feedback">닉네임은 한글,영문대소문자,숫자만 사용가능합니다.</div>
 							</div>
 							
-						    <div class="form-group row">
+<!-- 						    <div class="form-group row">
 								<label for="address" class="col-md-3 text-right control-label col-form-label">주소</label>
 									<div class="input-group col-sm-9">
 										<input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" class="form-control">
@@ -357,7 +357,7 @@
 									</div>
 								</div>
 								<div class="invalid-feedback">유효한 주소를 입력해주세요.</div>
-						    </div>
+						    </div> -->
 						    
 						    <div class="form-group">
 						      <label for="email1">이메일</label><input type="button" value="이메일 중복체크" id="emailCheckBtn" class="btn btn-info btn-sm" onclick="emailCheck()"/>
@@ -419,7 +419,6 @@
 							<div class="form-group d-flex text-center mb-2">
 								<span class="text-muted">이미 계정이 있으신가요?</span> <a href="${ctp}/users/userLogin">로그인 페이지로</a>
 							</div>
-				    		<input type="hidden" name="address" />
 						    <input type="hidden" name="email" />
     						<input type="hidden" name="tel" />
 						</form>

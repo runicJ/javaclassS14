@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="col-md-3 col-sm-12">
 					<div class="brand">
-						<a href="index.html">
+						<a href="http://localhost:9090/javalclassS14">
 							<img src="${ctp}/basic/logo.png" alt="Magz Logo">
 						</a>
 					</div>						
