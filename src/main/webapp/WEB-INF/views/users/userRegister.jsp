@@ -13,23 +13,17 @@
   	 <script>
     'use strict';
     
-    let idCheckSw = 0;
+    let uidCheckSw = 0;
     let nickCheckSw = 0;
     let emailCheckSw = 0;
     
     function fCheck() {
-    	let uid = myform.uid.value.trim();
-    	let pwd = myform.pwd.value.trim();
+    	let uid = myform.userId.value.trim();
+    	let pwd = myform.userPwd.value.trim();
     	let pwdCheck = myform.pwdCheck.value.trim();
     	
     	let name = myform.name.value.trim();
     	let nickName = myform.nickName.value.trim();
-    	
-    	let postcode = stayInputForm.postcode.value + " ";
-    	let roadAddress = stayInputForm.roadAddress.value + " ";
-    	let detailAddress = stayInputForm.detailAddress.value + " ";
-    	let extraAddress = stayInputForm.extraAddress.value + " ";
-    	let address = postcode + "/" + roadAddress + "/" + detailAddress + "/" + extraAddress + "/";
     	
     	let email1 = myform.email1.value.trim();
     	let email2 = myform.email2.value;
@@ -49,23 +43,23 @@
                 
 		if(uid == "") {
 			alert("아이디를 입력하세요");
-			myform.uid.focus();
+			myform.userId.focus();
 			return false;
 		}
 		else if(!regUid.test(uid)) {
     		alert("아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.");
-    		myform.uid.focus();
+    		myform.userId.focus();
     		return false;
     	}
     	
 		if(pwd == "") {
 			alert("비밀번호를 입력하세요");
-	        myform.pwd.focus();
+	        myform.userPwd.focus();
 			return false;
 		}
 		else if(!regPwd.test(pwd)) {
 	        alert("비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.");
-	        myform.pwd.focus();
+	        myform.userPwd.focus();
 	        return false;
       	}
 		
@@ -136,7 +130,7 @@
 	  		}	  			
   		}
   		
-    	if(idCheckSw == 0) {
+    	if(uidCheckSw == 0) {
     		alert("아이디 중복체크 버튼을 눌러주세요");
     		document.getElementById("uidBtn").focus();
     		return false;
@@ -159,27 +153,25 @@
     }
 		
     function idCheck() {
-    	let uid = myform.uid.value.trim();
+    	let uid = myform.userId.value.trim();
     	
-    	if(uid.trim() == "") {
+    	if(uid == "") {
     		alert("아이디를 입력하세요!");
     		myform.uid.focus();
     	}
     	else {
-    		idCheckSw = 1;
-    		
 	    	$.ajax({
 	    		url : "${ctp}/users/uidCheck",
 	    		type : "get",
 	    		data : {uid : uid},
 	    		success:function(res) {
-	    			if(res != '0') {
+	    			if(res != "0") {
 	    				alert("이미 사용중인 아이디입니다. 다시 입력하세요.");
 	    				myform.uid.focus();
 	    			}
 	    			else {
 	    				alert("사용 가능한 아이디입니다.");
-	    				idCheckSw = 1;
+	    				uidCheckSw = 1;
 	    				$("#uidBtn").attr("disabled",true);
 	    				myform.pwd.focus();
 	    			}
@@ -212,7 +204,7 @@
 	    				alert("사용 가능한 닉네임입니다.");
 	    	    		nickCheckSw = 1;
 	    				$("#nickNameBtn").attr("disabled",true);
-	    				myform.tel2.focus();
+	    				myform.email1.focus();
 	    			}
 	    		},
 	    		error:function() {
@@ -224,7 +216,7 @@
     
     function emailCheck() {
 		let email1 = myform.email1.value;
-		let email2 = myform.email2.value.trim();
+		let email2 = myform.email2.value;
 		let email = email1 + "@" + email2;
       if (email1 == "" || email2 == "") {
         alert("이메일 주소를 입력하세요!");
@@ -255,8 +247,8 @@
     }
     
     window.onload = function(){
-    	document.getElementById('uid').addEventListener('click',function(){
-    		idCheckSw = 0;
+    	document.getElementById('userId').addEventListener('click',function(){
+    		uidCheckSw = 0;
     		$("#uidBtn").removeAttr("disabled");
     	});
     	document.getElementById('nickName').addEventListener('click',function(){
@@ -267,7 +259,7 @@
     		emailCheckSw = 0;
     		$("#emailCheckBtn").removeAttr("disabled");
     	});
-      	document.getElementById('email2').addEventListener('onchange',function(){
+      	document.getElementById('email2').addEventListener('change',function(){
       		emailCheckSw = 0;
     		$("#emailCheckBtn").removeAttr("disabled");
     	});
@@ -275,7 +267,7 @@
     
     function previewImage() {
         let file = document.getElementById("file").files[0];
-        let preview = document.getElementById("photoDemo");
+        let preview = document.getElementById("imageDemo");
         let modalImage = document.getElementById("modalImage");
 
         if (file) {
@@ -301,17 +293,20 @@
 			<div class="box-wrapper">				
 				<div class="box box-border">
 					<div class="box-body">
-						<h4>Register</h4>
+						<h4 class="text-center">회원가입</h4>
 						<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
 							<div class="form-group">
-								<label for="uid">아이디</label><input type="button" value="아이디 중복체크" id="uidBtn" class="btn btn-info btn-sm" onclick="idCheck()"/>
-								<input type="text" name="uid" id="uid" class="form-control" placeholder="아이디를 입력하세요" required autofocus>
-								<div class="invalid-feedback">아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.</div>
+								<label for="uid">아이디</label>
+								<div class="input-group">
+									<input type="text" name="userId" id="userId" class="form-control" placeholder="아이디를 입력하세요" required autofocus>
+									<input type="button" value="아이디 중복체크" id="uidBtn" class="input-group-append btn btn-info btn-sm" onclick="idCheck()"/>
+								</div>
+								<p class="invalid-feedback">아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.</p>
 							</div>
 							
 							<div class="form-group">
-								<label class="fw" for="pwd">비밀번호</label>
-								<input type="password" name="pwd" id="pwd" class="form-control" placeholder="비밀번호를 입력하세요" required>
+								<label class="fw" for="userPwd">비밀번호</label>
+								<input type="password" name="userPwd" id="userPwd" class="form-control" placeholder="비밀번호를 입력하세요" required>
 								<div class="invalid-feedback">비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.</div>
 							</div>
 							
@@ -327,23 +322,25 @@
 							</div>
 							
 							<div class="form-group">
-								<label for="nickName">닉네임</label><input type="button" id="nickNameBtn" value="닉네임 중복체크" class="btn btn-info btn-sm" onclick="nickCheck()"/>
-								<input type="text" name="nickName" id="nickName" class="form-control" required>
+								<label for="nickName">닉네임</label>
+								<div class="input-group">
+									<input type="text" name="nickName" id="nickName" class="form-control" required>
+									<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="input-group-append btn btn-info btn-sm" onclick="nickCheck()"/>
+								</div>
 								<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
 							</div>
 						    
 						    <div class="form-group">
-						      <label for="email1">이메일</label><input type="button" value="이메일 중복체크" id="emailCheckBtn" class="btn btn-info btn-sm" onclick="emailCheck()"/>
-						        <div class="input-group mb-3">
-						          <input type="text" class="form-control mr-2" placeholder="이메일 주소를 입력하세요." id="email1" name="email1" />
-						          <span class="mt-2" style="font-size:1.2em;">@</span>
-						          <div class="input-group-append ml-2">
-						            <select name="email2" class="mt-1">
-						              <option value="naver.com" selected>naver.com</option>
-						              <option value="gmail.com">gmail.com</option>
-						              <option value="daum.com">daum.com</option>
-						            </select>
-						          </div>
+						      <label for="email1">이메일</label>
+						        <div class="input-group">
+									<input type="text" class="form-control mr-2" placeholder="이메일 주소를 입력하세요." id="email1" name="email1" />
+									<span style="font-size:1.2em;">@</span>
+									<select id="email2" name="email2" class="ml-2">
+										<option value="naver.com" selected>naver.com</option>
+										<option value="gmail.com">gmail.com</option>
+										<option value="daum.net">daum.net</option>
+									</select>
+									<input type="button" value="이메일 중복체크" id="emailCheckBtn" class="input-group-append btn btn-info btn-sm" onclick="emailCheck()"/>
 						        </div>
 						        <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
 						    </div>
@@ -356,30 +353,51 @@
 							              <option value="010" selected>010</option>
 							            </select>
 							        </div>
-									<span class="mt-3">&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-							        <input type="text" name="tel2" id="tel2" size=4 maxlength=4 class="form-control" required />
-							        <span class="mt-3">&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-							        <input type="text" name="tel3" id="tel3" size=4 maxlength=4 class="form-control" required />
+									<span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+							        <input type="text" id="tel2" name="tel2" id="tel2" size=4 maxlength=4 class="form-control" required />
+							        <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+							        <input type="text" id="tel3" id="tel3" size=4 maxlength=4 class="form-control" required />
 							    </div>
 							    <div class="invalid-feedback">유효한 핸드폰 번호를 입력해주세요.</div>
 							</div>
 							
 							<div class="form-group">
-							    <p>홈페이지 가입 목적(선택)</p>
-							    <select class="form-control" id="purpose" name="purpose">
-							        <option value="null">미선택</option>
-							        <option value="info">알레르기 정보 취득</option>
-							        <option value="me">본인의 알레르기</option>
-							        <option value="family">자녀 또는 가족의 알레르기</option>
-							        <option value="enviro">환경에 대한 관심</option>
-							        <option value="buy">알레르기 물품 구입</option>
-							        <option value="ext">기타</option>
-							    </select>
+								<label class="mr-3">성별</label>
+						      	<div class="form-check-inline">
+							        <label class="form-check-label">
+							          	<input type="radio" class="form-check-input" name="gender" value="n" checked>미선택
+							        </label>
+								</div>
+						      	<div class="form-check-inline">
+							        <label class="form-check-label">
+							          	<input type="radio" class="form-check-input" name="gender" value="m">남자
+							        </label>
+								</div>
+								<div class="form-check-inline">
+									<label class="form-check-label">
+										<input type="radio" class="form-check-input" name="gender" value="f">여자
+									</label>
+								</div>
+							</div>
+							
+							<div class="form-group">
+								<div class="input-group">
+								    <label>홈페이지 가입 목적(선택)</label>
+								    <select class="form-select" id="registerReason" name="registerReason">
+								        <option value="null">미선택</option>
+								        <option value="info">알레르기 정보 취득</option>
+								        <option value="me">본인의 알레르기</option>
+								        <option value="family">자녀 또는 가족의 알레르기</option>
+								        <option value="enviro">환경에 대한 관심</option>
+								        <option value="buy">알레르기 물품 구입</option>
+								        <option value="ext">기타</option>
+								    </select>
+							    </div>
 							</div>
 							
 							<div class="form-group mb-3 d-flex align-items-center">
 							    <div class="mr-3">
-									<img id="photoDemo" style="width:100px;height:100px;cursor: pointer;" onclick="$('#imageModal').modal('show');">
+									<img id="imageDemo" style="width:100px;height:100px;cursor: pointer;" onclick="$('#imageModal').modal('show');">
 							    </div>
 							    <div>
 							        <label for="fName">프로필 사진(파일용량:10MByte이내) : </label>
@@ -389,8 +407,8 @@
 							<div class="form-group text-right">
 								<button class="btn btn-primary btn-block" onclick="fCheck()">회원가입</button>
 							</div>
-							<div class="form-group d-flex text-center mb-2">
-								<span class="text-muted">이미 계정이 있으신가요?</span> <a href="${ctp}/users/userLogin">로그인 페이지로</a>
+							<div class="form-group d-flex float-right">
+								<span class="text-muted mr-4">이미 계정이 있으신가요?</span><a href="${ctp}/users/userLogin">로그인 페이지로</a>
 							</div>
 						    <input type="hidden" name="email" />
     						<input type="hidden" name="tel" />

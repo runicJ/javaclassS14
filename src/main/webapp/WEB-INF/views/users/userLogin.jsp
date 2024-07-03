@@ -17,31 +17,40 @@
 			<div class="box-wrapper">				
 				<div class="box box-border">
 					<div class="box-body">
-						<h4>Login</h4>
-						<form>
+						<h4 class="text-center">Login</h4>
+						<form name="myform" method="post">
 							<div class="form-group">
-								<label>아이디</label>
-								<input type="text" name="uid" id="uid" class="form-control">
+								<label class="fw">아이디
+									<a href="${ctp}/users/userFindId" class="float-right">아이디를 잊으셨나요?</a>
+								</label>
+								<input type="text" name="userId" id="userId" class="form-control">
 							</div>
 							<div class="form-group">
-								<label class="fw">Password
-									<a href="forgot.html" class="pull-right">Forgot Password?</a>
+								<label class="fw">비밀번호
+									<a href="${ctp}/users/userFindPw" class="float-right">비밀번호를 잊으셨나요?</a>
 								</label>
-								<input type="password" name="pwd" id="pwd" class="form-control">
+								<input type="password" name="userPwd" id="userPwd" class="form-control">
 							</div>
 							<div class="form-group text-right">
-								<button class="btn btn-primary btn-block">로그인</button>
+								<button class="btn btn-primary btn-block" onclick="location.href='${ctp}/users/userLoginOk';">로그인</button>
 							</div>
-							<div class="form-group text-center">
-								<span class="text-muted">아직 계정이 없으신가요?</span> <a href="${ctp}/users/userRegister">회원가입</a>
+							<div class="form-group">
+					    		<input type="checkbox" name="idSave" checked /> 아이디 저장
+								<p class="float-right"><span class="text-muted">아직 계정이 없으신가요? </span><a href="${ctp}/users/userRegister">회원가입</a></p>
 							</div>
 							<div class="title-line">
 								or
 							</div>
-             				<a href="#" class="btn btn-social btn-block facebook"><i class="ion-social-facebook"></i> Login with Google</a>
+             				<a href="#" class="btn btn-logo btn-block facebook"><i class="ion-logo-google"></i> Login with Google</a>
              				<a href="#" class="btn btn-social btn-block facebook"><i class="ion-social-facebook"></i> Login with Kakao</a>
              				<a href="#" class="btn btn-social btn-block facebook"><i class="ion-social-facebook"></i> Login with Naver</a>
 						</form>
+				    	<table class="table table-bordered p-0">
+					      <tr>
+					        <td class="text-center">
+					        </td>
+					      </tr>
+					   </table>
 					</div>
 				</div>
 			</div>

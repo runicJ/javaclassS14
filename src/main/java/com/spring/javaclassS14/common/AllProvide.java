@@ -1,4 +1,4 @@
-package com.spring.javalclassS14.common;
+package com.spring.javaclassS14.common;
 
 import java.io.File;
 import java.io.FileOutputStream;
@@ -8,10 +8,12 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.stereotype.Service;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
+@Service
 public class AllProvide {
 	
 	@Autowired

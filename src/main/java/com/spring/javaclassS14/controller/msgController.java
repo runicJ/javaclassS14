@@ -1,4 +1,4 @@
-package com.spring.javalclassS14.controller;
+package com.spring.javaclassS14.controller;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -7,9 +7,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
-public class MessageController {
+public class msgController {
 
-	@RequestMapping(value = "/message/{msgFlag}", method = RequestMethod.GET)
+	@RequestMapping(value = "/msg/{msgFlag}", method = RequestMethod.GET)
 	public String getMessage(Model model,
 			@PathVariable String msgFlag
 		) {
@@ -21,7 +21,19 @@ public class MessageController {
 			model.addAttribute("msg", "중복된 닉네임입니다.");
 			model.addAttribute("url", "/users/userRegister");
 		}
+		else if(msgFlag.equals("emailCheckNo")) {
+			model.addAttribute("msg", "중복된 이메일입니다.");
+			model.addAttribute("url", "/users/userRegister");
+		}
+		else if(msgFlag.equals("userRegisterOk")) {
+			model.addAttribute("msg", "회원가입 처리되었습니다.\n로그인 페이지로 이동합니다.");
+			model.addAttribute("url", "/users/userLogin");
+		}
+		else if(msgFlag.equals("userRegisterNo")) {
+			model.addAttribute("msg", "회원가입 실패!");
+			model.addAttribute("url", "/users/userRegister");
+		}
 	
-	return "include/message";
+	return "include/msg";
 	}
 }

@@ -1,23 +1,18 @@
-/*
- * Import Fonts
- *
- * Font Name: Lato, Raleway
- */
 
 @font-face {
   font-family: 'Lato';
-  src: url("../font/Electrical Safety Regular.ttf");
+  src: url("../fonts/Electrical Safety Regular.ttf");
 }
 
 @font-face {
   font-family: 'Raleway';
-  src: url("../font/Electrical Safety Bold.ttf");
+  src: url("../fonts/Electrical Safety Bold.ttf");
 }
 
 @font-face {
   font-family: 'Merriweather';
   font-style: italic;
-  src: url("../font/Merriweather-BoldItalic.ttf");
+  src: url("../fonts/Merriweather-BoldItalic.ttf");
 }
 
 /*
@@ -52,7 +47,7 @@ h3 {
 }
 
 h4 {
-  font-size: 26px;
+  font-size: 30px;
 }
 
 h5 {
@@ -509,6 +504,10 @@ section.search .search-result {
 .form-control:focus {
   border-color: #989898;
   box-shadow: 0 1px 2px #ddd;
+}
+
+.invalid-feedback {
+	font-size: 0.7em;
 }
 
 .btn {
@@ -2400,7 +2399,7 @@ aside .ads figcaption {
 }
 
 .box-wrapper {
-  width: 400px;
+  width: 600px;
   margin: 0 auto;
 }
 
@@ -2417,7 +2416,7 @@ aside .ads figcaption {
   padding: 30px;
 }
 .box .box-body h4 {
-  margin-bottom: 30px;
+  margin-bottom: 60px;
 }
 
 .title-line {

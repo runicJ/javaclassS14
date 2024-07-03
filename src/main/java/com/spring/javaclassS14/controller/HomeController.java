@@ -1,4 +1,4 @@
-package com.spring.javalclassS14.controller;
+package com.spring.javaclassS14.controller;
 
 import java.text.DateFormat;
 import java.util.Date;
@@ -22,7 +22,7 @@ public class HomeController {
 	/**
 	 * Simply selects the home view to render by returning its name.
 	 */
-	@RequestMapping(value = {"/","/h","/main"}, method = RequestMethod.GET)
+	@RequestMapping(value = {"/","/h","/main","/index"}, method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);
 		

@@ -14,8 +14,11 @@ create table users (
 	point       int default 1000 not null,
 	policy_flag enum('y','n') default 'y' not null,
 	create_date datetime default now() not null,
-	update_date datetime default null
+	update_date datetime default null,
+	user_level  int default 3 not null
 );
+
+drop table users;
 
 create table user_log (
 	log_idx    int auto_increment primary key,
