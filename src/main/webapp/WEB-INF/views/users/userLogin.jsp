@@ -6,9 +6,8 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Insert</title>
+	<title>userLogin</title>
   	<%@ include file = "/WEB-INF/views/include/bs4.jsp"%>
-<title>title</title>
 </head>
 <body>
 <%@ include file = "/WEB-INF/views/include/header.jsp"%>
@@ -21,25 +20,27 @@
 						<h4>Login</h4>
 						<form>
 							<div class="form-group">
-								<label>Username</label>
-								<input type="text" name="username" class="form-control">
+								<label>아이디</label>
+								<input type="text" name="uid" id="uid" class="form-control">
 							</div>
 							<div class="form-group">
 								<label class="fw">Password
 									<a href="forgot.html" class="pull-right">Forgot Password?</a>
 								</label>
-								<input type="password" name="password" class="form-control">
+								<input type="password" name="pwd" id="pwd" class="form-control">
 							</div>
 							<div class="form-group text-right">
-								<button class="btn btn-primary btn-block">Login</button>
+								<button class="btn btn-primary btn-block">로그인</button>
 							</div>
 							<div class="form-group text-center">
-								<span class="text-muted">Don't have an account?</span> <a href="register.html">Create one</a>
+								<span class="text-muted">아직 계정이 없으신가요?</span> <a href="${ctp}/users/userRegister">회원가입</a>
 							</div>
 							<div class="title-line">
 								or
 							</div>
-             				<a href="#" class="btn btn-social btn-block facebook"><i class="ion-social-facebook"></i> Login with Facebook</a>
+             				<a href="#" class="btn btn-social btn-block facebook"><i class="ion-social-facebook"></i> Login with Google</a>
+             				<a href="#" class="btn btn-social btn-block facebook"><i class="ion-social-facebook"></i> Login with Kakao</a>
+             				<a href="#" class="btn btn-social btn-block facebook"><i class="ion-social-facebook"></i> Login with Naver</a>
 						</form>
 					</div>
 				</div>

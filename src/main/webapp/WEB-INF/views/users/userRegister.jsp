@@ -96,11 +96,6 @@
 			myform.nickName.focus();
 			return false;
 		}
-		
-    	if(postcode.trim() == "") {
-    		alert("주소를 입력하세요");
-    		return false;
-    	}
     	
   		if(tel2 == "" || tel3 == "") {
 			alert("전화번호를 입력하세요");
@@ -152,7 +147,7 @@
     		return false;
     	}
         if (emailCheckSw == 0) {
-            alert("전화번호 중복체크 버튼을 눌러주세요");
+            alert("이메일 중복체크 버튼을 눌러주세요");
             document.getElementById("emailCheckSw").focus();
             return false;
         }
@@ -306,7 +301,7 @@
 			<div class="box-wrapper">				
 				<div class="box box-border">
 					<div class="box-body">
-						<h4>회원 가입</h4>
+						<h4>Register</h4>
 						<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="uid">아이디</label><input type="button" value="아이디 중복체크" id="uidBtn" class="btn btn-info btn-sm" onclick="idCheck()"/>
@@ -334,30 +329,8 @@
 							<div class="form-group">
 								<label for="nickName">닉네임</label><input type="button" id="nickNameBtn" value="닉네임 중복체크" class="btn btn-info btn-sm" onclick="nickCheck()"/>
 								<input type="text" name="nickName" id="nickName" class="form-control" required>
-								<div class="invalid-feedback">닉네임은 한글,영문대소문자,숫자만 사용가능합니다.</div>
+								<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
 							</div>
-							
-						    <div class="form-group row">
-								<label for="address" class="col-md-3 text-right control-label col-form-label">주소</label>
-									<div class="input-group col-sm-9">
-										<input type="text" name="postcode" id="sample6_postcode" placeholder="우편번호" class="form-control">
-										<div class="input-group-append">
-											<input type="button" onclick="sample6_execDaumPostcode()" value="우편번호 찾기" class="btn btn-info">
-										</div>
-									</div>
-									<span class="col-md-3"></span>
-									<div class="input-group col-sm-9">
-										<input type="text" name="roadAddress" id="sample6_address" size="50" placeholder="주소" class="form-control">
-									</div>
-									<span class="col-md-3"></span>
-								<div class="input-group col-sm-9">
-									<input type="text" name="detailAddress" id="sample6_detailAddress" placeholder="상세주소" class="form-control">
-									<div class="input-group-append">
-										<input type="text" name="extraAddress" id="sample6_extraAddress" placeholder="참고항목" class="form-control">
-									</div>
-								</div>
-								<div class="invalid-feedback">유효한 주소를 입력해주세요.</div>
-						    </div>
 						    
 						    <div class="form-group">
 						      <label for="email1">이메일</label><input type="button" value="이메일 중복체크" id="emailCheckBtn" class="btn btn-info btn-sm" onclick="emailCheck()"/>
@@ -394,8 +367,8 @@
 							<div class="form-group">
 							    <p>홈페이지 가입 목적(선택)</p>
 							    <select class="form-control" id="purpose" name="purpose">
-							        <option value="null">선택안함</option>
-							        <option value="info">알레르기 관련 정보</option>
+							        <option value="null">미선택</option>
+							        <option value="info">알레르기 정보 취득</option>
 							        <option value="me">본인의 알레르기</option>
 							        <option value="family">자녀 또는 가족의 알레르기</option>
 							        <option value="enviro">환경에 대한 관심</option>
@@ -419,7 +392,6 @@
 							<div class="form-group d-flex text-center mb-2">
 								<span class="text-muted">이미 계정이 있으신가요?</span> <a href="${ctp}/users/userLogin">로그인 페이지로</a>
 							</div>
-				    		<input type="hidden" name="address" />
 						    <input type="hidden" name="email" />
     						<input type="hidden" name="tel" />
 						</form>

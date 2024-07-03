@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.UserDAO">
+
+	<select id="getUserIdCheck" resultType="com.spring.javaclassS14.vo.UserVO">
+		select * from users where user_id=#{user_id};
+	</select>
+	
+	<select id="getUserNickCheck" resultType="com.spring.javaclassS14.vo.UserVO">
+		select * from users where nickName=#{nickName};
+	</select>
+
+
+	<insert id="setUserRegisterOk">
+		insert into users values (default,#{vo.user_id},#{vo.user_pwd},#{vo.name},#{vo.nickName},#{vo.gender},#{vo.email},#{vo.tel},#{vo.user_image},#{vo.register_reason},default,#{vo.policy_flag},default,default);
+	</insert>
+</mapper>

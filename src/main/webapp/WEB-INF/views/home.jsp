@@ -463,7 +463,7 @@
 						<div class="aside-body">
 							<div class="featured-author">
 								<div class="featured-author-inner">
-									<div class="featured-author-cover" style="background-image: url('{ctp}/basic/img15.jpg');">
+									<div class="featured-author-cover" style="background-image: url('${ctp}/basic/img15.jpg');">
 										<div class="badges">
 											<div class="badge-item"><i class="ion-star"></i> Featured</div>
 										</div>

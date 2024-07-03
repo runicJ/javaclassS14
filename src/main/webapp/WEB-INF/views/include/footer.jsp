@@ -206,8 +206,8 @@
 <!-- JS -->
 <script src="${ctp}/js/jquery.migrate.js"></script>
 <script>var $target_end=$(".best-of-the-week");</script>
-<script src="${ctp}/js/jquery-number/jquery.number.min.js"></script>
-<script src="${ctp}/js/owlcarousel/owl.carousel.min.js"></script>
+<script src="${ctp}/js/jquery.number.min.js"></script>
+<script src="${ctp}/js/owl.carousel.min.js"></script>
 <script src="${ctp}/js/jquery.magnific-popup.min.js"></script>
 <script src="${ctp}/js/jquery.easeScroll.js"></script>
 <script src="${ctp}/js/sweetalert.min.js"></script>
