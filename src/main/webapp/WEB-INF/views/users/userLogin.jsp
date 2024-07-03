@@ -17,7 +17,7 @@
 			<div class="box-wrapper">				
 				<div class="box box-border">
 					<div class="box-body">
-						<h4 class="text-center">Login</h4>
+						<h4 class="text-center">로그인</h4>
 						<form name="myform" method="post">
 							<div class="form-group">
 								<label class="fw">아이디

@@ -5,17 +5,17 @@ create table users (
 	user_id     varchar(20) not null,
 	user_pwd    varchar(255) not null,
 	name        varchar(50) not null,
-	nickName        varchar(30) not null,
+	nickName    varchar(30) not null,
 	gender      enum('n','m','f') default 'n' not null,
 	email       varchar(60) not null,
 	tel         varchar(20) not null,
 	user_image  varchar(255) default 'noImage.jpg' not null,
-	register_reason varchar(50) default 'πÃº±≈√',
+	register_reason varchar(50) default 'ÎØ∏ÏÑ†ÌÉù',
 	point       int default 1000 not null,
 	policy_flag enum('y','n') default 'y' not null,
 	create_date datetime default now() not null,
 	update_date datetime default null,
-	user_level  int default 3 not null
+	level  int default 3 not null
 );
 
 drop table users;

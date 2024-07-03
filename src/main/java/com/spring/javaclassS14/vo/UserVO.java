@@ -19,5 +19,5 @@ public class UserVO {
 	private String policyFlag;
 	private String createDate;
 	private String updateate;
-
+	private int level;
 }

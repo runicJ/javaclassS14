@@ -5,33 +5,47 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
 public class msgController {
 
 	@RequestMapping(value = "/msg/{msgFlag}", method = RequestMethod.GET)
 	public String getMessage(Model model,
-			@PathVariable String msgFlag
+			@PathVariable String msgFlag,
+			@RequestParam(name="uid", defaultValue="", required=false) String uid
 		) {
 		if(msgFlag.equals("uidCheckNo")) {
-			model.addAttribute("msg", "Áßº¹µÈ ¾ÆÀÌµğÀÔ´Ï´Ù.");
+			model.addAttribute("msg", "ì´ë¯¸ ì‚¬ìš©ì¤‘ì¸ ì•„ì´ë”” ì…ë‹ˆë‹¤.");
 			model.addAttribute("url", "/users/userRegister");
 		}
 		else if(msgFlag.equals("nickCheckNo")) {
-			model.addAttribute("msg", "Áßº¹µÈ ´Ğ³×ÀÓÀÔ´Ï´Ù.");
+			model.addAttribute("msg", "ì´ë¯¸ ì‚¬ìš©ì¤‘ì¸ ë‹‰ë„¤ì„ì…ë‹ˆë‹¤.");
 			model.addAttribute("url", "/users/userRegister");
 		}
 		else if(msgFlag.equals("emailCheckNo")) {
-			model.addAttribute("msg", "Áßº¹µÈ ÀÌ¸ŞÀÏÀÔ´Ï´Ù.");
+			model.addAttribute("msg", "ì´ë¯¸ ì‚¬ìš©ì¤‘ì¸ ì´ë©”ì¼ì…ë‹ˆë‹¤.");
 			model.addAttribute("url", "/users/userRegister");
 		}
 		else if(msgFlag.equals("userRegisterOk")) {
-			model.addAttribute("msg", "È¸¿ø°¡ÀÔ Ã³¸®µÇ¾ú½À´Ï´Ù.\n·Î±×ÀÎ ÆäÀÌÁö·Î ÀÌµ¿ÇÕ´Ï´Ù.");
+			model.addAttribute("msg", "íšŒì›ê°€ì…ì´ ì™„ë£Œë˜ì—ˆìŠµë‹ˆë‹¤.\në¡œê·¸ì¸ í˜ì´ì§€ë¡œ ì´ë™í•©ë‹ˆë‹¤.");
 			model.addAttribute("url", "/users/userLogin");
 		}
 		else if(msgFlag.equals("userRegisterNo")) {
-			model.addAttribute("msg", "È¸¿ø°¡ÀÔ ½ÇÆĞ!");
+			model.addAttribute("msg", "íšŒì›ê°€ì… ì‹¤íŒ¨!");
 			model.addAttribute("url", "/users/userRegister");
+		}
+		else if(msgFlag.equals("userLoginOk")) {
+			model.addAttribute("msg", uid+" ë‹˜ í™˜ì˜í•©ë‹ˆë‹¤!");
+			model.addAttribute("url", "/users/userRegister");
+		}
+		else if(msgFlag.equals("userLoginNo")) {
+			model.addAttribute("msg", "ë¡œê·¸ì¸ ì‹¤íŒ¨!");
+			model.addAttribute("url", "/users/userLogin");
+		}
+		else if(msgFlag.equals("memberLogout")) {
+			model.addAttribute("msg", uid+" ë‹˜ ë¡œê·¸ì•„ì›ƒì´ ì •ìƒì ìœ¼ë¡œ ì²˜ë¦¬ë˜ì—ˆìŠµë‹ˆë‹¤.");
+			model.addAttribute("url", "/users/userLogin");
 		}
 	
 	return "include/msg";
