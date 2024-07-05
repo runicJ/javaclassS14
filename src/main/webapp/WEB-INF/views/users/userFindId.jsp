@@ -1,4 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
@@ -8,16 +10,13 @@
 <jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/nav.jsp" />
-<p><br></p>
-<div class="container">
+	<img src="${ctp}/images/logo.png" alt="logo" style="width:100px;height:auto;"/>
 	<section class="login first grey">
 		<div class="container">
 			<div class="box-wrapper">				
 				<div class="box box-border">
 					<div class="box-body">
-						<h4>아이디 찾기</h4>
+						<h4 class="text-center">아이디 찾기</h4>
 						<form>
 							<div class="form-group">
 								<label>이름</label>
@@ -36,8 +35,5 @@
 			</div>
 		</div>
 	</section>
-</div>
-<p><br></p>
-<jsp:include page="/WEB-INF/views/include/footer.jsp" />
 </body>
 </html>

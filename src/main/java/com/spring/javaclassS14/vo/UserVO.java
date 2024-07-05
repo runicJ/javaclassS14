@@ -14,7 +14,7 @@ public class UserVO {
 	private String email;
 	private String tel;
 	private String userImage;
-	private String registerReason;
+	private String registerWay;
 	private int point;
 	private String policyFlag;
 	private String createDate;

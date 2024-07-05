@@ -3,7 +3,7 @@
 <mapper namespace="com.spring.javaclassS14.dao.UserDAO">
 
 	<select id="getUserIdCheck" resultType="com.spring.javaclassS14.vo.UserVO">
-		select * from users where user_id=#{userId};
+		select * from users where userId=#{userId};
 	</select>
 	
 	<select id="getUserNickCheck" resultType="com.spring.javaclassS14.vo.UserVO">
@@ -14,8 +14,16 @@
 		select * from users where email=#{email};
 	</select>
 
+	<select id="getUserNickNameEmailCheck" resultType="com.spring.javaclassS14.vo.UserVO">
+		select * from users where nickName = #{nickName} and email = #{email} limit 1;
+	</select>
+
 
 	<insert id="setUserRegisterOk">
-		insert into users values (default,#{vo.userId},#{vo.userPwd},#{vo.name},#{vo.nickName},#{vo.gender},#{vo.email},#{vo.tel},#{vo.userImage},#{vo.registerReason},default,default,default,default,default);
+		insert into users values (default,#{vo.userId},#{vo.userPwd},#{vo.name},#{vo.nickName},#{vo.gender},#{vo.email},#{vo.tel},#{vo.userImage},#{vo.registerWay},default,default,default,default,default);
+	</insert>
+	
+	<insert id="setKakaoUserInput">
+		insert into users (userId, userPwd, nickName, name, email) values (#{userId},#{userPwd},#{nickName},#{nickName},#{email});
 	</insert>
 </mapper>

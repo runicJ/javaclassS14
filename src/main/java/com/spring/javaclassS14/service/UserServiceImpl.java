@@ -54,4 +54,15 @@ public class UserServiceImpl implements UserService {
 		return userDAO.setUserRegisterOk(vo);
 	}
 
+	@Override
+	public UserVO getUserNickNameEmailCheck(String nickName, String email) {
+		return userDAO.getUserNickNameEmailCheck(nickName, email);
+	}
+
+	@Override
+	public void setKakaoUserInput(String userId, String pwd, String nickName, String email) {
+		userDAO.setKakaoUserInput(userId, pwd, nickName, email);
+		
+	}
+
 }

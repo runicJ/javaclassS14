@@ -8,8 +8,8 @@
 			<div class="row">
 				<div class="col-md-3 col-sm-12">
 					<div class="brand">
-						<a href="http://localhost:9090/javalclassS14">
-							<img src="${ctp}/basic/logo.png" alt="Magz Logo">
+						<a href="http://localhost:9090/javaclassS14">
+							<img src="${ctp}/images/logo.png" alt="Magz Logo">
 						</a>
 					</div>						
 				</div>
@@ -37,8 +37,18 @@
 				</div>
 				<div class="col-md-3 col-sm-12 text-right">
 					<ul class="nav-icons">
-						<li><a href="${ctp}/users/userRegister"><i class="ion-person-add"></i><span>회원가입</span></a></li>
-						<li><a href="${ctp}/users/userLogin"><i class="ion-person"></i><span>로그인</span></a></li>
+						<c:if test="${empty sUid}">
+							<li><a href="${ctp}/users/userRegister"><i class="ion-person-add"></i><span>회원가입</span></a></li>
+							<li><a href="${ctp}/users/userLogin"><i class="ion-person"></i><span>로그인</span></a></li>
+						</c:if>
+						<c:if test="${!empty sUid}">
+							<c:if test="${sUid == 'admin'}">
+								<li><a href="${ctp}/admin/adminMain"><i class="ion-person"></i><span>관리자페이지</span></a></li>
+							</c:if>
+							<c:if test="${sUid != 'admin'}">
+								<li><a href="${ctp}/users/userMain"><i class="ion-person"></i><span>마이페이지</span></a></li>
+							</c:if>
+						</c:if>
 					</ul>
 				</div>
 			</div>

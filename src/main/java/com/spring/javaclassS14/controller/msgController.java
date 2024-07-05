@@ -28,7 +28,7 @@ public class msgController {
 			model.addAttribute("url", "/users/userRegister");
 		}
 		else if(msgFlag.equals("userRegisterOk")) {
-			model.addAttribute("msg", "회원가입이 완료되었습니다.\n로그인 페이지로 이동합니다.");
+			model.addAttribute("msg", "회원가입이 완료되었습니다. 로그인 페이지로 이동합니다!");
 			model.addAttribute("url", "/users/userLogin");
 		}
 		else if(msgFlag.equals("userRegisterNo")) {
@@ -37,7 +37,7 @@ public class msgController {
 		}
 		else if(msgFlag.equals("userLoginOk")) {
 			model.addAttribute("msg", uid+" 님 환영합니다!");
-			model.addAttribute("url", "/users/userRegister");
+			model.addAttribute("url", "/h");
 		}
 		else if(msgFlag.equals("userLoginNo")) {
 			model.addAttribute("msg", "로그인 실패!");

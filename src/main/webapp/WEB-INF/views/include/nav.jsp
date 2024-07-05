@@ -6,8 +6,8 @@
 	<nav class="menu">
 		<div class="container">
 			<div class="brand">
-				<a href="#">
-					<img src="resources/images/basic/logo.png" alt="Magz Logo">
+				<a href="${ctp}/">
+					<img src="${ctp}/images/logo.png" alt="logo" style="height:50px;width:auto;">
 				</a>
 			</div>
 			<div class="mobile-toggle">
@@ -21,75 +21,16 @@
 					<li class="for-tablet nav-title"><a>Menu</a></li>
 					<li class="for-tablet"><a href="${ctp}/users/userLogin">로그인</a></li>
 					<li class="for-tablet"><a href="${ctp}/users/userRegister">회원가입</a></li>
-					<li><a href="category.html">Standard</a></li>
 					<li class="dropdown magz-dropdown">
-						<a href="category.html">Pages <i class="ion-ios-arrow-right"></i></a>
+						<a href="${ctp}/">소개합니다<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/">Home</a></li>
-							<li class="dropdown magz-dropdown">
-								<a href="#">Authentication <i class="ion-ios-arrow-right"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="${ctp}/users/userLogin">Login</a></li>
-									<li><a href="${ctp}/users/userRegister">Register</a></li>
-									<li><a href="forgot.html">Forgot Password</a></li>
-									<li><a href="reset.html">Reset Password</a></li>
-								</ul>
-							</li>
-							<li><a href="category.html">Category</a></li>
-							<li><a href="single.html">Single</a></li>
-							<li><a href="page.html">Page</a></li>
-							<li><a href="search.html">Search</a></li>
-							<li><a href="contact.html">Contact</a></li>
-							<li class="dropdown magz-dropdown">
-								<a href="#">Error <i class="ion-ios-arrow-right"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="403.html">403</a></li>
-									<li><a href="404.html">404</a></li>
-									<li><a href="500.html">500</a></li>
-									<li><a href="503.html">503</a></li>
-								</ul>
-							</li>
+							<li><a href="${ctp}/">인사말</a></li>
+							<li><a href="${ctp}/">홈페이지소개</a></li>
+							<li><a href="${ctp}/">설립목적</a></li>
+							<li><a href="${ctp}/">지점위치</a></li>
 						</ul>
 					</li>
-					<li class="dropdown magz-dropdown"><a href="#">Dropdown <i class="ion-ios-arrow-right"></i></a>
-						<ul class="dropdown-menu">
-							<li><a href="category.html">Internet</a></li>
-							<li class="dropdown magz-dropdown"><a href="category.html">Troubleshoot <i class="ion-ios-arrow-right"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="category.html">Software</a></li>
-									<li class="dropdown magz-dropdown"><a href="category.html">Hardware <i class="ion-ios-arrow-right"></i></a>
-										<ul class="dropdown-menu">
-											<li><a href="category.html">Main Board</a></li>
-											<li><a href="category.html">RAM</a></li>
-											<li><a href="category.html">Power Supply</a></li>
-										</ul>
-									</li>
-									<li><a href="category.html">Brainware</a>
-								</ul>
-							</li>
-							<li><a href="category.html">Office</a></li>
-							<li class="dropdown magz-dropdown"><a href="#">Programming <i class="ion-ios-arrow-right"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="category.html">Web</a></li>
-									<li class="dropdown magz-dropdown"><a href="category.html">Mobile <i class="ion-ios-arrow-right"></i></a>
-										<ul class="dropdown-menu">
-											<li class="dropdown magz-dropdown"><a href="category.html">Hybrid <i class="ion-ios-arrow-right"></i></a>
-												<ul class="dropdown-menu">
-													<li><a href="#">Ionic Framework 1</a></li>
-													<li><a href="#">Ionic Framework 2</a></li>
-													<li><a href="#">Ionic Framework 3</a></li>
-													<li><a href="#">Framework 7</a></li>
-												</ul>
-											</li>
-											<li><a href="category.html">Native</a></li>
-										</ul>
-									</li>
-									<li><a href="category.html">Desktop</a></li>
-								</ul>
-							</li>
-						</ul>
-					</li>
-					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">Mega Menu <i class="ion-ios-arrow-right"></i> <div class="badge">Hot</div></a>
+					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <div class="badge">Hot</div></a>
 						<div class="dropdown-menu megamenu">
 							<div class="megamenu-inner">
 								<div class="row">
@@ -168,65 +109,102 @@
 							</div>
 						</div>
 					</li>
-					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">Column <i class="ion-ios-arrow-right"></i></a>
+					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">제품구매<i class="ion-ios-arrow-right"></i></a>
 						<div class="dropdown-menu megamenu">
 							<div class="megamenu-inner">
 								<div class="row">
 									<div class="col-md-3">
-										<h2 class="megamenu-title">Column 1</h2>
+										<h2 class="megamenu-title">비염완화</h2>
 										<ul class="vertical-menu">
-											<li><a href="#">Example 1</a></li>
-											<li><a href="#">Example 2</a></li>
-											<li><a href="#">Example 3</a></li>
-											<li><a href="#">Example 4</a></li>
-											<li><a href="#">Example 5</a></li>
+											<li><a href="#">비염치료기기</a></li>
+											<li><a href="#">피부의료기기</a></li>
+											<li><a href="#">의약외품</a></li>
+											<li><a href="#">마스크</a></li>
 										</ul>
 									</div>
 									<div class="col-md-3">
-										<h2 class="megamenu-title">Column 2</h2>
+										<h2 class="megamenu-title">침구제품(알러지프리)</h2>
 										<ul class="vertical-menu">
-											<li><a href="#">Example 6</a></li>
-											<li><a href="#">Example 7</a></li>
-											<li><a href="#">Example 8</a></li>
-											<li><a href="#">Example 9</a></li>
-											<li><a href="#">Example 10</a></li>
+											<li><a href="#">매트리스</a></li>
+											<li><a href="#">베딩</a></li>
+											<li><a href="#">베개</a></li>
+											<li><a href="#">이불솜</a></li>
+											<li><a href="#">키즈</a></li>
 										</ul>
 									</div>
 									<div class="col-md-3">
-										<h2 class="megamenu-title">Column 3</h2>
+										<h2 class="megamenu-title">유기농제품</h2>
 										<ul class="vertical-menu">
-											<li><a href="#">Example 11</a></li>
-											<li><a href="#">Example 12</a></li>
-											<li><a href="#">Example 13</a></li>
-											<li><a href="#">Example 14</a></li>
-											<li><a href="#">Example 15</a></li>
-										</ul>
-									</div>
-									<div class="col-md-3">
-										<h2 class="megamenu-title">Column 4</h2>
-										<ul class="vertical-menu">
-											<li><a href="#">Example 16</a></li>
-											<li><a href="#">Example 17</a></li>
-											<li><a href="#">Example 18</a></li>
-											<li><a href="#">Example 19</a></li>
-											<li><a href="#">Example 20</a></li>
+											<li><a href="#">검증 식제품</a></li>
+											<li><a href="#">유기농 완구</a></li>
+											<li><a href="#">유기농 화장품</a></li>
+											<li><a href="#">건강보조식품</a></li>
 										</ul>
 									</div>
 								</div>
 							</div>
 						</div>
 					</li>
-					<li class="dropdown magz-dropdown"><a href="#">Dropdown Icons <i class="ion-ios-arrow-right"></i></a>
+					<li class="dropdown magz-dropdown">
+						<a href="category.html">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="#"><i class="icon ion-person"></i> My Account</a></li>
-							<li><a href="#"><i class="icon ion-heart"></i> Favorite</a></li>
-							<li><a href="#"><i class="icon ion-chatbox"></i> Comments</a></li>
-							<li><a href="#"><i class="icon ion-key"></i> Change Password</a></li>
-							<li><a href="#"><i class="icon ion-settings"></i> Settings</a></li>
-							<li class="divider"></li>
-							<li><a href="#"><i class="icon ion-log-out"></i> Logout</a></li>
+							<li><a href="${ctp}/">커뮤니티 소개</a></li>
+							<li class="dropdown magz-dropdown">
+								<a href="#">구독정보<i class="ion-ios-arrow-right"></i></a>
+								<ul class="dropdown-menu">
+									<li><a href="${ctp}/users/userLogin">구독 정보 소개</a></li>
+									<li><a href="${ctp}/users/userRegister">구독 금액</a></li>
+									<li><a href="forgot.html">구독 후기</a></li>
+								</ul>
+							</li>
+							<li><a href="category.html">알레르기 병원리스트</a></li>
+							<li><a href="single.html">병원 후기</a></li>
+							<li><a href="search.html">정보를 나눠요(유저채팅)</a></li>
 						</ul>
 					</li>
+					<li class="dropdown magz-dropdown"><a href="#">고객센터<i class="ion-ios-arrow-right"></i></a>
+						<ul class="dropdown-menu">
+							<li><a href="category.html">공지사항</a></li>
+							<li class="dropdown magz-dropdown"><a href="category.html">자주묻는질문<i class="ion-ios-arrow-right"></i></a></li>
+							<li class="dropdown magz-dropdown"><a href="#">1:1문의 <i class="ion-ios-arrow-right"></i></a>
+								<ul class="dropdown-menu">
+									<li><a href="category.html">구독문의</a></li>
+									<li><a href="category.html"></a></li>
+									<li><a href="category.html">제품문의</a></li>
+									<li><a href="category.html">제품문의</a></li>
+								</ul>
+							</li>
+						</ul>
+					</li>
+					<li class="dropdown magz-dropdown">
+						<a href="category.html">이벤트<i class="ion-ios-arrow-right"></i></a>
+						<ul class="dropdown-menu">
+							<li><a href="${ctp}/">진행중인 이벤트</a></li>
+							<li class="dropdown magz-dropdown">
+								<a href="#">종료된 이벤트<i class="ion-ios-arrow-right"></i></a>
+								<ul class="dropdown-menu">
+									<li><a href="${ctp}/users/userLogin">구독 정보 소개</a></li>
+									<li><a href="${ctp}/users/userRegister">구독 금액</a></li>
+									<li><a href="forgot.html">구독 후기</a></li>
+								</ul>
+							</li>
+							<li><a href="category.html">구매한 제품 후기</a></li>
+						</ul>
+					</li>
+					<c:if test="${!empty sUid}">
+					<li class="dropdown magz-dropdown"><a href="${ctp}/${sUid == 'admin' ? 'admin/adminMain' : 'user/userMain'}">나의곳간<i class="ion-ios-arrow-right"></i></a>
+						<ul class="dropdown-menu">
+							<li><a href="#"><i class="icon ion-person"></i>마이페이지</a></li>
+							<li><a href="#"><i class="icon ion-heart"></i>관심목록</a></li>
+							<li><a href="#"><i class="icon ion-heart"></i>북마크목록</a></li>
+							<li><a href="#"><i class="icon ion-chatbox"></i>내가쓴게시글</a></li>
+							<li><a href="#"><i class="icon ion-key"></i>회원정보수정</a></li>
+							<li><a href="#"><i class="icon ion-settings"></i>설정변경</a></li>
+							<li class="divider"></li>
+							<li><a href="#"><i class="icon ion-log-out"></i>로그아웃</a></li>
+						</ul>
+					</li>
+					</c:if>
 				</ul>
 			</div>
 		</div>
