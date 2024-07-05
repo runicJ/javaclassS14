@@ -55,9 +55,11 @@
   	    	});
   	    }
   	    function popupIdFind() {
-	  	    let popOption = "width = 650px, height=550px, top=300px, left=300px, scrollbars=yes";
+  	    	let popupX = Math.ceil(( window.screen.width - 550 )/2);
+  	    	let popupY = Math.ceil(( window.screen.height - 450 )/2); 
+	  	    let popOption = "width = 550px, height=450px, top=popupY, left=popupX, scrollbars=yes";
   		    let openUrl = '${ctp}/users/userFindId';
-  	    	window.open(openUrl, 'pop', popOption);	
+  	    	window.open(openUrl, 'popup', popOption);	
   	    }
   	</script>
 </head>
@@ -73,13 +75,13 @@
 						<form name="myform" method="post">
 							<div class="form-group">
 								<label class="fw">아이디
-									<a onclick="popupIdFind(this);" class="float-right" style="pointer:cursor;">아이디를 잊으셨나요?</a>
+									<a onclick="popupIdFind(this);" class="float-right" style="cursor:pointer;">아이디를 잊으셨나요?</a>
 								</label>
 								<input type="text" name="userId" id="userId" class="form-control">
 							</div>
 							<div class="form-group">
 								<label class="fw">비밀번호
-									<a href="${ctp}/users/userFindPw" class="float-right">비밀번호를 잊으셨나요?</a>
+									<a href="${ctp}/users/userFindPw" class="float-right" style="cursor:pointer;">비밀번호를 잊으셨나요?</a>
 								</label>
 								<input type="password" name="userPwd" id="userPwd" class="form-control">
 							</div>

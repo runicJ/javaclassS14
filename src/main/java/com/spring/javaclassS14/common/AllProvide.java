@@ -23,7 +23,7 @@ public class AllProvide {
 	@Autowired
 	JavaMailSender mailSender;
 	
-	// urlPathì— íŒŒì¼ ì €ì¥í•˜ëŠ” ë©”ì†Œë“œ(ì—…ë¡œë“œíŒŒì¼ëª…, ì €ì¥í• íŒŒì¼ëª…, ì €ì¥í• ê²½ë¡œ)
+	// urlPath¿¡ ÆÄÀÏ ÀúÀåÇÏ´Â ¸Ş¼Òµå(¾÷·ÎµåÆÄÀÏ¸í, ÀúÀåÇÒÆÄÀÏ¸í, ÀúÀåÇÒ°æ·Î)
 	public void writeFile(MultipartFile fName, String sFileName, String urlPath) throws IOException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/"+urlPath+"/");
@@ -37,7 +37,7 @@ public class AllProvide {
 		fos.close();
 	}
 	
-	// ê¸°ì¡´ ì´ë¯¸ì§€ íŒŒì¼ ì‚­ì œ
+	// ±âÁ¸ ÀÌ¹ÌÁö ÆÄÀÏ »èÁ¦
 	public void deleteFile(String user_image, String urlPath) {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/"+urlPath+"/");
@@ -46,33 +46,33 @@ public class AllProvide {
 		if(file.exists()) file.delete();
 	}
 	
-	//ë©”ì¼ ì „ì†¡í•˜ê¸°(ì•„ì´ë””ì°¾ê¸°, ë¹„ë°€ë²ˆí˜¸ ì°¾ê¸°)
+	//¸ŞÀÏ Àü¼ÛÇÏ±â(¾ÆÀÌµğÃ£±â, ºñ¹Ğ¹øÈ£ Ã£±â)
 	public String mailSend(String toMail, String title, String pwd) throws MessagingException {
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();  // ê·¸ëƒ¥ ëª»ì”€ ê°•ì œ í˜•ë³€í™˜ í•´ì„œ request ì¨ì•¼í•¨
+		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();  // ±×³É ¸ø¾¸ °­Á¦ Çüº¯È¯ ÇØ¼­ request ½á¾ßÇÔ
 		String content = "";
 			
- 		// ë©”ì¼ ì „ì†¡ì„ ìœ„í•œ ê°ì²´ : MimeMessage(), MimeMessageHelper()  // ë³´ë‚´ê³ , ë’¤ì— ì¤‘ê°„ì¤‘ê°„ ì‘ì—…í•œê±¸ ì €ì¥í•˜ëŠ” ì €ì¥ì†Œ
+ 		// ¸ŞÀÏ Àü¼ÛÀ» À§ÇÑ °´Ã¼ : MimeMessage(), MimeMessageHelper()  // º¸³»°í, µÚ¿¡ Áß°£Áß°£ ÀÛ¾÷ÇÑ°É ÀúÀåÇÏ´Â ÀúÀå¼Ò
 		MimeMessage message = mailSender.createMimeMessage();
-		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");  // ì¸ì½”ë”©í•´ì„œ í•­ìƒ ì €ì¥
+		MimeMessageHelper messageHelper = new MimeMessageHelper(message, true, "UTF-8");  // ÀÎÄÚµùÇØ¼­ Ç×»ó ÀúÀå
  		
- 		// ë©”ì¼ë³´ê´€í•¨ì— ì‘ì„±í•œ ë©”ì‹œì§€ë“¤ì˜ ì •ë³´ë¥¼ ëª¨ë‘ ì €ì¥ì‹œí‚¨ í›„ ì‘ì—…ì²˜ë¦¬...(3ê°œ í•„ìš”í•œ ê²ƒ ë°‘ì—ì„œ í•˜ë‚˜ë¡œ ì²˜ë¦¬í•¨(ê³µë¶€í•˜ë¼ê³  ì¨ë†“ìŒ)
- 		messageHelper.setTo(toMail);  // ë°›ëŠ” ì‚¬ëŒ ë©”ì¼ ì£¼ì†Œ // ì•ì—ì„œ ë°›ì€ ë©”ì¼ ì£¼ì†Œë¡œ ë³´ë‚¼ê±°ì•¼
- 		messageHelper.setSubject(title);  // ë©”ì¼ ì œëª©  // ë‹¤ setterì— ë„£ëŠ” ê²ƒ
+ 		// ¸ŞÀÏº¸°üÇÔ¿¡ ÀÛ¼ºÇÑ ¸Ş½ÃÁöµéÀÇ Á¤º¸¸¦ ¸ğµÎ ÀúÀå½ÃÅ² ÈÄ ÀÛ¾÷Ã³¸®...(3°³ ÇÊ¿äÇÑ °Í ¹Ø¿¡¼­ ÇÏ³ª·Î Ã³¸®ÇÔ(°øºÎÇÏ¶ó°í ½á³õÀ½)
+ 		messageHelper.setTo(toMail);  // ¹Ş´Â »ç¶÷ ¸ŞÀÏ ÁÖ¼Ò // ¾Õ¿¡¼­ ¹ŞÀº ¸ŞÀÏ ÁÖ¼Ò·Î º¸³¾°Å¾ß
+ 		messageHelper.setSubject(title);  // ¸ŞÀÏ Á¦¸ñ  // ´Ù setter¿¡ ³Ö´Â °Í
  		messageHelper.setText(content);
  		
- 		// ë©”ì‹œì§€ ë³´ê´€í•¨ì˜ ë‚´ìš©(content)ì—, ë°œì‹ ìì˜ í•„ìš”í•œ ì •ë³´ë¥¼ ì¶”ê°€ë¡œ ë‹´ì•„ì„œ ì „ì†¡ì²˜ë¦¬í•œë‹¤.
-		content = content.replace("\n", "<br>");  // ìš°ë¦¬ëŠ” textareaì— ë‚´ìš©ì„ ë‹´ì§€ë§Œ ë³´ë‚´ë©´ ì›¹ì—ì„œ textë¡œ ë´„(í•œì¤„ë¡œ ì¶œë ¥ë˜ê¸°ì— ì¤„ë°”ê¿ˆ ì²˜ë¦¬ ìœ„í•´ì„œ ì²«ì¤„ '=' ì‚¬ìš©)
-		content += "<br><hr><h3> ì„ì‹œë¹„ë°€ë²ˆí˜¸ : "+pwd+"</h3><hr><br>";
+ 		// ¸Ş½ÃÁö º¸°üÇÔÀÇ ³»¿ë(content)¿¡, ¹ß½ÅÀÚÀÇ ÇÊ¿äÇÑ Á¤º¸¸¦ Ãß°¡·Î ´ã¾Æ¼­ Àü¼ÛÃ³¸®ÇÑ´Ù.
+		content = content.replace("\n", "<br>");  // ¿ì¸®´Â textarea¿¡ ³»¿ëÀ» ´ãÁö¸¸ º¸³»¸é À¥¿¡¼­ text·Î º½(ÇÑÁÙ·Î Ãâ·ÂµÇ±â¿¡ ÁÙ¹Ù²Ş Ã³¸® À§ÇØ¼­ Ã¹ÁÙ '=' »ç¿ë)
+		content += "<br><hr><h3> ÀÓ½Ãºñ¹Ğ¹øÈ£ : "+pwd+"</h3><hr><br>";
 		content += "<p><img src=\"cid:main.jpg\" width='500px'></p>";
-		content += "<p>ë°©ë¬¸í•˜ê¸° : <a href='http://49.142.157.251:9090/cjgreen'>javaclass</a></p>";
+		content += "<p>¹æ¹®ÇÏ±â : <a href='http://49.142.157.251:9090/cjgreen'>javaclass</a></p>";
 		content += "<hr>";
-		messageHelper.setText(content, true);  // ê¸°ì¡´ ê²ƒ ë¬´ì‹œí•˜ê³  ê¹¨ë—í•˜ê²Œ ê°ˆì•„ì¹˜ì›Œì¤˜(ìœ„ì—ê±° 3ê°œ ì•ˆì¨ë„ë¨)
+		messageHelper.setText(content, true);  // ±âÁ¸ °Í ¹«½ÃÇÏ°í ±ú²ıÇÏ°Ô °¥¾ÆÄ¡¿öÁà(À§¿¡°Å 3°³ ¾È½áµµµÊ)
  		
- 		// ë³¸ë¬¸ì— ê¸°ì¬ë  ê·¸ë¦¼íŒŒì¼ì˜ ê²½ë¡œë¥¼ ë³„ë„ë¡œ í‘œì‹œì‹œì¼œì¤€ë‹¤. ê·¸ëŸ°í›„ ë‹¤ì‹œ ë³´ê´€í•¨ì— ì €ì¥í•œë‹¤.
+ 		// º»¹®¿¡ ±âÀçµÉ ±×¸²ÆÄÀÏÀÇ °æ·Î¸¦ º°µµ·Î Ç¥½Ã½ÃÄÑÁØ´Ù. ±×·±ÈÄ ´Ù½Ã º¸°üÇÔ¿¡ ÀúÀåÇÑ´Ù.
 		FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/images/main.jpg"));
 		messageHelper.addInline("main.jpg", file);
  		
- 		// ë©”ì¼ ì „ì†¡í•˜ê¸°
+ 		// ¸ŞÀÏ Àü¼ÛÇÏ±â
 		mailSender.send(message);
 		
 		return "1";

@@ -8,15 +8,15 @@
 		<div class="row">
 			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="block">
-					<h1 class="block-title">Company Info</h1>
+					<h1 class="block-title">회사 정보란</h1>
 					<div class="block-body">
 						<figure class="foot-logo">
-							<img src="${ctp}/images/logo2.png" class="img-responsive" alt="Logo">
+							<img src="${ctp}/images/logo2.png" class="img-responsive" alt="myLogo">
 						</figure>
 						<p class="brand-description">
-							Magz is a HTML5 &amp; CSS3 magazine template based on Bootstrap 3.
+							괄호 안에서 살아가는 우리에게 <br>쉼표가 되어드리고 싶습니다.
 						</p>
-						<a href="page.html" class="btn btn-magz white">About Us <i class="ion-ios-arrow-thin-right"></i></a>
+						<a href="page.html" class="btn btn-magz white">우리를 소개합니다 <i class="ion-ios-arrow-thin-right"></i></a>
 					</div>
 				</div>
 			</div>

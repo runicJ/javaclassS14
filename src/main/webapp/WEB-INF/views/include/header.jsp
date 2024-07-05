@@ -8,8 +8,8 @@
 			<div class="row">
 				<div class="col-md-3 col-sm-12">
 					<div class="brand">
-						<a href="http://localhost:9090/javaclassS14">
-							<img src="${ctp}/images/logo.png" alt="Magz Logo">
+						<a href="http://localhost:9090/javaclassS14/main">
+							<img src="${ctp}/images/logo.png" alt="myLogo">
 						</a>
 					</div>						
 				</div>
@@ -17,14 +17,14 @@
 					<form class="search" autocomplete="off">
 						<div class="form-group">
 							<div class="input-group">
-								<input type="text" name="q" class="form-control" placeholder="Type something here">									
+								<input type="text" name="q" class="form-control" placeholder="당신의 걱정을 털어내세요">									
 								<div class="input-group-btn">
 									<button class="btn btn-primary"><i class="ion-search"></i></button>
 								</div>
 							</div>
 						</div>
 						<div class="help-block">
-							<div>Popular:</div>
+							<div>인기검색어:</div>
 							<ul>
 								<li><a href="#">HTML5</a></li>
 								<li><a href="#">CSS3</a></li>

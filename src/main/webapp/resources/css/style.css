@@ -1055,7 +1055,8 @@ section.search .search-result {
   text-transform: uppercase;
   float: left;
   font-weight: 500;
-  font-size: 11px;
+  font-size: 13px;
+  margin-top: 5px;
   margin-right: 10px;
   color: #F73F52;
 }
@@ -1067,6 +1068,7 @@ section.search .search-result {
   float: left;
   padding: 0 8px 0 0;
   display: block;
+  margin-top: 5px;
   font-size: 11px;
   font-weight: 400;
 }

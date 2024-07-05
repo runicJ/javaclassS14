@@ -8,917 +8,583 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>Home</title>
-	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-</head>
-<body class="skin-orange">
-<jsp:include page="/WEB-INF/views/include/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/nav.jsp" />
-	<section class="home">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-8 col-sm-12 col-xs-12">
-					<div class="headline">
-						<div class="nav" id="headline-nav">
-							<a class="left carousel-control" role="button" data-slide="prev">
-								<span class="ion-ios-arrow-left" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
-							</a>
-							<a class="right carousel-control" role="button" data-slide="next">
-								<span class="ion-ios-arrow-right" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
-							</a>
-						</div>
-						<div class="owl-carousel owl-theme" id="headline">							
-							<div class="item">
-								<a href="#"><div class="badge">Tip!</div> Vestibulum ante ipsum primis in faucibus orci</a>
-							</div>
-							<div class="item">
-								<a href="#">Ut rutrum sodales mauris ut suscipit</a>
-							</div>
-						</div>
-					</div>
-					<div class="owl-carousel owl-theme slide" id="featured">
-						<div class="item">
-							<article class="featured">
-								<div class="overlay"></div>
-								<figure>
-									<img src="${ctp}/basic/img04.jpg" alt="Sample Article">
-								</figure>
-								<div class="details">
-									<div class="category"><a href="category.html">Computer</a></div>
-									<h1><a href="single.html">Phasellus iaculis quam sed est elementum vel ornare ligula venenatis</a></h1>
-									<div class="time">December 26, 2016</div>
-								</div>
-							</article>
-						</div>
-						<div class="item">
-							<article class="featured">
-								<div class="overlay"></div>
-								<figure>
-									<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
-								</figure>
-								<div class="details">
-									<div class="category"><a href="category.html">Travel</a></div>
-									<h1><a href="single.html">Class aptent taciti sociosqu ad litora torquent per conubia nostra</a></h1>
-									<div class="time">December 10, 2016</div>
-								</div>
-							</article>
-						</div>
-						<div class="item">
-							<article class="featured">
-								<div class="overlay"></div>
-								<figure>
-									<img src="${ctp}/basic/img13.jpg" alt="Sample Article">
-								</figure>
-								<div class="details">
-									<div class="category"><a href="category.html">International</a></div>
-									<h1><a href="single.html">Maecenas accumsan tortor ut velit pharetra mollis</a></h1>
-									<div class="time">October 12, 2016</div>
-								</div>
-							</article>
-						</div>
-						<div class="item">
-							<article class="featured">
-								<div class="overlay"></div>
-								<figure>
-									<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
-								</figure>
-								<div class="details">
-									<div class="category"><a href="category.html">Lifestyle</a></div>
-									<h1><a href="single.html">Mauris elementum libero at pharetra auctor Fusce ullamcorper elit</a></h1>
-									<div class="time">November 27, 2016</div>
-								</div>
-							</article>
-						</div>
-					</div>
-					<div class="line">
-						<div>Latest News</div>
-					</div>
-					<div class="row">
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<div class="row">
-								<article class="article col-md-12">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<div class="detail">
-												<div class="time">December 10, 2016</div>
-												<div class="category"><a href="category.html">Healthy</a></div>
-											</div>
-											<h2><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate</a></h2>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
-											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1263</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
-													<div><i class="ion-ios-arrow-thin-right"></i></div>
-												</a>
-											</footer>
-										</div>
-									</div>
-								</article>
-								<article class="article col-md-12">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img06.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<div class="detail">
-												<div class="time">December 22, 2016</div>
-												<div class="category"><a href="category.html">Healthy</a></div>
-											</div>
-											<h2><a href="single.html">Exercitation ullamco laboris nisi ut aliquip</a></h2>
-											<p>Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui dui.</p>
-											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>327</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
-													<div><i class="ion-ios-arrow-thin-right"></i></div>
-												</a>
-											</footer>
-										</div>
-									</div>
-								</article>
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-6 col-xs-12">
-							<div class="row">
-								<article class="article col-md-12">
-									<div class="inner">
-										<figure>                                
-											<a href="single.html">
-												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<div class="detail">
-												<div class="time">December 09, 2016</div>
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-											</div>
-											<h2><a href="single.html">Mauris elementum libero at pharetra auctor</a></h2>
-											<p>Vivamus in efficitur mi. Nullam semper justo ut elit lacinia lacinia. Class aptent taciti sociosqu ad litora torquent per conubia nostra.</p>
-											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1083</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
-													<div><i class="ion-ios-arrow-thin-right"></i></div>
-												</a>
-											</footer>
-										</div>
-									</div>
-								</article>
-								<article class="article col-md-12">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img07.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<div class="detail">
-												<div class="time">December 21, 2016</div>
-												<div class="category"><a href="category.html">Sport</a></div>
-											</div>
-											<h2><a href="single.html">Sed do eiusmod tempor incididunt ut labore</a></h2>
-											<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris elementum libero at pharetra auctor.</p>
-											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
-													<div><i class="ion-ios-arrow-thin-right"></i></div>
-												</a>
-											</footer>
-										</div>
-									</div>
-								</article>
-							</div>
-						</div>
-					</div>
-					<div class="banner">
-						<a href="#">
-							<img src="${ctp}/basic/ads.png" alt="Sample Article">
-						</a>
-					</div>
-					<div class="line transparent little"></div>
-					<div class="row">
-						<div class="col-md-6 col-sm-6 trending-tags">
-							<h1 class="title-col">Trending Tags</h1>
-							<div class="body-col">
-								<ol class="tags-list">
-									<li><a href="#">HTML5</a></li>
-									<li><a href="#">CSS3</a></li>
-									<li><a href="#">JavaScript</a></li>
-									<li><a href="#">jQuery</a></li>
-									<li><a href="#">Bootstrap</a></li>
-									<li><a href="#">Responsive</a></li>
-									<li><a href="#">AuteIrure</a></li>
-									<li><a href="#">Voluptate</a></li>
-									<li><a href="#">Veit</a></li>
-									<li><a href="#">Reprehenderit</a></li>
-								</ol>
-							</div>
-						</div>
-						<div class="col-md-6 col-sm-6">
-							<h1 class="title-col">
-								Hot News
-								<div class="carousel-nav" id="hot-news-nav">
-									<div class="prev">
-										<i class="ion-ios-arrow-left"></i>
-									</div>
-									<div class="next">
-										<i class="ion-ios-arrow-right"></i>
-									</div>
-								</div>
-							</h1>
-							<div class="body-col vertical-slider" data-max="4" data-nav="#hot-news-nav" data-item="article">
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Travel</a></div>
-												<div class="time">December 21, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img13.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">International</a></div>
-												<div class="time">December 20, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img08.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Aliquam et metus convallis tincidunt velit ut rhoncus dolor</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Computer</a></div>
-												<div class="time">December 19, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-							</div>
-						</div>
-					</div>
-					<div class="line top">
-						<div>Just Another News</div>
-					</div>
-					<div class="row">
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-											<a href="#">Film</a>
-										</div>
-										<div class="time">December 19, 2016</div>
-									</div>
-									<h1><a href="single.html">Donec consequat arcu at ultrices sodales quam erat aliquet diam</a></h1>
-									<p>
-									Donec consequat, arcu at ultrices sodales, quam erat aliquet diam, sit amet interdum libero nunc accumsan nisi.
-									</p>
-									<footer>
-										<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>273</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<div class="badge">
-									Sponsored
-								</div>
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-											<a href="#">Travel</a>
-										</div>
-										<div class="time">December 18, 2016</div>
-									</div>
-									<h1><a href="single.html">Maecenas accumsan tortor ut velit pharetra mollis</a></h1>
-									<p>
-										Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui.
-									</p>
-									<footer>
-										<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>4209</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-										<a href="#">Travel</a>
-										</div>
-										<div class="time">December 16, 2016</div>
-									</div>
-									<h1><a href="single.html">Nulla facilisis odio quis gravida vestibulum Proin venenatis pellentesque arcu</a></h1>
-									<p>
-										Nulla facilisis odio quis gravida vestibulum. Proin venenatis pellentesque arcu, ut mattis nulla placerat et.
-									</p>
-									<footer>
-										<a href="#" class="love active"><i class="ion-android-favorite"></i> <div>302</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-											<a href="#">Healthy</a>
-										</div>
-										<div class="time">December 16, 2016</div>
-									</div>
-									<h1><a href="single.html">Maecenas blandit ultricies lorem id tempor enim pulvinar at</a></h1>
-									<p>
-										Maecenas blandit ultricies lorem, id tempor enim pulvinar at. Curabitur sit amet tortor eu ipsum lacinia malesuada.
-									</p>
-									<footer>
-										<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>783</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-					</div>
-				</div>
-				<div class="col-xs-6 col-md-4 sidebar" id="sidebar">
-					<div class="sidebar-title for-tablet">Sidebar</div>
-					<aside>
-						<div class="aside-body">
-							<div class="featured-author">
-								<div class="featured-author-inner">
-									<div class="featured-author-cover" style="background-image: url('${ctp}/basic/img15.jpg');">
-										<div class="badges">
-											<div class="badge-item"><i class="ion-star"></i> Featured</div>
-										</div>
-										<div class="featured-author-center">
-											<figure class="featured-author-picture">
-												<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
-											</figure>
-											<div class="featured-author-info">
-												<h2 class="name">John Doe</h2>
-												<div class="desc">@JohnDoe</div>
-											</div>
-										</div>
-									</div>
-									<div class="featured-author-body">
-										<div class="featured-author-count">
-											<div class="item">
-												<a href="#">
-													<div class="name">Posts</div>
-													<div class="value">208</div>														
-												</a>
-											</div>
-											<div class="item">
-												<a href="#">
-													<div class="name">Stars</div>
-													<div class="value">3,729</div>														
-												</a>
-											</div>
-											<div class="item">
-												<a href="#">
-													<div class="icon">
-														<div>More</div>
-														<i class="ion-chevron-right"></i>
-													</div>														
-												</a>
-											</div>
-										</div>
-										<div class="featured-author-quote">
-											"Eur costrict mobsa undivani krusvuw blos andugus pu aklosah"
-										</div>
-										<div class="block">
-											<h2 class="block-title">Photos</h2>
-											<div class="block-body">
-												<ul class="item-list-round" data-magnific="gallery">
-													<li><a href="${ctp}/basic/img06.jpg" style="background-image: url('${ctp}/basic/img06.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img07.jpg" style="background-image: url('${ctp}/basic/img07.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img08.jpg" style="background-image: url('${ctp}/basic/img08.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img09.jpg" style="background-image: url('${ctp}/basic/img09.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img10.jpg" style="background-image: url('${ctp}/basic/img10.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img11.jpg" style="background-image: url('${ctp}/basic/img11.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img12.jpg" style="background-image: url('${ctp}/basic/img12.jpg');"><div class="more">+2</div></a></li>
-													<li class="hidden"><a href="${ctp}/basic/img13.jpg" style="background-image: url('${ctp}/basic/img13.jpg');"></a></li>
-													<li class="hidden"><a href="${ctp}/basic/img14.jpg" style="background-image: url('${ctp}/basic/img14.jpg');"></a></li>
-												</ul>
-											</div>
-										</div>
-										<div class="featured-author-footer">
-											<a href="#">See All Authors</a>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</aside>
-					<aside>
-						<h1 class="aside-title">Popular <a href="#" class="all">See All <i class="ion-ios-arrow-right"></i></a></h1>
-						<div class="aside-body">
-							<article class="article-mini">
-								<div class="inner">
-									<figure>
-										<a href="single.html">
-											<img src="${ctp}/basic/img07.jpg" alt="Sample Article">
-										</a>
-									</figure>
-									<div class="padding">
-										<h1><a href="single.html">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-									</div>
-								</div>
-							</article>
-							<article class="article-mini">
-								<div class="inner">
-									<figure>
-										<a href="single.html">
-											<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
-										</a>
-									</figure>
-									<div class="padding">
-										<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-									</div>
-								</div>
-							</article>
-							<article class="article-mini">
-								<div class="inner">
-									<figure>
-										<a href="single.html">
-											<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
-										</a>
-									</figure>
-									<div class="padding">
-										<h1><a href="single.html">Aliquam et metus convallis tincidunt velit ut rhoncus dolor</a></h1>
-									</div>
-								</div>
-							</article>
-							<article class="article-mini">
-								<div class="inner">
-									<figure>
-										<a href="single.html">
-											<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
-										</a>
-									</figure>
-									<div class="padding">
-										<h1><a href="single.html">dui augue facilisis lacus fringilla pulvinar massa felis quis velit</a></h1>
-									</div>
-								</div>
-							</article>
-							<article class="article-mini">
-								<div class="inner">
-									<figure>
-										<a href="single.html">
-											<img src="${ctp}/basic/img06.jpg" alt="Sample Article">
-										</a>
-									</figure>
-									<div class="padding">
-										<h1><a href="single.html">neque est semper nulla, ac elementum risus quam a enim</a></h1>
-									</div>
-								</div>
-							</article>
-							<article class="article-mini">
-								<div class="inner">
-									<figure>
-										<a href="single.html">
-											<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
-										</a>
-									</figure>
-									<div class="padding">
-										<h1><a href="single.html">Morbi vitae nisl ac mi luctus aliquet a vitae libero</a></h1>
-									</div>
-								</div>
-							</article>
-						</div>
-					</aside>
-					<aside>
-						<div class="aside-body">
-							<form class="newsletter">
-								<div class="icon">
-									<i class="ion-ios-email-outline"></i>
-									<h1>Newsletter</h1>
-								</div>
-								<div class="input-group">
-									<input type="email" class="form-control email" placeholder="Your mail">
-									<div class="input-group-btn">
-										<button class="btn btn-primary"><i class="ion-paper-airplane"></i></button>
-									</div>
-								</div>
-								<p>By subscribing you will receive new articles in your email.</p>
-							</form>
-						</div>
-					</aside>
-					<aside>
-						<ul class="nav nav-tabs nav-justified" role="tablist">
-							<li class="active">
-								<a href="#recomended" aria-controls="recomended" role="tab" data-toggle="tab">
-									<i class="ion-android-star-outline"></i> Recomended
-								</a>
-							</li>
-							<li>
-								<a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">
-									<i class="ion-ios-chatboxes-outline"></i> Comments
-								</a>
-							</li>
-						</ul>
-						<div class="tab-content">
-							<div class="tab-pane active" id="recomended">
-								<article class="article-fw">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="details">
-											<div class="detail">
-												<div class="time">December 31, 2016</div>
-												<div class="category"><a href="category.html">Sport</a></div>
-											</div>
-											<h1><a href="single.html">Donec congue turpis vitae mauris</a></h1>
-											<p>
-												Donec congue turpis vitae mauris condimentum luctus. Ut dictum neque at egestas convallis. 
-											</p>
-										</div>
-									</div>
-								</article>
-								<div class="line"></div>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Travel</a></div>
-												<div class="time">December 21, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Healthy</a></div>
-												<div class="time">December 20, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-							</div>
-							<div class="tab-pane comments" id="comments">
-								<div class="comment-list sm">
-									<div class="item">
-										<div class="user">                                
-											<figure>
-												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
-											</figure>
-											<div class="details">
-												<h5 class="name">Mark Otto</h5>
-												<div class="time">24 Hours</div>
-												<div class="description">
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="item">
-										<div class="user">                                
-											<figure>
-												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
-											</figure>
-											<div class="details">
-												<h5 class="name">Mark Otto</h5>
-												<div class="time">24 Hours</div>
-												<div class="description">
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-												</div>
-											</div>
-										</div>
-									</div>
-									<div class="item">
-										<div class="user">                                
-											<figure>
-												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
-											</figure>
-											<div class="details">
-												<h5 class="name">Mark Otto</h5>
-												<div class="time">24 Hours</div>
-												<div class="description">
-													Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</aside>
-					<aside>
-						<h1 class="aside-title">Videos
-							<div class="carousel-nav" id="video-list-nav">
-								<div class="prev"><i class="ion-ios-arrow-left"></i></div>
-								<div class="next"><i class="ion-ios-arrow-right"></i></div>
-							</div>
-						</h1>
-						<div class="aside-body">
-							<ul class="video-list" data-youtube='"carousel":true, "nav": "#video-list-nav"'>
-								<li><a data-youtube-id="SBjQ9tuuTJQ" data-action="magnific"></a></li>
-								<li><a data-youtube-id="9cVJr3eQfXc" data-action="magnific"></a></li>
-								<li><a data-youtube-id="DnGdoEa1tPg" data-action="magnific"></a></li>
-							</ul>
-						</div>
-					</aside>
-					<aside id="sponsored">
-						<h1 class="aside-title">Sponsored</h1>
-						<div class="aside-body">
-							<ul class="sponsored">
-								<li>
-									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
-									</a>
-								</li> 
-								<li>
-									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
-									</a>
-								</li> 
-								<li>
-									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
-									</a>
-								</li> 
-								<li>
-									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
-									</a>
-								</li> 
-							</ul>
-						</div>
-					</aside>
-				</div>
-			</div>
-		</div>
-	</section>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css" integrity="sha256-DBYdrj7BxKM3slMeqBVWX2otx7x4eqoHRJCsSDJ0Nxw=" crossorigin="anonymous"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+    <link rel="stylesheet" href="${ctp}/images/home/style.css" />
+  </head>
 
-	<section class="best-of-the-week">
-		<div class="container">
-			<h1>
-				<div class="text">Best Of The Week</div>
-				<div class="carousel-nav" id="best-of-the-week-nav">
-					<div class="prev">
-						<i class="ion-ios-arrow-left"></i>
-					</div>
-					<div class="next">
-						<i class="ion-ios-arrow-right"></i>
-					</div>
-				</div>
-			</h1>
-			<div class="owl-carousel owl-theme carousel-1">
-				<article class="article">
-					<div class="inner">
-						<figure>
-							<a href="single.html">
-								<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
-							</a>
-						</figure>
-						<div class="padding">
-							<div class="detail">
-									<div class="time">December 11, 2016</div>
-									<div class="category"><a href="category.html">Travel</a></div>
-							</div>
-							<h2><a href="single.html">tempor interdum Praesent tincidunt</a></h2>
-							<p>Praesent tincidunt, leo vitae congue molestie.</p>
-						</div>
-					</div>
-				</article>
-				<article class="article">
-					<div class="inner">
-						<figure>
-							<a href="single.html">
-								<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
-							</a>
-						</figure>
-						<div class="padding">
-							<div class="detail">
-								<div class="time">December 09, 2016</div>
-								<div class="category"><a href="category.html">Sport</a></div>
-							</div>
-							<h2><a href="single.html">Maecenas porttitor sit amet turpis a semper</a></h2>
-							<p> Proin vulputate, urna id porttitor luctus, dui augue facilisis lacus.</p>
-						</div>
-					</div>
-				</article>
-				<article class="article">
-					<div class="inner">
-						<figure>
-							<a href="single.html">
-								<img src="${ctp}/basic/img15.jpg" alt="Sample Article">
-							</a>
-						</figure>
-						<div class="padding">
-							<div class="detail">
-								<div class="time">December 26, 2016</div>
-								<div class="category"><a href="category.html">Lifestyle</a></div>
-							</div>
-							<h2><a href="single.html">Fusce ac odio eu ex volutpat pellentesque</a></h2>
-							<p>Vestibulum ante ipsum primis in faucibus orci luctus</p>
-						</div>
-					</div>
-				</article>
-				<article class="article">
-					<div class="inner">
-						<figure>
-							<a href="single.html">
-								<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
-							</a>
-						</figure>
-						<div class="padding">
-							<div class="detail">
-								<div class="time">December 26, 2016</div>
-								<div class="category"><a href="category.html">Travel</a></div>
-							</div>
-							<h2><a href="single.html">Nulla facilisis odio quis gravida vestibulum</a></h2>
-							<p>Proin venenatis pellentesque arcu, ut mattis nulla placerat et.</p>
-						</div>
-					</div>
-				</article>
-				<article class="article">
-					<div class="inner">
-						<figure>
-							<a href="single.html">
-								<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
-							</a>
-						</figure>
-						<div class="padding">
-							<div class="detail">
-								<div class="time">December 26, 2016</div>
-								<div class="category"><a href="category.html">Travel</a></div>
-							</div>
-							<h2><a href="single.html">Fusce Ullamcorper Elit At Felis Cursus Suscipit</a></h2>
-							<p>Proin venenatis pellentesque arcu, ut mattis nulla placerat et.</p>
-						</div>
-					</div>
-				</article>
-				<article class="article">
-					<div class="inner">
-						<figure>
-							<a href="single.html">
-								<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
-							</a>
-						</figure>
-						<div class="padding">
-							<div class="detail">
-								<div class="time">December 26, 2016</div>
-								<div class="category"><a href="category.html">Travel</a></div>
-							</div>
-							<h2><a href="single.html">Donec consequat arcu at ultrices sodales</a></h2>
-							<p>Proin venenatis pellentesque arcu, ut mattis nulla placerat et.</p>
-						</div>
-					</div>
-				</article>
-			</div>
-		</div>
-	</section>
-<jsp:include page="/WEB-INF/views/include/footer.jsp" />
-</body>
+  <body>
+
+    <div id="all">
+  <div id="preloader">
+    <div class="p">Dodo</div>
+</div>
+<div id="breaker"></div>
+
+      <div class="cursor scale"></div>
+      <div class="cursor-two  scale"></div>
+      <!-- HOME -->
+      <div id="home">
+    
+        <div class="navigation">
+        
+          <div class="logo home-link fade-down">
+           <a href="${ctp}/main">홈페이지 입장하기</a>
+          </div>
+        
+          <div class="navigation-links">
+            <ul>
+              <li class="links about-link fade-down"><a href="${ctp}/users/userLogin">
+              	<span>더 많은 정보를 원하시나요? <br>미리 로그인 하세요.</span>
+              </a></li>
+              <li class="links contact-link fade-down"><a href="${ctp}/users/userResister">
+              	<span>우리와 함께 정보를 공유해요. <br>더 맑은 내일을 살아가요.</span>
+              </a></li>
+            </ul>
+          </div>
+        
+        </div>
+        
+              <div class="slider">
+                <div class="container-fluid">
+                  <div class="row">
+                    <div class="col-md-12 p-0">
+                      <div class="swiper-container parallax-slider">
+                        <div class="swiper-wrapper">
+                          <div class="swiper-slide">
+                            <div class="img-container one">
+                              <div class="slide-text opacity">
+                                <a href="#0" class="project-link marine-project-link">MARINE 
+                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+                               </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="swiper-slide">
+                            <div class="img-container two">
+                              <div class="slide-text opacity">
+                                <a href="#0" class="project-link forest-project-link">FOREST
+                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="swiper-slide">
+                            <div class="img-container three">
+                              <div class="slide-text opacity">
+                                <a href="#0" class="project-link wildlife-project-link">wildlife
+                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="swiper-slide">
+                            <div class="img-container four">
+                              <div class="slide-text opacity">
+                                <a href="#0" class="project-link city-project-link">CITY
+                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                        
+                        <!-- slider controls -->
+                        <div class="slider-controls fade-up-two">
+                          <div class="control">
+                            <div class="swiper-nav-ctrl prev-ctrl">
+                              <img src="images/prev.png" alt="prev" class="slider-control-image">
+                            </div>
+                          </div>
+                          <div class="swiper-pagination-container">
+                            <div class="control">
+                              <div class="swiper-pagination"></div>
+                            </div>
+                          </div>
+                          <div class="control">
+                            <div class="swiper-nav-ctrl next-ctrl">
+                              <img src="images/next.png" alt="next" class="slider-control-image">
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="scroll-icon fade-up">
+                <i class="gg-mouse"></i>
+              </div>
+              <div class="social-media-links">
+                <ul>
+                  <li class="fade-up"> <a href="#">FB</a> </li>
+                  <li class="fade-up"> <a href="#">IN</a> </li>
+                  <li class="fade-up"><a href="#">TW</a> </li>
+                </ul>
+              </div>
+            </div>
+      <!-- HOME -->
+
+
+      <!-- ABOUT -->
+<div id="about">
+<div id="about-color"></div>
+<div class="navigation navigation-about">
+        
+  <div class="logo home-link about-opacity">
+   <a href="#"> JAMES TYLER</a>
+  </div>
+
+  <div class="navigation-links about-opacity">
+   <div class="navigation-close hover about-close">
+     <div class="navigation-close-line"></div>
+     <div class="navigation-close-line"></div>
+   </div>
+  </div>
+
+</div>
+  <div class="about-content">
+  <div class="container-fluid m-0 p-0">
+    <div class="row">
+    <div class="col-0 col-md-0 col-lg-6 col-sm-0 col-xs-0 p-0 m-0">
+      <div class="about-img ">
+      </div>
+    </div>
+   <div class="col-12 col-md-12 col-lg-6 col-sm-12 col-xs-12 p-0 m-0">
+     <div class="about-text">
+       <div class="about-text-container about-opacity">
+       <div class="about-text-header">
+			Hi , I'm a 22 y/o Canadian photographer,
+			graduated in 2009
+       </div>
+       <div class="about-text-paragraph">
+         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex debitis, nisi minima tempore repudiandae. 
+       </div>
+       <div class="about-text-paragraph">
+        similique quis quos, reiciendis dignissimos doloremque sequi eius esse qui. A iste blanditiis fugiat necessitatibus voluptatibus.
+      </div>
+       <div class="about-text-button">
+         <button class="contact-link-about contact-button hover">Contact Me</button>
+       </div>
+     </div>
+    </div>
+   </div>
+  </div>
+    </div>
+  <div class="social-media-links about-opacity">
+    <ul>
+      <li> <a href="#">FB</a> </li>
+      <li> <a href="#">IN</a> </li>
+      <li> <a href="#">TW</a> </li>
+    </ul>
+  </div>
+</div>
+</div>
+      <!-- ABOUT -->
+
+      <!-- PROJECTS -->
+      <div id="projects">
+
+        <!-- MARINE PROJECT -->
+        <div class="project marine-project">
+          <div class="navigation navigation-project">
+                
+            <div class="logo home-link about-opacity">
+             <a href="#"> JAMES TYLER</a>
+            </div>
+          
+            <div class="navigation-links about-opacity">
+             <div class="navigation-close hover marine-close">
+               <div class="navigation-close-line"></div>
+               <div class="navigation-close-line"></div>
+             </div>
+            </div>
+          
+          </div>
+          <div class="col-12 p-0 m-0">
+         <div class="slideshow-container">
+           <div class="slides">
+             <img src="images/header-image-one.webp" alt="marine-image">
+           </div>
+           <div class="slides">
+            <img src="images/marine-image-three.webp" alt="marine-image">
+          </div>
+           <div class="slides">
+             <img src="images/marine-image-six.webp" alt="marine-image">
+           </div>
+           <div class="slides">
+             <img src="images/marine-image-five.webp" alt="marine-image">
+           </div>
+           <div class="slides">
+             <img src="images/marine-image-two.webp" alt="marine-image">
+           </div>
+         </div>
+        
+         </div>
+         <div class="controls">
+          <button id ="prev" class="hover"><img src="images/prev.png" alt="" class="imgs"></button>
+          <button id ="next" class="hover"><img src="images/next.png" alt="" class="imgs"></button>
+        </div>
+        <div class="project-name">
+          MARINE
+        </div>
+        <div class="social-media-links opacity">
+          <ul>
+            <li> <a href="#">FB</a> </li>
+            <li> <a href="#">IN</a> </li>
+            <li> <a href="#">TW</a> </li>
+          </ul>
+        </div>
+        </div>
+<!-- MARINE PROJECT -->
+
+<!-- FOREST PROJECT -->
+<div class="project forest-project">
+  <div class="navigation navigation-project">
+        
+    <div class="logo home-link about-opacity">
+     <a href="#"> JAMES TYLER</a>
+    </div>
+  
+    <div class="navigation-links about-opacity">
+     <div class="navigation-close hover forest-close">
+       <div class="navigation-close-line"></div>
+       <div class="navigation-close-line"></div>
+     </div>
+    </div>
+  
+  </div>
+  <div class="col-12 p-0 m-0">
+ <div class="slideshow">
+   <div class="forest-slides">
+     <img src="images/header-image-two.webp" alt="marine-image">
+   </div>
+   <div class="forest-slides">
+     <img src="images/forest-image-two.webp" alt="marine-image">
+   </div>
+   <div class="forest-slides">
+     <img src="images/forest-image-three.webp" alt="marine-image">
+   </div>
+   <div class="forest-slides">
+     <img src="images/forest-image-five.webp" alt="marine-image">
+   </div>
+   <div class="forest-slides">
+     <img src="images/forest-image-six.webp" alt="marine-image">
+   </div>
+ </div>
+
+ </div>
+ <div class="controls">
+  <button id ="forest-prev" class="hover"><img src="images/prev.png" alt="prev" class="imgs"></button>
+  <button id ="forest-next" class="hover"><img src="images/next.png" alt="next" class="imgs"></button>
+</div>
+<div class="project-name">
+  FOREST
+</div>
+<div class="social-media-links opacity">
+  <ul>
+    <li> <a href="#">FB</a> </li>
+    <li> <a href="#">IN</a> </li>
+    <li> <a href="#">TW</a> </li>
+  </ul>
+</div>
+      </div>
+<!-- FOREST PROJECT -->
+
+<!-- wildlife PROJECT -->
+<div class="project wildlife-project">
+  <div class="navigation navigation-project">
+        
+    <div class="logo home-link about-opacity">
+     <a href="#"> JAMES TYLER</a>
+    </div>
+  
+    <div class="navigation-links about-opacity">
+     <div class="navigation-close hover wildlife-close">
+       <div class="navigation-close-line"></div>
+       <div class="navigation-close-line"></div>
+     </div>
+    </div>
+  
+  </div>
+  <div class="col-12 p-0 m-0">
+ <div class="slideshow">
+   <div class="wildlife-slides">
+     <img src="images/header-image-three.webp" alt="marine-image">
+   </div>
+   <div class="wildlife-slides">
+     <img src="images/wildlife-image-two.webp" alt="marine-image">
+   </div>
+   <div class="wildlife-slides">
+     <img src="images/wildlife-image-three.webp" alt="marine-image">
+   </div>
+   <div class="wildlife-slides">
+     <img src="images/wildlife-image-four.webp" alt="marine-image">
+   </div>
+   <div class="wildlife-slides">
+     <img src="images/wildlife-image-five.webp" alt="marine-image">
+   </div>
+   <div class="wildlife-slides">
+     <img src="images/wildlife-image-six.webp" alt="marine-image">
+   </div>
+ </div>
+
+ </div>
+ <div class="controls">
+  <button id ="wildlife-prev" class="hover"><img src="images/prev.png" alt="prev" class="imgs"></button>
+  <button id ="wildlife-next" class="hover"><img src="images/next.png" alt="next" class="imgs"></button>
+</div>
+<div class="project-name">
+  wildlife
+</div>
+<div class="social-media-links opacity">
+  <ul>
+    <li> <a href="#">FB</a> </li>
+    <li> <a href="#">IN</a> </li>
+    <li> <a href="#">TW</a> </li>
+  </ul>
+</div>
+      </div>
+<!-- wildlife PROJECT -->
+
+<!-- wildlife PROJECT -->
+<div class="project city-project">
+  <div class="navigation navigation-project">
+        
+    <div class="logo home-link about-opacity">
+     <a href="#"> JAMES TYLER</a>
+    </div>
+  
+    <div class="navigation-links about-opacity">
+     <div class="navigation-close hover city-close">
+       <div class="navigation-close-line"></div>
+       <div class="navigation-close-line"></div>
+     </div>
+    </div>
+  
+  </div>
+  <div class="col-12 p-0 m-0">
+ <div class="slideshow">
+   <div class="city-slides">
+     <img src="images/header-image-four.webp" alt="city-image">
+   </div>
+   <div class="city-slides">
+    <img src="images/city-two.webp" alt="city-image">
+  </div>
+   <div class="city-slides">
+     <img src="images/city-image-three.webp" alt="city-image">
+   </div>
+   <div class="city-slides">
+     <img src="images/city-image-four.webp" alt="city-image">
+   </div>
+   <div class="city-slides">
+     <img src="images/city-image-five.webp" alt="city-image">
+   </div>
+ </div>
+
+ </div>
+ <div class="controls">
+  <button id ="city-prev" class="hover"><img src="images/prev.png" alt="prev" class="imgs"></button>
+  <button id ="city-next" class="hover"><img src="images/next.png" alt="next" class="imgs"></button>
+</div>
+<div class="project-name">
+  CITY
+</div>
+<div class="social-media-links opacity">
+  <ul>
+    <li> <a href="#">FB</a> </li>
+    <li> <a href="#">IN</a> </li>
+    <li> <a href="#">TW</a> </li>
+  </ul>
+</div>
+      </div>
+<!-- CITY PROJECT -->
+
+
+      <!-- PROJECTS -->
+    </div>
+
+<!--CONTACT PAGE-->
+<div id="contact">
+  <div class="navigation navigation-contact">
+        
+    <div class="logo home-link contact-opacity">
+     <a href="#">JAMES TYLER</a>
+    </div>
+  
+    <div class="navigation-links contact-opacity">
+     <div class="navigation-close hover contact-close">
+       <div class="navigation-close-line"></div>
+       <div class="navigation-close-line"></div>
+     </div>
+    </div>
+  
+  </div>
+  <div class="contact-header contact-opacity">
+    getting in touch is easy.
+  </div>
+<div class="container-fluid">
+  <div class="row p-0 m-0">
+  
+      <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xs-12 p-0 m-0">
+        <div class="form contact-opacity" autocomplete="false">
+          <form  id ="myForm" action="mail.php">
+            <div class="input-line">
+              <input id="name" type="text" placeholder="name" class="input-same-line">
+              <input id="email" type="email" placeholder="email" class="input-same-line">
+            </div>
+            <div class="input-line-column">
+              <input id="subject" type="text" placeholder="subject">
+              <textarea name="textarea" id="body" class="textarea" placeholder="message"></textarea>
+            </div>
+           <button type="button" id="submit" class="hover">Send</button>
+          </form>
+        </div>
+        </div>
+</div>
+
+</div>
+</div>
+
+<!--CONTACT PAGE-->
+
+
+
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js" integrity="sha256-4sETKhh3aSyi6NRiA+qunPaTawqSMDQca/xLWu27Hg4=" crossorigin="anonymous"></script>
+    <script src="${ctp}/js/home/jquery.min.js"></script>
+    <script src="${ctp}/js/home/bez.js"></script>
+    <script src="${ctp}/js/home/pace.js"></script>
+    <script src="${ctp}/js/home/index.js"></script>
+    <script>
+       $(function(){
+    //marine-slideshow
+    var slide_index = 1;  
+    displaySlides(slide_index);  
+    function nextSlide() {  
+        displaySlides(slide_index++);  
+    }  
+    function prevslide() {  
+      displaySlides(slide_index--);   
+    }  
+    function displaySlides() {  
+        var i;  
+        var slides = document.getElementsByClassName("slides");  
+        if (slide_index > slides.length ) { slide_index = 1 } 
+        if (slide_index < 1) { slide_index = slides.length }  
+        for (i = 0; i < slides.length; i++) {  
+            slides[i].style.opacity = 0;  
+           
+        }  
+        slides[slide_index - 1].style.opacity = 1;  
+         
+      }
+      var next = document.getElementById('next');
+      next.addEventListener('click',nextSlide);
+
+      var prev = document.getElementById('prev');
+      prev.addEventListener('click',prevslide);
+  })
+
+  //forest slideshow
+
+  $(function(){
+    var slide_index = 1;  
+    displaySlides(slide_index);  
+    function nextSlide() {  
+        displaySlides(slide_index++);  
+    }  
+    function prevslide() {  
+      displaySlides(slide_index--);   
+    }  
+    function displaySlides() {  
+        var i;  
+        var slides = document.getElementsByClassName("forest-slides");  
+        if (slide_index > slides.length ) { slide_index = 1 } 
+        if (slide_index < 1) { slide_index = slides.length }  
+        for (i = 0; i < slides.length; i++) {  
+            slides[i].style.opacity = 0;  
+           
+        }  
+        slides[slide_index - 1].style.opacity = 1;  
+         
+      }
+      var next = document.getElementById('forest-next');
+      next.addEventListener('click',nextSlide);
+
+      var prev = document.getElementById('forest-prev');
+      prev.addEventListener('click',prevslide);
+  })
+  
+  //wildlife slideshow
+
+  $(function(){
+    var slide_index = 1;  
+    displaySlides(slide_index);  
+    function nextSlide() {  
+        displaySlides(slide_index++);  
+    }  
+    function prevslide() {  
+      displaySlides(slide_index--);   
+    }  
+    function displaySlides() {  
+        var i;  
+        var slides = document.getElementsByClassName("wildlife-slides");  
+        if (slide_index > slides.length ) { slide_index = 1 } 
+        if (slide_index < 1) { slide_index = slides.length }  
+        for (i = 0; i < slides.length; i++) {  
+            slides[i].style.opacity = 0;  
+           
+        }  
+        slides[slide_index - 1].style.opacity = 1;  
+         
+      }
+      var next = document.getElementById('wildlife-next');
+      next.addEventListener('click',nextSlide);
+
+      var prev = document.getElementById('wildlife-prev');
+      prev.addEventListener('click',prevslide);
+  })
+
+
+    //city slideshow
+
+    $(function(){
+      var slide_index = 1;  
+      displaySlides(slide_index);  
+      function nextSlide() {  
+          displaySlides(slide_index++);  
+      }  
+      function prevslide() {  
+        displaySlides(slide_index--);   
+      }  
+      function displaySlides() {  
+          var i;  
+          var slides = document.getElementsByClassName("city-slides");  
+          if (slide_index > slides.length ) { slide_index = 1 } 
+          if (slide_index < 1) { slide_index = slides.length }  
+          for (i = 0; i < slides.length; i++) {  
+              slides[i].style.opacity = 0;  
+             
+          }  
+          slides[slide_index - 1].style.opacity = 1;  
+           
+        }
+        var next = document.getElementById('city-next');
+        next.addEventListener('click',nextSlide);
+  
+        var prev = document.getElementById('city-prev');
+        prev.addEventListener('click',prevslide);
+
+      
+    })
+
+    </script>
+
+    
+  </body>
 </html>

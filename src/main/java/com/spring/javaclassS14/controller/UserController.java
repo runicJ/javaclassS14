@@ -1,5 +1,7 @@
 package com.spring.javaclassS14.controller;
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.UUID;
 
 import javax.mail.MessagingException;
@@ -8,6 +10,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.jsoup.Connection;
+import org.jsoup.Jsoup;
+import org.jsoup.nodes.Document;
+import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -240,5 +247,5 @@ public class UserController {
 	public String userLogoutGet() {
 		return "users/userFindId";
 	}
-		
+
 }

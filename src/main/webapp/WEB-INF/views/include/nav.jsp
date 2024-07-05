@@ -6,7 +6,7 @@
 	<nav class="menu">
 		<div class="container">
 			<div class="brand">
-				<a href="${ctp}/">
+				<a href="${ctp}/main">
 					<img src="${ctp}/images/logo.png" alt="logo" style="height:50px;width:auto;">
 				</a>
 			</div>
@@ -30,7 +30,7 @@
 							<li><a href="${ctp}/">지점위치</a></li>
 						</ul>
 					</li>
-					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <div class="badge">Hot</div></a>
+					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <div class="badge">인기</div></a>
 						<div class="dropdown-menu megamenu">
 							<div class="megamenu-inner">
 								<div class="row">
@@ -41,7 +41,7 @@
 											</div>
 										</div>
 										<ul class="vertical-menu">
-											<li><a href="#"><i class="ion-ios-circle-outline"></i> Mega menu is a new feature</a></li>
+											<li><a href="${ctp}/research/crawling"><i class="ion-ios-circle-outline"></i> 뉴스정보</a></li>
 											<li><a href="#"><i class="ion-ios-circle-outline"></i> This is an example</a></li>
 											<li><a href="#"><i class="ion-ios-circle-outline"></i> For a submenu item</a></li>
 											<li><a href="#"><i class="ion-ios-circle-outline"></i> You can add</a></li>
@@ -169,9 +169,9 @@
 							<li class="dropdown magz-dropdown"><a href="#">1:1문의 <i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
 									<li><a href="category.html">구독문의</a></li>
-									<li><a href="category.html"></a></li>
+									<li><a href="category.html">정보문의</a></li>
 									<li><a href="category.html">제품문의</a></li>
-									<li><a href="category.html">제품문의</a></li>
+									<li><a href="category.html">신고문의</a></li>
 								</ul>
 							</li>
 						</ul>
@@ -182,13 +182,8 @@
 							<li><a href="${ctp}/">진행중인 이벤트</a></li>
 							<li class="dropdown magz-dropdown">
 								<a href="#">종료된 이벤트<i class="ion-ios-arrow-right"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="${ctp}/users/userLogin">구독 정보 소개</a></li>
-									<li><a href="${ctp}/users/userRegister">구독 금액</a></li>
-									<li><a href="forgot.html">구독 후기</a></li>
-								</ul>
 							</li>
-							<li><a href="category.html">구매한 제품 후기</a></li>
+							<li><a href="category.html">구매 제품 후기</a></li>
 						</ul>
 					</li>
 					<c:if test="${!empty sUid}">
