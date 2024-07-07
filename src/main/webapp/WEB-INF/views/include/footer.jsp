@@ -22,7 +22,7 @@
 			</div>
 			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="block">
-					<h1 class="block-title">Popular Tags <div class="right"><a href="#">See All <i class="ion-ios-arrow-thin-right"></i></a></div></h1>
+					<h1 class="block-title">Popular Tags <span class="right"><a href="#">See All <i class="ion-ios-arrow-thin-right"></i></a></span></h1>
 					<div class="block-body">
 						<ul class="tags">
 							<li><a href="#">HTML5</a></li>
@@ -36,21 +36,6 @@
 					</div>
 				</div>
 				<div class="line"></div>
-				<div class="block">
-					<h1 class="block-title">Newsletter</h1>
-					<div class="block-body">
-						<p>By subscribing you will receive new articles in your email.</p>
-						<form class="newsletter">
-							<div class="input-group">
-								<div class="input-group-addon">
-									<i class="ion-ios-email-outline"></i>
-								</div>
-								<input type="email" class="form-control email" placeholder="Your mail">
-							</div>
-							<button class="btn btn-primary btn-block white">Subscribe</button>
-						</form>
-					</div>
-				</div>
 			</div>
 			<div class="col-md-3 col-sm-6 col-xs-12">
 				<div class="block">

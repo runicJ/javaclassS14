@@ -65,4 +65,9 @@ public class UserServiceImpl implements UserService {
 		
 	}
 
+	@Override
+	public void setUserPwdUpdate(String userId, String tempPwd) {
+		userDAO.setUserPwdUpdate(userId, tempPwd);
+	}
+
 }

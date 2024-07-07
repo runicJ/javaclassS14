@@ -20,4 +20,5 @@ public class UserVO {
 	private String createDate;
 	private String updateate;
 	private int level;
+	
 }

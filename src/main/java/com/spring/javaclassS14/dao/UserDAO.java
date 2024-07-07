@@ -16,6 +16,8 @@ public interface UserDAO {
 
 	public UserVO getUserNickNameEmailCheck(@Param("nickName") String nickName, @Param("email") String email);
 
-	public Object setKakaoUserInput(@Param("userId") String userId, @Param("userPwd") String pwd, @Param("nickName") String nickName, @Param("email") String email);
+	public void setKakaoUserInput(@Param("userId") String userId, @Param("userPwd") String pwd, @Param("nickName") String nickName, @Param("email") String email);
+
+	public void setUserPwdUpdate(@Param("userId") String userId, @Param("userPwd") String tempPwd);
 
 }

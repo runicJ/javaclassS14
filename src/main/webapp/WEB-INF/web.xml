@@ -41,8 +41,8 @@
 		<init-param>
 			<param-name>encoding</param-name>
 			<param-value>UTF-8</param-value>
-		</init-param>
 		<!-- 파라미터값 초기화 -->
+		</init-param>
 	</filter>
 	<filter-mapping>
 		<filter-name>encoding</filter-name>

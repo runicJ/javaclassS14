@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css" integrity="sha256-DBYdrj7BxKM3slMeqBVWX2otx7x4eqoHRJCsSDJ0Nxw=" crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
-    <link rel="stylesheet" href="${ctp}/images/home/style.css" />
+    <link rel="stylesheet" href="${ctp}/css/home/style.css" />
   </head>
 
   <body>
@@ -55,8 +55,8 @@
                           <div class="swiper-slide">
                             <div class="img-container one">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link marine-project-link">MARINE 
-                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+                                <a href="#0" class="project-link marine-project-link">생명 
+                                  <div class="view-project">CLICK Me</div>
                                </a>
                               </div>
                             </div>
@@ -64,8 +64,8 @@
                           <div class="swiper-slide">
                             <div class="img-container two">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link forest-project-link">FOREST
-                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+                                <a href="#0" class="project-link forest-project-link">숲
+                                  <div class="view-project">CLICK Me</div>
                                 </a>
                               </div>
                             </div>
@@ -73,8 +73,8 @@
                           <div class="swiper-slide">
                             <div class="img-container three">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link wildlife-project-link">wildlife
-                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+                                <a href="#0" class="project-link wildlife-project-link">아이
+                                  <div class="view-project">CLICK Me</div>
 
                                 </a>
                               </div>
@@ -83,8 +83,8 @@
                           <div class="swiper-slide">
                             <div class="img-container four">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link city-project-link">CITY
-                                  <div class="view-project">CLICK TO VIEW PROJECT</div>
+                                <a href="#0" class="project-link city-project-link">숨
+                                  <div class="view-project">CLICK Me</div>
 
                                 </a>
                               </div>
@@ -96,7 +96,7 @@
                         <div class="slider-controls fade-up-two">
                           <div class="control">
                             <div class="swiper-nav-ctrl prev-ctrl">
-                              <img src="images/prev.png" alt="prev" class="slider-control-image">
+                              <img src="${ctp}/images/home/prev.png" alt="prev" class="slider-control-image">
                             </div>
                           </div>
                           <div class="swiper-pagination-container">
@@ -106,7 +106,7 @@
                           </div>
                           <div class="control">
                             <div class="swiper-nav-ctrl next-ctrl">
-                              <img src="images/next.png" alt="next" class="slider-control-image">
+                              <img src="${ctp}/images/home/next.png" alt="next" class="slider-control-image">
                             </div>
                           </div>
                         </div>
@@ -207,26 +207,26 @@
           <div class="col-12 p-0 m-0">
          <div class="slideshow-container">
            <div class="slides">
-             <img src="images/header-image-one.webp" alt="marine-image">
+             <img src="${ctp}/images/home/life-tree.webp" alt="marine-image">
            </div>
            <div class="slides">
-            <img src="images/marine-image-three.webp" alt="marine-image">
+            <img src="${ctp}/images/home/marine-image-three.webp" alt="marine-image">
           </div>
            <div class="slides">
-             <img src="images/marine-image-six.webp" alt="marine-image">
+             <img src="${ctp}/images/home/marine-image-six.webp" alt="marine-image">
            </div>
            <div class="slides">
-             <img src="images/marine-image-five.webp" alt="marine-image">
+             <img src="${ctp}/images/home/marine-image-five.webp" alt="marine-image">
            </div>
            <div class="slides">
-             <img src="images/marine-image-two.webp" alt="marine-image">
+             <img src="${ctp}/images/home/marine-image-two.webp" alt="marine-image">
            </div>
          </div>
         
          </div>
          <div class="controls">
-          <button id ="prev" class="hover"><img src="images/prev.png" alt="" class="imgs"></button>
-          <button id ="next" class="hover"><img src="images/next.png" alt="" class="imgs"></button>
+          <button id ="prev" class="hover"><img src="${ctp}/images/home/prev.png" alt="" class="imgs"></button>
+          <button id ="next" class="hover"><img src="${ctp}/images/home/next.png" alt="" class="imgs"></button>
         </div>
         <div class="project-name">
           MARINE
@@ -260,26 +260,26 @@
   <div class="col-12 p-0 m-0">
  <div class="slideshow">
    <div class="forest-slides">
-     <img src="images/header-image-two.webp" alt="marine-image">
+     <img src="${ctp}/images/home/nature-gross.jpg" alt="marine-image">
    </div>
    <div class="forest-slides">
-     <img src="images/forest-image-two.webp" alt="marine-image">
+     <img src="${ctp}/images/home/forest-image-two.webp" alt="marine-image">
    </div>
    <div class="forest-slides">
-     <img src="images/forest-image-three.webp" alt="marine-image">
+     <img src="${ctp}/images/home/forest-image-three.webp" alt="marine-image">
    </div>
    <div class="forest-slides">
-     <img src="images/forest-image-five.webp" alt="marine-image">
+     <img src="${ctp}/images/home/forest-image-five.webp" alt="marine-image">
    </div>
    <div class="forest-slides">
-     <img src="images/forest-image-six.webp" alt="marine-image">
+     <img src="${ctp}/images/home/forest-image-six.webp" alt="marine-image">
    </div>
  </div>
 
  </div>
  <div class="controls">
-  <button id ="forest-prev" class="hover"><img src="images/prev.png" alt="prev" class="imgs"></button>
-  <button id ="forest-next" class="hover"><img src="images/next.png" alt="next" class="imgs"></button>
+  <button id ="forest-prev" class="hover"><img src="${ctp}/images/home/prev.png" alt="prev" class="imgs"></button>
+  <button id ="forest-next" class="hover"><img src="${ctp}/images/home/next.png" alt="next" class="imgs"></button>
 </div>
 <div class="project-name">
   FOREST
@@ -313,29 +313,29 @@
   <div class="col-12 p-0 m-0">
  <div class="slideshow">
    <div class="wildlife-slides">
-     <img src="images/header-image-three.webp" alt="marine-image">
+     <img src="${ctp}/images/home/kid-baby.jpg" alt="marine-image">
    </div>
    <div class="wildlife-slides">
-     <img src="images/wildlife-image-two.webp" alt="marine-image">
+     <img src="${ctp}/images/home/wildlife-image-two.webp" alt="marine-image">
    </div>
    <div class="wildlife-slides">
-     <img src="images/wildlife-image-three.webp" alt="marine-image">
+     <img src="${ctp}/images/home/wildlife-image-three.webp" alt="marine-image">
    </div>
    <div class="wildlife-slides">
-     <img src="images/wildlife-image-four.webp" alt="marine-image">
+     <img src="${ctp}/images/home/wildlife-image-four.webp" alt="marine-image">
    </div>
    <div class="wildlife-slides">
-     <img src="images/wildlife-image-five.webp" alt="marine-image">
+     <img src="${ctp}/images/home/wildlife-image-five.webp" alt="marine-image">
    </div>
    <div class="wildlife-slides">
-     <img src="images/wildlife-image-six.webp" alt="marine-image">
+     <img src="${ctp}/images/home/wildlife-image-six.webp" alt="marine-image">
    </div>
  </div>
 
  </div>
  <div class="controls">
-  <button id ="wildlife-prev" class="hover"><img src="images/prev.png" alt="prev" class="imgs"></button>
-  <button id ="wildlife-next" class="hover"><img src="images/next.png" alt="next" class="imgs"></button>
+  <button id ="wildlife-prev" class="hover"><img src="${ctp}/images/home/prev.png" alt="prev" class="imgs"></button>
+  <button id ="wildlife-next" class="hover"><img src="${ctp}/images/home/next.png" alt="next" class="imgs"></button>
 </div>
 <div class="project-name">
   wildlife
@@ -369,26 +369,26 @@
   <div class="col-12 p-0 m-0">
  <div class="slideshow">
    <div class="city-slides">
-     <img src="images/header-image-four.webp" alt="city-image">
+     <img src="${ctp}/images/home/forest-path.jpg" alt="city-image">
    </div>
    <div class="city-slides">
-    <img src="images/city-two.webp" alt="city-image">
+    <img src="${ctp}/images/home/city-two.webp" alt="city-image">
   </div>
    <div class="city-slides">
-     <img src="images/city-image-three.webp" alt="city-image">
+     <img src="${ctp}/images/home/city-image-three.webp" alt="city-image">
    </div>
    <div class="city-slides">
-     <img src="images/city-image-four.webp" alt="city-image">
+     <img src="${ctp}/images/home/city-image-four.webp" alt="city-image">
    </div>
    <div class="city-slides">
-     <img src="images/city-image-five.webp" alt="city-image">
+     <img src="${ctp}/images/home/city-image-five.webp" alt="city-image">
    </div>
  </div>
 
  </div>
  <div class="controls">
-  <button id ="city-prev" class="hover"><img src="images/prev.png" alt="prev" class="imgs"></button>
-  <button id ="city-next" class="hover"><img src="images/next.png" alt="next" class="imgs"></button>
+  <button id ="city-prev" class="hover"><img src="${ctp}/images/home/prev.png" alt="prev" class="imgs"></button>
+  <button id ="city-next" class="hover"><img src="${ctp}/images/home/next.png" alt="next" class="imgs"></button>
 </div>
 <div class="project-name">
   CITY

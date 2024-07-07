@@ -86,24 +86,24 @@ html{
 }
 
 .parallax-slider .img-container.one {
-  background:url(../images/header-image-one.webp);
+  background:url(../../images/home/life-tree.jpg);
   background-position: center;
   background-size: cover;
 }
 
 .parallax-slider .img-container.two {
-  background:url(../images/header-image-two.webp);
+  background:url(../../images/home/forest-path.jpg);
   background-position: center;
   background-size: cover;
 }
 
 .parallax-slider .img-container.three {
-  background:url(../images/header-image-three.webp);
+  background:url(../../images/home/kid-baby.jpg);
   background-position: center;
   background-size: cover;
 }
 .parallax-slider .img-container.four {
-  background:url(../images/header-image-four.webp);
+  background:url(../../images/home/breath-gross.jpg);
   background-position: center;
   background-size: cover;
 }
@@ -469,6 +469,7 @@ z-index: 2;
   font-weight: 900;
   z-index: 5;
 }
+
 .view-project{
   font-size: 18px;
   font-weight: 200;
@@ -477,6 +478,7 @@ z-index: 2;
   opacity: .9;
   padding: 0;
 }
+
 .pace {
   pointer-events: none;
   user-select: none;

@@ -47,7 +47,7 @@ public class HomeController {
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) throws IOException {
-		String searchString = "¾Ë·¹¸£±â";
+		String searchString = "ì•Œë ˆë¥´ê¸°";
 		Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query="+searchString+"&where=web");
 		
 		Document document = conn.get();
@@ -55,30 +55,28 @@ public class HomeController {
 		Elements selects = null;
 		
 		ArrayList<String> titleVos = new ArrayList<String>();
+		ArrayList<String> urlVos = new ArrayList<String>();
 		selects = document.select("a.news_tit");
 		for(Element select : selects) {
-			System.out.println("select1 : " + select);
 			titleVos.add(select.html());
+			urlVos.add(select.attr("href"));
 		}
 		
 		ArrayList<String> imageVos = new ArrayList<String>();
 		selects = document.select("a.dsc_thumb img");
 		for(Element select : selects) {
-			System.out.println("select2 : " + select);
 			imageVos.add(select.toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
 		}
 		
 		ArrayList<String> broadcastVos = new ArrayList<String>();
 		selects = document.select("div.dsc_wrap");
 		for(Element select : selects) {
-			System.out.println("select3 : " + select);
 			broadcastVos.add(select.html());
 		}
 		
 		ArrayList<String> infoVos = new ArrayList<String>();
 		selects = document.select("span.info");
 		for(Element select : selects) {
-			System.out.println("select4 : " + select);
 			infoVos.add(select.html());
 		}
 		
@@ -90,11 +88,58 @@ public class HomeController {
 			vo.setItem2(imageVos.get(i));
 			vo.setItem3(broadcastVos.get(i));
 			vo.setItem4(infoVos.get(i));
+			vo.setItemUrl(urlVos.get(i));
 			naverVos.add(vo);
 		}
 		model.addAttribute("naverVos",naverVos);
 		
 		return "main/main";
 	}
+	
+	/*
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String main(Model model) throws IOException {
+	    String searchString = "ì•Œë ˆë¥´ê¸°";
+	    Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web");
+	    
+	    Document document = conn.get();
+	    
+	    Elements titles = document.select("a.news_tit");
+	    Elements images = document.select("a.dsc_thumb img");
+	    Elements desc = document.select("div.dsc_wrap");
+	    Elements infos = document.select("span.info");
+	    
+	    ArrayList<CrawlingVO> naverVos = new ArrayList<CrawlingVO>();
+	    
+	    for (int i = 0; i < titles.size(); i++) {
+	        CrawlingVO vo = new CrawlingVO();
+	        Element titleElement = titles.get(i);
+	        Element imageElement = i < images.size() ? images.get(i) : null;
+	        Element descElement = i < desc.size() ? desc.get(i) : null;
+	        Element infoElement = i < infos.size() ? infos.get(i) : null;
+	        
+	        vo.setItem1(titleElement.html());
+	        vo.setItemUrl(titleElement.attr("href"));
+	        
+	        if (imageElement != null) {
+	            vo.setItem2(imageElement.toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
+	        }
+	        
+	        if (descElement != null) {
+	            vo.setItem3(descElement.html());
+	        }
+	        
+	        if (infoElement != null) {
+	            vo.setItem4(infoElement.html());
+	        }
+	        
+	        naverVos.add(vo);
+	    }
+	    
+	    model.addAttribute("naverVos", naverVos);
+	    
+	    return "main/main";
+	}
+	*/
 	
 }
