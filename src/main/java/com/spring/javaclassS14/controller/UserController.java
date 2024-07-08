@@ -271,22 +271,6 @@ public class UserController {
         return resMap;
     }
 	
-	// 아이디 찾기2
-//    @RequestMapping(value = "/userFindId", method = RequestMethod.POST)
-//    public String userFindIdPost(String name, String email, Model model) {
-//        UserVO vo = userService.getUserEmailCheck(email);
-//        if (vo != null && vo.getName().equals(name)) {
-//            String userId = vo.getUserId();
-//            String createDate = vo.getCreateDate().toString().substring(0, 10);
-//            model.addAttribute("userId", userId);
-//            model.addAttribute("createDate", createDate);
-//            model.addAttribute("found", true);
-//        } else {
-//            model.addAttribute("found", false);
-//        }
-//        return "users/userFindId";
-//    }
-	
 	// 비밀번호 찾기 팝업 띄우기
 	@RequestMapping(value="/userFindPw", method=RequestMethod.GET)
 	public String userFindPwGet() {
