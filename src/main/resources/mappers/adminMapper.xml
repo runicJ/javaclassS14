@@ -8,4 +8,8 @@
 		<if test="level != 99 and level != 999">select *, timestampdiff(day, lastDate, now()) as deleteDiff from member2 where level = #{level} order by mid limit #{startIndexNo},#{pageSize};</if>
 	</select>
  -->
+ 
+ 	<select id="getUserList" resultType="com.spring.javaclassS14.vo.UserVO">
+ 		select * from users order by userIdx desc limit #{startIndexNo},#{pageSize};
+ 	</select>
 </mapper>

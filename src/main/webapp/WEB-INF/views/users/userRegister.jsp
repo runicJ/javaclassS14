@@ -36,7 +36,7 @@
        	let tel = tel1 + "-" + tel2 + "-" + tel3;
     	
 		let regUid = /^[a-zA-Z0-9_-]{4,20}$/;
-        let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
+        //let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
 		let regName = /^[가-힣a-zA-Z]+$/;
 	    let regNickName = /^[a-zA-Z0-9가-힣]+$/;
 	    let regTel = /^010-\d{3,4}-\d{4}$/;
@@ -59,11 +59,11 @@
 			return false;
 		}
 
-		if(!regPwd.test(userPwd)) {
+/* 		if(!regPwd.test(userPwd)) {
 	        alert("비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.");
 	        myform.userPwd.focus();
 	        return false;
-      	}
+      	} */
 		
     	if(pwdCheck == "" || pwdCheck != userPwd) {
     		alert("입력하신 비밀번호와 일치하지 않습니다. 비밀번호를 확인해 주세요.");
@@ -139,12 +139,12 @@
     		document.getElementById("nickNameBtn").focus();
     		return false;
     	}
-
+/* 
         if (emailCheckSw == 0) {
             alert("이메일 중복체크 버튼을 눌러주세요");
             document.getElementById("emailCheckSw").focus();
             return false;
-        }
+        } */
 
 		myform.email.value = email;
 		myform.tel.value = tel;
@@ -213,8 +213,8 @@
 	    	});
     	}
     }
-    
-    function emailCheck() {
+	/*    
+     function emailCheck() {
 		let email1 = myform.email1.value;
 		let email2 = myform.email2.value;
 		let email = email1 + "@" + email2;
@@ -246,7 +246,7 @@
         });
       }
     }
-
+ 
     function emailCheckTimer() {
         let timeLeft = 2 * 60; // 2분 (120초)
         function updateTimer() {
@@ -308,7 +308,7 @@
     	clearInterval(timerInterval);
         emailCheck(); // 이메일 인증 코드 재발급 요청
     }
-    
+    */
     window.onload = function(){
     	document.getElementById('userId').addEventListener('click',function(){
     		uidCheckSw = 0;
@@ -318,6 +318,7 @@
     		nickCheckSw = 0;
     		$("#nickNameBtn").removeAttr("disabled");
     	});
+    	/*
       	document.getElementById('email1').addEventListener('click',function(){
     		emailCheckSw = 0;
         	clearInterval(timerInterval);
@@ -330,7 +331,7 @@
             document.getElementById("confirmCodeSection").style.display = 'none';
     		$("#emailCheckBtn").removeAttr("disabled");
     	});
-      	
+      	*/
       	//document.getElementById('file').addEventListener('change', previewImage);
     }
     
@@ -352,15 +353,29 @@
         }
     }
   </script>
+  <style>
+	.box {
+	  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+	  transition: 0.3s;
+	}
+	.box:hover {
+	  background-color: #dbe4e6;
+	}
+  	div .invalid-feedback {
+  		font-size: 13px;
+  	}
+  	select {
+  		font-size: 16px;
+  	}
+  </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
-<p><br/></p>
-	<section class="login first grey">
+	<section class="register first grey">
 		<div class="container">
 			<div class="box-wrapper">				
-				<div class="box box-border">
+				<div class="box box-border" style="width:700px;">
 					<div class="box-body">
 						<h4 class="text-center">회 원 가 입</h4>
 						<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
@@ -404,8 +419,8 @@
 						      <label for="email1"><i class="fa-solid fa-caret-right"></i> 이메일</label>
 						        <div class="input-group">
 									<input type="text" id="email1" name="email1" class="form-control mr-2" placeholder="이메일 주소를 입력하세요." required />
-									<span style="font-size:1.2em;">@</span>
-									<select id="email2" name="email2" class="ml-2">
+									<span style="font-size:1.1em;">@</span>
+									<select id="email2" name="email2" class="ml-2" style="width:120px;">
 										<option value="naver.com" selected>naver.com</option>
 										<option value="gmail.com">gmail.com</option>
 										<option value="daum.net">daum.net</option>
@@ -466,13 +481,13 @@
 								<div class="input-group d-flex justify-content-between">
 								    <label><i class="fa-solid fa-caret-right"></i> 홈페이지 가입 목적(선택)</label>
 								    <select class="form-select" id="registerWay" name="registerWay">
-								        <option value="null">미선택</option>
-								        <option value="info">알레르기 정보 취득</option>
-								        <option value="me">본인의 알레르기</option>
-								        <option value="family">자녀 또는 가족의 알레르기</option>
-								        <option value="enviro">환경에 대한 관심</option>
-								        <option value="buy">알레르기 물품 구입</option>
-								        <option value="ext">기타</option>
+								        <option value="미선택" selected>미선택</option>
+								        <option value="정보 취득">정보 취득</option>
+								        <option value="본인의 알레르기">본인의 알레르기</option>
+								        <option value="자녀 혹은 주변인의 알레르기">자녀 혹은 주변인의 알레르기</option>
+								        <option value="환경에 대한 관심">환경에 대한 관심</option>
+								        <option value="알레르기 물품 구입">물품 구입</option>
+								        <option value="기타">기타</option>
 								    </select>
 							    </div>
 							</div>

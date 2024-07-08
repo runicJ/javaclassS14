@@ -74,17 +74,17 @@
 				<div class="box-body">
 					<h4>비밀번호 찾기</h4>
 					<form method="post">
-						<div class="form-group">
-							<span>아이디 : </span>
-							<input type="text" name="userId" id="userId" class="input-form">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend"><span class="input-group-text">아이디</span></div>
+							<input type="text" name="userId" id="userId" class="form-control">
 						</div>
-						<div class="form-group">
-							<span>이메일 : </span>
-							<input type="email" name="email" id="email" class="input-form">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend"><span class="input-group-text">이메일</span></div>
+							<input type="email" name="email" id="email" class="form-control">
 						</div>
 						<div class="text-center">
 							<!-- <button type="button" class="btn btn-info mt-3 mr-2" onclick="userFindPw()">임시 비밀번호 발급</button> -->
-							<!-- <a type="button" tabindex="0" class="btn btn-info mt-3 mr-2" onclick="userFindPw()">임시 비밀번호 발급</a> -->
+							<!-- <a type="button" tabindex="0" class="btn btn-info mt-3 mr-2" onclick="userFindPw()">임시 비밀번호 발급</a> -->  <!-- submit으로 하면 {res : 0} 형식으로 넘어오고, 모달은 a태그 사용해야함 -->
 							<input type="button" class="btn btn-info mt-3 mr-2" value="임시 비밀번호 발급" onclick="userFindPw();">
 							<button class="btn btn-danger mt-3" onclick="window.close();">취소</button>
 						</div>

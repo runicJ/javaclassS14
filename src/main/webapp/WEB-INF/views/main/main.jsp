@@ -12,12 +12,6 @@
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<script>
 		'use strict';
-	    
-		window.onload(function() {
-			if(${sLogin == "Ok"}) {
-				alert("현재 임시비밀번호를 발급하여 메일로 전송처리 되어 있습니다.\n개인정보를 확인하시고, 비밀번호를 새로 변경해 주세요!")
-			}
-		})
 	</script>
 </head>
 <body class="skin-orange">

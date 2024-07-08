@@ -65,19 +65,25 @@
   	    }
   	    
   	    function popupFindId() {
-	  	    let popupX = Math.round(window.screenX + (window.outerWidth/2) - (500/2));
-	  	    let popupY = Math.round(window.screenY + (window.outerHeight/2) - (550/2));
-	  	  	let popOption = "width=500px, height=550px, left=:"+popupX+", top="+popupY;
-	  	  	let openUrl = '${ctp}/users/userFindId';
-  	    	window.open(openUrl, 'popup', popOption);	
+  	    	let popName = "popId"
+  	    	let popWidth = 500;
+  	    	let popHeight = 550;
+	  	    let popupX = Math.round((window.screen.width/2) - (popWidth/2));
+	  	    let popupY = Math.round((window.screen.height/2) - (popHeight/2));
+	  	  	let popOpt = "width=" + popWidth + ", height=" + popHeight + ", left=" + popupX + ", top=" + popupY;
+	  	  	let popUrl = "${ctp}/users/userFindId";
+  	    	window.open(popUrl, popName, popOpt);	
   	    }
   	    
   	    function popupFindPw() {
-	  	    let popupX = Math.round(window.screenX + (window.outerWidth/2) - (500/2));
-	  	    let popupY = Math.round(window.screenY + (window.outerHeight/2) - (550/2));
-	  	  	let popOption = "width=500px, height=550px, left=:"+popupX+", top="+popupY;
-  		    let openUrl = '${ctp}/users/userFindPw';
-  	    	window.open(openUrl, 'popup', popOption);	
+  	    	let popName = "popPw"
+  	    	let popWidth = 500;
+  	    	let popHeight = 550;
+	  	    let popupX = Math.round((window.screen.width/2) - (popWidth/2));
+	  	    let popupY = Math.round((window.screen.height/2) - (popHeight/2));
+	  	  	let popOpt = "width=" + popWidth + ", height=" + popHeight + ", left=" + popupX + ", top=" + popupY;
+	  	  	let popUrl = "${ctp}/users/userFindPw";
+  	    	window.open(popUrl, popName, popOpt);	
   	    }
   	</script>
 </head>
@@ -107,7 +113,7 @@
 								<button class="btn btn-primary btn-block" onclick="location.href='${ctp}/users/userLogin';">로그인</button>
 							</div>
 							<div class="form-group">
-					    		<input type="checkbox" id="idSave" name="idSave" checked /> 아이디 저장
+					    		<input type="checkbox" id="idSave" name="idSave" checked /><span style="font-size:0.8em;"> 아이디 저장</span>
 								<p class="float-right"><span class="text-muted mr-2" style="font-size:0.8em;">아직 계정이 없으신가요? </span><a class="p-1" href="${ctp}/users/userRegister" style="border:1px solid #ccc;box-shadow: 0px 0px 2px #444;background-color:#fff;">회원가입</a></p>
 							</div>
 							<p><br></p>

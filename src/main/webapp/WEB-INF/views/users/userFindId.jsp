@@ -31,26 +31,17 @@
 		});
 		
 		function userFindId() {
-			let name = $('#name').val().trim();
-			let email = $('#email').val().trim();
+			let name = $('#name').val();
+			let email = $('#email').val();
 			
-			if (name == "" || email == "") {
+			if (name.trim() == "" || email.trim() == "") {
 				alert("이름과 이메일을 입력하세요.");
-				//return false;
-				//location.reload();
-				//return;
-				//userFindId();
-				//$("#name").focus();
-				//location.reload();
-				//userFindId();
-				//return false;
-				//window.close();
+				return false;
 			}
 			
 			$.ajax({
 				url : "${ctp}/users/userFindId",
 				type : "post",
-				/* dataType: "json", */
 				data : {
 					name : name,
 					email : email
@@ -63,18 +54,15 @@
 						let maskingId = userId.substring(0, blurLength) + '*'.repeat(userId.length - blurLength);
 						alert("회원 아이디: " + maskingId + " (가입일: " + createDate + ")");
 						window.close(); // 현재 창 닫기
-						opener.location.href = "${ctp}/users/userLogin"; // 부모 창을 로그인 페이지로
-						//window.opener.location.reload();
+						//opener.location.href = "${ctp}/users/userLogin"; // 부모 창을 로그인 페이지로
+						window.opener.location.reload();
 					} 
 					else {
-					//else if(resMap.res == "0")
 						alert("입력하신 정보와 일치하는 계정이 존재하지 않습니다.\n회원정보를 확인해주세요!");
 						$('#name').focus();
-						location.reload();
-						userFindId();
-						/* $('#name').val("");
+						$('#name').val("");
 						$('#email').val("");
-						$('#name').focus(); */
+						$('#name').focus();
 					}
 				},
 				error: function() {
@@ -92,16 +80,16 @@
 				<div class="box-body">
 					<h4>아이디 찾기</h4>
 					<form name="myform" method="post">
-						<div class="form-group">
-							<span>이 름 : </span>
-							<input type="text" name="name" id="name" class="input-form">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend"><span class="input-group-text"> 이 름 </span></div>
+							<input type="text" name="name" id="name" class="form-control">
 						</div>
-						<div class="form-group">
-							<span>이메일 : </span>
-							<input type="email" name="email" id="email" class="input-form">
+						<div class="input-group mb-3">
+							<div class="input-group-prepend"><span class="input-group-text">이메일</span></div>
+							<input type="email" name="email" id="email"class="form-control">
 						</div>
 						<div class="text-center">
-							<button class="btn btn-info mt-3 mr-2" onclick="userFindId()">아이디 검색</button>
+							<input type="button" class="btn btn-info mt-3 mr-2" value="아이디 검색" onclick="userFindId()">
 							<!-- <button type="submit" class="btn btn-info mt-3 mr-2">아이디 검색</button> -->
 							<button class="btn btn-danger mt-3" onclick="window.close();">취소</button>
 						</div>

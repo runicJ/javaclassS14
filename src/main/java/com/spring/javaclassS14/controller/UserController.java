@@ -138,10 +138,6 @@ public class UserController {
 			@RequestParam(name="idSave", defaultValue="off", required = false) String idSave
 		) {
 		UserVO vo = userService.getUserIdCheck(userId);
-		System.out.println("userId : "+ userId);
-		System.out.println("userPwd : "+ userPwd);
-		System.out.println("vo : "+ vo);
-		System.out.println("idSave : "+ idSave);
 		
 		if(vo != null && passwordEncoder.matches(userPwd, vo.getUserPwd())) {
 			String strLevel = "";
@@ -321,4 +317,6 @@ public class UserController {
 		}
 		return "0";
 	}
+	
+	
 }

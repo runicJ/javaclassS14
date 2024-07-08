@@ -1,5 +1,7 @@
 package com.spring.javaclassS14.dao;
 
+import java.util.ArrayList;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS14.vo.UserVO;
@@ -13,5 +15,7 @@ public interface AdminDAO {
 	public UserVO getUserEmailCheck(@Param("email") String email);
 
 	public int setUserRegisterOk(@Param("vo") UserVO vo);
+
+	public ArrayList<UserVO> getUserList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
 }

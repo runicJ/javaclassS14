@@ -7,9 +7,17 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>adminMain</title>
+	<link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css">
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"></script>
+	<link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/df66332deb.js" crossorigin="anonymous"></script>
+	<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
+	<script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
     <link href="${ctp}/css/admin/c3.min.css" rel="stylesheet">
     <link href="${ctp}/css/admin/chartist.min.css" rel="stylesheet">
-    <link href="${ctp}/css/admin/jquery-jvectormap-2.0.2.css" rel="stylesheet" />
     <link href="${ctp}/css/admin/style.min.css" rel="stylesheet">
 </head>
 <body>
@@ -221,11 +229,11 @@
                                     class="hide-menu"> 회원 관리
                                 </span></a>
                             <ul aria-expanded="false" class="collapse first-level base-level-line">
-                                <li class="sidebar-item"><a href="icon-fontawesome.html" class="sidebar-link"><span
-                                            class="hide-menu"> 회원 리스트 </span></a></li>
+                                <li class="sidebar-item"><a href="${ctp}/admin/userList" class="sidebar-link"><span
+                                            class="hide-menu"> 현재 회원 리스트 </span></a></li>
 
                                 <li class="sidebar-item"><a href="icon-simple-lineicon.html" class="sidebar-link"><span
-                                            class="hide-menu"> 회원 상세 정보 </span></a></li>
+                                            class="hide-menu"> 탈퇴 회원 정보 </span></a></li>
                             </ul>
                         </li>
                         <li class="sidebar-item">
@@ -842,9 +850,7 @@
     <!-- End Wrapper -->
     <!-- ============================================================== -->
 <p><br/></p>
-	<script src="${ctp}/js/admin/jquery.min.js"></script>
-    <script src="${ctp}/js/admin/popper.min.js"></script>
-    <script src="${ctp}/js/admin/bootstrap.min.js"></script>
+    <%-- <script src="${ctp}/js/admin/popper.min.js"></script> --%>
     <script src="${ctp}/js/admin/app-style-switcher.js"></script>
     <script src="${ctp}/js/admin/feather.min.js"></script>
     <script src="${ctp}/js/admin/perfect-scrollbar.jquery.min.js"></script>
@@ -854,8 +860,6 @@
     <script src="${ctp}/js/admin/c3.min.js"></script>
     <script src="${ctp}/js/admin/chartist.min.js"></script>
     <script src="${ctp}/js/admin/chartist-plugin-tooltip.min.js"></script>
-    <script src="${ctp}/js/admin/jquery-jvectormap-2.0.2.min.js"></script>
-    <script src="${ctp}/js/admin/jquery-jvectormap-world-mill-en.js"></script>
     <script src="${ctp}/js/admin/dashboard1.min.js"></script>
 </body>
 </html>
