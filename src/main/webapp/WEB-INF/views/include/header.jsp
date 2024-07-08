@@ -17,7 +17,7 @@
 					<form class="search" autocomplete="off">
 						<div class="form-group">
 							<div class="input-group">
-								<input type="text" name="q" class="form-control" placeholder="당신의 걱정을 털어내세요">									
+								<input type="text" name="q" class="form-control" placeholder="당신의 걱정을 덜어내세요">									
 								<div class="input-group-btn">
 									<button class="btn btn-primary"><i class="ion-search"></i></button>
 								</div>

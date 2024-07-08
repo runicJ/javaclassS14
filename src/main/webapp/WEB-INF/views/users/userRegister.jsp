@@ -8,16 +8,17 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>userRegister</title>
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-	<script src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"></script>
-  	<script src="${ctp}/js/woo.js"></script>
-  	 <script>
+ <script>
     'use strict';
     
     let uidCheckSw = 0;
     let nickCheckSw = 0;
     let emailCheckSw = 0;
-   	
-    function fCheck() {
+    let timerInterval;
+    
+    function fCheck(event) {
+    	event.preventDefault();  // 페이지가 새로고침 되는 것을 막음?
+    	
     	let userId = myform.userId.value.trim();
     	let userPwd = myform.userPwd.value.trim();
     	let pwdCheck = myform.pwdCheck.value.trim();
@@ -34,11 +35,8 @@
        	let tel3 = myform.tel3.value.trim();
        	let tel = tel1 + "-" + tel2 + "-" + tel3;
     	
-    	//alert("email1 : " + email);
-    	//alert("tel1 : " + tel);
-    	
 		let regUid = /^[a-zA-Z0-9_-]{4,20}$/;
-        //let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
+        let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
 		let regName = /^[가-힣a-zA-Z]+$/;
 	    let regNickName = /^[a-zA-Z0-9가-힣]+$/;
 	    let regTel = /^010-\d{3,4}-\d{4}$/;
@@ -49,7 +47,7 @@
 			myform.userId.focus();
 			return false;
 		}
-		else if(!regUid.test(userId)) {
+		if(!regUid.test(userId)) {
     		alert("아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.");
     		myform.userId.focus();
     		return false;
@@ -60,13 +58,12 @@
 	        myform.userPwd.focus();
 			return false;
 		}
-		/*
-		else if(!regPwd.test(userPwd)) {
+
+		if(!regPwd.test(userPwd)) {
 	        alert("비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.");
 	        myform.userPwd.focus();
 	        return false;
       	}
-		*/
 		
     	if(pwdCheck == "" || pwdCheck != userPwd) {
     		alert("입력하신 비밀번호와 일치하지 않습니다. 비밀번호를 확인해 주세요.");
@@ -79,7 +76,7 @@
 			myform.name.focus();
 			return false;
 		}
-		else if(!regName.test(name)) {
+		if(!regName.test(name)) {
 			alert("이름은 한글과 영문 대/소문자만 사용가능합니다.");
 			myform.name.focus();
 			return false;
@@ -90,52 +87,43 @@
 			$("#nickName").focus();
 			return false;
 		}
-		else if(!regNickName.test(nickName)) {
+		if(!regNickName.test(nickName)) {
 			alert("닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.");
 			myform.nickName.focus();
 			return false;
 		}
 		
-    	//alert("email2 : " + email);
-    	//alert("tel2 : " + tel);
-    	
   		if(tel2 == "" || tel3 == "") {
 			alert("전화번호를 입력하세요");
 			myform.tel2.focus();
 			return false;
   		}
-  		else if(!regTel.test(tel)) {
+  		if(!regTel.test(tel)) {
 			alert("올바른 전화번호 형식을 입력하세요");
 			myform.tel2.focus();
 			return false;
   		}
     	
-  		//alert("1email : " + email);
-  		
   		if(email1 == "") {
 			alert("이메일을 입력하세요");
 			myform.tel2.focus();
 			return false;
   		}
-  		else if (!regEmail.test(email)) {
+  		if (!regEmail.test(email)) {
 	        alert("올바른 이메일 주소를 입력하세요.");
 	        myform.email1.focus();
 	        return false;
 	    }
-  		//alert("2email : " + email);
   		
   		let fName = document.getElementById("file").value;
-  		
-  		if(fName.trim() != "") {
+  		if (fName.trim() != "") {
   			let ext = fName.substring(fName.lastIndexOf(".")+1).toLowerCase(); 
 	  		let maxSize = 1024 * 1024 * 10;
-	  		let fileSize = document.getElementById("file").files[0].size;
-	  		
-	  		if(ext != 'jpg' && ext != 'gif' && ext != 'png' && ext != 'jpeg') {
+			if(!['jpg','jpeg','png','gif'].includes(ext)) {
 	  			alert("JPG, JPEG, PNG, GIF 파일만 업로드 가능합니다.");
 	  			return false;
 	  		}
-	  		else if(fileSize > maxSize) {
+	  		if(document.getElementById("file").files[0].size > maxSize) {
 	  			alert("업로드할 파일의 최대용량은 10Mbyte입니다.");
 	  			return false;
 	  		}	  			
@@ -151,19 +139,16 @@
     		document.getElementById("nickNameBtn").focus();
     		return false;
     	}
-    	/*
+
         if (emailCheckSw == 0) {
             alert("이메일 중복체크 버튼을 눌러주세요");
             document.getElementById("emailCheckSw").focus();
             return false;
         }
-    	*/
 
-		//alert("email2 : " + email);
 		myform.email.value = email;
-		//alert("email3 : " + email);
 		myform.tel.value = tel;
-
+		
 		myform.submit();
     }
 		
@@ -229,7 +214,6 @@
     	}
     }
     
-    /*
     function emailCheck() {
 		let email1 = myform.email1.value;
 		let email2 = myform.email2.value;
@@ -249,10 +233,11 @@
               myform.email1.focus();
             } 
             else {
-              alert("사용 가능한 이메일입니다. 회원가입을 진행합니다.");
-              emailCheckSw = 1;
-              $("#emailCheckBtn").attr("disabled", true);
-				myform.email1.focus();
+                alert("사용 가능한 이메일입니다. 인증 코드를 발송했습니다.");
+                emailCheckSw = 1;
+                $("#emailCheckBtn").attr("disabled", true);
+                confirmCodeSection.style.display = 'block';
+                emailCheckTimer(); // 타이머 시작
             }
           },
           error: function() {
@@ -261,7 +246,68 @@
         });
       }
     }
-    */
+
+    function emailCheckTimer() {
+        let timeLeft = 2 * 60; // 2분 (120초)
+        function updateTimer() {
+	        let min = Math.floor(timeLeft / 60);
+	        let sec = timeLeft % 60;
+	        if(sec < 10) sec = '0' + sec;
+	        document.getElementById("timer").innerText = min + " : " + sec;
+
+            if (timeLeft >= 0) {
+	            timeLeft--;
+            }
+            else {
+                clearInterval(timerInterval);
+                alert("이메일 인증 시간이 초과되었습니다. 다시 시도해 주세요.");
+                $("#emailCheckBtn").removeAttr("disabled");
+                document.getElementById("confirmCodeSection").style.display = 'none';
+            }
+        }
+        updateTimer();
+        timerInterval = setInterval(updateTimer, 1000);
+    }
+
+    function confirmCodeCheck() {
+        let email1 = myform.email1.value.trim();
+        let email2 = myform.email2.value;
+        let email = email1 + "@" + email2;
+        let checkKey = document.getElementById("confirmCode").value.trim();
+
+        if (!checkKey) {
+            alert("인증 코드를 입력하세요!");
+            document.getElementById("confirmCode").focus();
+            return;
+        }
+
+        $.ajax({
+            url: "${ctp}/users/confirmCodeCheck",
+            type: "get",
+            data: { 
+                email: email, 
+                checkKey: checkKey 
+            },
+            success: function(res) {
+                if (res != '0') {
+                    alert("이메일 인증이 완료되었습니다.");
+                    clearInterval(timerInterval); // 타이머 정지
+                    document.getElementById("confirmCodeSection").style.display = 'none';
+                } 
+                else {
+                    alert("인증 코드가 일치하지 않습니다. 다시 확인해 주세요.");
+                }
+            },
+            error: function() {
+                alert("전송 오류!");
+            }
+        });
+    }
+
+    function confirmCodeReCheck() {
+    	clearInterval(timerInterval);
+        emailCheck(); // 이메일 인증 코드 재발급 요청
+    }
     
     window.onload = function(){
     	document.getElementById('userId').addEventListener('click',function(){
@@ -274,19 +320,24 @@
     	});
       	document.getElementById('email1').addEventListener('click',function(){
     		emailCheckSw = 0;
+        	clearInterval(timerInterval);
+            document.getElementById("confirmCodeSection").style.display = 'none';
     		$("#emailCheckBtn").removeAttr("disabled");
     	});
       	document.getElementById('email2').addEventListener('change',function(){
       		emailCheckSw = 0;
+        	clearInterval(timerInterval);
+            document.getElementById("confirmCodeSection").style.display = 'none';
     		$("#emailCheckBtn").removeAttr("disabled");
     	});
+      	
+      	//document.getElementById('file').addEventListener('change', previewImage);
     }
     
     function previewImage() {
         let file = document.getElementById("file").files[0];
         let preview = document.getElementById("imageDemo");
         let modalImage = document.getElementById("modalImage");
-
         if (file) {
             let imageURL = URL.createObjectURL(file);
             preview.src = imageURL;
@@ -295,7 +346,8 @@
             preview.onload = function() {
                 URL.revokeObjectURL(preview.src);
             };
-        } else {
+        }
+        else {
             preview.style.display = 'none';
         }
     }
@@ -310,15 +362,15 @@
 			<div class="box-wrapper">				
 				<div class="box box-border">
 					<div class="box-body">
-						<h4 class="text-center">회원가입</h4>
+						<h4 class="text-center">회 원 가 입</h4>
 						<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="uid"><i class="fa-solid fa-caret-right"></i> 아이디</label>
 								<div class="input-group">
 									<input type="text" name="userId" id="userId" class="form-control" placeholder="아이디를 입력하세요" required autofocus>
 									<input type="button" value="아이디 중복체크" id="uidBtn" class="input-group-append btn btn-info btn-sm" onclick="idCheck()"/>
+									<div class="invalid-feedback">아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.</div>
 								</div>
-								<p class="invalid-feedback">아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.</p>
 							</div>
 							
 							<div class="form-group">
@@ -330,6 +382,7 @@
 							<div class="form-group">
 								<label class="fw" for="pwdCheck"><i class="fa-solid fa-caret-right"></i> 비밀번호 확인</label>
 								<input type="password" name="pwdCheck" id="pwdCheck" class="form-control" placeholder="동일한 비밀번호를 입력하세요" required>
+							    <div class="invalid-feedback">입력하신 비밀번호와 일치하지 않습니다. 비밀번호를 확인해 주세요.</div>
 							</div>
 							
 							<div class="form-group">
@@ -343,14 +396,14 @@
 								<div class="input-group">
 									<input type="text" name="nickName" id="nickName" class="form-control" required>
 									<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="input-group-append btn btn-info btn-sm" onclick="nickCheck()"/>
+									<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
 								</div>
-								<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
 							</div>
 						    
 						    <div class="form-group">
 						      <label for="email1"><i class="fa-solid fa-caret-right"></i> 이메일</label>
 						        <div class="input-group">
-									<input type="text" id="email1" name="email1" class="form-control mr-2" placeholder="이메일 주소를 입력하세요." />
+									<input type="text" id="email1" name="email1" class="form-control mr-2" placeholder="이메일 주소를 입력하세요." required />
 									<span style="font-size:1.2em;">@</span>
 									<select id="email2" name="email2" class="ml-2">
 										<option value="naver.com" selected>naver.com</option>
@@ -359,9 +412,22 @@
 									</select>
 									<input type="button" value="이메일 중복체크" id="emailCheckBtn" class="input-group-append btn btn-info btn-sm" onclick="emailCheck()"/>
 						        </div>
-						        <div class="invalid-feedback">유효한 이메일 주소를 입력해주세요.</div>
 						    </div>
 						    
+							<div id="confirmCodeSection" style="display:none;">
+							    <div class="form-group">
+							    	<div class="m-0 p-0">
+								        <label for="confirmCode" style="font-size:1.1em;">인증코드 확인</label>
+										<p class="float-right" id="timer" style="font-size:1.1em; color:red;"></p>
+									</div>
+							        <div class="input-group">
+							            <input type="text" id="confirmCode" name="confirmCode" class="form-control" placeholder="인증 코드를 입력하세요." />
+							            <input type="button" value="인증코드 제출" id="confirmCodeBtn" class="btn btn-info btn-sm" onclick="confirmCodeCheck()" />
+							            <input type="button" value="인증코드 재발급" id="confirmCodeReBtn" class="input-group-append btn btn-danger btn-sm" onclick="confirmCodeReCheck()" />
+							        </div>
+							    </div>
+							</div>
+							
 							<div class="form-group">
 								<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
 								<div class="input-group">
@@ -375,7 +441,6 @@
 							        <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
 							        <input type="text" id="tel3" name="tel3" size=4 maxlength=4 class="form-control" required />
 							    </div>
-							    <div class="invalid-feedback">유효한 핸드폰 번호를 입력해주세요.</div>
 							</div>
 							
 							<div class="form-group">
@@ -422,7 +487,7 @@
 							    </div>
 							</div>
 							<div class="form-group text-right">
-								<button class="btn btn-primary btn-block" onclick="fCheck()">회원가입</button>
+								<button class="btn btn-primary btn-block" onclick="fCheck(event)">회원가입</button>
 							</div>
 							<div class="form-group d-flex float-right">
 								<span class="text-muted mr-3" style="font-size:0.8em;">이미 계정이 있으신가요?</span><a href="${ctp}/users/userLogin">로그인 페이지로</a>

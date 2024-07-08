@@ -20,4 +20,6 @@ public interface UserService {
 
 	public void setKakaoUserInput(String userId, String pwd, String nickName, String email);
 
+	public void setUserPwdUpdate(String userId, String tempPwd);
+
 }

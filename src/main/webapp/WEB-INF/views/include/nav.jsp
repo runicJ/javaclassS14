@@ -7,7 +7,7 @@
 		<div class="container">
 			<div class="brand">
 				<a href="${ctp}/main">
-					<img src="${ctp}/images/logo.png" alt="logo" style="height:50px;width:auto;">
+					<img src="${ctp}/images/logo.png" alt="logo" style="height:40px;width:auto;margin-top:8px;">
 				</a>
 			</div>
 			<div class="mobile-toggle">
@@ -30,7 +30,7 @@
 							<li><a href="${ctp}/">지점위치</a></li>
 						</ul>
 					</li>
-					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <div class="badge">인기</div></a>
+					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <span class="badge">인기</span></a>
 						<div class="dropdown-menu megamenu">
 							<div class="megamenu-inner">
 								<div class="row">
@@ -196,7 +196,7 @@
 							<li><a href="#"><i class="icon ion-key"></i>회원정보수정</a></li>
 							<li><a href="#"><i class="icon ion-settings"></i>설정변경</a></li>
 							<li class="divider"></li>
-							<li><a href="#"><i class="icon ion-log-out"></i>로그아웃</a></li>
+							<li><a href="${ctp}/users/userLogout"><i class="icon ion-log-out"></i>로그아웃</a></li>
 						</ul>
 					</li>
 					</c:if>

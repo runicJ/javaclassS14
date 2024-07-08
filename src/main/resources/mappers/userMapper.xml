@@ -26,4 +26,9 @@
 	<insert id="setKakaoUserInput">
 		insert into users (userId, userPwd, nickName, name, email) values (#{userId},#{userPwd},#{nickName},#{nickName},#{email});
 	</insert>
+	
+	
+	<update id="setUserPwdUpdate">
+		update users set userPwd=#{userPwd} where userId=#{userId};
+	</update>
 </mapper>

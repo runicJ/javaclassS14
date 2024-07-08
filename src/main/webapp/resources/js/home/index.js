@@ -133,7 +133,7 @@ new Swiper('#projects .swiper-container', {
               opacity:1,
               background:'rgb(245,245,245)',
               border:'none',
-              innerHTML:'view <br> project'
+              innerHTML:'Click<br>me'
              })
              gsap.to( $cursortwo,{
               scale:0,

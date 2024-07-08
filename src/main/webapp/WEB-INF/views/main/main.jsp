@@ -8,10 +8,16 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>Home</title>
+	<link rel="icon" type="image/png" href="images/favicon-mark.png">
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
 	<script>
 		'use strict';
-		
+	    
+		window.onload(function() {
+			if(${sLogin == "Ok"}) {
+				alert("현재 임시비밀번호를 발급하여 메일로 전송처리 되어 있습니다.\n개인정보를 확인하시고, 비밀번호를 새로 변경해 주세요!")
+			}
+		})
 	</script>
 </head>
 <body class="skin-orange">
@@ -240,7 +246,7 @@
 									</div>
 								</div>
 							</h1>
-							<div class="body-col vertical-slider" data-max="4" data-nav="#hot-news-nav" data-item="article">
+							<div class="body-col vertical-slider" data-max="5" data-nav="#hot-news-nav" data-item="article">
 								<article class="article-mini">
 									<div class="inner">
 										<figure>
@@ -473,11 +479,11 @@
 										</div>
 										<div class="featured-author-center">
 											<figure class="featured-author-picture">
-												<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
+												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
 											</figure>
 											<div class="featured-author-info">
-												<h2 class="name">John Doe</h2>
-												<div class="desc">@JohnDoe</div>
+												<h2 class="name">${!empty sUid ? sNickName : '입문자'}</h2>
+												<div class="desc">@${!empty sUid ? sUid : 'guest'}</div>
 											</div>
 										</div>
 									</div>
@@ -532,43 +538,45 @@
 						</div>
 					</aside>
 					<aside>
-						<h1 class="aside-title">상단 뉴스 목록 <a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a></h1>
-						<div class="aside-body">
-						<c:if test="${!empty naverVos}">
-						<c:forEach var="i" begin="0" end="5" varStatus="st">
-							<article class="article-mini">
-								<div class="inner">
-									<figure><a style="object-fit:contain;">${naverVos[i].item2}</a></figure>
-									<div class="padding">
-										<h1><input type="hidden" onclick="${naverVos[i].item3}" value="${naverVos[i].item1}"></h1>
-										<span style="font-size:0.7em;">${naverVos[i].item4}</span>
-									</div>
+						<h1 class="aside-title">상단 뉴스 목록 
+							<div class="carousel-nav" id="hot-news-nav">
+								<div class="prev">
+									<i class="ion-ios-arrow-left"></i>
 								</div>
-							</article>
-						</c:forEach>
+								<div class="next">
+									<i class="ion-ios-arrow-right"></i>
+								</div>
+							</div>
+						</h1>
+						<div class="aside-body vertical-slider" data-max="5" data-nav="#hot-news-nav" data-item="article">
+						<c:if test="${!empty naverVos}">
+						<c:forEach var="naverVo" items="${naverVos}" varStatus="st">
+					        <c:if test="${st.index % 6 == 0}">
+			                    <div class="news-group">
+			                        <c:forEach var="innerVo" items="${naverVos}" varStatus="innerSt" begin="${st.index}" end="${st.index + 4}">
+			                            <article class="article-mini">
+			                                <div class="inner">
+			                                    <figure><a style="object-fit:fill;">${innerVo.item2}</a></figure>
+			                                    <div class="padding">
+			                                        <h1><a href="${innerVo.itemUrl}" target="_blank">${innerVo.item1}</a></h1>
+			                                        <div class="detail">
+														<div class="category"><a href="category.html">Lifestyle</a></div>
+														<div class="time">${innerVo.item4}</div>
+													</div>
+			                                    </div>
+			                                </div>
+			                            </article>
+			                        </c:forEach>
+			                    </div>
+			                </c:if>
+					    </c:forEach>
 						</c:if>
 						<c:if test="${empty naverVos}">
 							<p>spinner</p>
 							<span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(네트워크 '수리중'일 수 있습니다.)</span>
 						</c:if>
 						</div>
-					</aside>
-					<aside>
-						<div class="aside-body">
-							<form class="newsletter">
-								<div class="icon">
-									<i class="ion-ios-email-outline"></i>
-									<h1>인기 급상승 키워드</h1>
-								</div>
-								<div class="input-group">
-									<input type="email" class="form-control email" placeholder="Your mail">
-									<div class="input-group-btn">
-										<button class="btn btn-primary"><i class="ion-paper-airplane"></i></button>
-									</div>
-								</div>
-								<p>By subscribing you will receive new articles in your email.</p>
-							</form>
-						</div>
+						<span class="float-right"><a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a></span>
 					</aside>
 					<aside>
 						<ul class="nav nav-tabs nav-justified" role="tablist">

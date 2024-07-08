@@ -1,55 +1,101 @@
 <?xml version="1.0" encoding="UTF-8"?><project-modules id="moduleCoreId" project-version="1.5.0">
+<<<<<<< HEAD
                         	
     
+=======
+                            	
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
     
     
     
     
+<<<<<<< HEAD
     <wb-module deploy-name="javalclassS14-1.0.0-BUILD-SNAPSHOT">
                                                 		
+=======
+    
+    
+    <wb-module deploy-name="javaclassS14-1.0.0-BUILD-SNAPSHOT">
+                                                        		
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
         
+<<<<<<< HEAD
+=======
+        
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
         
         
         
         
         <wb-resource deploy-path="/" source-path="/src/main/webapp" tag="defaultRootSource"/>
+<<<<<<< HEAD
                                                 		
+=======
+                                                        		
+        
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
         
         
         
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/java"/>
+<<<<<<< HEAD
                                                 		
+=======
+                                                        		
+        
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
         
         
         
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/src/main/resources"/>
+<<<<<<< HEAD
                                                 
+=======
+                                                        
+        
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
         
         
         
         
         <wb-resource deploy-path="/WEB-INF/classes" source-path="/target/generated-sources/annotations"/>
+<<<<<<< HEAD
                                                 		
+=======
+                                                        		
+        
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
         
         
         
         
         
         <property name="java-output-path" value="target/classes"/>
+<<<<<<< HEAD
                 
         <property name="context-root" value="javalclassS14"/>
                                                 	
+=======
+        <property name="context-root" value="javaclassS14"/>
+                                                        	
+    
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
     
     
     
     
     
     </wb-module>
+<<<<<<< HEAD
                         
+=======
+                            
+
+>>>>>>> branch 'main' of https://github.com/runicJ/javaclassS14.git
 
 
 
