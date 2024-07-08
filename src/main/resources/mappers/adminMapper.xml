@@ -1,15 +1,9 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.AdminDAO">
-<!-- 
-	<select id="getMemberList" resultType="com.spring.javaclassS.vo.MemberVO">
-		<if test="level == 99">select *, timestampdiff(day, lastDate, now()) as deleteDiff from member2 order by mid limit #{startIndexNo},#{pageSize};</if>
-		<if test="level == 999">select *, timestampdiff(day, lastDate, now()) as deleteDiff from member2 where userDel='OK' order by mid limit #{startIndexNo},#{pageSize};</if>
-		<if test="level != 99 and level != 999">select *, timestampdiff(day, lastDate, now()) as deleteDiff from member2 where level = #{level} order by mid limit #{startIndexNo},#{pageSize};</if>
-	</select>
- -->
- 
+
  	<select id="getUserList" resultType="com.spring.javaclassS14.vo.UserVO">
  		select * from users order by userIdx desc limit #{startIndexNo},#{pageSize};
  	</select>
+ 	
 </mapper>

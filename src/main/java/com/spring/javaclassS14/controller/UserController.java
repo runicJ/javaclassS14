@@ -318,5 +318,10 @@ public class UserController {
 		return "0";
 	}
 	
+	// 로그아웃 처리
+	@RequestMapping(value="/userMain", method=RequestMethod.GET)
+	public String userMainGet() {
+		return "users/userMain";
+	}
 	
 }
