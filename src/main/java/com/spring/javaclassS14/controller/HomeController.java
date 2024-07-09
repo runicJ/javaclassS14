@@ -63,7 +63,7 @@ public class HomeController {
 		}
 		
 		ArrayList<String> imageVos = new ArrayList<String>();
-		selects = document.select("a.dsc_thumb img");
+		selects = document.select("a.dsc_thumb");
 		for(Element select : selects) {
 			imageVos.add(select.toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
 		}

@@ -40,6 +40,18 @@
 		.box:hover {
 		  background-color: #dbe4e6;
 		}
+		
+		@media screen and (min-width:992px) {
+			div.box.box-border {
+				margin:0 auto;
+				width:700px;
+				padding: 40px;
+			}
+			.box-body h4 {
+				font-size: 30px;
+				margin-bottom:50px;
+			}
+		}
   	</style>
   	<script>
   		'use strict';
@@ -91,52 +103,50 @@
 <%@ include file = "/WEB-INF/views/include/header.jsp"%>
 <%@ include file = "/WEB-INF/views/include/nav.jsp"%>
 	<section class="login first grey">
-		<div class="container">
-			<div class="box-wrapper">				
-				<div class="box box-border">
-					<div class="box-body">
-						<h4 class="text-center">로그인</h4>
-						<form name="myform" method="post">
-							<div class="form-group">
-								<label class="fw">아이디
-									<a onclick="popupFindId();" class="float-right" style="cursor:pointer;">아이디를 잊으셨나요?</a>
-								</label>
-								<input type="text" name="userId" id="userId" value="admin" class="form-control">
-							</div>
-							<div class="form-group">
-								<label class="fw">비밀번호
-									<a onclick="popupFindPw();" class="float-right" style="cursor:pointer;">비밀번호를 잊으셨나요?</a>
-								</label>
-								<input type="password" name="userPwd" id="userPwd" value="1234" class="form-control">
-							</div>
-							<div class="form-group text-right">
-								<button class="btn btn-primary btn-block" onclick="location.href='${ctp}/users/userLogin';">로그인</button>
-							</div>
-							<div class="form-group">
-					    		<input type="checkbox" id="idSave" name="idSave" checked /><span style="font-size:0.8em;"> 아이디 저장</span>
-								<p class="float-right"><span class="text-muted mr-2" style="font-size:0.8em;">아직 계정이 없으신가요? </span><a class="p-1" href="${ctp}/users/userRegister" style="border:1px solid #ccc;box-shadow: 0px 0px 2px #444;background-color:#fff;">회원가입</a></p>
-							</div>
-							<p><br></p>
-							<div class="title-line">
-								<span style="color:#252e38;">or</span>
-							</div>
-							<br>
-							<div class="text-center">
-								<ul class="btn-group align-center" style="list-style:none;">
-									<li>
-		             					<a href="${ctp}/user/userGoogleLogin" class="login-app mr-4" style="background-color:#f3f2f0;border:#eee"><img class="app-i" src="${ctp}/images/google-icon.png" alt="google-icon" style="width:25px;height:auto;"></a>
-		             				</li>
-									<li>
-		             					<a id="naverIdLogin_loginButton" href="javascript:naverLogin(0)" class="login-app mr-4" style="background-color:#1ec800;padding:5px 0 0 0"><span style="font-size:28px;font-weight:bolder;color:#ffffff;">N</span></a>
-		             				</li>
-									<li>
-		             					<a href="javascript:kakaoLogin()" class="login-app" style="background-color:#fee500"><i class="app-i fa-solid fa-comment" style="font-size:22px;color:#391b1b"></i></a>
-		             				</li>
-	             				</ul>
-             				</div>
-							<p><br></p>
-						</form>
-					</div>
+		<div class="box-wrapper">				
+			<div class="box box-border">
+				<div class="box-body">
+					<h4 class="text-center">로그인</h4>
+					<form name="myform" method="post">
+						<div class="form-group">
+							<label class="fw">아이디
+								<a onclick="popupFindId();" class="float-right" style="cursor:pointer;">아이디를 잊으셨나요?</a>
+							</label>
+							<input type="text" name="userId" id="userId" value="admin" class="form-control">
+						</div>
+						<div class="form-group">
+							<label class="fw">비밀번호
+								<a onclick="popupFindPw();" class="float-right" style="cursor:pointer;">비밀번호를 잊으셨나요?</a>
+							</label>
+							<input type="password" name="userPwd" id="userPwd" value="1234" class="form-control">
+						</div>
+						<div class="form-group text-right">
+							<button class="btn btn-primary btn-block" onclick="location.href='${ctp}/users/userLogin';">로그인</button>
+						</div>
+						<div class="form-group">
+				    		<input type="checkbox" id="idSave" name="idSave" checked /><span style="font-size:0.8em;"> 아이디 저장</span>
+							<p class="float-right"><span class="text-muted mr-2" style="font-size:0.8em;">아직 계정이 없으신가요? </span><a class="p-1" href="${ctp}/users/userRegister" style="border:1px solid #ccc;box-shadow: 0px 0px 2px #444;background-color:#fff;">회원가입</a></p>
+						</div>
+						<p><br></p>
+						<div class="title-line">
+							<span style="color:#252e38;">or</span>
+						</div>
+						<br>
+						<div class="text-center">
+							<ul class="btn-group align-center" style="list-style:none;">
+								<li>
+	             					<a href="${ctp}/user/userGoogleLogin" class="login-app mr-4" style="background-color:#f3f2f0;border:#eee"><img class="app-i" src="${ctp}/images/google-icon.png" alt="google-icon" style="width:25px;height:auto;"></a>
+	             				</li>
+								<li>
+	             					<a id="naverIdLogin_loginButton" href="javascript:naverLogin(0)" class="login-app mr-4" style="background-color:#1ec800;padding:5px 0 0 0"><span style="font-size:28px;font-weight:bolder;color:#ffffff;">N</span></a>
+	             				</li>
+								<li>
+	             					<a href="javascript:kakaoLogin()" class="login-app" style="background-color:#fee500"><i class="app-i fa-solid fa-comment" style="font-size:22px;color:#391b1b"></i></a>
+	             				</li>
+             				</ul>
+            				</div>
+						<p><br></p>
+					</form>
 				</div>
 			</div>
 		</div>

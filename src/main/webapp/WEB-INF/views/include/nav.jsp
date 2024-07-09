@@ -180,10 +180,10 @@
 						<a href="category.html">이벤트<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/">진행중인 이벤트</a></li>
+							<li><a href="category.html">포토 후기 이벤트</a></li>
 							<li class="dropdown magz-dropdown">
 								<a href="#">종료된 이벤트<i class="ion-ios-arrow-right"></i></a>
 							</li>
-							<li><a href="category.html">구매 제품 후기</a></li>
 						</ul>
 					</li>
 					<c:if test="${!empty sUid}">

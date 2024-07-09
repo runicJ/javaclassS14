@@ -26,7 +26,7 @@ body {
     font-family: 'Lato', sans-serif;
     font-weight: 300;
     color: #191E21;
-    font-size: 1.4em;
+    font-size: 1.2em;
 }
 
 h1,
@@ -1254,7 +1254,7 @@ section.search .search-result {
 }
 
 .firstbar .brand img {
-    width: 200px;
+    width: 160px;
     display: block;
     float: left;
 }
@@ -1428,12 +1428,14 @@ article .category,
 article figure {
     height: 250px;
     width: 100%;
+    /*object-fit:cover;*/
     overflow: hidden;
     margin-bottom: 10px;
     display: inline-block;
 }
 
 article figure img {
+	/*height: auto;*/
     width: 100%;
 }
 
@@ -2509,7 +2511,7 @@ section .container {
 .article-mini {
     display: inline-block;
     width: 100%;
-    margin-bottom: 15px;
+    /*margin-bottom: 15px;*/
 }
 
 .article-mini .inner {
@@ -2607,7 +2609,7 @@ section .container {
 }
 
 aside {
-    margin-bottom: 40px;
+    margin-bottom: 30px;
     display: inline-block;
     width: 100%;
 }
@@ -4432,6 +4434,18 @@ blockquote {
     width: -o-calc(100% / 3);
     text-align: center;
     padding: 5px 0;
+    border-right: 1px solid #f2f2f2;
+    transition: all 0.5s;
+}
+
+.featured-author .featured-author-body .featured-author-count .userItem {
+    float: left;
+    width: calc(100% / 2);
+    width: -webkit-calc(100% / 2);
+    width: -moz-calc(100% / 2);
+    width: -o-calc(100% / 2);
+    text-align: center;
+    padding: 10px 5px;
     border-right: 1px solid #f2f2f2;
     transition: all 0.5s;
 }

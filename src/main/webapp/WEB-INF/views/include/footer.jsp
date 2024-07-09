@@ -196,6 +196,6 @@
 <script src="${ctp}/js/jquery.magnific-popup.min.js"></script>
 <script src="${ctp}/js/jquery.easeScroll.js"></script>
 <script src="${ctp}/js/sweetalert.min.js"></script>
-<script src="${ctp}/js/jquery.toast.min.js"></script>
+<%-- <script src="${ctp}/js/jquery.toast.min.js"></script> --%>
 <script src="${ctp}/js/demo.js"></script>
 <script src="${ctp}/js/e-magz.js"></script>

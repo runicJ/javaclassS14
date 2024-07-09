@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
@@ -10,10 +11,8 @@
 	<title>Home</title>
 	<link rel="icon" type="image/png" href="images/favicon-mark.png">
 	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
-	<script>
-		'use strict';
-	</script>
 </head>
+
 <body class="skin-orange">
 <jsp:include page="/WEB-INF/views/include/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/nav.jsp" />
@@ -34,10 +33,10 @@
 						</div>
 						<div class="owl-carousel owl-theme" id="headline">							
 							<div class="item">
-								<a href="#"><div class="badge">Tip!</div> Vestibulum ante ipsum primis in faucibus orci</a>
+								<a href="#"><div class="badge">Tip!</div> 이멘트</a>
 							</div>
 							<div class="item">
-								<a href="#">Ut rutrum sodales mauris ut suscipit</a>
+								<a href="#">공지사항</a>
 							</div>
 						</div>
 					</div>
@@ -46,11 +45,11 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/basic/img04.jpg" alt="Sample Article">
+									<img src="images/news/img04.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">Computer</a></div>
-									<h1><a href="single.html">Phasellus iaculis quam sed est elementum vel ornare ligula venenatis</a></h1>
+									<h1><a href="single.html">배너 슬라이드 할 예정</a></h1>
 									<div class="time">December 26, 2016</div>
 								</div>
 							</article>
@@ -59,11 +58,11 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
+									<img src="images/news/img14.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">Travel</a></div>
-									<h1><a href="single.html">Class aptent taciti sociosqu ad litora torquent per conubia nostra</a></h1>
+									<h1><a href="single.html">호흡기 알레르기</a></h1>
 									<div class="time">December 10, 2016</div>
 								</div>
 							</article>
@@ -72,11 +71,11 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/basic/img13.jpg" alt="Sample Article">
+									<img src="images/news/img13.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">International</a></div>
-									<h1><a href="single.html">Maecenas accumsan tortor ut velit pharetra mollis</a></h1>
+									<h1><a href="single.html">식품 알레르기</a></h1>
 									<div class="time">October 12, 2016</div>
 								</div>
 							</article>
@@ -85,18 +84,18 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
+									<img src="images/news/img05.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="category.html">Lifestyle</a></div>
-									<h1><a href="single.html">Mauris elementum libero at pharetra auctor Fusce ullamcorper elit</a></h1>
+									<h1><a href="single.html">아토피 피부염</a></h1>
 									<div class="time">November 27, 2016</div>
 								</div>
 							</article>
 						</div>
 					</div>
 					<div class="line">
-						<div>알레르기 대표 정보</div>
+						<div>대표적인 알레르기 정보</div>
 					</div>
 					<div class="row">
 						<div class="col-md-6 col-sm-6 col-xs-12">
@@ -105,7 +104,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
+												<img src="images/news/img10.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -113,7 +112,7 @@
 												<div class="time">December 10, 2016</div>
 												<div class="category"><a href="category.html">Healthy</a></div>
 											</div>
-											<h2><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate</a></h2>
+											<h2><a href="single.html">호흡기 알레르기</a></h2>
 											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
 											<footer>
 												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1263</div></a>
@@ -129,7 +128,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img06.jpg" alt="Sample Article">
+												<img src="images/news/img06.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -137,7 +136,7 @@
 												<div class="time">December 22, 2016</div>
 												<div class="category"><a href="category.html">Healthy</a></div>
 											</div>
-											<h2><a href="single.html">Exercitation ullamco laboris nisi ut aliquip</a></h2>
+											<h2><a href="single.html">식품 알레르기</a></h2>
 											<p>Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui dui.</p>
 											<footer>
 												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>327</div></a>
@@ -157,7 +156,7 @@
 									<div class="inner">
 										<figure>                                
 											<a href="single.html">
-												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
+												<img src="images/news/img05.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -165,7 +164,7 @@
 												<div class="time">December 09, 2016</div>
 												<div class="category"><a href="category.html">Lifestyle</a></div>
 											</div>
-											<h2><a href="single.html">Mauris elementum libero at pharetra auctor</a></h2>
+											<h2><a href="single.html">아토피 피부염</a></h2>
 											<p>Vivamus in efficitur mi. Nullam semper justo ut elit lacinia lacinia. Class aptent taciti sociosqu ad litora torquent per conubia nostra.</p>
 											<footer>
 												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1083</div></a>
@@ -181,7 +180,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img07.jpg" alt="Sample Article">
+												<img src="images/news/img07.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -189,7 +188,7 @@
 												<div class="time">December 21, 2016</div>
 												<div class="category"><a href="category.html">Sport</a></div>
 											</div>
-											<h2><a href="single.html">Sed do eiusmod tempor incididunt ut labore</a></h2>
+											<h2><a href="single.html">기타 알레르기(실내, 계절성 등)</a></h2>
 											<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris elementum libero at pharetra auctor.</p>
 											<footer>
 												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
@@ -206,13 +205,13 @@
 					</div>
 					<div class="banner">
 						<a href="#">
-							<img src="${ctp}/basic/ads.png" alt="Sample Article">
+							<img src="images/ads.png" alt="Sample Article">
 						</a>
 					</div>
 					<div class="line transparent little"></div>
 					<div class="row">
 						<div class="col-md-6 col-sm-6 trending-tags">
-							<h1 class="title-col">Trending Tags</h1>
+							<h1 class="title-col">검색 순위</h1>
 							<div class="body-col">
 								<ol class="tags-list">
 									<li><a href="#">HTML5</a></li>
@@ -230,7 +229,7 @@
 						</div>
 						<div class="col-md-6 col-sm-6">
 							<h1 class="title-col">
-								Hot News
+								워드클라우드(인기단어)
 								<div class="carousel-nav" id="hot-news-nav">
 									<div class="prev">
 										<i class="ion-ios-arrow-left"></i>
@@ -240,12 +239,12 @@
 									</div>
 								</div>
 							</h1>
-							<div class="body-col vertical-slider" data-max="5" data-nav="#hot-news-nav" data-item="article">
+							<div class="body-col vertical-slider" data-max="4" data-nav="#hot-news-nav" data-item="article">
 								<article class="article-mini">
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
+												<img src="images/news/img09.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -261,7 +260,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
+												<img src="images/news/img01.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -277,7 +276,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
+												<img src="images/news/img05.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -293,7 +292,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
+												<img src="images/news/img02.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -309,7 +308,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img13.jpg" alt="Sample Article">
+												<img src="images/news/img13.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -325,7 +324,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img08.jpg" alt="Sample Article">
+												<img src="images/news/img08.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -341,14 +340,14 @@
 						</div>
 					</div>
 					<div class="line top">
-						<div>Just Another News</div>
+						<div>인기 제품</div>
 					</div>
 					<div class="row">
 						<article class="col-md-12 article-list">
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
+										<img src="images/news/img11.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -379,7 +378,7 @@
 								</div>
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
+										<img src="images/news/img02.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -407,7 +406,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
+										<img src="images/news/img03.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -435,7 +434,7 @@
 							<div class="inner">
 								<figure>
 									<a href="single.html">
-										<img src="${ctp}/basic/img09.jpg" alt="Sample Article">
+										<img src="images/news/img09.jpg" alt="Sample Article">
 									</a>
 								</figure>
 								<div class="details">
@@ -467,9 +466,9 @@
 						<div class="aside-body">
 							<div class="featured-author">
 								<div class="featured-author-inner">
-									<div class="featured-author-cover" style="background-image: url('${ctp}/basic/img15.jpg');">
+									<div class="featured-author-cover" style="background-image: url('${ctp}/images/bg.jpg');">
 										<div class="badges">
-											<div class="badge-item"><i class="ion-star"></i> Featured</div>
+											<div class="badge-item"><i class="ion-star"></i> 귀한분</div>
 										</div>
 										<div class="featured-author-center">
 											<figure class="featured-author-picture">
@@ -485,20 +484,20 @@
 										<div class="featured-author-count">
 											<div class="item">
 												<a href="#">
-													<div class="name">Posts</div>
-													<div class="value">208</div>														
+													<div class="name">북마크</div>
+													<div class="value">0</div>														
 												</a>
 											</div>
 											<div class="item">
 												<a href="#">
-													<div class="name">Stars</div>
-													<div class="value">3,729</div>														
+													<div class="name">좋아요</div>
+													<div class="value">0</div>														
 												</a>
 											</div>
 											<div class="item">
-												<a href="#">
+												<a href="${ctp}/users/userMain">
 													<div class="icon">
-														<div>More</div>
+														<div>내정보</div>
 														<i class="ion-chevron-right"></i>
 													</div>														
 												</a>
@@ -511,20 +510,20 @@
 											<h2 class="block-title">Photos</h2>
 											<div class="block-body">
 												<ul class="item-list-round" data-magnific="gallery">
-													<li><a href="${ctp}/basic/img06.jpg" style="background-image: url('${ctp}/basic/img06.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img07.jpg" style="background-image: url('${ctp}/basic/img07.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img08.jpg" style="background-image: url('${ctp}/basic/img08.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img09.jpg" style="background-image: url('${ctp}/basic/img09.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img10.jpg" style="background-image: url('${ctp}/basic/img10.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img11.jpg" style="background-image: url('${ctp}/basic/img11.jpg');"></a></li>
-													<li><a href="${ctp}/basic/img12.jpg" style="background-image: url('${ctp}/basic/img12.jpg');"><div class="more">+2</div></a></li>
-													<li class="hidden"><a href="${ctp}/basic/img13.jpg" style="background-image: url('${ctp}/basic/img13.jpg');"></a></li>
-													<li class="hidden"><a href="${ctp}/basic/img14.jpg" style="background-image: url('${ctp}/basic/img14.jpg');"></a></li>
+													<li><a href="images/news/img06.jpg" style="background-image: url('images/news/img06.jpg');"></a></li>
+													<li><a href="images/news/img07.jpg" style="background-image: url('images/news/img07.jpg');"></a></li>
+													<li><a href="images/news/img08.jpg" style="background-image: url('images/news/img08.jpg');"></a></li>
+													<li><a href="images/news/img09.jpg" style="background-image: url('images/news/img09.jpg');"></a></li>
+													<li><a href="images/news/img10.jpg" style="background-image: url('images/news/img10.jpg');"></a></li>
+													<li><a href="images/news/img11.jpg" style="background-image: url('images/news/img11.jpg');"></a></li>
+													<li><a href="images/news/img12.jpg" style="background-image: url('images/news/img12.jpg');"><div class="more">+2</div></a></li>
+													<li class="hidden"><a href="images/news/img13.jpg" style="background-image: url('images/news/img13.jpg');"></a></li>
+													<li class="hidden"><a href="images/news/img14.jpg" style="background-image: url('images/news/img14.jpg');"></a></li>
 												</ul>
 											</div>
 										</div>
 										<div class="featured-author-footer">
-											<a href="#">See All Authors</a>
+											<a href="#">커뮤니티(유저 채팅방)</a>
 										</div>
 									</div>
 								</div>
@@ -532,7 +531,7 @@
 						</div>
 					</aside>
 					<aside>
-						<h1 class="aside-title">상단 뉴스 목록 
+						<h1 class="aside-title">상위 뉴스 목록 
 							<div class="carousel-nav" id="hot-news-nav">
 								<div class="prev">
 									<i class="ion-ios-arrow-left"></i>
@@ -544,44 +543,61 @@
 						</h1>
 						<div class="aside-body vertical-slider" data-max="5" data-nav="#hot-news-nav" data-item="article">
 						<c:if test="${!empty naverVos}">
-						<c:forEach var="naverVo" items="${naverVos}" varStatus="st">
-					        <c:if test="${st.index % 6 == 0}">
-			                    <div class="news-group">
-			                        <c:forEach var="innerVo" items="${naverVos}" varStatus="innerSt" begin="${st.index}" end="${st.index + 4}">
-			                            <article class="article-mini">
-			                                <div class="inner">
-			                                    <figure><a style="object-fit:fill;">${innerVo.item2}</a></figure>
-			                                    <div class="padding">
-			                                        <h1><a href="${innerVo.itemUrl}" target="_blank">${innerVo.item1}</a></h1>
-			                                        <div class="detail">
-														<div class="category"><a href="category.html">Lifestyle</a></div>
-														<div class="time">${innerVo.item4}</div>
-													</div>
-			                                    </div>
-			                                </div>
-			                            </article>
-			                        </c:forEach>
-			                    </div>
-			                </c:if>
-					    </c:forEach>
+		                    <div class="news-group">
+		                        <c:forEach var="naverVo" items="${naverVos}" begin="${st.index}" end="${st.index + 5}">
+						        <c:if test="${st.index % 5 == 0}">
+		                            <article class="article-mini">
+		                                <div class="inner">
+		                                    <figure><a style="object-fit:cover;">${naverVo.item2}</a></figure>
+		                                    <div class="padding">
+		                                        <h1><a href="${naverVo.itemUrl}" target="_blank">${naverVo.item1}</a></h1>
+		                                        <div class="detail">
+													<div class="category"><a href="category.html">Lifestyle</a></div>
+													<div class="time">${naverVo.item4}</div>
+												</div>
+		                                    </div>
+		                                </div>
+		                            </article>
+				                </c:if>
+		                        </c:forEach>
+		                    </div>
 						</c:if>
 						<c:if test="${empty naverVos}">
 							<p>spinner</p>
 							<span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(네트워크 '수리중'일 수 있습니다.)</span>
 						</c:if>
 						</div>
-						<span class="float-right"><a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a></span>
+						<p class="float-right">
+							<a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
+						</p>
+					</aside>
+					<aside>
+						<div class="aside-body">
+							<form class="newsletter">
+								<div class="icon">
+									<i class="ion-ios-email-outline"></i>
+									<h1>날씨 API</h1>
+								</div>
+								<div class="input-group">
+									<input type="email" class="form-control email" placeholder="Your mail">
+									<div class="input-group-btn">
+										<button class="btn btn-primary"><i class="ion-paper-airplane"></i></button>
+									</div>
+								</div>
+								<p>By subscribing you will receive new articles in your email.</p>
+							</form>
+						</div>
 					</aside>
 					<aside>
 						<ul class="nav nav-tabs nav-justified" role="tablist">
 							<li class="active">
 								<a href="#recomended" aria-controls="recomended" role="tab" data-toggle="tab">
-									<i class="ion-android-star-outline"></i> Recomended
+									<i class="ion-android-star-outline"></i> 맞춤 정보 [베타]
 								</a>
 							</li>
 							<li>
 								<a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">
-									<i class="ion-ios-chatboxes-outline"></i> Comments
+									<i class="ion-ios-chatboxes-outline"></i> 인기 게시글
 								</a>
 							</li>
 						</ul>
@@ -591,7 +607,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
+												<img src="images/news/img16.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="details">
@@ -611,7 +627,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img05.jpg" alt="Sample Article">
+												<img src="images/news/img05.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -627,7 +643,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img02.jpg" alt="Sample Article">
+												<img src="images/news/img02.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -643,7 +659,7 @@
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
+												<img src="images/news/img10.jpg" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="padding">
@@ -661,7 +677,7 @@
 									<div class="item">
 										<div class="user">                                
 											<figure>
-												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
+												<img src="images/img01.jpg" alt="User Picture">
 											</figure>
 											<div class="details">
 												<h5 class="name">Mark Otto</h5>
@@ -675,7 +691,7 @@
 									<div class="item">
 										<div class="user">                                
 											<figure>
-												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
+												<img src="images/img01.jpg" alt="User Picture">
 											</figure>
 											<div class="details">
 												<h5 class="name">Mark Otto</h5>
@@ -689,7 +705,7 @@
 									<div class="item">
 										<div class="user">                                
 											<figure>
-												<img src="${ctp}/basic/img01.jpg" alt="User Picture">
+												<img src="images/img01.jpg" alt="User Picture">
 											</figure>
 											<div class="details">
 												<h5 class="name">Mark Otto</h5>
@@ -705,7 +721,7 @@
 						</div>
 					</aside>
 					<aside>
-						<h1 class="aside-title">Videos
+						<h1 class="aside-title">유튜브 영상
 							<div class="carousel-nav" id="video-list-nav">
 								<div class="prev"><i class="ion-ios-arrow-left"></i></div>
 								<div class="next"><i class="ion-ios-arrow-right"></i></div>
@@ -720,27 +736,27 @@
 						</div>
 					</aside>
 					<aside id="sponsored">
-						<h1 class="aside-title">Sponsored</h1>
+						<h1 class="aside-title">유료 광고 배너</h1>
 						<div class="aside-body">
 							<ul class="sponsored">
 								<li>
 									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
+										<img src="images/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
+										<img src="images/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
+										<img src="images/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/basic/sponsored.png" alt="Sponsored">
+										<img src="images/sponsored.png" alt="Sponsored">
 									</a>
 								</li> 
 							</ul>
@@ -753,8 +769,7 @@
 
 	<section class="best-of-the-week">
 		<div class="container">
-			<h1>
-				<div class="text">Best Of The Week</div>
+			<h1><div class="text">추천 후기글</div>
 				<div class="carousel-nav" id="best-of-the-week-nav">
 					<div class="prev">
 						<i class="ion-ios-arrow-left"></i>
@@ -769,7 +784,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/basic/img03.jpg" alt="Sample Article">
+								<img src="images/news/img03.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -786,7 +801,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
+								<img src="images/news/img16.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -803,7 +818,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/basic/img15.jpg" alt="Sample Article">
+								<img src="images/news/img15.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -820,7 +835,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
+								<img src="images/news/img14.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -837,7 +852,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/basic/img01.jpg" alt="Sample Article">
+								<img src="images/news/img01.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
@@ -854,7 +869,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
+								<img src="images/news/img11.jpg" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">
