@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>userLogin</title>
 	<link rel="icon" type="image/png" href="images/favicon-mark.png">
-  	<%@ include file = "/WEB-INF/views/include/bs4.jsp"%>
+  	<%@ include file = "/WEB-INF/views/include/user/bs4.jsp"%>
   	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
   	<script src="http://developers.kakao.com/sdk/js/kakao.js"></script>
   	<style>
@@ -100,8 +100,8 @@
   	</script>
 </head>
 <body>
-<%@ include file = "/WEB-INF/views/include/header.jsp"%>
-<%@ include file = "/WEB-INF/views/include/nav.jsp"%>
+<%@ include file = "/WEB-INF/views/include/user/header.jsp"%>
+<%@ include file = "/WEB-INF/views/include/user/nav.jsp"%>
 	<section class="login first grey">
 		<div class="box-wrapper">				
 			<div class="box box-border">
@@ -151,6 +151,6 @@
 			</div>
 		</div>
 	</section>
-<%@ include file = "/WEB-INF/views/include/footer.jsp"%>
+<%@ include file = "/WEB-INF/views/include/user/footer.jsp"%>
 </body>
 </html>

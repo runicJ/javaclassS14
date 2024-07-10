@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>userFindPw</title>
 	<link rel="icon" type="image/png" href="images/favicon-mark.png">
-	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 	<style>
 		.box {
 		  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);

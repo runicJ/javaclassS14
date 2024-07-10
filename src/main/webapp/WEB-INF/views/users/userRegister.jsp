@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>userRegister</title>
-	<jsp:include page="/WEB-INF/views/include/bs4.jsp" />
+	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
  <script>
     'use strict';
     
@@ -370,8 +370,8 @@
   </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/nav.jsp" />
+<jsp:include page="/WEB-INF/views/include/user/header.jsp" />
+<jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 	<section class="register first grey">
 		<div class="container">
 			<div class="box-wrapper">				
@@ -532,6 +532,6 @@
             </div>
         </div>
     </div>
-<jsp:include page="/WEB-INF/views/include/footer.jsp" />
+<jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>
 </html>

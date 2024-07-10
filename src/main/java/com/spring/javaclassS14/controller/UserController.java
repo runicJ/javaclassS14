@@ -308,4 +308,9 @@ public class UserController {
 		return "users/userMain";
 	}
 	
+	// 회원정보 수정 폼 띄우기
+	@RequestMapping(value="/userUpdate", method=RequestMethod.GET)
+	public String userUpdateGet() {
+		return "users/userUpdate";
+	}
 }

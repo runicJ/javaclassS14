@@ -46,6 +46,74 @@ public class HomeController {
 	}
 	
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String main(Model model) throws IOException {
+        String searchString = "알레르기";
+        Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web");
+        
+        Document document = conn.get();
+        
+        ArrayList<String> titleVos = new ArrayList<>();
+        ArrayList<String> urlVos = new ArrayList<>();
+        ArrayList<String> imageVos = new ArrayList<>();
+        ArrayList<String> broadcastVos = new ArrayList<>();
+        ArrayList<String> infoVos = new ArrayList<>();
+        
+        Elements titleElements = document.select("a.news_tit");
+        Elements imageElements = document.select("a.dsc_thumb img");
+        Elements broadcastElements = document.select("div.dsc_wrap");
+        Elements infoElements = document.select("span.info");
+        
+        int maxItems = 20; // 항상 30개의 뉴스 항목을 가져옴
+        
+        for (int i = 0; i < maxItems; i++) {
+            if (i < titleElements.size()) {
+                Element element = titleElements.get(i);
+                titleVos.add(element.text());
+                urlVos.add(element.attr("href"));
+            } else {
+                titleVos.add("");
+                urlVos.add("");
+            }
+            
+            if (i < imageElements.size()) {
+                Element element = imageElements.get(i);
+                imageVos.add(element.attr("src").toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
+            } else {
+                imageVos.add("");
+            }
+            
+            if (i < broadcastElements.size()) {
+                Element element = broadcastElements.get(i);
+                broadcastVos.add(element.text());
+            } else {
+                broadcastVos.add("");
+            }
+            
+            if (i < infoElements.size()) {
+                Element element = infoElements.get(i);
+                infoVos.add(element.text());
+            } else {
+                infoVos.add("");
+            }
+        }
+        
+        ArrayList<CrawlingVO> naverVos = new ArrayList<>();
+        for (int i = 0; i < maxItems; i++) {
+            CrawlingVO vo = new CrawlingVO();
+            vo.setItem1(titleVos.get(i));
+            vo.setItem2(imageVos.get(i));
+            vo.setItem3(broadcastVos.get(i));
+            vo.setItem4(infoVos.get(i));
+            vo.setItemUrl(urlVos.get(i));
+            naverVos.add(vo);
+        }
+        model.addAttribute("naverVos", naverVos);
+        
+        return "main/main";
+    }
+	
+	/*
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) throws IOException {
 		String searchString = "알레르기";
 		Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query="+searchString+"&where=web");
@@ -96,7 +164,6 @@ public class HomeController {
 		return "main/main";
 	}
 	
-	/*
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
 	public String main(Model model) throws IOException {
 	    String searchString = "알레르기";
@@ -141,5 +208,15 @@ public class HomeController {
 	    return "main/main";
 	}
 	*/
+	
+	@RequestMapping(value="/introduce/introduce", method=RequestMethod.GET)
+	public String introduceGet() {
+		return "main/introduce/introduce";
+	}
+	
+	@RequestMapping(value="/introduce/purpose", method=RequestMethod.GET)
+	public String purposeGet() {
+		return "main/introduce/purpose";
+	}
 	
 }
