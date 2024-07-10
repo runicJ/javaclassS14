@@ -55,6 +55,18 @@ public class msgController {
 			model.addAttribute("msg", uid+" 님 로그인 되셨습니다.\\n신규 비밀번호가 발급되었습니다. 확인 후 회원정보를 변경해주세요.");
 			model.addAttribute("url", "users/userMain");
 		}
+		else if(msgFlag.equals("adminNo")) {
+			model.addAttribute("msg", "관리자만 접속하실 수 있습니다.");
+			model.addAttribute("url", "/");
+		}
+		else if(msgFlag.equals("UserNo")) {
+			model.addAttribute("msg", "회원 로그인후 사용하세요");
+			model.addAttribute("url", "/users/userLogin");
+		}
+		else if(msgFlag.equals("userLevelNo")) {
+			model.addAttribute("msg", "회원 등급을 확인하세요.");
+			model.addAttribute("url", "/users/userMain");
+		}
 	
 	return "include/msg";
 	}

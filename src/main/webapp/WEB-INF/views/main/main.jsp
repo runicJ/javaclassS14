@@ -60,7 +60,7 @@
 						</div>
 						<div class="owl-carousel owl-theme" id="headline">							
 							<div class="item">
-								<a href="#"><div class="badge">Tip!</div> 이벤트 공지</a>
+								<a href="#"><span class="badge">Tip!</span> 이벤트 공지</a>
 							</div>
 							<div class="item">
 								<a href="#">홈페이지 오픈</a>
@@ -442,7 +442,7 @@
 											</div>
 											<div class="item">
 												<a href="${ctp}/users/userMain">
-													<div class="icon">
+													<div class="icon"><i class="fa-solid fa-gear"></i>
 														<div>내정보</div>
 														<i class="ion-chevron-right"></i>
 													</div>														

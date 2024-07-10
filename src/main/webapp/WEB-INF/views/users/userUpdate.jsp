@@ -379,27 +379,28 @@
 				<div class="col-xs-12 col-md-8">
 					<div class="box box-border" style="width:700px;">
 						<div class="box-body">
-							<h4 class="text-center">회 원 가 입</h4>
+							<h4 class="text-center">내 정보 수정</h4>
 							<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
+								<div class="form-group mb-3 text-center">
+									<img id="imageDemo" style="width:200px;height:250px;cursor:pointer;" onclick="$('#imageModal').modal('show');">
+									<i class="fa-solid fa-wrench"></i>
+								</div>
+								
 								<div class="form-group">
 									<label for="uid"><i class="fa-solid fa-caret-right"></i> 아이디</label>
 									<div class="input-group">
-										<input type="text" name="userId" id="userId" class="form-control" placeholder="아이디를 입력하세요" required autofocus>
-										<input type="button" value="아이디 중복체크" id="uidBtn" class="input-group-append btn btn-info btn-sm" onclick="idCheck()"/>
-										<div class="invalid-feedback">아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.</div>
+										<input type="text" name="userId" id="userId" value="${vo.userId}" class="form-control">
 									</div>
 								</div>
 								
 								<div class="form-group">
 									<label class="fw" for="userPwd"><i class="fa-solid fa-caret-right"></i> 비밀번호</label>
 									<input type="password" name="userPwd" id="userPwd" class="form-control" placeholder="비밀번호를 입력하세요" required>
-									<div class="invalid-feedback">비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.</div>
 								</div>
 								
 								<div class="form-group">
 									<label class="fw" for="pwdCheck"><i class="fa-solid fa-caret-right"></i> 비밀번호 확인</label>
 									<input type="password" name="pwdCheck" id="pwdCheck" class="form-control" placeholder="동일한 비밀번호를 입력하세요" required>
-								    <div class="invalid-feedback">입력하신 비밀번호와 일치하지 않습니다. 비밀번호를 확인해 주세요.</div>
 								</div>
 								
 								<div class="form-group">
@@ -494,20 +495,9 @@
 								    </div>
 								</div>
 								
-								<div class="form-group mb-3 d-flex align-items-center">
-								    <div class="mr-3">
-										<img id="imageDemo" style="width:100px;height:100px;cursor: pointer;" onclick="$('#imageModal').modal('show');">
-								    </div>
-								    <div>
-								        <label for="fName"><i class="fa-solid fa-caret-right"></i> 프로필 사진(파일용량:10MByte이내) : </label>
-										<input type="file" name="fName" id="file" onchange="previewImage();" class="form-control-file">
-								    </div>
-								</div>
-								<div class="form-group text-right">
-									<button class="btn btn-primary btn-block" onclick="fCheck(event)">회원가입</button>
-								</div>
-								<div class="form-group d-flex float-right">
-									<span class="text-muted mr-3" style="font-size:0.8em;">이미 계정이 있으신가요?</span><a href="${ctp}/users/userLogin">로그인 페이지로</a>
+								<div class="form-group text-center">
+									<a type="button" class="btn btn-success mr-3" onclick="fCheck(event)">개인정보 수정</a>
+									<a type="button" class="btn btn-danger" onclick="location.href='${ctp}/users/userMain';">취소</a>
 								</div>
 							    <input type="hidden" name="email" />
 	    						<input type="hidden" name="tel" />

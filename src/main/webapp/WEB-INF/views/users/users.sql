@@ -1,21 +1,22 @@
 show tables;
 
 create table users (
-	userIdx 	int auto_increment primary key,
-	userId     varchar(20) not null,
-	userPwd    varchar(255) not null,
+	userIdx     int auto_increment primary key,
+	userId      varchar(20) not null,
+	userPwd     varchar(255) not null,
 	name        varchar(50) not null,
 	nickName    varchar(30) not null,
 	gender      enum('n','m','f') default 'n' not null,
 	email       varchar(60) not null,
 	tel         varchar(20) not null,
-	userImage  varchar(255) default 'noImage.jpg' not null,
+	userImage   varchar(255) default 'noImage.jpg' not null,
 	registerWay varchar(50) default '미선택',
 	point       int default 1000 not null,
-	policyFlag enum('y','n') default 'y' not null,
-	createDate datetime default now() not null,
-	updateDate datetime default null,
-	level  int default 3 not null
+	policyFlag  enum('y','n') default 'y' not null,
+	createDate  datetime default now() not null,
+	updateDate  datetime default null,
+	level       int default 3 not null,
+	userStatus  enum('on','off','stop') default 'on' not null
 );
 
 drop table users;
@@ -30,4 +31,13 @@ create table user_log (
 	user_idx   int not null,
 	login_time datetime default now() not null,
 	host_ip    varchar(255) not null
+);
+
+create table delete_users (
+	deleteIdx  int auto_increment primary key,
+	userId     varchar(20) not null,
+	email      varchar(60) not null,
+	deleteDate datetime default now(),
+	deleteReason text,
+	foreign key (userId) references users(userId)
 );

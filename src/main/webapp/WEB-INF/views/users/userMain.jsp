@@ -16,7 +16,7 @@
 	<section class="userMain" style="padding-top: 245.125px;">
 		<div class="container">
 			<div class="row">
-			<jsp:include page="/WEB-INF/views/include/user/sidebar.jsp" />
+				<jsp:include page="/WEB-INF/views/include/user/sidebar.jsp" />
 				<div class="col-xs-12 col-md-8">
 						<div class="row">
 							<article class="article col-md-12">
@@ -104,7 +104,7 @@
 				</div>
 			</div>
 	</section>
-<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+<jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 <script>
 var dropdown = document.getElementsByClassName("dropdown-btn");
 var i;

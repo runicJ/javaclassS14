@@ -167,7 +167,7 @@
 					<li class="dropdown magz-dropdown"><a href="#">고객센터<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="category.html">공지사항</a></li>
-							<li class="dropdown magz-dropdown"><a href="category.html">자주묻는질문<i class="ion-ios-arrow-right"></i></a></li>
+							<li class="dropdown magz-dropdown"><a href="category.html">자주묻는질문</a></li>
 							<li class="dropdown magz-dropdown"><a href="#">1:1문의 <i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
 									<li><a href="category.html">구독문의</a></li>
@@ -184,18 +184,18 @@
 							<li><a href="${ctp}/">진행중인 이벤트</a></li>
 							<li><a href="category.html">포토 후기 이벤트</a></li>
 							<li class="dropdown magz-dropdown">
-								<a href="#">종료된 이벤트<i class="ion-ios-arrow-right"></i></a>
+								<a href="#">종료된 이벤트</a>
 							</li>
 						</ul>
 					</li>
 					<c:if test="${!empty sUid}">
-					<li class="dropdown magz-dropdown"><a href="${ctp}/${sUid == 'admin' ? 'admin/adminMain' : 'user/userMain'}">나의곳간<i class="ion-ios-arrow-right"></i></a>
+					<li class="dropdown magz-dropdown"><a href="${ctp}/${sUid == 'admin' ? 'admin/adminMain' : 'user/userMain'}">내정보<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="#"><i class="icon ion-person"></i>마이페이지</a></li>
+							<li><a href="${ctp}/users/userMain"><i class="icon ion-person"></i>내정보관</a></li>
 							<li><a href="#"><i class="icon ion-heart"></i>관심목록</a></li>
 							<li><a href="#"><i class="icon ion-heart"></i>북마크목록</a></li>
 							<li><a href="#"><i class="icon ion-chatbox"></i>내가쓴게시글</a></li>
-							<li><a href="#"><i class="icon ion-key"></i>회원정보수정</a></li>
+							<li><a href="${ctp}/users/userUpdate"><i class="icon ion-key"></i>회원정보수정</a></li>
 							<li><a href="#"><i class="icon ion-settings"></i>설정변경</a></li>
 							<li class="divider"></li>
 							<li><a href="${ctp}/users/userLogout"><i class="icon ion-log-out"></i>로그아웃</a></li>

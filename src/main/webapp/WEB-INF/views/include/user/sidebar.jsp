@@ -170,5 +170,4 @@
 			</div>
 		</div>
 	</aside>
-	</div>
 </div>
