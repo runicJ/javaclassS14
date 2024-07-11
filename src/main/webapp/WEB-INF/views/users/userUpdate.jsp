@@ -36,23 +36,11 @@
        	let tel3 = myform.tel3.value.trim();
        	let tel = tel1 + "-" + tel2 + "-" + tel3;
     	
-		let regUid = /^[a-zA-Z0-9_-]{4,20}$/;
         //let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
 		let regName = /^[가-힣a-zA-Z]+$/;
 	    let regNickName = /^[a-zA-Z0-9가-힣]+$/;
 	    let regTel = /^010-\d{3,4}-\d{4}$/;
 	    let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
-        
-		if(userId == "") {
-			alert("아이디를 입력하세요");
-			myform.userId.focus();
-			return false;
-		}
-		if(!regUid.test(userId)) {
-    		alert("아이디는 4~20자리의 영문 대/소문자와 숫자, 언더바(_),하이픈(-)만 사용가능합니다.");
-    		myform.userId.focus();
-    		return false;
-    	}
 		
 		if(userPwd == "") {
 			alert("비밀번호를 입력하세요");
@@ -129,12 +117,7 @@
 	  			return false;
 	  		}	  			
   		}
-  		
-    	if(uidCheckSw == 0) {
-    		alert("아이디 중복체크 버튼을 눌러주세요");
-    		document.getElementById("uidBtn").focus();
-    		return false;
-    	}
+
     	if(nickCheckSw == 0) {
     		alert("닉네임 중복체크 버튼을 눌러주세요");
     		document.getElementById("nickNameBtn").focus();
@@ -152,38 +135,7 @@
 		
 		myform.submit();
     }
-		
-    function idCheck() {
-    	let userId = myform.userId.value.trim();
-    	
-    	if(userId == "") {
-    		alert("아이디를 입력하세요!");
-    		myform.uid.focus();
-    	}
-    	else {
-	    	$.ajax({
-	    		url : "${ctp}/users/uidCheck",
-	    		type : "get",
-	    		data : {userId : userId},
-	    		success:function(res) {
-	    			if(res != "0") {
-	    				alert("이미 사용중인 아이디입니다. 다시 입력하세요.");
-	    				myform.userId.focus();
-	    			}
-	    			else {
-	    				alert("사용 가능한 아이디입니다.");
-	    				uidCheckSw = 1;
-	    				$("#uidBtn").attr("disabled",true);
-	    				myform.userPwd.focus();
-	    			}
-	    		},
-	    		error:function() {
-	    			alert("전송 오류!");
-	    		}
-	    	});
-    	}
-    }
-    
+	
     function nickCheck() {
     	let nickName = myform.nickName.value.trim();
     	

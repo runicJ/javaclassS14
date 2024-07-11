@@ -31,4 +31,9 @@
 	<update id="setUserPwdUpdate">
 		update users set userPwd=#{userPwd} where userId=#{userId};
 	</update>
+	
+	<update id="setUserDelete">
+		update users set level=99 and userStatus='off' where userId=#{userId};
+		insert into delete_users values (default, #{userId}, #{email}, default, #{deleteReason});
+	</update>
 </mapper>

@@ -20,4 +20,6 @@ public interface UserDAO {
 
 	public void setUserPwdUpdate(@Param("userId") String userId, @Param("userPwd") String tempPwd);
 
+	public int setUserDelete(@Param("userId") String userId);
+
 }

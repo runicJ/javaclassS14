@@ -48,7 +48,7 @@ public class HomeController {
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(Model model) throws IOException {
         String searchString = "알레르기";
-        Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web");
+        Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web&display=30");
         
         Document document = conn.get();
         
@@ -63,7 +63,7 @@ public class HomeController {
         Elements broadcastElements = document.select("div.dsc_wrap");
         Elements infoElements = document.select("span.info");
         
-        int maxItems = 20; // 항상 30개의 뉴스 항목을 가져옴
+        int maxItems = 30; // 항상 30개의 뉴스 항목을 가져옴
         
         for (int i = 0; i < maxItems; i++) {
             if (i < titleElements.size()) {

@@ -22,4 +22,6 @@ public interface UserService {
 
 	public void setUserPwdUpdate(String userId, String tempPwd);
 
+	public int setUserDelete(String userId);
+
 }

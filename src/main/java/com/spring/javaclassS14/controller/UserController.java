@@ -143,6 +143,7 @@ public class UserController {
 		if(vo != null && passwordEncoder.matches(userPwd, vo.getUserPwd())) {
 			String strLevel = "";
 			if(vo.getLevel() == 0) strLevel = "관리자(대가)";
+			else if(vo.getLevel() == 0.5) strLevel = "귀한분";
 			else if(vo.getLevel() == 1) strLevel = "전문가";
 			else if(vo.getLevel() == 2) strLevel = "숙련자";
 			else if(vo.getLevel() == 3) strLevel = "지식인";
@@ -329,5 +330,15 @@ public class UserController {
 		model.addAttribute("vo", vo);
 		
 		return "users/userDelete";
+	}
+	
+	// 회원탈퇴 페이지로 이동
+	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
+	public String userDeletePost(HttpSession session) {
+		String userId = (String) session.getAttribute("sUid");
+		int res = userService.setUserDelete(userId);
+		
+		if (res != 0) return "redirect:/msg/userDeleteOk";
+		else return "redirect:/msg/userDeleteNo";
 	}
 }

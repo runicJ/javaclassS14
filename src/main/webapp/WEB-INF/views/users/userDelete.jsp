@@ -28,13 +28,17 @@
   		'use Strict'
   		
   		function byeCheck() {
-	  		let pwd = $("#pwd").val().trim();
-	  		if(pwd == "") {
+	  		let userPwd = $("#userPwd").val().trim();
+	  		if(userPwd == "") {
 	  			alert("현재 비밀번호를 입력하세요!");
-	  			$("#pwd").focus();
+	  			$("#userPwd").focus();
+	  		}
+	  		else if(userPwd != ${vo.userPwd}) {
+	  			alert("비밀번호가 일치하지 않습니다!");
+	  			$("userPwd").focus();
 	  		}
 	  		else {
-	  			let ans = confirm("회원 탈퇴 신청 하시겠습니까?");
+	  			let ans = confirm("회원 탈퇴 신청을 하시겠습니까?");
 	  			if(ans) {
 	  				ans = confirm("회원 탈퇴하시면 1개월간 같은 아이디 및 이메일로 가입하실 수 없습니다.\n계속 진행하시겠습니까?");
 	  				if(ans) myform.submit();
@@ -73,8 +77,8 @@
 							</div>
 						</div>
 						<form name="byeFrm" method="post" action="/users/userDelete" onsubmit="return false;">
-						<input type="hidden" name="txEmail" value="">
-						<input type="hidden" name="txPhone" value="">
+						<input type="hidden" name="email" value="${vo.email}">
+						<input type="hidden" name="tel" value="${vo.tel}">
 						<h4>탈퇴사유 확인</h4>
 						<fieldset>
 							<table class="baseTable rowTable docForm">
@@ -101,7 +105,7 @@
 							<tr>
 								<th scope="row" class="ct"><label for="wdEtc">기타</label></th>
 								<td>
-									<textarea id="wdEtc" name="complaintext" cols="60" rows="5" style="width:96%; height:110px;" onclick="jsClearThis();">기타 불편사항 및 텐바이텐에 바라는 고객님의 충고를 부탁 드립니다.</textarea>
+									<textarea id="wdEtc" name="deleteReason" cols="60" rows="5" style="width:96%; height:110px;" onclick="jsClearThis();">기타 불편사항 및 텐바이텐에 바라는 고객님의 충고를 부탁 드립니다.</textarea>
 								</td>
 							</tr>
 							</tbody>

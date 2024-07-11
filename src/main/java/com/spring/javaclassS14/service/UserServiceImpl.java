@@ -70,4 +70,9 @@ public class UserServiceImpl implements UserService {
 		userDAO.setUserPwdUpdate(userId, tempPwd);
 	}
 
+	@Override
+	public int setUserDelete(String userId) {
+		return userDAO.setUserDelete(userId);
+	}
+
 }
