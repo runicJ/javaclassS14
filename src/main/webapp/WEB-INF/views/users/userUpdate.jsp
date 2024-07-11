@@ -263,47 +263,25 @@
     }
     */
     
-    window.onload = function(){
-    	document.getElementById('nameUpdateBtn').addEventListener('click',function(){
-    		$("#name").removeAttr("readonly");
-    	});
-    	document.getElementById('nickUpdateBtn').addEventListener('click',function(){
-    		$("#nickUpdateInput").show();
-    	});
-    	document.getElementById('emailUpdateBtn').addEventListener('click',function(){
-    		$("#emailUpdateInput").show();
-    	});
-    	document.getElementById('telUpdateBtn').addEventListener('click',function(){
-    		$("#telUpdateInput").show();
-    	});
-    }
+    document.addEventListener("DOMContentLoaded", function() {
+        document.getElementById('nameUpdateBtn').addEventListener('click', function() {
+            $("#name").removeAttr("readonly");
+            $("#nameUpdateInput").show();
+        });
+        document.getElementById('nickUpdateBtn').addEventListener('click', function() {
+            $("#nickUpdateInput").show();
+        });
+        document.getElementById('emailUpdateBtn').addEventListener('click', function() {
+            $("#emailUpdateInput").show();
+        });
+        document.getElementById('telUpdateBtn').addEventListener('click', function() {
+            $("#telUpdateInput").show();
+        });
 
-    window.onload = function(){
-/*     	document.getElementById('userId').addEventListener('click',function(){
-    		uidCheckSw = 0;
-    		$("#uidBtn").removeAttr("disabled");
-    	});
-    	document.getElementById('nickName').addEventListener('click',function(){
-    		nickCheckSw = 0;
-    		$("#nickNameBtn").removeAttr("disabled");
-    	}); */
-    	/*
-      	document.getElementById('email1').addEventListener('click',function(){
-    		emailCheckSw = 0;
-        	clearInterval(timerInterval);
-            document.getElementById("confirmCodeSection").style.display = 'none';
-    		$("#emailCheckBtn").removeAttr("disabled");
-    	});
-      	document.getElementById('email2').addEventListener('change',function(){
-      		emailCheckSw = 0;
-        	clearInterval(timerInterval);
-            document.getElementById("confirmCodeSection").style.display = 'none';
-    		$("#emailCheckBtn").removeAttr("disabled");
-    	});
-      	*/
-      	//document.getElementById('file').addEventListener('change', previewImage);
-    }
-    
+        // 이미지 미리보기
+        document.getElementById('file').addEventListener('change', previewImage);
+    });
+
     function previewImage() {
         let file = document.getElementById("file").files[0];
         let preview = document.getElementById("imageDemo");
@@ -316,8 +294,7 @@
             preview.onload = function() {
                 URL.revokeObjectURL(preview.src);
             };
-        }
-        else {
+        } else {
             preview.style.display = 'none';
         }
     }
@@ -351,8 +328,8 @@
 							<h4 class="text-center">내 정보 수정</h4>
 							<form name="myform" method="post" enctype="multipart/form-data">
 								<div class="mb-3 text-center">
-									<img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${vo.userImage}" onclick="$('#imageModal').modal('show');">
-									<p><a type="file" name="fName" id="file" onclick="previewImage();"><i class="fa-solid fa-wrench"></i>프로필 사진 변경</a></p>
+								    <img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${vo.userImage}" onclick="$('#imageModal').modal('show');">
+								    <p><input type="file" name="fName" id="file"><i class="fa-solid fa-wrench"></i> 프로필 사진 변경</p>
 								</div>
 								
 								<div class="input-group mb-3">
