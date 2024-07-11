@@ -224,29 +224,41 @@
                         <li class="list-divider"></li>
                         
                         <li class="nav-small-cap"><span class="hide-menu">우선 관리 목록</span></li>
-						<li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
-                                aria-expanded="false"><i data-feather="feather" class="feather-icon"></i><span
-                                    class="hide-menu"> 회원 관리
-                                </span></a>
+                        
+						<li class="sidebar-item"><a class="sidebar-link has-arrow" href="javascript:void(0)"
+                            aria-expanded="false"><i data-feather="feather" class="feather-icon">
+                            </i><span class="hide-menu"> 회원 관리</span></a>
                             <ul aria-expanded="false" class="collapse first-level base-level-line">
-                                <li class="sidebar-item"><a href="${ctp}/admin/userList" class="sidebar-link"><span
-                                            class="hide-menu"> 현재 회원 리스트 </span></a></li>
-
-                                <li class="sidebar-item"><a href="icon-simple-lineicon.html" class="sidebar-link"><span
-                                            class="hide-menu"> 탈퇴 회원 정보 </span></a></li>
+                                <li class="sidebar-item"><a href="${ctp}/admin/userList" class="sidebar-link">
+                                <span class="hide-menu"> 현재 회원 리스트 </span></a></li>
+                                <li class="sidebar-item"><a href="icon-simple-lineicon.html" class="sidebar-link">
+                                <span class="hide-menu"> 탈퇴 회원 정보 </span></a></li>
                             </ul>
                         </li>
-                        <li class="sidebar-item">
-                        	<a class="sidebar-link" href="ticket-list.html" aria-expanded="false">
-                        		<i data-feather="tag" class="feather-icon"></i>
-                        		<span class="hide-menu"> 주문 상세 관리</span>
-                        	</a>
+                        <li class="sidebar-item"><a class="sidebar-link has-arrow" href="javascript:void(0)" 
+                        	aria-expanded="false"><i data-feather="tag" class="feather-icon">
+                        	</i><span class="hide-menu"> 주문 상세 관리</span></a>
+              	            <ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item"><a href="${ctp}/order/orderList" class="sidebar-link">
+                                <span class="hide-menu"> 현 주문 목록 </span></a></li>
+                                <li class="sidebar-item"><a href="${ctp}/order/orderCancelList" class="sidebar-link">
+                                <span class="hide-menu"> 주문 취소 처리 </span></a></li>
+                                <li class="sidebar-item"><a href="${ctp}/order/orderReturnList" class="sidebar-link">
+                                <span class="hide-menu"> 주문 반품 처리 </span></a></li>
+                            </ul>
                         </li>
-                        <li class="sidebar-item">
-                        	<a class="sidebar-link sidebar-link" href="ui-cards.html" aria-expanded="false">
-                        		<i data-feather="sidebar" class="feather-icon"></i>
-                        		<span class="hide-menu"> 제품 종합 관리</span>
-                        	</a>
+                        
+                        <li class="sidebar-item"><a class="sidebar-link has-arrow" href="javascript:void(0)" 
+                        aria-expanded="false"><i data-feather="sidebar" class="feather-icon">
+                        </i><span class="hide-menu"> 제품 종합 관리</span></a>
+                        	<ul aria-expanded="false" class="collapse first-level base-level-line">
+                                <li class="sidebar-item"><a href="${ctp}/admin/productList" class="sidebar-link">
+                                <span class="hide-menu"> 판매 제품 목록 </span></a></li>
+                                <li class="sidebar-item"><a href="${ctp}/admin/productCategory" class="sidebar-link">
+                                <span class="hide-menu"> 제품 카테고리 등록 </span></a></li>
+                                <li class="sidebar-item"><a href="icon-simple-lineicon.html" class="sidebar-link">
+                                <span class="hide-menu"> 제품 판매글 등록 </span></a></li>
+                           </ul>
                         </li>
                         <li class="sidebar-item">
                         	<a class="sidebar-link sidebar-link" href="docs/docs.html" aria-expanded="false">
@@ -320,16 +332,16 @@
                                     class="hide-menu"> 통계 목록 </span></a>
                             <ul aria-expanded="false" class="collapse  first-level base-level-line">
                                 <li class="sidebar-item"><a href="chart-morris.html" class="sidebar-link"><span
-                                            class="hide-menu"> Morris Chart
+                                            class="hide-menu"> 설문조사 등록
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="chart-chart-js.html" class="sidebar-link"><span
-                                            class="hide-menu"> ChartJs
+                                            class="hide-menu"> 설문조사 리스트
                                         </span></a>
                                 </li>
                                 <li class="sidebar-item"><a href="chart-knob.html" class="sidebar-link"><span
                                             class="hide-menu">
-                                            Knob Chart
+                                            설문별 통계 현황
                                         </span></a>
                                 </li>
                             </ul>

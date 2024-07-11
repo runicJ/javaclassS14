@@ -7,12 +7,12 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>productInput</title>
-	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
     <script src="${ctp}/resources/ckeditor/ckeditor.js"></script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/user/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
+<jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
+<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
 <p><br></p>
 <div class="container">
     <form>
@@ -27,6 +27,6 @@
     </form>
 </div>
 <p><br></p>
-<jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
+<jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>
 </html>

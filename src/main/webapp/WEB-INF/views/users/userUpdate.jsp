@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -309,15 +310,31 @@
         emailCheck(); // 이메일 인증 코드 재발급 요청
     }
     */
+    
     window.onload = function(){
-    	document.getElementById('userId').addEventListener('click',function(){
+    	document.getElementById('nameUpdateBtn').addEventListener('click',function(){
+    		$("#name").removeAttr("readonly");
+    	});
+    	document.getElementById('nickUpdateBtn').addEventListener('click',function(){
+    		$("#nickUpdateInput").show();
+    	});
+    	document.getElementById('emailUpdateBtn').addEventListener('click',function(){
+    		$("#emailUpdateInput").show();
+    	});
+    	document.getElementById('telUpdateBtn').addEventListener('click',function(){
+    		$("#telUpdateInput").show();
+    	});
+    }
+
+    window.onload = function(){
+/*     	document.getElementById('userId').addEventListener('click',function(){
     		uidCheckSw = 0;
     		$("#uidBtn").removeAttr("disabled");
     	});
     	document.getElementById('nickName').addEventListener('click',function(){
     		nickCheckSw = 0;
     		$("#nickNameBtn").removeAttr("disabled");
-    	});
+    	}); */
     	/*
       	document.getElementById('email1').addEventListener('click',function(){
     		emailCheckSw = 0;
@@ -380,36 +397,67 @@
 					<div class="box box-border" style="width:700px;">
 						<div class="box-body">
 							<h4 class="text-center">내 정보 수정</h4>
-							<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
-								<div class="form-group mb-3 text-center">
-									<img id="imageDemo" style="width:200px;height:250px;cursor:pointer;" onclick="$('#imageModal').modal('show');">
-									<i class="fa-solid fa-wrench"></i>
+							<form name="myform" method="post" enctype="multipart/form-data">
+								<div class="mb-3 text-center">
+									<img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${vo.userImage}" onclick="$('#imageModal').modal('show');">
+									<p><a type="file" name="fName" id="file" onclick="previewImage();"><i class="fa-solid fa-wrench"></i>프로필 사진 변경</a></p>
 								</div>
 								
-								<div class="form-group">
-									<label for="uid"><i class="fa-solid fa-caret-right"></i> 아이디</label>
-									<div class="input-group">
-										<input type="text" name="userId" id="userId" value="${vo.userId}" class="form-control">
-									</div>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">아이디</span>
+								    </div>
+								    <input type="text" class="form-control" value="${vo.userId}" readonly>
 								</div>
 								
-								<div class="form-group">
-									<label class="fw" for="userPwd"><i class="fa-solid fa-caret-right"></i> 비밀번호</label>
-									<input type="password" name="userPwd" id="userPwd" class="form-control" placeholder="비밀번호를 입력하세요" required>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">현재 비밀번호</span>
+								    </div>
+									<input type="password" name="userPwd" id="userPwd" class="form-control" placeholder="정보 수정시 비밀번호를 입력하세요">
 								</div>
 								
-								<div class="form-group">
-									<label class="fw" for="pwdCheck"><i class="fa-solid fa-caret-right"></i> 비밀번호 확인</label>
-									<input type="password" name="pwdCheck" id="pwdCheck" class="form-control" placeholder="동일한 비밀번호를 입력하세요" required>
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">변경할 비밀번호</span>
+								    </div>
+									<input type="password" name="userPwdNew" id="userPwdNew" class="form-control" placeholder="비밀번호 변경시 입력하세요">
 								</div>
 								
-								<div class="form-group">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">새 비밀번호 확인</span>
+								    </div>
+									<input type="password" name="pwdNewCheck" id="pwdNewCheck" class="form-control" placeholder="비밀번호 변경시 입력하세요">
+								</div>
+								
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">이름</span>
+								    </div>
+								    <input type="text" class="form-control" value="${vo.name}" readonly>
+								    <div class="input-group-append">
+								      	<a type="button" id="nameUpdateBtn" class="btn btn-warning">정보 수정</a>
+								    </div>
+								</div>
+								
+								<div class="form-group" id="nameUpdateInput" style="display:none;">
 									<label for="name"><i class="fa-solid fa-caret-right"></i> 이름</label>
 									<input type="text" name="name" id="name" class="form-control" placeholder="이름을 입력하세요." required>
 									<div class="invalid-feedback">이름은 한글과 영문 대/소문자만 사용가능합니다.</div>
 								</div>
 								
-								<div class="form-group">
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">닉네임</span>
+								    </div>
+								    <input type="text" class="form-control" value="${vo.nickName}" readonly>
+								    <div class="input-group-append">
+								      	<a type="button" id="nickUpdateBtn" class="btn btn-warning">정보 수정</a>
+								    </div>
+								</div>
+								
+								<div class="form-group" id="nickUpdateInput" style="display:none;">
 									<label for="nickName"><i class="fa-solid fa-caret-right"></i> 닉네임</label>
 									<div class="input-group">
 										<input type="text" name="nickName" id="nickName" class="form-control" required>
@@ -417,8 +465,25 @@
 										<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
 									</div>
 								</div>
+																
+								<div class="input-group mb-3">
+									<div class="input-group-prepend">
+								      	<span class="input-group-text">이메일</span>
+								    </div>
+								    <c:set var="email" value="${fn:split(vo.email,'@')}" />
+								    <input type="text" id="email1" name="email1" class="form-control mr-2" value="${email[0]}" readonly />
+										<span style="font-size:1.1em;">@</span>
+										<select id="email2" name="email2" class="ml-2" style="width:120px;" disabled>
+											<option value="naver.com" ${email[1]=='naver.com' ? 'selected' : ''}>naver.com</option>
+											<option value="gmail.com" ${email[1]=='gmail.com' ? 'selected' : ''}>gmail.com</option>
+											<option value="daum.net" ${email[1]=='daum.net' ? 'selected' : ''}>daum.net</option>
+										</select>
+								    <div class="input-group-append">
+								      	<a type="button" id="emailUpdateBtn" class="btn btn-warning">정보 수정</a>
+								    </div>
+								</div>
 							    
-							    <div class="form-group">
+							    <div class="form-group" id="emailUpdateInput" style="display:none;">
 							      <label for="email1"><i class="fa-solid fa-caret-right"></i> 이메일</label>
 							        <div class="input-group">
 										<input type="text" id="email1" name="email1" class="form-control mr-2" placeholder="이메일 주소를 입력하세요." required />
@@ -446,7 +511,26 @@
 								    </div>
 								</div>
 								
-								<div class="form-group">
+								<div class="input-group mb-3">
+									<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
+									<div class="input-group">
+										<div class="input-group-prepend">
+								            <select name="tel1" id="tel1" class="form-control">
+								              <option value="010" selected>010</option>
+								            </select>
+								        </div>
+								        <c:set var="tel" value="${fn:split(vo.tel,'-')}" />
+										<span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+								        <input type="text" id="tel2" name="tel2" value="${tel[1]}" class="form-control" readonly />
+								        <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+								        <input type="text" id="tel3" name="tel3" value="${tel[2]}" class="form-control" readonly />
+									    <div class="input-group-append">
+									      	<a type="button" id="telUpdateBtn" class="btn btn-warning">정보 수정</a>
+									    </div>
+								    </div>
+								</div>
+								
+								<div class="form-group" id="telUpdateInput" style="display:none;">
 									<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
@@ -465,17 +549,17 @@
 									<label class="mr-3"><i class="fa-solid fa-caret-right"></i> 성별</label>
 							      	<div class="form-check-inline">
 								        <label class="form-check-label">
-								          	<input type="radio" class="form-check-input" name="gender" value="n" checked>미선택
+								          	<input type="radio" class="form-check-input" name="gender" value="n" ${vo.gender =='n' ? 'checked' : ''}>미선택
 								        </label>
 									</div>
 							      	<div class="form-check-inline">
 								        <label class="form-check-label">
-								          	<input type="radio" class="form-check-input" name="gender" value="m">남자
+								          	<input type="radio" class="form-check-input" name="gender" value="m" ${vo.gender =='m' ? 'checked' : ''}>남자
 								        </label>
 									</div>
 									<div class="form-check-inline">
 										<label class="form-check-label">
-											<input type="radio" class="form-check-input" name="gender" value="f">여자
+											<input type="radio" class="form-check-input" name="gender" value="f" ${vo.gender =='f' ? 'checked' : ''}>여자
 										</label>
 									</div>
 								</div>
@@ -484,13 +568,13 @@
 									<div class="input-group d-flex justify-content-between">
 									    <label><i class="fa-solid fa-caret-right"></i> 홈페이지 가입 목적(선택)</label>
 									    <select class="form-select" id="registerWay" name="registerWay">
-									        <option value="미선택" selected>미선택</option>
-									        <option value="정보 취득">정보 취득</option>
-									        <option value="본인의 알레르기">본인의 알레르기</option>
-									        <option value="자녀 혹은 주변인의 알레르기">자녀 혹은 주변인의 알레르기</option>
-									        <option value="환경에 대한 관심">환경에 대한 관심</option>
-									        <option value="알레르기 물품 구입">물품 구입</option>
-									        <option value="기타">기타</option>
+									        <option value="미선택" ${vo.registerWay =='미선택' ? 'selected' : ''}>미선택</option>
+									        <option value="정보 취득" ${vo.registerWay =='정보 취득' ? 'selected' : ''}>정보 취득</option>
+									        <option value="본인의 알레르기" ${vo.registerWay =='본인의 알레르기' ? 'selected' : ''}>본인의 알레르기</option>
+									        <option value="자녀 혹은 주변인의 알레르기" ${vo.registerWay =='자녀 혹은 주변인의 알레르기' ? 'selected' : ''}>자녀 혹은 주변인의 알레르기</option>
+									        <option value="환경에 대한 관심" ${vo.registerWay =='환경에 대한 관심' ? 'selected' : ''}>환경에 대한 관심</option>
+									        <option value="알레르기 물품 구입" ${vo.registerWay =='알레르기 물품 구입' ? 'selected' : ''}>물품 구입</option>
+									        <option value="기타" ${vo.registerWay =='기타' ? 'selected' : ''}>기타</option>
 									    </select>
 								    </div>
 								</div>

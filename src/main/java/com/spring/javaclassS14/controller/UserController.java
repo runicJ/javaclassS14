@@ -15,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -302,7 +303,7 @@ public class UserController {
 		return "0";
 	}
 	
-	// 로그아웃 처리
+	// 회원정보 페이지로 이동
 	@RequestMapping(value="/userMain", method=RequestMethod.GET)
 	public String userMainGet() {
 		return "users/userMain";
@@ -310,7 +311,23 @@ public class UserController {
 	
 	// 회원정보 수정 폼 띄우기
 	@RequestMapping(value="/userUpdate", method=RequestMethod.GET)
-	public String userUpdateGet() {
+	public String userUpdateGet(HttpSession session, Model model) {
+		String userId = (String) session.getAttribute("sUid");
+		UserVO vo = userService.getUserIdCheck(userId);
+		
+		model.addAttribute("vo", vo);
+		
 		return "users/userUpdate";
+	}
+	
+	// 회원탈퇴 페이지로 이동
+	@RequestMapping(value="/userDelete", method=RequestMethod.GET)
+	public String userDeleteGet(HttpSession session, Model model) {
+		String userId = (String) session.getAttribute("sUid");
+		UserVO vo = userService.getUserIdCheck(userId);
+		
+		model.addAttribute("vo", vo);
+		
+		return "users/userDelete";
 	}
 }

@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -11,7 +12,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.AdminService;
+import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.vo.PageVO;
+import com.spring.javaclassS14.vo.ShopVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 @Controller
@@ -19,10 +22,13 @@ import com.spring.javaclassS14.vo.UserVO;
 public class AdminController {
 	
 	@Autowired
+	PageProcess pageProcess;
+	
+	@Autowired
 	AdminService adminService;
 	
 	@Autowired
-	PageProcess pageProcess;
+	ShopService shopService;
 	
 	// 관리자 페이지로 이동
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
@@ -43,6 +49,15 @@ public class AdminController {
 		model.addAttribute("pageVO", pageVO);
 		
 		return "admin/user/userList";
+	}
+	
+	// 제품 카테고리 관리 페이지 이동
+	@RequestMapping(value="/productCategory", method=RequestMethod.GET)
+	public String productCategory(Model model) {
+		List<ShopVO> vos = shopService.getCategoryList();
+		
+		model.addAttribute("vos",vos);
+		return "admin/shop/productCategory";
 	}
 		
 }
