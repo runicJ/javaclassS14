@@ -22,4 +22,8 @@ public interface UserDAO {
 
 	public int setUserDelete(@Param("userId") String userId);
 
+	public int totRecCnt();
+
+	public int totRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
+
 }

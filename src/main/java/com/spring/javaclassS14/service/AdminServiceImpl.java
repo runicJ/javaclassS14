@@ -18,4 +18,14 @@ public class AdminServiceImpl implements AdminService {
 	public ArrayList<UserVO> getUserList(int startIndexNo, int pageSize) {
 		return adminDAO.getUserList(startIndexNo, pageSize);
 	}
+
+	@Override
+	public ArrayList<UserVO> getDeleteUserList(int startIndexNo, int pageSize) {
+		return adminDAO.getDeleteUserList(startIndexNo, pageSize);
+	}
+
+	@Override
+	public int getDeleteUser(String delFlag, String userId) {
+		return adminDAO.getDeleteUser(delFlag, userId);
+	}
 }

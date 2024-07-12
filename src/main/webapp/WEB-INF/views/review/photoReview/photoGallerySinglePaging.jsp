@@ -4,7 +4,7 @@
 	  <c:forEach var="photo" items="${vos}" varStatus="st">
 	    <div class="card mb-5" style="width:97%;">
 		    <div class="card-body m-0 p-2 text-center">
-		      <img src="${ctp}/images/photoGallery/${photo[1]}" width="95%" />
+		      <img src="${ctp}/photoGallery/${photo[1]}" width="95%" />
 		    </div> 
 		    <div class="card-footer">
 		      <div class="text-center" style="font-size:10px">${photo[0]} : ${photo[1]}</div>

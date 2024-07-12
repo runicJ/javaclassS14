@@ -5,5 +5,20 @@
  	<select id="getUserList" resultType="com.spring.javaclassS14.vo.UserVO">
  		select * from users order by userIdx desc limit #{startIndexNo},#{pageSize};
  	</select>
+
+ 	<select id="getDeleteUserList" resultType="com.spring.javaclassS14.vo.UserVO">
+ 		select *, datediff(deleteDate, now()) as deleteDiff from delete_users order by deleteIdx desc limit #{startIndexNo},#{pageSize};
+ 	</select>
  	
+ 	
+ 	<update id="getDeleteUser">
+ 		<if test="#{delFlag == 'Ok'}">
+ 			update delete_users set userId='del_'userId and email='del_'email where userId=#{userId};
+ 			delete from users where userId=#{userId};
+ 		</if>
+ 		<if test="#{delFlag != 'Ok'}">
+ 			update users set userStatus='on' where userId=#{userId};
+ 			delete from delete_users where userId=#{userId};
+ 		</if>
+ 	</update>
 </mapper>

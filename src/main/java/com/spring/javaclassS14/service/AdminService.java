@@ -8,4 +8,8 @@ public interface AdminService {
 
 	public ArrayList<UserVO> getUserList(int startIndexNo, int pageSize);
 
+	public ArrayList<UserVO> getDeleteUserList(int startIndexNo, int pageSize);
+
+	public int getDeleteUser(String delFlag, String userId);
+
 }

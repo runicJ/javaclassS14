@@ -1,16 +1,21 @@
 package com.spring.javaclassS14.controller;
 
-import java.io.IOException;
 import java.text.DateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 
-import org.jsoup.Connection;
+import javax.servlet.http.HttpServletRequest;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
+import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
+import org.openqa.selenium.chrome.ChromeDriver;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -44,11 +49,11 @@ public class HomeController {
 		
 		return "home";
 	}
-	
+	/*
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
     public String main(Model model) throws IOException {
         String searchString = "알레르기";
-        Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web&display=30");
+        Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web");
         
         Document document = conn.get();
         
@@ -111,6 +116,8 @@ public class HomeController {
         
         return "main/main";
     }
+	*/
+	
 	
 	/*
 	@RequestMapping(value = "/main", method = RequestMethod.GET)
@@ -217,6 +224,82 @@ public class HomeController {
 	@RequestMapping(value="/introduce/purpose", method=RequestMethod.GET)
 	public String purposeGet() {
 		return "main/introduce/purpose";
+	}
+	
+	@RequestMapping(value = "/main", method = RequestMethod.GET)
+	public String mainPost(HttpServletRequest request,Model model) {
+	    List<CrawlingVO> vos = new ArrayList<CrawlingVO>();
+	    try {
+	        String realPath = request.getSession().getServletContext().getRealPath("/resources/crawling/");
+	        System.setProperty("webdriver.chrome.driver", realPath + "chromedriver.exe");
+	        WebDriver driver = new ChromeDriver();
+	        driver.get("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기");
+
+	        for (int page = 0; page < 10; page++) {
+	            // 페이지마다 새로고침된 HTML을 가져와서 Jsoup으로 파싱
+	            Document document = Jsoup.parse(driver.getPageSource());
+	            Elements titleElements = document.select("a.news_tit");
+	            Elements imageElements = document.select("a.dsc_thumb img");
+	            Elements broadcastElements = document.select("div.dsc_wrap");
+	            Elements comElements = document.select("a.info.press");
+	            Elements infoElements = document.select("span.info");
+
+	            int maxItems = 30; // 항상 30개의 뉴스 항목을 가져옴
+
+	            for (int i = 0; i < maxItems; i++) {
+	                CrawlingVO vo = new CrawlingVO();
+
+	                if (i < titleElements.size()) {
+	                    Element element = titleElements.get(i);
+	                    vo.setItem1(element.text());
+	                    vo.setItemUrl(element.attr("href"));
+	                }
+
+	                if (imageElements != null && i < imageElements.size()) {
+	                    Element element = imageElements.get(i);
+	                    vo.setItem2(element.attr("src").toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
+	                }
+	                else {
+	                	vo.setItem2("");
+	                }
+
+	                if (i < broadcastElements.size()) {
+	                    Element element = broadcastElements.get(i);
+	                    vo.setItem3(element.text());
+	                }
+
+	                if (i < comElements.size()) {
+	                	Element element = comElements.get(i);
+	                	vo.setItem4(element.text());
+	                }
+	                
+	                if (i < infoElements.size()) {
+	                    Element element = infoElements.get(i);
+	                    vo.setItem5(element.text());
+	                }
+
+	                vos.add(vo);
+	            }
+
+	            // 페이지 넘기기 버튼 클릭
+	            if (page < 9) {
+	                // 페이지 넘기기 버튼 클릭 로직 (스크롤 다운 예시)
+	                ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+	                try {
+	                    Thread.sleep(2000);
+	                } catch (InterruptedException e) {
+	                    e.printStackTrace();
+	                }
+	            }
+	        }
+	        driver.quit(); // WebDriver 종료
+
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    model.addAttribute("vos", vos);
+	    
+	    return "main/main";
 	}
 	
 }

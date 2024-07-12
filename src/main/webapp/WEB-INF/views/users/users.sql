@@ -2,7 +2,7 @@ show tables;
 
 create table users (
 	userIdx     int auto_increment primary key,
-	userId      varchar(20) not null,
+	userId      varchar(20) not null unique key,
 	userPwd     varchar(255) not null,
 	name        varchar(50) not null,
 	nickName    varchar(30) not null,
@@ -27,17 +27,20 @@ SET @COUNT = 0;
 UPDATE users SET userIdx = @COUNT:=@COUNT+1;
 
 create table user_log (
-	log_idx    int auto_increment primary key,
-	user_idx   int not null,
-	login_time datetime default now() not null,
-	host_ip    varchar(255) not null
+	logIdx     int auto_increment primary key,
+	userId     varchar(20),
+	loginTime  datetime default now() not null,
+	hostIp     varchar(255) not null,
+	foreign key(userId) references users(userId) on delete set null
 );
+
+drop table user_log;
 
 create table delete_users (
 	deleteIdx  int auto_increment primary key,
-	userId     varchar(20) not null,
+	userId     varchar(20),
 	email      varchar(60) not null,
-	deleteDate datetime default now(),
+	deleteDate datetime default now() not null,
 	deleteReason text,
-	foreign key (userId) references users(userId)
+	foreign key (userId) references users (userId) on delete set null
 );

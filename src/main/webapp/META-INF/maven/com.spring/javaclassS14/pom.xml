@@ -250,6 +250,31 @@
 		    <version>3.12.0</version>
 		</dependency>
 		
+		<!-- QR Code 생성을 위한 구글 라이브러리(zxing) -->
+		<!-- https://mvnrepository.com/artifact/com.google.zxing/javase -->
+		<dependency>
+		    <groupId>com.google.zxing</groupId>
+		    <artifactId>javase</artifactId>
+		    <version>3.5.1</version>
+		</dependency>
+
+		<!-- 썸네일 이미지를 위한 라이브러리(thumbnailator) -->
+		<!-- https://mvnrepository.com/artifact/net.coobird/thumbnailator -->
+		<dependency>
+		    <groupId>net.coobird</groupId>
+		    <artifactId>thumbnailator</artifactId>
+		    <version>0.4.20</version>
+		</dependency>
+		
+		<!-- BackEnd 체크를 위한 validator 라이브러리(data검증:유효성검사) -->
+		<!-- https://mvnrepository.com/artifact/org.hibernate.validator/hibernate-validator -->
+		<dependency>
+				<!-- 객체지향 관계형 데이터베이스 지원 hibernate -->
+		    <groupId>org.hibernate.validator</groupId>
+		    <artifactId>hibernate-validator</artifactId>
+    		<version>6.2.0.Final</version>
+		</dependency>
+		
 	</dependencies>
     <build>
         <plugins>

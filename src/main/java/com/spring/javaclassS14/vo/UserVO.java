@@ -19,6 +19,19 @@ public class UserVO {
 	private String policyFlag;
 	private String createDate;
 	private String updateate;
-	private int level;
+	private double level;
+	private String userStatus;
 	
+	// 회원 접속 로그
+	private int logIdx;
+	private String loginTime;
+	private String hostIp;
+	
+	// 탈퇴 회원
+	private int deleteIdx;
+	private String deleteDate;
+	private String deleteReason;
+	
+	private int deleteDiff;
+	private String delStatus;
 }

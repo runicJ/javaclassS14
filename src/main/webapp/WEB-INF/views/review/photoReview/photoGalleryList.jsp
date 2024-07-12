@@ -15,7 +15,7 @@
     	let part = $("#part").val();
     	let choice = $("#choice").val();
     	
-    	location.href = "PhotoGallery.ptg?part="+part+"&choice="+choice;
+    	location.href = "${ctp}/review/photoGallery?part="+part+"&choice="+choice;
     }
     
     
@@ -31,11 +31,11 @@
     	// 스크롤이 아래로 내려갔을때 이벤트 처리..
     	if(currentScroll > lastScroll) {
     		if(documentHeight < (nowHeight + (documentHeight*0.1))) {
-    			console.log("다음페이지 가져오기");
+    			//console.log("다음페이지 가져오기");
     			curPage++;
     			//getList(curPage);
     			$.ajax({
-  	    		url  : "PhotoGalleryPaging.ptg",
+  	    		url  : "${ctp}/review/photoGalleryPaging",
   	    		type : "post",
   	    		data : {pag : curPage},
   	    		success:function(res) {
@@ -50,7 +50,7 @@
     // 리스트 불러오기 함수(ajax처리)
     function getList(curPage) {
     	$.ajax({
-    		url  : "PhotoGallery.ptg",
+    		url  : "${ctp}/review/photoGallery",
     		type : "post",
     		data : {pag : curPage},
     		success:function(res) {
@@ -108,8 +108,8 @@
         </div>
       </td>
       <td class="text-right">
-        <input type="button" value="사진올리기" onclick="location.href='PhotoGalleryInput.ptg';" class="btn btn-success"/>
-        <input type="button" value="한장씩보기" onclick="location.href='PhotoGallerySingle.ptg';" class="btn btn-info mr-2"/>
+        <input type="button" value="사진올리기" onclick="location.href='${ctp}/review/photoGalleryInput';" class="btn btn-success"/>
+        <input type="button" value="한장씩보기" onclick="location.href='${ctp}/review/photoGallerySingle';" class="btn btn-info mr-2"/>
       </td>
     </tr>
   </table>

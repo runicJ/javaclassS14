@@ -51,13 +51,43 @@ public class AdminController {
 		return "admin/user/userList";
 	}
 	
+	// 회원리스트
+	@RequestMapping(value="/deleteUserList", method=RequestMethod.GET)
+	public String deleteUserListGet(Model model,
+			@RequestParam(name="pag", defaultValue="1", required=false) int pag,
+			@RequestParam(name="pageSize", defaultValue="5", required=false) int pageSize) {
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "user", "", "");
+		
+		ArrayList<UserVO> vos = adminService.getDeleteUserList(pageVO.getStartIndexNo(), pageSize);
+		
+		model.addAttribute("vos", vos);
+		model.addAttribute("pageVO", pageVO);
+		
+		return "admin/user/deleteUserList";
+	}
+	
+	// 회원리스트
+	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
+	public String userDeletePost(String delFlag, String userId) {
+		int res = adminService.getDeleteUser(delFlag, userId);
+		
+		if(res != 0) return "redirect:/msg/userCheckOk?delFlag="+delFlag;
+		else return "redirect:/msg/userCheckNo?delFlag="+delFlag;
+	}
+	
 	// 제품 카테고리 관리 페이지 이동
 	@RequestMapping(value="/productCategory", method=RequestMethod.GET)
-	public String productCategory(Model model) {
+	public String productCategoryGet(Model model) {
 		List<ShopVO> vos = shopService.getCategoryList();
 		
 		model.addAttribute("vos",vos);
 		return "admin/shop/productCategory";
+	}
+	
+	// 제품 입력 페이지 이동
+	@RequestMapping(value="/productInput", method=RequestMethod.GET)
+	public String productInputGet() {
+		return "admin/shop/productInput";
 	}
 		
 }

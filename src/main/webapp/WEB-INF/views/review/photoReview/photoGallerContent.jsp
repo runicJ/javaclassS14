@@ -119,13 +119,13 @@
     		return false;
     	}
     	let query = {
-    			mid				: '${sMid}',
-    			photoIdx	: '${vo.idx}',
-    			content		: content
+    			mid	: '${sUid}',
+    			photoIdx : '${vo.idx}',
+    			content	: content
     	}
     	
     	$.ajax({
-    		url  : "PhotoGalleryReplyInput.ptg",
+    		url  : "${ctp}/review/photoGalleryReplyInput",
     		type : "post",
     		data : query,
     		success:function(res) {
@@ -147,7 +147,7 @@
     	if(!ans) return false;
     	
     	$.ajax({
-    		url  : "PhotoGalleryReplyDelete.ptg",
+    		url  : "${ctp}/review/photoGalleryReplyDelete",
     		type : "post",
     		data : {idx : idx},
     		success:function(res) {
@@ -166,7 +166,7 @@
     // 좋아요 처리(중복불허)
     function goodCheck() {
     	$.ajax({
-    		url  : "PhotoGalleryGoodCheck.ptg",
+    		url  : "${ctp}/review/photoGalleryGoodCheck",
     		type : "post",
     		data : {idx : ${vo.idx}},
     		success:function(res) {
@@ -202,7 +202,7 @@
 	  <c:forEach var="i" begin="0" end="${vo.photoCount-1}" varStatus="st">
 			<div class="mySlides">
 			  <div class="numbertext">${i+1} / ${vo.photoCount}</div>
-    		<img src="${ctp}/images/photoGallery/${fn:split(vo.fSName,'/')[i]}" width="100%" />
+    		<img src="${ctp}/photoGallery/${fn:split(vo.fSName,'/')[i]}" width="100%" />
 			  <div class="text">${fn:split(vo.fSName,'/')[i]}</div>
 			</div>
 		</c:forEach>
@@ -219,7 +219,7 @@
   <br/>
   <div class="row">
     <div class="col">
-      <input type="button" value="목록보기" onclick="location.href='PhotoGallery.ptg';" class="btn btn-secondary"/>
+      <input type="button" value="목록보기" onclick="location.href='${ctp}/review/photoGallery';" class="btn btn-secondary"/>
       <input type="button" value="댓글가리기" onclick="replyHide()" id="replyHideBtn" class="btn btn-info"/>
       <input type="button" value="댓글보이기" onclick="replyShow()" id="replyShowBtn" class="btn btn-warning" style="display:none;"/>
     </div>

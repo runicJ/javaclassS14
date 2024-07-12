@@ -517,7 +517,7 @@
 							<a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
 						</p>
 					</aside> --%>
-<aside>
+<%-- <aside>
     <h1 class="aside-title">상위 뉴스 목록 
         <div class="carousel-nav" id="hot-news-nav">
             <div class="prev" data-target="#hot-news-carousel" data-slide="prev">
@@ -530,34 +530,83 @@
     </h1>
     <div id="hot-news-carousel" class="carousel slide" data-ride="carousel">
         <div class="carousel-inner">
-            <c:if test="${!empty naverVos}">
-                <c:forEach var="naverVo" items="${naverVos}" varStatus="status">
+            <c:if test="${!empty vos}">
+                <c:forEach var="vo" items="${vos}" varStatus="st">
                     <c:if test="${status.index % 6 == 0}">
-                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+                        <div class="carousel-item ${st.index == 0 ? 'active' : ''}">
                             <div class="news-group">
                     </c:if>
                     <article class="article-mini">
                         <div class="inner">
                             <figure>
-                                <%-- <a style="object-fit:cover;">${naverVo.item2}</a> --%>
-                                <a style="object-fit:cover;"><img src="${naverVo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;"></a>
+                                <a style="object-fit:cover;">${naverVo.item2}</a>
+                                <a style="object-fit:cover;"><img src="${vos.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;"></a>
                             </figure>
                             <div class="padding">
-                                <h1><a href="${naverVo.itemUrl}" target="_blank">${naverVo.item1}</a></h1>
+                                <h1><a href="${vos.itemUrl}" target="_blank">${vos.item1}</a></h1>
                                 <div class="detail">
                                     <div class="category"><a href="category.html">Lifestyle</a></div>
-                                    <div class="time">${naverVo.item4}</div>
+                                    <div class="time">${vos.item4}</div>
                                 </div>
                             </div>
                         </div>
                     </article>
-                    <c:if test="${(status.index + 1) % 6 == 0 || status.index + 1 == naverVos.size()}">
+                    <c:if test="${(st.index + 1) % 6 == 0 || st.index + 1 == vos.size()}">
                             </div>
                         </div>
                     </c:if>
                 </c:forEach>
             </c:if>
-            <c:if test="${empty naverVos}">
+            <c:if test="${empty vos}">
+                <p>spinner</p>
+                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(네트워크 '수리중'일 수 있습니다.)</span>
+            </c:if>
+        </div>
+    </div>
+    <p class="float-right">
+        <a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
+    </p>
+</aside> --%>
+<aside>
+    <h1 class="aside-title">상위 뉴스 목록 
+        <div class="carousel-nav" id="hot-news-nav">
+            <div class="prev" data-target="#hot-news-carousel" data-slide="prev">
+                <i class="ion-ios-arrow-left"></i>
+            </div>
+            <div class="next" data-target="#hot-news-carousel" data-slide="next">
+                <i class="ion-ios-arrow-right"></i>
+            </div>
+        </div>
+    </h1>
+    <div id="hot-news-carousel" class="carousel slide" data-max="6" data-ride="carousel">
+        <div class="carousel-inner">
+            <c:if test="${!empty vos}">
+                <c:forEach var="vo" items="${vos}" varStatus="status">
+    <c:if test="${status.index % 6 == 0}">
+        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+            <div class="news-group">
+    </c:if>
+    <article class="article-mini">
+        <div class="inner">
+            <figure>
+                <a style="object-fit:cover;"><img src="${vo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;"></a>
+            </figure>
+            <div class="padding">
+                <h1><a href="${vo.itemUrl}" target="_blank">${vo.item1}</a></h1>
+                <div class="detail">
+                    <div class="category"><a href="category.html">${vo.item4}</a></div>
+                    <div class="time">${vo.item5}</div>
+                </div>
+            </div>
+        </div>
+    </article>
+    <c:if test="${(status.index + 1) % 6 == 0 || status.index + 1 == vos.size()}">
+        </div>
+    </div>
+    </c:if>
+</c:forEach>
+            </c:if>
+            <c:if test="${empty vos}">
                 <p>spinner</p>
                 <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(네트워크 '수리중'일 수 있습니다.)</span>
             </c:if>

@@ -28,11 +28,11 @@
             <div class="page-breadcrumb">
                 <div class="row">
                     <div class="col-7 align-self-center">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"> ${sNickName} 님:) 회원관리에 항상 신중하세요!</h3>
+                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"> 관리자 님 \^0^/ 회원관리에 항상 신중하세요!</h3>
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="${ctp}/main"><i class="fa-solid fa-house"></i>메인페이지로</a>
+                                    <li class="breadcrumb-item"><a href="${ctp}/main"><i class="fa-solid fa-house"></i> 메인페이지로</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -82,7 +82,10 @@
                                     <table class="table no-wrap v-middle mb-0 text-center">
                                         <thead>
                                             <tr class="border-0">
-                                                <th class="border-0 font-14 font-weight-medium text-muted">선택</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">
+				                                    <input class="form-check-input" type="checkbox" id="inlineCheckbox" value="option">
+				                                    <label class="form-check-label" for="inlineCheckbox">선택</label>
+												</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">등급</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">이름</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted px-2">아이디</th>
@@ -104,7 +107,10 @@
 					                                </div>
                                                 </td>
                                                 <td class="border-top-0 text-center px-2 py-4">
-                                                	<i class="fa fa-circle text-primary font-12" data-toggle="tooltip" data-placement="top" title="In Testing"></i>
+                                                	<c:if test="${vo.level == 0.5}"><i class="fa fa-circle text-danger font-18" data-toggle="tooltip" data-placement="top" title="귀한분(0.5)"></i></c:if>
+                                                	<c:if test="${vo.level == 1}"><i class="fa fa-circle text-warning font-16" data-toggle="tooltip" data-placement="top" title="전문가(1)"></i></c:if>
+                                                	<c:if test="${vo.level == 2}"><i class="fa fa-circle text-success font-14" data-toggle="tooltip" data-placement="top" title="숙련자(2)"></i></c:if>
+                                                	<c:if test="${vo.level == 3}"><i class="fa fa-circle text-primary font-12" data-toggle="tooltip" data-placement="top" title="지식인(3)"></i></c:if>
                                                 </td>
                                                 <td class="border-top-0 px-2 py-4">
                                                     <div class="d-flex no-block align-items-center">
@@ -127,10 +133,10 @@
 
                                                	<td class="border-top-0 px-2 py-4">
                                                     <div class="popover-icon">
-                                                    	<c:if test="${vo.level != 99}">
+                                                    	<c:if test="${vo.userStatus =='on'}">
                                                         	<a class="btn btn-success rounded-circle btn-circle font-12 popover-item" href="javascript:void(0)">정상</a>
 	                                                    </c:if>
-	                                                    <c:if test="${vo.level == 99}">
+	                                                    <c:if test="${vo.userStatus == 'off'}">
                                                         	<a class="btn btn-danger rounded-circle btn-circle font-12 popover-item" href="javascript:void(0)">탈퇴</a>
                                                         </c:if>
                                                         <!-- <a class="btn btn-cyan rounded-circle btn-circle font-12 popover-item"
@@ -150,37 +156,24 @@
                         </div>
                         <div class="text-center">
                          <nav aria-label="...">
-                          <ul class="pagination">
-                              <li class="page-item disabled">
-                                   <a class="page-link" href="javascript:void(0)"
-                                       tabindex="-1">Previous</a>
-                              </li>
-                              <li class="page-item"><a class="page-link"
-                                       href="javascript:void(0)">1</a></li>
-                              <li class="page-item active">
-                                   <a class="page-link" href="javascript:void(0)">2 <span
-                                           class="sr-only">(current)</span></a>
-                              </li>
-                              <li class="page-item"><a class="page-link"
-                                       href="javascript:void(0)">3</a></li>
-                              <li class="page-item">
-                                   <a class="page-link" href="javascript:void(0)">Next</a>
-                              </li>
+                          <ul class="pagination justify-content-center">
+                              <c:if test="${pageVO.pag > 1}"><li class="page-item">
+                              	<a class="page-link" href="${ctp}/admin/userList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
+                              </li></c:if>
+                              <c:if test="${pageVO.curBlock > 0}"><li class="page-item">
+                              	<a class="page-link" href="${ctp}/admin/userList??pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
+                              </li></c:if>
+                              
+                              <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
+								    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+								    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+							  </c:forEach>
+                              
+							  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
+							  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
                           </ul>
                       	</nav>
                      	</div>
-                     		<%-- <div class="text-center">
-							  <ul class="pagination justify-content-center">
-								  <c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=1&pageSize=${pageVO.pageSize}">첫페이지</a></li></c:if>
-								  <c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
-								  <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
-								    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="boardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-								    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
-								  </c:forEach>
-								  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
-								  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
-							  </ul>
-							</div> --%>
                     </div>
                 </div>
                 <!-- *************************************************************** -->

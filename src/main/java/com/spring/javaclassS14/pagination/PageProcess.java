@@ -18,13 +18,13 @@ public class PageProcess {
 		int totRecCnt = 0;
 		String search = "";
 		
-//		if(section.equals("board")) {
-//			if(part.equals("")) totRecCnt = boardDAO.totRecCnt();
-//			else {
-//				search = part;
-//				totRecCnt = boardDAO.totRecCntSearch(search, searchString);
-//			}
-//		}
+		if(section.equals("user")) {
+			if(part.equals("")) totRecCnt = userDAO.totRecCnt();
+			else {
+				search = part;
+				totRecCnt = userDAO.totRecCntSearch(search, searchString);
+			}
+		}
 //		else if(section.equals("pds")) totRecCnt = pdsDAO.totRecCnt(part);
 		
 		int totPage = (totRecCnt % pageSize) == 0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;

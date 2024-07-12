@@ -50,7 +50,7 @@
   <h2>사진파일 업로드</h2>
   <div>(Shift/Ctrl키를 사용하여 여러장의 사진을 업로드할수 있습니다.)</div>
   <hr/>
-  <form name="myform" method="post" action="PhotoGalleryInputOk" enctype="multipart/form-data">
+  <form name="myform" method="post" enctype="multipart/form-data">
     <div class="input-group mb-2">
       <div class="input-group-prepend input-group-text">분 류</div>
       <select name="part" id="part" class="form-control">
@@ -74,7 +74,7 @@
     	<div class="col"><input type="button" value="파일전송" onclick="fCheck()" class="btn btn-success"/></div>
     	<div class="col text-right"><input type="button" value="돌아가기" onclick="location.href='PhotoGallery.ptg';" class="btn btn-warning"/></div>
     </div>
-    <input type="hidden" name="mid" value="${sMid}" />
+    <input type="hidden" name="userId" value="${sUid}" />
     <input type="hidden" name="hostIp" value="${pageContext.request.remoteAddr}" />
   </form>
   <hr/>
