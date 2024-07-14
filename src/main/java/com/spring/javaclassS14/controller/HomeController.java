@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.controller;
 
 import java.text.DateFormat;
+import java.time.Duration;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -12,10 +13,12 @@ import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
-import org.openqa.selenium.JavascriptExecutor;
+import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.chrome.ChromeOptions;
+import org.openqa.selenium.support.ui.ExpectedConditions;
+import org.openqa.selenium.support.ui.WebDriverWait;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -49,257 +52,211 @@ public class HomeController {
 		
 		return "home";
 	}
-	/*
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String main(Model model) throws IOException {
-        String searchString = "알레르기";
-        Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web");
-        
-        Document document = conn.get();
-        
-        ArrayList<String> titleVos = new ArrayList<>();
-        ArrayList<String> urlVos = new ArrayList<>();
-        ArrayList<String> imageVos = new ArrayList<>();
-        ArrayList<String> broadcastVos = new ArrayList<>();
-        ArrayList<String> infoVos = new ArrayList<>();
-        
-        Elements titleElements = document.select("a.news_tit");
-        Elements imageElements = document.select("a.dsc_thumb img");
-        Elements broadcastElements = document.select("div.dsc_wrap");
-        Elements infoElements = document.select("span.info");
-        
-        int maxItems = 30; // 항상 30개의 뉴스 항목을 가져옴
-        
-        for (int i = 0; i < maxItems; i++) {
-            if (i < titleElements.size()) {
-                Element element = titleElements.get(i);
-                titleVos.add(element.text());
-                urlVos.add(element.attr("href"));
-            } else {
-                titleVos.add("");
-                urlVos.add("");
+	
+//	@RequestMapping(value = "/main", method = RequestMethod.GET)
+//	public String mainPost(HttpServletRequest request, Model model) {
+//        List<CrawlingVO> vos = new ArrayList<>();
+//        WebDriver driver = null;
+//        
+//	    try {
+//	    	String realPath = request.getSession().getServletContext().getRealPath("/resources/crawling/");
+//            System.setProperty("webdriver.chrome.driver", realPath + "chromedriver.exe");
+//            
+//            ChromeOptions options = new ChromeOptions();
+//            options.addArguments("--headless"); // 헤드리스 모드 설정
+//            options.addArguments("--disable-gpu");
+//            options.addArguments("--no-sandbox");
+//            options.addArguments("--disable-dev-shm-usage");
+//            
+//            driver = new ChromeDriver(options);
+//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
+//
+//            String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
+//	        for (int page = 1; page <= 5; page++) {
+//	            String url = baseUrl + "&start=" + ((page - 1) * 10 + 1); // 네이버는 페이지네이션을 start=11, 21 등으로 사용합니다.
+//	            driver.get(url);
+//	            
+//	            // 페이지가 완전히 로드될 때까지 대기
+//                wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a.news_tit")));
+//
+//                // JavaScript를 사용하여 이미지가 로드될 때까지 대기
+//                ((ChromeDriver) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
+//                Thread.sleep(2000); // 추가 대기
+//                
+//	            Document document = Jsoup.connect(url).get();
+//	            Elements titleElements = document.select("a.news_tit");
+//	            Elements imageElements = document.select("a.dsc_thumb img");
+//	            Elements broadcastElements = document.select("a.dsc_wrap");
+//	            Elements comElements = document.select("a.info.press");
+//	            Elements infoElements = document.select("span.info");
+//
+//	            int maxItems = titleElements.size();
+//
+//	            for (int i = 0; i < maxItems; i++) {
+//	                CrawlingVO vo = new CrawlingVO();
+//
+//	                if (i < titleElements.size()) {
+//	                    Element element = titleElements.get(i);
+//	                    vo.setItem1(element.text());
+//	                    vo.setItemUrl(element.attr("href"));
+//	                }
+//	                
+//                    if (i < imageElements.size()) {
+//                        Element element = imageElements.get(i);
+//                        String imgTag = element.outerHtml();
+//                        vo.setItem2(imgTag.attr("data-lazy-src"));
+//                        System.out.println("Image: " + vo.getItem2());
+//                    } else {
+//                        vo.setItem2(""); // 이미지가 없는 경우 빈 문자열 설정
+//                        System.out.println("Image: None");
+//                    }
+//
+//	                if (i < broadcastElements.size()) {
+//	                    Element element = broadcastElements.get(i);
+//	                    vo.setItem3(element.text());
+//	                }
+//
+//	                if (i < comElements.size()) {
+//	                    Element element = comElements.get(i);
+//	                    vo.setItem4(element.text());
+//	                }
+//
+//	                if (i < infoElements.size()) {
+//	                    Element element = infoElements.get(i);
+//	                    vo.setItem5(element.text());
+//	                }
+//
+//	                vos.add(vo);
+//	            }
+//	        }
+//	    } catch (Exception e) {
+//	        e.printStackTrace();
+//        } finally {
+//            if (driver != null) {
+//                driver.quit();
+//            }
+//        }
+//        model.addAttribute("vos", vos);
+//
+//	    return "main/main";
+//	}
+
+//	@RequestMapping(value = "/main", method = RequestMethod.GET)
+//    public String mainPost(HttpServletRequest request, Model model) {
+//        List<CrawlingVO> vos = new ArrayList<>();
+//        try {
+//            String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
+//            for (int page = 1; page <= 5; page++) { // 5페이지로 제한
+//                String url = baseUrl + "&start=" + ((page - 1) * 10 + 1); // 페이지네이션을 위한 URL 구성
+//                Document document = Jsoup.connect(url).get();
+//                Elements titleElements = document.select("a.news_tit");
+//                Elements imageElements = document.select("a.dsc_thumb img");
+//                Elements broadcastElements = document.select("div.dsc_wrap");
+//                Elements comElements = document.select("a.info.press");
+//                Elements infoElements = document.select("span.info");
+//
+//                int maxItems = titleElements.size();
+//
+//                for (int i = 0; i < maxItems; i++) {
+//                    CrawlingVO vo = new CrawlingVO();
+//
+//                    if (i < titleElements.size()) {
+//                        Element element = titleElements.get(i);
+//                        vo.setItem1(element.text());
+//                        vo.setItemUrl(element.attr("href"));
+//                        System.out.println("Title: " + vo.getItem1());
+//                        System.out.println("URL: " + vo.getItemUrl());
+//                    }
+//
+//                    if (document.select("a.dsc_thumb").isEmpty() || i >= imageElements.size() || !imageElements.get(i).hasAttr("data-lazysrc")) {
+//                        vo.setItem2("");
+//                    } else {
+//                        Element element = imageElements.get(i);
+//                        String imgSrc = element.attr("data-lazysrc");
+//                        vo.setItem2(imgSrc);
+//                        System.out.println("Image: " + vo.getItem2());
+//                    }
+//
+//                    if (i < broadcastElements.size()) {
+//                        Element element = broadcastElements.get(i);
+//                        vo.setItem3(element.text());
+//                        System.out.println("Broadcast: " + vo.getItem3());
+//                    }
+//
+//                    if (i < comElements.size()) {
+//                        Element element = comElements.get(i);
+//                        vo.setItem4(element.text());
+//                        System.out.println("Company: " + vo.getItem4());
+//                    }
+//
+//                    if (i < infoElements.size()) {
+//                        Element element = infoElements.get(i);
+//                        vo.setItem5(element.text());
+//                        System.out.println("Info: " + vo.getItem5());
+//                    }
+//
+//                    vos.add(vo);
+//                }
+//            }
+//        } catch (Exception e) {
+//            e.printStackTrace();
+//        }
+//        model.addAttribute("vos", vos);
+//
+//        return "main/main";
+//    }
+	
+    @RequestMapping(value = "/main", method = RequestMethod.GET)
+    public String mainPost(HttpServletRequest request, Model model) {
+        List<CrawlingVO> vos = new ArrayList<>();
+        try {
+            String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
+            for (int page = 1; page <= 5; page++) {
+                String url = baseUrl + "&start=" + ((page - 1) * 10 + 1);  // 네이버는 이렇게 페이지 구성함?
+                Document document = Jsoup.connect(url).get();
+                Elements newsElements = document.select("div.news_wrap.api_ani_send");
+
+                for (Element newsElement : newsElements) {
+                    CrawlingVO vo = new CrawlingVO();
+
+                    Element titleElement = newsElement.selectFirst("a.news_tit");
+                    if (titleElement != null) {
+                        vo.setItem1(titleElement.text());
+                        vo.setItemUrl1(titleElement.attr("href"));
+                    }
+
+                    Element imageElement = newsElement.selectFirst("a.dsc_thumb img");
+                    if (imageElement != null && imageElement.hasAttr("data-lazysrc")) {
+                        vo.setItem2(imageElement.attr("data-lazysrc"));
+                    } 
+                    else {
+                        vo.setItem2("");
+                    }
+
+                    Element broadcastElement = newsElement.selectFirst("div.dsc_wrap");
+                    if (broadcastElement != null) {
+                        vo.setItem3(broadcastElement.text());
+                    }
+
+                    Element comElement = newsElement.selectFirst("a.info.press");
+                    if (comElement != null) {
+                        vo.setItem4(comElement.text());
+                        vo.setItemUrl2(titleElement.attr("href"));
+                    }
+
+                    Element infoElement = newsElement.selectFirst("span.info");
+                    if (infoElement != null) {
+                        vo.setItem5(infoElement.text());
+                    }
+
+                    vos.add(vo);
+                }
             }
-            
-            if (i < imageElements.size()) {
-                Element element = imageElements.get(i);
-                imageVos.add(element.attr("src").toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
-            } else {
-                imageVos.add("");
-            }
-            
-            if (i < broadcastElements.size()) {
-                Element element = broadcastElements.get(i);
-                broadcastVos.add(element.text());
-            } else {
-                broadcastVos.add("");
-            }
-            
-            if (i < infoElements.size()) {
-                Element element = infoElements.get(i);
-                infoVos.add(element.text());
-            } else {
-                infoVos.add("");
-            }
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        
-        ArrayList<CrawlingVO> naverVos = new ArrayList<>();
-        for (int i = 0; i < maxItems; i++) {
-            CrawlingVO vo = new CrawlingVO();
-            vo.setItem1(titleVos.get(i));
-            vo.setItem2(imageVos.get(i));
-            vo.setItem3(broadcastVos.get(i));
-            vo.setItem4(infoVos.get(i));
-            vo.setItemUrl(urlVos.get(i));
-            naverVos.add(vo);
-        }
-        model.addAttribute("naverVos", naverVos);
-        
+        model.addAttribute("vos", vos);
+
         return "main/main";
     }
-	*/
-	
-	
-	/*
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main(Model model) throws IOException {
-		String searchString = "알레르기";
-		Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query="+searchString+"&where=web");
-		
-		Document document = conn.get();
-		
-		Elements selects = null;
-		
-		ArrayList<String> titleVos = new ArrayList<String>();
-		ArrayList<String> urlVos = new ArrayList<String>();
-		selects = document.select("a.news_tit");
-		for(Element select : selects) {
-			titleVos.add(select.html());
-			urlVos.add(select.attr("href"));
-		}
-		
-		ArrayList<String> imageVos = new ArrayList<String>();
-		selects = document.select("a.dsc_thumb");
-		for(Element select : selects) {
-			imageVos.add(select.toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
-		}
-		
-		ArrayList<String> broadcastVos = new ArrayList<String>();
-		selects = document.select("div.dsc_wrap");
-		for(Element select : selects) {
-			broadcastVos.add(select.html());
-		}
-		
-		ArrayList<String> infoVos = new ArrayList<String>();
-		selects = document.select("span.info");
-		for(Element select : selects) {
-			infoVos.add(select.html());
-		}
-		
-		ArrayList<CrawlingVO> naverVos = new ArrayList<CrawlingVO>();
-		CrawlingVO vo = null;
-		for(int i=0; i<imageVos.size(); i++) {
-			vo = new CrawlingVO();
-			vo.setItem1(titleVos.get(i));
-			vo.setItem2(imageVos.get(i));
-			vo.setItem3(broadcastVos.get(i));
-			vo.setItem4(infoVos.get(i));
-			vo.setItemUrl(urlVos.get(i));
-			naverVos.add(vo);
-		}
-		model.addAttribute("naverVos",naverVos);
-		
-		return "main/main";
-	}
-	
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String main(Model model) throws IOException {
-	    String searchString = "알레르기";
-	    Connection conn = Jsoup.connect("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=" + searchString + "&where=web");
-	    
-	    Document document = conn.get();
-	    
-	    Elements titles = document.select("a.news_tit");
-	    Elements images = document.select("a.dsc_thumb img");
-	    Elements desc = document.select("div.dsc_wrap");
-	    Elements infos = document.select("span.info");
-	    
-	    ArrayList<CrawlingVO> naverVos = new ArrayList<CrawlingVO>();
-	    
-	    for (int i = 0; i < titles.size(); i++) {
-	        CrawlingVO vo = new CrawlingVO();
-	        Element titleElement = titles.get(i);
-	        Element imageElement = i < images.size() ? images.get(i) : null;
-	        Element descElement = i < desc.size() ? desc.get(i) : null;
-	        Element infoElement = i < infos.size() ? infos.get(i) : null;
-	        
-	        vo.setItem1(titleElement.html());
-	        vo.setItemUrl(titleElement.attr("href"));
-	        
-	        if (imageElement != null) {
-	            vo.setItem2(imageElement.toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
-	        }
-	        
-	        if (descElement != null) {
-	            vo.setItem3(descElement.html());
-	        }
-	        
-	        if (infoElement != null) {
-	            vo.setItem4(infoElement.html());
-	        }
-	        
-	        naverVos.add(vo);
-	    }
-	    
-	    model.addAttribute("naverVos", naverVos);
-	    
-	    return "main/main";
-	}
-	*/
-	
-	@RequestMapping(value="/introduce/introduce", method=RequestMethod.GET)
-	public String introduceGet() {
-		return "main/introduce/introduce";
-	}
-	
-	@RequestMapping(value="/introduce/purpose", method=RequestMethod.GET)
-	public String purposeGet() {
-		return "main/introduce/purpose";
-	}
-	
-	@RequestMapping(value = "/main", method = RequestMethod.GET)
-	public String mainPost(HttpServletRequest request,Model model) {
-	    List<CrawlingVO> vos = new ArrayList<CrawlingVO>();
-	    try {
-	        String realPath = request.getSession().getServletContext().getRealPath("/resources/crawling/");
-	        System.setProperty("webdriver.chrome.driver", realPath + "chromedriver.exe");
-	        WebDriver driver = new ChromeDriver();
-	        driver.get("https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기");
-
-	        for (int page = 0; page < 10; page++) {
-	            // 페이지마다 새로고침된 HTML을 가져와서 Jsoup으로 파싱
-	            Document document = Jsoup.parse(driver.getPageSource());
-	            Elements titleElements = document.select("a.news_tit");
-	            Elements imageElements = document.select("a.dsc_thumb img");
-	            Elements broadcastElements = document.select("div.dsc_wrap");
-	            Elements comElements = document.select("a.info.press");
-	            Elements infoElements = document.select("span.info");
-
-	            int maxItems = 30; // 항상 30개의 뉴스 항목을 가져옴
-
-	            for (int i = 0; i < maxItems; i++) {
-	                CrawlingVO vo = new CrawlingVO();
-
-	                if (i < titleElements.size()) {
-	                    Element element = titleElements.get(i);
-	                    vo.setItem1(element.text());
-	                    vo.setItemUrl(element.attr("href"));
-	                }
-
-	                if (imageElements != null && i < imageElements.size()) {
-	                    Element element = imageElements.get(i);
-	                    vo.setItem2(element.attr("src").toString().replace("src=\"data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7\" data-lazy", ""));
-	                }
-	                else {
-	                	vo.setItem2("");
-	                }
-
-	                if (i < broadcastElements.size()) {
-	                    Element element = broadcastElements.get(i);
-	                    vo.setItem3(element.text());
-	                }
-
-	                if (i < comElements.size()) {
-	                	Element element = comElements.get(i);
-	                	vo.setItem4(element.text());
-	                }
-	                
-	                if (i < infoElements.size()) {
-	                    Element element = infoElements.get(i);
-	                    vo.setItem5(element.text());
-	                }
-
-	                vos.add(vo);
-	            }
-
-	            // 페이지 넘기기 버튼 클릭
-	            if (page < 9) {
-	                // 페이지 넘기기 버튼 클릭 로직 (스크롤 다운 예시)
-	                ((JavascriptExecutor) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-	                try {
-	                    Thread.sleep(2000);
-	                } catch (InterruptedException e) {
-	                    e.printStackTrace();
-	                }
-	            }
-	        }
-	        driver.quit(); // WebDriver 종료
-
-	    } catch (Exception e) {
-	        e.printStackTrace();
-	    }
-	    model.addAttribute("vos", vos);
-	    
-	    return "main/main";
-	}
-	
 }

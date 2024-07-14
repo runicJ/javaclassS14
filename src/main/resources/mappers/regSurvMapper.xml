@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.RegSurvDAO">
+    <select id="getUserInfo" parameterType="String" resultType="String">
+        SELECT nickName FROM users WHERE userId = #{userId};
+    </select>
+
+    <insert id="insertSurv" parameterType="com.spring.javaclassS14.vo.SurveyDto">
+        INSERT INTO SURVEY (survTitle, CHAR, regId, regDate, modDate, useYn)
+        VALUES (#{survTitle}, #{survDesc}, #{regId}, default, default, #{useYn});
+    </insert>
+
+    <insert id="insertSurvqust" parameterType="com.spring.javaclassS14.vo.SurvqustDto">
+        <selectKey resultType="int" keyProperty="survNo" order="BEFORE">
+            SELECT ISNULL(MAX(survNo),0) FROM SURVEY;
+        </selectKey>
+        INSERT INTO survQuest (survNo, questOrder, questContent, questType)
+        VALUES (#{survNo}, #{qustSeq}, #{qustCont}, #{qustType});
+    </insert>
+
+    <insert id="insertQustopt" parameterType="com.spring.javaclassS14.vo.QustoptDto">
+        <selectKey resultType="int" keyProperty="qustNo" order="BEFORE">
+            SELECT ISNULL(MAX(questNo),0) FROM survQuest;
+        </selectKey>
+        INSERT INTO questNo (questNo, optOrder, optContent)
+        VALUES (#{qustNo}, #{optSeq}, #{optCont});
+    </insert>
+
+    <select id="getSurvey" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyDto">
+        SELECT survNo AS survNo, survTitle AS survTitle, survDesc AS survDesc, regId AS regId, useYn, regDate AS regDate, modDate AS modDate
+        FROM SURVEY WHERE survNo = #{survNo};
+    </select>
+
+    <select id="getSurvqustList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurvqustDto">
+        SELECT survNo AS survNo, questNo AS qustNo, questOrder AS qustSeq, questType AS qustType, questContent AS qustCont
+        FROM survQuest WHERE survNo = #{survNo};
+    </select>
+
+    <select id="getQustoptList" parameterType="int" resultType="com.spring.javaclassS14.vo.QustoptDto">
+        SELECT questNo AS qustNo, optNo AS optNo, optOrder AS optSeq, optContent AS optCont
+        FROM questOpt WHERE questNo = #{qustNo};
+    </select>
+
+    <update id="delOneSurvey" parameterType="int">
+        UPDATE SURVEY SET delYn = 'Y', useYn = 'N' WHERE survNo = #{survNo};
+    </update>
+
+    <delete id="delSurvqust" parameterType="int">
+        DELETE FROM survQuest WHERE survNo = #{survNo};
+    </delete>
+
+    <delete id="delQustopt" parameterType="int">
+        DELETE FROM questOpt WHERE questNo IN (SELECT questNo FROM survQuest WHERE survNo = #{surv_no});
+    </delete>
+
+    <delete id="delAnswer" parameterType="int">
+        DELETE FROM Answer WHERE questNo IN (SELECT questNo FROM SURVQUST WHERE survNo = #{survNo});
+    </delete>
+
+    <update id="updateNewSurv" parameterType="com.spring.javaclassS14.vo.SurveyDto">
+        UPDATE SURVEY SET survTitle = #{survTitle}, survDesc = #{survDesc}, modDate = now(), useYn = #{useYn} WHERE survNo = #{survNo};
+    </update>
+
+    <insert id="insertNewSurvqust" parameterType="com.spring.javaclassS14.vo.SurvqustDto">
+        INSERT INTO SURVQUST (survNo, questOrder, questContent, questType) VALUES (#{survNo}, #{qustSeq}, #{qustCont}, #{qustType});
+    </insert>
+</mapper>

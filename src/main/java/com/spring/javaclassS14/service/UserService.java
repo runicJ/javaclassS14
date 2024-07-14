@@ -24,4 +24,8 @@ public interface UserService {
 
 	public int setUserDelete(String userId);
 
+	public void setUserLog(String userId, String hostIp);
+
+	public boolean isLoggedIn(String userId);
+
 }

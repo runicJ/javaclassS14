@@ -11,6 +11,8 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css" integrity="sha256-DBYdrj7BxKM3slMeqBVWX2otx7x4eqoHRJCsSDJ0Nxw=" crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
+	<script src="https://kit.fontawesome.com/df66332deb.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="${ctp}/css/home/style.css" />
   </head>
 
@@ -55,8 +57,8 @@
                           <div class="swiper-slide">
                             <div class="img-container one">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link marine-project-link">생명 
-                                  <div class="view-project">CLICK Me</div>
+                                <a href="#0" class="project-link marine-project-link">생명은
+                                  <div class="view-project">숲에서 숨을 쉬고</div>
                                </a>
                               </div>
                             </div>
@@ -64,8 +66,8 @@
                           <div class="swiper-slide">
                             <div class="img-container two">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link forest-project-link">숲
-                                  <div class="view-project">CLICK Me</div>
+                                <a href="#0" class="project-link forest-project-link">숲에서
+                                  <div class="view-project">생명이 살아갑니다.</div>
                                 </a>
                               </div>
                             </div>
@@ -73,8 +75,8 @@
                           <div class="swiper-slide">
                             <div class="img-container three">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link wildlife-project-link">아이
-                                  <div class="view-project">CLICK Me</div>
+                                <a href="#0" class="project-link wildlife-project-link">우리 아이들을 위해
+                                  <div class="view-project">그들의 편안한</div>
 
                                 </a>
                               </div>
@@ -83,10 +85,9 @@
                           <div class="swiper-slide">
                             <div class="img-container four">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link city-project-link">숨
-                                  <div class="view-project">CLICK Me</div>
-
-                                </a>
+                                <a href="#0" class="project-link city-project-link">숨을
+                                  <div class="view-project">위하여 우리 함께 나아갑시다</div>
+                                 </a>
                               </div>
                             </div>
                           </div>
@@ -120,9 +121,9 @@
               </div>
               <div class="social-media-links">
                 <ul>
-                  <li class="fade-up"> <a href="#">FB</a> </li>
-                  <li class="fade-up"> <a href="#">IN</a> </li>
-                  <li class="fade-up"><a href="#">TW</a> </li>
+                  <li class="fade-up"> <a href="#"><i class="fa-solid fa-comment"></i></a></li>
+                  <li class="fade-up"> <a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+                  <li class="fade-up"><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
                 </ul>
               </div>
             </div>
@@ -135,7 +136,7 @@
 <div class="navigation navigation-about">
         
   <div class="logo home-link about-opacity">
-   <a href="#"> JAMES TYLER</a>
+   <a href="#"> 저는 Dodo입니다.</a>
   </div>
 
   <div class="navigation-links about-opacity">

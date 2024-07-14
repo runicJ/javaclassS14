@@ -119,8 +119,8 @@
 									<div class="col-md-3">
 										<h2 class="megamenu-title">알레르기 완화 제품</h2>
 										<ul class="vertical-menu">
-											<li><a href="#" class="text-muted">비염치료기기</a></li>
-											<li><a href="#" class="text-muted">피부의료기기</a></li>
+											<li><a href="#" class="text-muted">비염 치료기기</a></li>
+											<li><a href="#" class="text-muted">피부 의료기기</a></li>
 											<li><a href="#" class="text-muted">의약외품</a></li>
 											<li><a href="#" class="text-muted">마스크</a></li>
 										</ul>
@@ -129,7 +129,7 @@
 										<h2 class="megamenu-title">침구 제품(알러지프리)</h2>
 										<ul class="vertical-menu">
 											<li><a href="#" class="text-muted">매트리스</a></li>
-											<li><a href="#" class="text-muted">베딩</a></li>
+											<li><a href="#" class="text-muted">이불</a></li>
 											<li><a href="#" class="text-muted">베개</a></li>
 											<li><a href="#" class="text-muted">키즈</a></li>
 										</ul>
@@ -137,10 +137,10 @@
 									<div class="col-md-3">
 										<h2 class="megamenu-title">유기농 제품</h2>
 										<ul class="vertical-menu">
-											<li><a href="#" class="text-muted">인증 식제품</a></li>
+											<li><a href="#" class="text-muted">유기농 인증 식제품</a></li>
 											<li><a href="#" class="text-muted">유기농 완구</a></li>
 											<li><a href="#" class="text-muted">비건 화장품</a></li>
-											<li><a href="#" class="text-muted">건강보조식품</a></li>
+											<li><a href="#" class="text-muted">건강 보조 식품</a></li>
 										</ul>
 									</div>
 								</div>
@@ -181,17 +181,15 @@
 					<li class="dropdown magz-dropdown">
 						<a href="category.html">이벤트<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/">진행중인 이벤트</a></li>
-							<li><a href="${ctp}/review/photoGalleryList">포토 후기 이벤트</a></li>
-							<li class="dropdown magz-dropdown">
-								<a href="#">종료된 이벤트</a>
-							</li>
+							<li><a href="${ctp}/">이벤트 목록</a></li>
+							<li><a href="${ctp}/review/photoReview/photoGalleryList">포토 후기</a></li>
+							<li><a href="${ctp}/survey/surveyList">설문 조사 참여</a></li>
 						</ul>
 					</li>
 					<c:if test="${!empty sUid}">
 					<li class="dropdown magz-dropdown"><a href="${ctp}/${sUid == 'admin' ? 'admin/adminMain' : 'user/userMain'}">내정보<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/users/userMain"><i class="icon ion-person"></i>내정보관</a></li>
+							<li><a href="${ctp}/users/userMain"><i class="icon ion-person"></i>내정보관리</a></li>
 							<li><a href="#"><i class="icon ion-heart"></i>관심목록</a></li>
 							<li><a href="#"><i class="icon ion-heart"></i>북마크목록</a></li>
 							<li><a href="#"><i class="icon ion-chatbox"></i>내가쓴게시글</a></li>

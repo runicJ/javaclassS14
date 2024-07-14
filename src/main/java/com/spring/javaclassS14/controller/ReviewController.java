@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 
 @Controller
 @RequestMapping("/review")
-public class reviewController {
+public class ReviewController {
 	
 	@RequestMapping(value="/photoReview/photoGalleryList", method=RequestMethod.GET)
 	public String photoGalleryListGet() {

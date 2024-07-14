@@ -74,5 +74,20 @@ public class UserServiceImpl implements UserService {
 	public int setUserDelete(String userId) {
 		return userDAO.setUserDelete(userId);
 	}
+	
+	@Override
+    public boolean isLoggedIn(String userId) {
+        return userDAO.recentLog(userId) > 0;
+    }
+
+	@Override
+	public void setUserLog(String userId, String hostIp) {
+		if (!isLoggedIn(userId)) {
+			userDAO.setUserLog(userId,hostIp);
+			System.out.println("로그 기록중...");
+		} else {
+			System.out.println("이미 로그인 되었습니다.");
+		}
+	}
 
 }

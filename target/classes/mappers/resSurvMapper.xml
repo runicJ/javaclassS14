@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.ResSurvDAO">
+    <insert id="insertAnswer" parameterType="com.spring.javaclassS14.vo.AnswerDto">
+        INSERT INTO answer (questNo, ansContent, ansLong, userId, ansDate)
+        VALUES (#{qustNo}, #{answCont}, #{answLong}, #{memId}, now());
+    </insert>
+
+    <select id="resSurvYn" parameterType="com.spring.javaclassS14.vo.SurveyDto" resultType="Integer">
+        SELECT COUNT(*)
+        FROM (SELECT questNo FROM survQuest WHERE survNo = #{survNo}) AS qust
+        INNER JOIN (SELECT questNo FROM ANSWER WHERE userId = #{userId}) AS answ
+        ON qust.questNo = answ.questNo;
+    </select>
+</mapper>

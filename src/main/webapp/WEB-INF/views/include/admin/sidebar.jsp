@@ -96,11 +96,6 @@
                         </li>
                     </ul>
                 </li>
-                <li class="sidebar-item"> <a class="sidebar-link sidebar-link"
-                        href="authentication-register1.html" aria-expanded="false"><i data-feather="lock"
-                            class="feather-icon"></i><span class="hide-menu">덤프 파일 정리
-                        </span></a>
-                </li>
                 
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                         aria-expanded="false"><i data-feather="box" class="feather-icon"></i><span
@@ -120,20 +115,24 @@
                         aria-expanded="false"><i data-feather="bar-chart" class="feather-icon"></i><span
                             class="hide-menu"> 통계 목록 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                        <li class="sidebar-item"><a href="chart-morris.html" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/admin/survey/surveyInput" class="sidebar-link"><span
                                     class="hide-menu"> 설문조사 등록
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"><a href="chart-chart-js.html" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/admin/survey/surveyList" class="sidebar-link"><span
                                     class="hide-menu"> 설문조사 리스트
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"><a href="chart-knob.html" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/survey/surveyDetails" class="sidebar-link"><span
                                     class="hide-menu">
                                     설문별 통계 현황
                                 </span></a>
                         </li>
                     </ul>
+                </li>
+                
+                <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-register1.html" aria-expanded="false">
+                	<i data-feather="lock" class="feather-icon"></i><span class="hide-menu">덤프 파일 정리</span></a>
                 </li>
                 
                 <li class="list-divider"></li>

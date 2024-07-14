@@ -26,4 +26,8 @@ public interface UserDAO {
 
 	public int totRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
 
+	public int recentLog(@Param("userId") String userId);
+	
+	public void setUserLog(@Param("userId") String userId, @Param("hostIp") String hostIp);
+
 }

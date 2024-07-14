@@ -36,7 +36,10 @@
 		    animation: 400ms cubic-bezier(0.36, 0, 0, 1) 0s 1 normal both running jBcSpD;
 		    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.15) 0px 8px 30px;
 		}
-
+        .carousel-nav .prev:hover, .carousel-nav .next:hover {
+            color: #FF4500;
+            opacity: 0.7;
+        }
 	</style>
 </head>
 
@@ -72,12 +75,12 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner1.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
-									<div class="category"><a href="category.html">Computer</a></div>
-									<h1><a href="single.html">배너 슬라이드 할 예정</a></h1>
-									<div class="time">December 26, 2016</div>
+									<div class="category"><a href="#">공지사항</a></div>
+									<h1><a href="#">첫가입, 첫구매 시 적립금/쿠폰 지급</a></h1>
+									<div class="time">2024.7.13.</div>
 								</div>
 							</article>
 						</div>
@@ -85,12 +88,12 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner2.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
-									<div class="category"><a href="category.html">Travel</a></div>
-									<h1><a href="single.html">호흡기 알레르기</a></h1>
-									<div class="time">December 10, 2016</div>
+									<div class="category"><a href="${ctp}/event/eventList">이벤트</a></div>
+									<h1><a href="${ctp}/survey/surveyList">설문조사 이벤트</a></h1>
+									<div class="time">D-100</div>
 								</div>
 							</article>
 						</div>
@@ -98,12 +101,12 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner3.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
-									<div class="category"><a href="category.html">International</a></div>
-									<h1><a href="single.html">식품 알레르기</a></h1>
-									<div class="time">October 12, 2016</div>
+									<div class="category"><a href="${ctp}/event/eventList">이벤트</a></div>
+									<h1><a href="${ctp}/review/photoReview/photoGalleryList">포토리뷰 이벤트</a></h1>
+									<div class="time">D-200</div>
 								</div>
 							</article>
 						</div>
@@ -111,12 +114,12 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner4.jpg" alt="Sample Article">
 								</figure>
 								<div class="details">
-									<div class="category"><a href="category.html">Lifestyle</a></div>
-									<h1><a href="single.html">아토피 피부염</a></h1>
-									<div class="time">November 27, 2016</div>
+									<div class="category"><a href="#">공지사항</a></div>
+									<h1><a href="single.html">카톡 친구 추가시 쿠폰 지급</a></h1>
+									<div class="time">2024.7.13.</div>
 								</div>
 							</article>
 						</div>
@@ -232,7 +235,7 @@
 					</div>
 					<div class="banner">
 						<a href="#">
-							<img src="images/ads.png" alt="Sample Article">
+							<img src="${ctp}/images/ad.png" alt="알레르망">
 						</a>
 					</div>
 					<div class="line transparent little"></div>
@@ -456,166 +459,79 @@
 											<h2 class="block-title">Photos</h2>
 											<div class="block-body">
 												<ul class="item-list-round" data-magnific="gallery">
-													<li><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"><div class="more">+2</div></a></li>
-													<li class="hidden"><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
-													<li class="hidden"><a href="${ctp}/user/noImage.jpg" style="background-image: url('${ctp}/user/noImage.jpg');"></a></li>
+													<li><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
+													<li><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
+													<li><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"><div class="more">+2</div></a></li>
+													<li class="hidden"><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
+													<li class="hidden"><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
 												</ul>
 											</div>
 										</div>
 										<div class="featured-author-footer">
-											<a href="#">커뮤니티(유저 채팅방)</a>
+											<a href="${ctp}/chat/userChat">커뮤니티(유저 채팅방)</a>
 										</div>
 									</div>
 								</div>
 							</div>
 						</div>
 					</aside>
-					<%-- <aside>
-						<h1 class="aside-title">상위 뉴스 목록 
-							<div class="carousel-nav" id="hot-news-nav">
-								<div class="prev">
-									<i class="ion-ios-arrow-left"></i>
-								</div>
-								<div class="next">
-									<i class="ion-ios-arrow-right"></i>
-								</div>
-							</div>
-						</h1>
-						<div class="aside-body vertical-slider" data-max="5" data-nav="#hot-news-nav" data-item="article">
-						<c:if test="${!empty naverVos}">
-		                    <div class="news-group">
-		                        <c:forEach var="naverVo" items="${naverVos}" begin="${st.index}" end="${st.index + 5}">
-						        <c:if test="${st.index % 5 == 0}">
-		                            <article class="article-mini">
-		                                <div class="inner">
-		                                    <figure><a style="object-fit:cover;">${naverVo.item2}</a></figure>
-		                                    <div class="padding">
-		                                        <h1><a href="${naverVo.itemUrl}" target="_blank">${naverVo.item1}</a></h1>
-		                                        <div class="detail">
-													<div class="category"><a href="category.html">Lifestyle</a></div>
-													<div class="time">${naverVo.item4}</div>
-												</div>
-		                                    </div>
-		                                </div>
-		                            </article>
-				                </c:if>
-		                        </c:forEach>
-		                    </div>
-						</c:if>
-						<c:if test="${empty naverVos}">
-							<p>spinner</p>
-							<span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(네트워크 '수리중'일 수 있습니다.)</span>
-						</c:if>
+					<aside>
+						<div class="d-flex justify-content-between align-items-center">
+					    	<h1 class="aside-title">네이버 상위 뉴스 목록 ('알레르기')</h1>
+					        <div class="carousel-nav" id="hot-news-nav" style="display:flex;">
+					            <div class="prev mr-3" data-target="#hot-news-carousel" data-slide="prev" style="cursor:pointer;">
+					                <i class="ion-ios-arrow-left"></i>
+					            </div>
+					            <div class="next mr-3" data-target="#hot-news-carousel" data-slide="next" style="cursor:pointer;">
+					                <i class="ion-ios-arrow-right"></i>
+					            </div>
+					        </div>
 						</div>
-						<p class="float-right">
-							<a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
-						</p>
-					</aside> --%>
-<%-- <aside>
-    <h1 class="aside-title">상위 뉴스 목록 
-        <div class="carousel-nav" id="hot-news-nav">
-            <div class="prev" data-target="#hot-news-carousel" data-slide="prev">
-                <i class="ion-ios-arrow-left"></i>
-            </div>
-            <div class="next" data-target="#hot-news-carousel" data-slide="next">
-                <i class="ion-ios-arrow-right"></i>
-            </div>
-        </div>
-    </h1>
-    <div id="hot-news-carousel" class="carousel slide" data-ride="carousel">
-        <div class="carousel-inner">
-            <c:if test="${!empty vos}">
-                <c:forEach var="vo" items="${vos}" varStatus="st">
-                    <c:if test="${status.index % 6 == 0}">
-                        <div class="carousel-item ${st.index == 0 ? 'active' : ''}">
-                            <div class="news-group">
-                    </c:if>
-                    <article class="article-mini">
-                        <div class="inner">
-                            <figure>
-                                <a style="object-fit:cover;">${naverVo.item2}</a>
-                                <a style="object-fit:cover;"><img src="${vos.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;"></a>
-                            </figure>
-                            <div class="padding">
-                                <h1><a href="${vos.itemUrl}" target="_blank">${vos.item1}</a></h1>
-                                <div class="detail">
-                                    <div class="category"><a href="category.html">Lifestyle</a></div>
-                                    <div class="time">${vos.item4}</div>
-                                </div>
-                            </div>
-                        </div>
-                    </article>
-                    <c:if test="${(st.index + 1) % 6 == 0 || st.index + 1 == vos.size()}">
-                            </div>
-                        </div>
-                    </c:if>
-                </c:forEach>
-            </c:if>
-            <c:if test="${empty vos}">
-                <p>spinner</p>
-                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(네트워크 '수리중'일 수 있습니다.)</span>
-            </c:if>
-        </div>
-    </div>
-    <p class="float-right">
-        <a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
-    </p>
-</aside> --%>
-<aside>
-    <h1 class="aside-title">상위 뉴스 목록 
-        <div class="carousel-nav" id="hot-news-nav">
-            <div class="prev" data-target="#hot-news-carousel" data-slide="prev">
-                <i class="ion-ios-arrow-left"></i>
-            </div>
-            <div class="next" data-target="#hot-news-carousel" data-slide="next">
-                <i class="ion-ios-arrow-right"></i>
-            </div>
-        </div>
-    </h1>
-    <div id="hot-news-carousel" class="carousel slide" data-max="6" data-ride="carousel">
-        <div class="carousel-inner">
-            <c:if test="${!empty vos}">
-                <c:forEach var="vo" items="${vos}" varStatus="status">
-    <c:if test="${status.index % 6 == 0}">
-        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
-            <div class="news-group">
-    </c:if>
-    <article class="article-mini">
-        <div class="inner">
-            <figure>
-                <a style="object-fit:cover;"><img src="${vo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;"></a>
-            </figure>
-            <div class="padding">
-                <h1><a href="${vo.itemUrl}" target="_blank">${vo.item1}</a></h1>
-                <div class="detail">
-                    <div class="category"><a href="category.html">${vo.item4}</a></div>
-                    <div class="time">${vo.item5}</div>
-                </div>
-            </div>
-        </div>
-    </article>
-    <c:if test="${(status.index + 1) % 6 == 0 || status.index + 1 == vos.size()}">
-        </div>
-    </div>
-    </c:if>
-</c:forEach>
-            </c:if>
-            <c:if test="${empty vos}">
-                <p>spinner</p>
-                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(네트워크 '수리중'일 수 있습니다.)</span>
-            </c:if>
-        </div>
-    </div>
-    <p class="float-right">
-        <a href="#" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
-    </p>
-</aside>
+					    <div id="hot-news-carousel" class="carousel slide" data-max="6" data-ride="carousel">
+					        <div class="carousel-inner">
+					            <c:if test="${!empty vos}">
+					                <c:forEach var="vo" items="${vos}" varStatus="status">
+					                    <c:if test="${status.index % 5 == 0}">
+					                        <div class="carousel-item ${status.index == 0 ? 'active' : ''}">
+					                            <div class="news-group">
+					                    </c:if>
+					                    <article class="article-mini">
+					                        <div class="inner">
+					 							<figure>
+					                                <c:choose>
+					                                    <c:when test="${!empty vo.item2}">
+					                                        <img src="${vo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
+					                                    </c:when>
+					                                    <c:otherwise>
+					                                        <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+					                                    </c:otherwise>
+					                                </c:choose>
+					                            </figure>
+					                            <div class="padding">
+					                                <h1><a href="${vo.itemUrl1}" target="_blank">${vo.item1}</a></h1>
+					                                <div class="detail">
+					                                    <div class="category"><a href="${vo.itemUrl2}">${vo.item4}</a></div>
+					                                    <div class="time">${vo.item5}</div>
+				                                	</div>
+				                            	</div>
+					                        </div>
+					                    </article>
+					                    <c:if test="${(status.index + 1) % 5 == 0 || status.index + 1 == vos.size()}">
+					                            </div>
+					                        </div>
+					                    </c:if>
+					                </c:forEach>
+					            </c:if>
+					            <c:if test="${empty vos}">
+					                <p>spinner</p>
+					                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
+					            </c:if>
+					        </div>
+					    </div>
+					    <p class="float-right">
+					        <a href="${ctp}/news/newsList" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
+					    </p>
+					</aside>
 					<aside>
 						<ul class="nav nav-tabs nav-justified" role="tablist">
 							<li class="active">
@@ -769,22 +685,22 @@
 							<ul class="sponsored">
 								<li>
 									<a href="#">
-										<img src="${ctp}/user/noImage.jpg" alt="Sponsored">
+										<img src="${ctp}/images/ad1.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/user/noImage.jpg" alt="Sponsored">
+										<img src="${ctp}/images/ad2.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/user/noImage.jpg" alt="Sponsored">
+										<img src="${ctp}/images/ad3.png" alt="Sponsored">
 									</a>
 								</li> 
 								<li>
 									<a href="#">
-										<img src="${ctp}/user/noImage.jpg" alt="Sponsored">
+										<img src="${ctp}/images/ad4.jpg" alt="Sponsored">
 									</a>
 								</li> 
 							</ul>

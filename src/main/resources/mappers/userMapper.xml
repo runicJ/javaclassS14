@@ -25,14 +25,22 @@
 	<select id="totRecCntSearch"  resultType="int">
 		select count(*) from users where ${search} like concat("%",#{searchString},"%"); 
 	</select>
+	
+	<select id="recentLog" resultType="int">
+		select count(*) as recentLog from user_log where userId=#{userId} and loginTime > DATE_SUB(NOW(), INTERVAL 1 HOUR);
+	</select>
 
 
 	<insert id="setUserRegisterOk">
-		insert into users values (default,#{vo.userId},#{vo.userPwd},#{vo.name},#{vo.nickName},#{vo.gender},#{vo.email},#{vo.tel},#{vo.userImage},#{vo.registerWay},default,default,default,default,default);
+		insert into users values (default,#{vo.userId},#{vo.userPwd},#{vo.name},#{vo.nickName},#{vo.gender},#{vo.email},#{vo.tel},#{vo.userImage},#{vo.registerWay},default,#{vo.policyFlag},default,default,default,default);
 	</insert>
 	
 	<insert id="setKakaoUserInput">
 		insert into users (userId, userPwd, nickName, name, email) values (#{userId},#{userPwd},#{nickName},#{nickName},#{email});
+	</insert>
+	
+	<insert id="setUserLog">
+		insert into user_log (userId, hostIp) values (#{userId},#{hostIp});
 	</insert>
 	
 	

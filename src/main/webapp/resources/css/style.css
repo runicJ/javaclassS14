@@ -1346,7 +1346,7 @@ section.search .search-result {
 }
 
 .headline {
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 
 .headline .item {
@@ -1800,13 +1800,13 @@ article footer .btn-primary:focus {
     display: inline-block;
     width: 100%;
     position: relative;
-    height: 550px;
-    margin-bottom: 20px;
+    height: 360px;
+    margin-bottom: 10px;
     overflow: hidden;
 }
 
 .featured .inner {
-    padding: 20px;
+    padding: 10px;
 }
 
 .featured figure {
@@ -1814,7 +1814,7 @@ article footer .btn-primary:focus {
     z-index: -2;
     top: 0;
     left: 0;
-    height: 100%;
+    height: auto;
     width: 100%;
 }
 
@@ -4660,7 +4660,7 @@ blockquote {
 .banner {
     position: relative;
     text-align: center;
-    margin: 20px 0;
+    margin: 10px 0;
 }
 
 .banner.header {

@@ -1984,6 +1984,7 @@
     </style>
     
 </head>
+<body>
 	<div class="preloader">
         <div class="lds-ripple">
             <div class="lds-pos"></div>
@@ -2261,6 +2262,7 @@
             </div>
 		</div>
 	</div>
+</body>
 <p><br></p>
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 <script>

@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 
 @Controller
-public class msgController {
+public class MsgController {
 
 	@RequestMapping(value = "/msg/{msgFlag}", method = RequestMethod.GET)
 	public String getMessage(Model model,

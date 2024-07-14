@@ -47,8 +47,7 @@ public class UserController {
 	@RequestMapping(value="/uidCheck", method=RequestMethod.GET)
 	public String uidCheckGet(String userId) {
 		UserVO vo = userService.getUserIdCheck(userId);
-		if(vo != null) return "1"; 
-		else return "0";
+		return vo != null ? "1" : "0";
 	}
 	
 	// 닉네임 중복확인 / 찾기
@@ -56,8 +55,7 @@ public class UserController {
 	@RequestMapping(value="/nickCheck", method=RequestMethod.GET)
 	public String nickCheckGet(String nickName) {
 		UserVO vo = userService.getUserNickCheck(nickName);
-		if(vo != null) return "1"; 
-		else return "0";
+		return vo != null ? "1" : "0";
 	}
 	
 	// 이메일 중복확인 / 찾기
@@ -83,19 +81,43 @@ public class UserController {
 	@RequestMapping(value = "/confirmCodeCheck", method = RequestMethod.GET)
 	public String emailConfirmCheckGet(String checkKey, HttpSession session) {
 		String emailKey = (String) session.getAttribute("sEmailKey");
-		if(checkKey.equals(emailKey)) return "1";
-		else return "0";
+		return checkKey.equals(emailKey) ? "1" : "0";
+	}
+	
+	@RequestMapping(value = "/userPolicy", method = RequestMethod.GET)
+	public String userPolicyGet() {
+		return "users/userPolicy";
+	}
+	
+	@RequestMapping(value="/userPolicy", method=RequestMethod.POST)
+	public String userPolicyPost(HttpSession session,
+			@RequestParam(name="agree1", defaultValue="false") boolean policyAgree1,
+			@RequestParam(name="agree2", defaultValue="false") boolean policyAgree2,
+			@RequestParam(name="agree3", defaultValue="false") boolean policyOptional) {
+        if (!policyAgree2 || !policyAgree2) {
+            return "redirect:/users/agreeTerms?error=required";
+        }
+
+        // 약관 동의 정보 세션에 저장
+        session.setAttribute("termsRequired1", policyAgree1);
+        session.setAttribute("termsRequired2", policyAgree2);
+        session.setAttribute("termsOptional", policyOptional);
+        return "redirect:/users/userRegister";
 	}
 	
 	// 회원가입 페이지로 이동
 	@RequestMapping(value="/userRegister", method=RequestMethod.GET)
-	public String userRegisterGet() {
-		return "users/userRegister";
+    public String userRegisterGet(HttpSession session, Model model) {
+        // 약관 동의 정보를 모델에 추가
+        model.addAttribute("termsRequired1", session.getAttribute("termsRequired1"));
+        model.addAttribute("termsRequired2", session.getAttribute("termsRequired2"));
+        model.addAttribute("termsOptional", session.getAttribute("termsOptional"));
+        return "users/userRegister";
 	}
 	
 	// 회원가입 처리
 	@RequestMapping(value="/userRegister", method=RequestMethod.POST)
-	public String userRegisterPost(UserVO vo, MultipartFile fName) {
+	public String userRegisterPost(UserVO vo, MultipartFile fName, HttpSession session) {
 		if(userService.getUserIdCheck(vo.getUserId()) != null) return "redirect:/msg/uidCheckNo";
 		if(userService.getUserNickCheck(vo.getNickName()) != null) return "redirect:/msg/nickCheckNo";
 		//if(userService.getUserEmailCheck(vo.getEmail()) != null) return "redirect:/msg/emailCheckNo";
@@ -106,11 +128,18 @@ public class UserController {
 		if(!fName.getOriginalFilename().equals("")) vo.setUserImage(userService.fileUpload(fName, vo.getUserId(), ""));
 		else vo.setUserImage("noImage.jpg");
 		
+		// 선택 약관 동의 정보 설정
+        boolean termsOptional = (boolean) session.getAttribute("termsOptional");
+        String policyFlag = (termsOptional ? "y" : "n");
+        vo.setPolicyFlag(policyFlag);
+		
 		int res = userService.setUserRegisterOk(vo);
 		
-		if(res != 0) return "redirect:/msg/userRegisterOk";
-		else return "redirect:/msg/userRegisterNo";
-		
+        if (res != 0) {
+            return "redirect:/msg/userRegisterOk";
+        } else {
+            return "redirect:/msg/userRegisterNo";
+        }
 	}
 	
 	// 로그인 페이지로 이동(쿠키에 아이디 저장)
@@ -127,7 +156,6 @@ public class UserController {
 				}
 			}
 		}
-		
 		return "users/userLogin";
 	}
 	
@@ -171,6 +199,10 @@ public class UserController {
 					}
 				}
 			}
+			// 회원 로그
+			String hostIp = request.getRemoteAddr();
+			userService.setUserLog(userId, hostIp);
+			
 			return "redirect:/msg/userLoginOk?uid="+userId;
 		}
 		else {
@@ -338,7 +370,7 @@ public class UserController {
 		String userId = (String) session.getAttribute("sUid");
 		int res = userService.setUserDelete(userId);
 		
-		if (res != 0) return "redirect:/msg/userDeleteOk";
-		else return "redirect:/msg/userDeleteNo";
+		return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
 	}
+
 }

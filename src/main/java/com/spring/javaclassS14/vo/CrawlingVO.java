@@ -10,6 +10,6 @@ public class CrawlingVO {
 	private String item3;
 	private String item4;
 	private String item5;
-	private String itemUrl;
-	
+	private String itemUrl1;
+	private String itemUrl2;
 }
