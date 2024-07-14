@@ -1,5 +1,7 @@
 package com.spring.javaclassS14.dao;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS14.vo.UserVO;
@@ -20,7 +22,7 @@ public interface UserDAO {
 
 	public void setUserPwdUpdate(@Param("userId") String userId, @Param("userPwd") String tempPwd);
 
-	public int setUserDelete(@Param("userId") String userId);
+	public int setUserDelete(@Param("userId") String userId, @Param("deleteReason") String deleteReason);
 
 	public int totRecCnt();
 
@@ -29,5 +31,18 @@ public interface UserDAO {
 	public int recentLog(@Param("userId") String userId);
 	
 	public void setUserLog(@Param("userId") String userId, @Param("hostIp") String hostIp);
+
+	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);
+
+	public void updateDeletedUser(@Param("userId") String userId);
+
+	public List<UserVO> getAllDeletedUsers();
+	
+	public void cancelUserDelete(@Param("userId") String userId);
+
+	public int updateUser(UserVO vo);
+	
+//	public int setUserDelete(@Param("userId") String userId);
+//	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);
 
 }

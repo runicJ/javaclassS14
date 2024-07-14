@@ -1,5 +1,7 @@
 package com.spring.javaclassS14.service;
 
+import java.util.List;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.vo.UserVO;
@@ -22,10 +24,19 @@ public interface UserService {
 
 	public void setUserPwdUpdate(String userId, String tempPwd);
 
-	public int setUserDelete(String userId);
+	public int setUserDelete(String userId, String deleteReason);
+	
+	//public int deleteUserWithReason(String userId, String deleteReason);
 
 	public void setUserLog(String userId, String hostIp);
 
 	public boolean isLoggedIn(String userId);
+	
+	public void updateDeletedUser(String userId);
+	public List<UserVO> getAllDeletedUsers();
+	
+	public void cancelUserDelete(String userId);
+
+	public int updateUser(UserVO vo);
 
 }

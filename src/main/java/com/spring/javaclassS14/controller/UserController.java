@@ -2,6 +2,7 @@ package com.spring.javaclassS14.controller;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -169,6 +170,12 @@ public class UserController {
 		UserVO vo = userService.getUserIdCheck(userId);
 		
 		if(vo != null && passwordEncoder.matches(userPwd, vo.getUserPwd())) {
+	        // 탈퇴 요청 상태 확인
+	        if (vo.isDeleteRequested()) {
+	            // 탈퇴 요청 해제
+	            userService.cancelUserDelete(vo.getUserId());
+	        }
+			
 			String strLevel = "";
 			if(vo.getLevel() == 0) strLevel = "관리자(대가)";
 			else if(vo.getLevel() == 0.5) strLevel = "귀한분";
@@ -353,6 +360,35 @@ public class UserController {
 		return "users/userUpdate";
 	}
 	
+	// 회원정보 수정 처리
+	@RequestMapping(value="/userUpdate", method=RequestMethod.POST)
+	public String userUpdatePost(UserVO vo, MultipartFile fName, HttpSession session, @RequestParam("userPwd") String userPwd,
+		@RequestParam(value="userPwdNew", required=false) String userPwdNew, @RequestParam(value="pwdNewCheck", required=false) String pwdNewCheck,
+		@RequestParam("name") String name, @RequestParam("nickName") String nickName, @RequestParam("email") String email,
+		@RequestParam("tel") String tel, @RequestParam(value="termsOptional", required=false) String termsOptional) {
+		
+		if (!passwordEncoder.matches(userPwd, vo.getUserPwd())) return "redirect:/msg/pwdCheckNo";
+
+		if(userPwdNew != null && !userPwdNew.equals(pwdNewCheck)) return "redirect:/msg/pwdCheckNo";
+		if(userPwdNew != null && passwordEncoder.matches(userPwdNew, vo.getUserPwd())) {
+			vo.setUserPwd(passwordEncoder.encode(userPwdNew));
+		}
+		
+		vo.setName(name);
+		vo.setNickName(nickName);
+		vo.setEmail(email);
+		vo.setTel(tel);
+		
+		if(!fName.getOriginalFilename().equals("")) {
+			vo.setUserImage(userService.fileUpload(fName, vo.getUserId(), vo.getUserImage()));
+		}
+		
+		vo.setPolicyFlag(termsOptional != null && termsOptional.equals("y") ? "y" : "n");
+		
+		int res = userService.updateUser(vo);
+		return res != 0 ? "redirect:/msg/userUpdateOk" : "redirect:/msg/userUpdateNo";
+	}
+	
 	// 회원탈퇴 페이지로 이동
 	@RequestMapping(value="/userDelete", method=RequestMethod.GET)
 	public String userDeleteGet(HttpSession session, Model model) {
@@ -366,11 +402,26 @@ public class UserController {
 	
 	// 회원탈퇴 페이지로 이동
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-	public String userDeletePost(HttpSession session) {
-		String userId = (String) session.getAttribute("sUid");
-		int res = userService.setUserDelete(userId);
+	public String userDeletePost(HttpSession session, @RequestParam("deleteReason") String deleteReason) {
+	    String userId = (String) session.getAttribute("sUid");
+	    int res = userService.setUserDelete(userId, deleteReason);
 		
 		return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
 	}
 
+//	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
+//	public String userDeletePost(HttpSession session, @RequestParam("deleteReason") String deleteReason) {
+//	    String userId = (String) session.getAttribute("sUid");
+//	    int res = userService.deleteUserWithReason(userId, deleteReason);
+//	    return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
+//	}
+
+	@RequestMapping(value="/updateDeletedUsers", method=RequestMethod.GET)
+	public String updateDeletedUsers() {
+	    List<UserVO> deletedUsers = userService.getAllDeletedUsers();
+	    for (UserVO user : deletedUsers) {
+	        userService.updateDeletedUser(user.getUserId());
+	    }
+	    return "redirect:/msg/updateDeletedUsersOk";
+	}
 }

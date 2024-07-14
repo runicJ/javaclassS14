@@ -34,4 +34,7 @@ public class UserVO {
 	
 	private int deleteDiff;
 	private String delStatus;
+	
+	private boolean deleteRequested;  // 탈퇴 요청 여부
+	private String deleteRequestDate;  // 탈퇴 요청 날짜
 }

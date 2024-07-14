@@ -43,13 +43,43 @@
 		insert into user_log (userId, hostIp) values (#{userId},#{hostIp});
 	</insert>
 	
+    <insert id="insertDeletedUser">
+        insert into delete_users (userId, email, deleteReason) values (#{userId}, #{email}, #{deleteReason});
+    </insert>
+    
 	
 	<update id="setUserPwdUpdate">
 		update users set userPwd=#{userPwd} where userId=#{userId};
 	</update>
 	
 	<update id="setUserDelete">
-		update users set level=99 and userStatus='off' where userId=#{userId};
-		insert into delete_users values (default, #{userId}, #{email}, default, #{deleteReason});
+	    update users set level=99, userStatus='off', deleteRequested=true, deleteRequestDate=NOW() where userId=#{userId};
+	    insert into delete_users (userId, deleteReason, deleteDate) values (#{userId}, #{deleteReason}, NOW());
 	</update>
+    
+    <!-- <update id="setUserDelete">
+        update users set level=99, userStatus='off' where userId=#{userId};
+    </update>
+
+    <insert id="insertDeletedUser">
+        insert into delete_users (userId, deleteReason) values (#{userId}, #{deleteReason});
+    </insert>
+ -->
+ 
+     <update id="updateDeletedUser">
+        update delete_users set userId = concat('delete_', userId), email = concat('delete_', email) where userId = #{userId} and deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH);
+    </update>
+    
+    <update id="cancelUserDelete">
+	    update users set level=1, userStatus='active', deleteRequested=false, deleteRequestDate=null where userId=#{userId};
+	</update>
+	
+	<update id="updateUser">
+		update users set userPwd=#{vo.userPwd}, name=#{vo.name}, nickName=#{vo.nickName}, email=#{vo.email}, tel=#{vo.tel}, userImage=#{vo.userImage}, policyFlag=#{vo.policyFlag} where userId=#{vo.userId};
+	</update>
+    
+
+    <select id="getAllDeletedUsers" resultType="com.spring.javaclassS14.vo.DeletedUserVO">
+        select * from delete_users where deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH);
+    </select>
 </mapper>

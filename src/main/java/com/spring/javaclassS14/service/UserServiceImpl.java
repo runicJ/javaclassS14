@@ -1,9 +1,11 @@
 package com.spring.javaclassS14.service;
 
+import java.util.List;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
@@ -70,12 +72,27 @@ public class UserServiceImpl implements UserService {
 		userDAO.setUserPwdUpdate(userId, tempPwd);
 	}
 
-	@Override
-	public int setUserDelete(String userId) {
-		return userDAO.setUserDelete(userId);
-	}
-	
-	@Override
+    @Override
+    @Transactional
+    public int setUserDelete(String userId, String deleteReason) {
+        int res = userDAO.setUserDelete(userId, deleteReason);
+        if (res != 0) {
+            userDAO.insertDeletedUser(userId, deleteReason);
+        }
+        return res;
+    }
+    
+//    @Override
+//    @Transactional
+//    public int deleteUserWithReason(String userId, String deleteReason) {
+//        int updateResult = userDAO.setUserDelete(userId);
+//        if (updateResult != 0) {
+//            userDAO.insertDeletedUser(userId, deleteReason);
+//        }
+//        return updateResult;
+//    }
+
+    @Override
     public boolean isLoggedIn(String userId) {
         return userDAO.recentLog(userId) > 0;
     }
@@ -90,4 +107,23 @@ public class UserServiceImpl implements UserService {
 		}
 	}
 
+    @Override
+    public void updateDeletedUser(String userId) {
+        userDAO.updateDeletedUser(userId);
+    }
+
+    @Override
+    public List<UserVO> getAllDeletedUsers() {
+        return userDAO.getAllDeletedUsers();
+    }
+
+    @Override
+    public void cancelUserDelete(String userId) {
+        userDAO.cancelUserDelete(userId);
+    }
+
+	@Override
+	public int updateUser(UserVO vo) {
+		return userDAO.updateUser(vo);
+	}
 }

@@ -12,15 +12,13 @@
  <script>
     'use strict';
     
-    let uidCheckSw = 0;
     let nickCheckSw = 0;
     let emailCheckSw = 0;
     let timerInterval;
     
     function fCheck(event) {
-    	event.preventDefault();  // 페이지가 새로고침 되는 것을 막음?
+    	event.preventDefault();
     	
-    	let userId = myform.userId.value.trim();
     	let userPwd = myform.userPwd.value.trim();
     	let pwdCheck = myform.pwdCheck.value.trim();
     	
@@ -294,7 +292,8 @@
             preview.onload = function() {
                 URL.revokeObjectURL(preview.src);
             };
-        } else {
+        } 
+        else {
             preview.style.display = 'none';
         }
     }
@@ -326,7 +325,7 @@
 					<div class="box box-border" style="width:700px;">
 						<div class="box-body">
 							<h4 class="text-center">내 정보 수정</h4>
-							<form name="myform" method="post" enctype="multipart/form-data">
+							<form name="myform" method="post" enctype="multipart/form-data" action="${ctp}/users/userUpdate">
 								<div class="mb-3 text-center">
 								    <img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${vo.userImage}" onclick="$('#imageModal').modal('show');">
 								    <p><input type="file" name="fName" id="file"><i class="fa-solid fa-wrench"></i> 프로필 사진 변경</p>
@@ -422,23 +421,8 @@
 											<option value="gmail.com">gmail.com</option>
 											<option value="daum.net">daum.net</option>
 										</select>
-										<input type="button" value="이메일 중복체크" id="emailCheckBtn" class="input-group-append btn btn-info btn-sm" onclick="emailCheck()"/>
 							        </div>
 							    </div>
-							    
-								<div id="confirmCodeSection" style="display:none;">
-								    <div class="form-group">
-								    	<div class="m-0 p-0">
-									        <label for="confirmCode" style="font-size:1.1em;">인증코드 확인</label>
-											<p class="float-right" id="timer" style="font-size:1.1em; color:red;"></p>
-										</div>
-								        <div class="input-group">
-								            <input type="text" id="confirmCode" name="confirmCode" class="form-control" placeholder="인증 코드를 입력하세요." />
-								            <input type="button" value="인증코드 제출" id="confirmCodeBtn" class="btn btn-info btn-sm" onclick="confirmCodeCheck()" />
-								            <input type="button" value="인증코드 재발급" id="confirmCodeReBtn" class="input-group-append btn btn-danger btn-sm" onclick="confirmCodeReCheck()" />
-								        </div>
-								    </div>
-								</div>
 								
 								<div class="input-group mb-3">
 									<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
@@ -506,6 +490,15 @@
 									        <option value="기타" ${vo.registerWay =='기타' ? 'selected' : ''}>기타</option>
 									    </select>
 								    </div>
+								</div>
+								
+								<div class="form-group">
+									<label class="mr-3"><i class="fa-solid fa-caret-right"></i> 선택 약관 동의</label>
+							      	<div class="form-check-inline">
+								        <label class="form-check-label">
+								          	<input type="checkbox" class="form-check-input" name="termsOptional" value="y" ${vo.policyFlag == 'y' ? 'checked' : ''}>동의함
+								        </label>
+									</div>
 								</div>
 								
 								<div class="form-group text-center">
