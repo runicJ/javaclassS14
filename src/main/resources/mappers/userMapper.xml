@@ -79,7 +79,7 @@
 	</update>
     
 
-    <select id="getAllDeletedUsers" resultType="com.spring.javaclassS14.vo.DeletedUserVO">
+    <select id="getAllDeletedUsers" resultType="com.spring.javaclassS14.vo.UserVO">
         select * from delete_users where deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH);
     </select>
 </mapper>

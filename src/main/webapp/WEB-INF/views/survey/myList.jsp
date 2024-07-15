@@ -1,8 +1,7 @@
-<html lang="ko"
-		  xmlns="http://www.w3.org/1999/xhtml"
-		  xmlns:th="http://www.thymeleaf.org"
-		  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		  layout:decorate="~{layout/main_layout}">
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html>
   	<head>
   		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 	    <link rel="stylesheet" type="text/css" href="./css/survList.css">

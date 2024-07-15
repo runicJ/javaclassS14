@@ -6,9 +6,7 @@
 <head>
   	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
-    <meta name="_csrf" th:content="${_csrf.token}">
-    <meta name="_csrf_header" th:content="${_csrf.headerName}">
-	<title>설문 만들기</title>
+	<title>설문조사지 생성</title>
 	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
 	<style>
 		h2 {

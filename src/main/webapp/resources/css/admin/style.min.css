@@ -38154,21 +38154,6 @@ ul.list-style-none li a:hover {
     line-height: 35px
 }
 
-.bg-banner {
-    background: url(../../assets/images/landingpage/banner-bg.png) right 3% top no-repeat;
-    background-size: 636px 569px
-}
-
-.bg-section {
-    background: url(../../assets/images/landingpage/section-bg.png) left center no-repeat;
-    background-size: 764px 677px
-}
-
-.bg-section-v2 {
-    background: url(../../assets/images/landingpage/section-bg.png) center right 26% no-repeat;
-    background-size: 598px 536px
-}
-
 .feature-title {
     font-size: 39px;
     letter-spacing: -1px
@@ -38225,11 +38210,6 @@ ul.list-style-none li a:hover {
 
 .stroke-primary {
     stroke: #5f76e8
-}
-
-.icon2 {
-    background: url(../../assets/images/landingpage/icon-sprite.jpg) no-repeat;
-    display: inline-block
 }
 
 .icon2.feature-icon {

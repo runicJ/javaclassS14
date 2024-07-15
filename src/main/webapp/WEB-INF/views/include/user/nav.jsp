@@ -27,7 +27,7 @@
 							<li><a href="${ctp}/">인사말</a></li>
 							<li><a href="${ctp}/introduce/introduce">홈페이지소개</a></li>
 							<li><a href="${ctp}/introduce/purpose">설립목적</a></li>
-							<li><a href="${ctp}/">지점위치</a></li>
+							<li><a href="${ctp}/introduce/branch/branchMap">지점위치</a></li>
 						</ul>
 					</li>
 					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <span class="badge">인기</span></a>
