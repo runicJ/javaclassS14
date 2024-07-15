@@ -19,7 +19,7 @@
 							<div class="input-group">
 								<input type="text" name="q" class="form-control" placeholder="당신의 걱정을 덜어내세요">									
 								<div class="input-group-btn">
-									<button class="btn btn-primary"><i class="ion-search"></i></button>
+									<a type="button" class="btn btn-primary" href="${ctp}/search/searchList"><i class="ion-search"></i></a>
 								</div>
 							</div>
 						</div>
@@ -38,7 +38,8 @@
 				<div class="col-md-3 col-sm-12 text-right">
 					<ul class="nav-icons">
 						<c:if test="${empty sUid}">
-							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"><span style="font-size:0.6em;float:right;">0</span></i></a></li>
+							<li><a href="${ctp}/"><i class="fa-solid fa-bullhorn"></i><span style="font-size:0.8em;float:bottom">0</span></a></li>
+							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">0</span></a></li>
 							<li><a href="${ctp}/users/userRegister"><i class="fa-solid fa-users"></i><span>회원가입</span></a></li>
 							<li><a href="${ctp}/users/userLogin"><i class="ion-person"></i><span>로그인</span></a></li>
 						</c:if>
@@ -48,7 +49,8 @@
 							<li><a href="${ctp}/users/userLogout"><i class="fa-solid fa-right-from-bracket"></i><span>끝내기</span></a></li>
 							</c:if>
 							<c:if test="${sUid != 'admin'}">
-							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"><span style="font-size:0.6em;float:right;">0</span></i></a></li>
+							<li><a href="${ctp}/"><i class="fa-solid fa-bullhorn"></i><span style="font-size:0.8em;float:bottom">0</span></a></li>
+							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">0</span></a></li>
 							<li><a href="${ctp}/users/userMain"><i class="ion-person"></i><span>마이페이지</span></a></li>
 							<li><a href="${ctp}/users/userLogout"><i class="fa-solid fa-right-from-bracket"></i><span>로그아웃</span></a></li>
 							</c:if>

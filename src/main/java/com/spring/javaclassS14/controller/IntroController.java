@@ -17,16 +17,25 @@ public class IntroController {
 	@Autowired
 	IntroService introService;
 	
+	// 인사말
+	@RequestMapping(value="greeting",method=RequestMethod.GET)
+	public String greetingGet() {
+		return "introduce/greeting";
+	}
+	
+	// 홈페이지 소개
 	@RequestMapping(value="introduce",method=RequestMethod.GET)
 	public String introduceGet() {
 		return "introduce/introduce";
 	}
 	
+	// 설립목적
 	@RequestMapping(value="purpose",method=RequestMethod.GET)
 	public String purposeGet() {
 		return "introduce/purpose";
 	}
 	
+	// 지점 소개
 	@RequestMapping(value="branch/branchMap",method=RequestMethod.GET)
 	public String branchMapGet() {
 		List<BranchVO> vos = introService.getBranchList();

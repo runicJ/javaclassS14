@@ -260,9 +260,15 @@ public class HomeController {
         return "main/main";
     }
     
-	// 채팅창 띄우기
+	// 유저 채팅창 띄우기
 	@RequestMapping(value = "/community/chat/userChat", method = RequestMethod.GET)
 		public String userChatGet() {
 	    return "community/chat/userChat";
+	}
+	
+	// 검색하기
+	@RequestMapping(value = "/search/searchList", method = RequestMethod.GET)
+	public String searchListGet() {
+		return "search/searchList";
 	}
 }

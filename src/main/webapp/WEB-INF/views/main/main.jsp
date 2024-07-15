@@ -145,7 +145,7 @@
 											<h2><a href="single.html">호흡기 알레르기</a></h2>
 											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
 											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1263</div></a>
+												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>1263</div></a>
 												<a class="btn btn-primary more" href="single.html">
 													<div>More</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -269,104 +269,6 @@
 									</div>
 								</div>
 							</h1>
-							<div class="body-col vertical-slider" data-max="4" data-nav="#hot-news-nav" data-item="article">
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Travel</a></div>
-												<div class="time">December 21, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">International</a></div>
-												<div class="time">December 20, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Aliquam et metus convallis tincidunt velit ut rhoncus dolor</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Computer</a></div>
-												<div class="time">December 19, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-							</div>
 						</div>
 					</div>
 					<div class="line top">
