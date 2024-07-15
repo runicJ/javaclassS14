@@ -4,8 +4,6 @@
 		  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 		  layout:decorate="~{layout/main_layout}">
   	<head>
-	    <meta name="_csrf" th:content="${_csrf.token}">
-	    <meta name="_csrf_header" th:content="${_csrf.headerName}">
 	    <link rel="stylesheet" type="text/css" href="./css/survForm.css">
 	    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
 	   <!--  <script type="text/javascript" src="./js/regSurv.js"></script> -->

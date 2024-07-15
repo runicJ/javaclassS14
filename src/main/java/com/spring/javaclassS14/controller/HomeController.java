@@ -259,4 +259,10 @@ public class HomeController {
 
         return "main/main";
     }
+    
+	// 채팅창 띄우기
+	@RequestMapping(value = "/community/chat/userChat", method = RequestMethod.GET)
+		public String userChatGet() {
+	    return "community/chat/userChat";
+	}
 }

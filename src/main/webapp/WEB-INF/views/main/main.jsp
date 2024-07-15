@@ -468,7 +468,7 @@
 											</div>
 										</div>
 										<div class="featured-author-footer">
-											<a href="${ctp}/chat/userChat">커뮤니티(유저 채팅방)</a>
+											<a href="${ctp}/community/chat/userChat">커뮤니티(유저 채팅방)</a>
 										</div>
 									</div>
 								</div>
@@ -531,6 +531,14 @@
 					    <p class="float-right">
 					        <a href="${ctp}/news/newsList" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
 					    </p>
+					</aside>
+					<aside>
+						<div class="aside-body">
+							<form class="newsletter">
+								<h1>Newsletter</h1>
+								<p>By subscribing you will receive new articles in your email.</p>
+							</form>
+						</div>
 					</aside>
 					<aside>
 						<ul class="nav nav-tabs nav-justified" role="tablist">
@@ -736,6 +744,7 @@
 							</div>
 							<h2><a href="single.html">tempor interdum Praesent tincidunt</a></h2>
 							<p>Praesent tincidunt, leo vitae congue molestie.</p>
+							<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
 						</div>
 					</div>
 				</article>
@@ -753,6 +762,7 @@
 							</div>
 							<h2><a href="single.html">Maecenas porttitor sit amet turpis a semper</a></h2>
 							<p> Proin vulputate, urna id porttitor luctus, dui augue facilisis lacus.</p>
+							<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
 						</div>
 					</div>
 				</article>
@@ -770,6 +780,7 @@
 							</div>
 							<h2><a href="single.html">Fusce ac odio eu ex volutpat pellentesque</a></h2>
 							<p>Vestibulum ante ipsum primis in faucibus orci luctus</p>
+							<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
 						</div>
 					</div>
 				</article>
@@ -787,6 +798,7 @@
 							</div>
 							<h2><a href="single.html">Nulla facilisis odio quis gravida vestibulum</a></h2>
 							<p>Proin venenatis pellentesque arcu, ut mattis nulla placerat et.</p>
+							<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
 						</div>
 					</div>
 				</article>
@@ -804,6 +816,7 @@
 							</div>
 							<h2><a href="single.html">Fusce Ullamcorper Elit At Felis Cursus Suscipit</a></h2>
 							<p>Proin venenatis pellentesque arcu, ut mattis nulla placerat et.</p>
+							<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
 						</div>
 					</div>
 				</article>
@@ -821,6 +834,7 @@
 							</div>
 							<h2><a href="single.html">Donec consequat arcu at ultrices sodales</a></h2>
 							<p>Proin venenatis pellentesque arcu, ut mattis nulla placerat et.</p>
+							<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
 						</div>
 					</div>
 				</article>

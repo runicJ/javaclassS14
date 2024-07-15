@@ -1,15 +1,16 @@
-<html lang="ko"
-		  xmlns="http://www.w3.org/1999/xhtml"
-		  xmlns:th="http://www.thymeleaf.org"
-		  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		  layout:decorate="~{layout/main_layout}">
-  	<head>
-	    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-	    <script type="text/javascript" src="./js/regSurv.js"></script>
-	    <meta name="_csrf" th:content="${_csrf.token}">
-	    <meta name="_csrf_header" th:content="${_csrf.headerName}">
-		<title>설문 만들기</title>
-    </head>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html>
+<html>
+<head>
+  	<meta charset="UTF-8">
+	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+    <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script type="text/javascript" src="./js/regSurv.js"></script>
+	<title>설문조사지 수정하기</title>
+   	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
+</head>
     <th:block layout:fragment="contents">
 	    <body>
 	      <h2>✏️ 설문 수정하기</h2>
@@ -22,7 +23,6 @@
 			  		<button id="uptSurvBtn">수정하기</button>
 			  		<button id="delSurvBtn">삭제하기</button>
 			   </caption>
-			   <input type="hidden"  name="${_csrf.parameterName}" value="${_csrf.token }"/>
 			       <tr>
 			           <td class="form-tbl-col">제목</td>
 			           <td><input id="survTitle" type="text" placeholder="제목을 입력해주세요(최대30자)" th:value="${surveyDto.survTitle}"/></td>
@@ -135,7 +135,7 @@
 		    </div>
 			</div>
 			<!-- 설문지 질문 END -->
-	    </body>
-	  </div>
     </th:block>
+<jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
+</body>
 </html>

@@ -1,136 +1,136 @@
-<html lang="ko"
-		  xmlns="http://www.w3.org/1999/xhtml"
-		  xmlns:th="http://www.thymeleaf.org"
-		  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
-		  layout:decorate="~{layout/main_layout}">
-	<head>
-  		<script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-  		<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-  		<script type="text/javascript" src="./js/survRslt.js"></script>
-  		<link rel="stylesheet" type="text/css" href="./css/survRslt.css">
-		<title>설문 결과</title>
-		<style>
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<c:set var="ctp" value="${pageContext.request.contextPath}" />
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+	<title>설문 결과</title>
+	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
+	<style>
 		@charset "UTF-8";
 
-			h2 {
-				margin-top:5px;
-				margin-bottom:20px;
-			}
-			
-			h3 {
-				margin-top: 30px;
-				margin-bottom: 20px;
-			}
-			
-			#survInfo {
-				width:100%;
-				padding: 20px;
-				border-top: 2px solid #EEEEEE;
-			    border-collapse: collapse;
-			}
-			
-			#survInfo th, #survInfo td {
-			    border-bottom: 2px solid #EEEEEE;
-			    padding: 10px;
-			}
-			
-			#survInfo th {
-				text-align: center;
-				background-color: #EEEEEE;
-			}
-			
-			.regdate, .moddate, .uesYn {
-				text-align: center;
-			}
-			
-			.descNull {
-				color : grey;
-				text-align: center;
-				font-style: italic;
-			}
-			
-			.survdesc {
-				overflow:auto;
-				max-height:100px;
-			}
-			
-			.answLong, .answShort {
-				overflow:auto;
-				max-height:300px;
-			}
-			
-			#rslt {
-				width:100%;
-				padding: 20px;
-				border-top: 2px solid #EEEEEE;
-			    border-collapse: collapse;
-			}
-			
-			#rslt th {
-				width:100%;
-				/* border-top: 2px solid #EEEEEE; */
-				border-bottom: 2px solid #6C757D;
-			    padding: 10px;
-			    background-color:#EEEEEE;
-			}
-			
-			#rslt td {
-			    padding: 10px;
-			}
-			
-			#rslt p {
-				/* border-bottom: 1px solid #EEEEEE; */
-				background-color: #f4f4f4;
-				padding:15px;
-				border-radius:8px;
-			}
-			
-			#rslt .count {
-				float:right;
-				margin-right:15px;
-				border-radius:50%;
-				background-color:pink;
-				width:25px;
-				height:25px;
-				text-align:center;
-			}
-			
-			#rslt .canvas {
-				max-height: 500px;
-				padding: 30px;
-			}
-			
-			.body button {
-			  -webkit-appearance: none;
-			  -moz-appearance: none;
-			  appearance: none;
-			  
-			  margin:10px;
-			  padding: 0.5rem 1rem;
-			
-			  font-size: 1rem;
-			  font-weight: 400;
-			  text-align: center;
-			  text-decoration: none;
-			
-			  display: inline-block;
-			  width: auto;
-			
-			  border: none;
-			  border-radius: 4px;
-			  
-			}
-			  
-			.body button:hover {
-				background-color:black;
-				color:white;
-			}
-			
-			.body #btn {
-				text-align:center;
-			}
-		</style>
-		<script type="text/javascript">
+		h2 {
+			margin-top:5px;
+			margin-bottom:20px;
+		}
+		
+		h3 {
+			margin-top: 30px;
+			margin-bottom: 20px;
+		}
+		
+		#survInfo {
+			width:100%;
+			padding: 20px;
+			border-top: 2px solid #EEEEEE;
+		    border-collapse: collapse;
+		}
+		
+		#survInfo th, #survInfo td {
+		    border-bottom: 2px solid #EEEEEE;
+		    padding: 10px;
+		}
+		
+		#survInfo th {
+			text-align: center;
+			background-color: #EEEEEE;
+		}
+		
+		.regdate, .moddate, .uesYn {
+			text-align: center;
+		}
+		
+		.descNull {
+			color : grey;
+			text-align: center;
+			font-style: italic;
+		}
+		
+		.survdesc {
+			overflow:auto;
+			max-height:100px;
+		}
+		
+		.answLong, .answShort {
+			overflow:auto;
+			max-height:300px;
+		}
+		
+		#rslt {
+			width:100%;
+			padding: 20px;
+			border-top: 2px solid #EEEEEE;
+		    border-collapse: collapse;
+		}
+		
+		#rslt th {
+			width:100%;
+			/* border-top: 2px solid #EEEEEE; */
+			border-bottom: 2px solid #6C757D;
+		    padding: 10px;
+		    background-color:#EEEEEE;
+		}
+		
+		#rslt td {
+		    padding: 10px;
+		}
+		
+		#rslt p {
+			/* border-bottom: 1px solid #EEEEEE; */
+			background-color: #f4f4f4;
+			padding:15px;
+			border-radius:8px;
+		}
+		
+		#rslt .count {
+			float:right;
+			margin-right:15px;
+			border-radius:50%;
+			background-color:pink;
+			width:25px;
+			height:25px;
+			text-align:center;
+		}
+		
+		#rslt .canvas {
+			max-height: 500px;
+			padding: 30px;
+		}
+		
+		.body button {
+		  -webkit-appearance: none;
+		  -moz-appearance: none;
+		  appearance: none;
+		  
+		  margin:10px;
+		  padding: 0.5rem 1rem;
+		
+		  font-size: 1rem;
+		  font-weight: 400;
+		  text-align: center;
+		  text-decoration: none;
+		
+		  display: inline-block;
+		  width: auto;
+		
+		  border: none;
+		  border-radius: 4px;
+		  
+		}
+		  
+		.body button:hover {
+			background-color:black;
+			color:white;
+		}
+		
+		.body #btn {
+			text-align:center;
+		}
+	</style>
+	<script type="text/javascript">
 		$(document).ready(function(){
 			for(let idx in qustList) {
 				
@@ -251,7 +251,7 @@
 				} // 장문/단답 확인용 if문
 			} // qustList
 		}); // $(document).ready
-
+	
 		function goList(currentPage, cntPerPage, pageSize, srchTyp, keyword) {
 			let url = "/myList";
 			url = url + "?currentPage=" + currentPage;
@@ -262,13 +262,13 @@
 			 	
 			location.href=url;
 		}
-		</script>
-	</head>
+	</script>
+</head>
 <th:block layout:fragment="contents">
 	<script th:inline="javascript">
 		    let qustList =  /*[[${survey.survqustList}]]*/ null;
 	</script>
-	<body>
+<body>
 	<h2>📋 설문 결과</h2>
 	<br>
 	<div class="body">
@@ -356,6 +356,6 @@
 		</th:block>
 	</table>
 	</div>
-	</body>
+</body>
   </th:block>
 </html>
