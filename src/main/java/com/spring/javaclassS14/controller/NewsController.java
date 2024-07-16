@@ -25,7 +25,7 @@ public class NewsController {
         List<CrawlingVO> vos = new ArrayList<>();
         try {
             String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
-            for (int page = 1; page <= 9; page++) {
+            for (int page = 1; page <= 10; page++) {
                 String url = baseUrl + "&start=" + ((page - 1) * 10 + 1);  // 네이버는 이렇게 페이지 구성함?
                 Document document = Jsoup.connect(url).get();
                 Elements newsElements = document.select("div.news_wrap.api_ani_send");

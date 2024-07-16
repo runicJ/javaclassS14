@@ -2710,6 +2710,7 @@ aside .sponsored li {
 
 aside .sponsored li a img {
     width: 100%;
+    height: 150px;
 }
 
 aside .ads img {

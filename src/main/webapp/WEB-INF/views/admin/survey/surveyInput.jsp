@@ -740,7 +740,7 @@
 		</div>
 		<!-- 설문지 질문 END -->
 	  </div>
-	</div>
+</div>
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>
 </html>
