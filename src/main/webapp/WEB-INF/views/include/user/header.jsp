@@ -6,7 +6,7 @@
 	<div class="firstbar">
 		<div class="container">
 			<div class="row">
-				<div class="col-md-3 col-sm-12">
+				<div class="col-md-2 col-sm-12">
 					<div class="brand">
 						<a href="http://localhost:9090/javaclassS14/main">
 							<img src="${ctp}/images/logo.png" alt="myLogo">
@@ -35,12 +35,12 @@
 						</div>
 					</form>								
 				</div>
-				<div class="col-md-3 col-sm-12 text-right">
+				<div class="col-md-4 col-sm-12 text-right">
 					<ul class="nav-icons">
 						<c:if test="${empty sUid}">
 							<li><a href="${ctp}/"><i class="fa-solid fa-bullhorn"></i><span style="font-size:0.8em;float:bottom">0</span></a></li>
 							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">0</span></a></li>
-							<li><a href="${ctp}/users/userRegister"><i class="fa-solid fa-users"></i><span>회원가입</span></a></li>
+							<li><a href="${ctp}/users/userRegister"><i class="fa-solid fa-user-group"></i><span> 회원가입</span></a></li>
 							<li><a href="${ctp}/users/userLogin"><i class="ion-person"></i><span>로그인</span></a></li>
 						</c:if>
 						<c:if test="${!empty sUid}">

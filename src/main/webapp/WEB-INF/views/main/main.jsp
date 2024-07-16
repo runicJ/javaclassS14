@@ -10,6 +10,7 @@
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>Home</title>
 	<link rel="icon" type="image/png" href="images/favicon-mark.png">
+    <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 	<style>
 		.upBtn {
@@ -130,106 +131,154 @@
 					<div class="row">
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<div class="row">
+					            <c:if test="${!empty vos1}">
+				                <c:forEach var="vo1" items="${vos1}">
 								<article class="article col-md-12">
 									<div class="inner">
-										<figure>
+										<figure style="height:100px;">
 											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+												<img src="https://www.thermofisher.com/${vo1.item1}" alt="allergic1" style="object-fit:cover; width: 100%; height: auto;">
 											</a>
 										</figure>
 										<div class="padding">
 											<div class="detail">
-												<div class="time">December 10, 2016</div>
-												<div class="category"><a href="category.html">Healthy</a></div>
+												<div class="category"><a href="${ctp}/#">[ 호흡기 알레르기 ]</a></div>
 											</div>
-											<h2><a href="single.html">호흡기 알레르기</a></h2>
-											<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+											<h2><a href="single.html">${vo1.item2}</a></h2>
+											<p>
+												<c:choose>
+												  <c:when test="${fn:length(vo1.item3) gt 80}">
+												    <c:out value="${fn:substring(vo1.item3,0,80)}" />...
+												  </c:when>
+												  <c:otherwise>
+												    <c:out value="${vo1.item3}" />
+												  </c:otherwise>
+												</c:choose>
+											</p>
 											<footer>
-												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>1263</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
+												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a class="btn btn-primary more" href="${ctp}/news/allergic1">
+													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
 												</a>
 											</footer>
 										</div>
 									</div>
 								</article>
+								</c:forEach>
+								</c:if>
+				            	<c:if test="${!empty vos2}">
+				                <c:forEach var="vo2" items="${vos2}">
 								<article class="article col-md-12">
 									<div class="inner">
-										<figure>
+										<figure style="height:100px;">
 											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+												<img src="https://www.thermofisher.com/${vo2.item1}" alt="allergic2" style="object-fit:cover; width: 100%; height: auto;">
 											</a>
 										</figure>
 										<div class="padding">
 											<div class="detail">
-												<div class="time">December 22, 2016</div>
-												<div class="category"><a href="category.html">Healthy</a></div>
+												<div class="category"><a href="category.html">[ 식품 알레르기 ]</a></div>
 											</div>
-											<h2><a href="single.html">식품 알레르기</a></h2>
-											<p>Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui dui.</p>
+											<h2><a href="single.html">${vo2.item2}</a></h2>
+											<p>
+												<c:choose>
+												  <c:when test="${fn:length(vo2.item3) gt 80}">
+												    <c:out value="${fn:substring(vo2.item3,0,80)}" />...
+												  </c:when>
+												  <c:otherwise>
+												    <c:out value="${vo2.item3}" />
+												  </c:otherwise>
+												</c:choose>
+											</p>
 											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>327</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
+												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a class="btn btn-primary more" href="${ctp}/news/allergic2">
+													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
 												</a>
 											</footer>
 										</div>
 									</div>
 								</article>
+								</c:forEach>
+								</c:if>
 							</div>
 						</div>
 						<div class="col-md-6 col-sm-6 col-xs-12">
 							<div class="row">
+				            	<c:if test="${!empty vos3}">
+				                <c:forEach var="vo3" items="${vos3}">
 								<article class="article col-md-12">
 									<div class="inner">
-										<figure>                                
+										<figure style="height:100px;">                                
 											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+												<img src="https://www.thermofisher.com/${vo3.item1}" alt="allergic3" style="object-fit:cover; width: 100%; height: auto;">
 											</a>
 										</figure>
 										<div class="padding">
 											<div class="detail">
-												<div class="time">December 09, 2016</div>
-												<div class="category"><a href="category.html">Lifestyle</a></div>
+												<div class="category"><a href="category.html">[ 아토피 피부염 ]</a></div>
 											</div>
-											<h2><a href="single.html">아토피 피부염</a></h2>
-											<p>Vivamus in efficitur mi. Nullam semper justo ut elit lacinia lacinia. Class aptent taciti sociosqu ad litora torquent per conubia nostra.</p>
+											<h2><a href="single.html">${vo3.item2}</a></h2>
+											<p>
+												<c:choose>
+												  <c:when test="${fn:length(vo3.item3) gt 80}">
+												    <c:out value="${fn:substring(vo3.item3,0,80)}" />...
+												  </c:when>
+												  <c:otherwise>
+												    <c:out value="${vo3.item3}" />
+												  </c:otherwise>
+												</c:choose>
+											</p>
 											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1083</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
+												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a class="btn btn-primary more" href="${ctp}/news/allergic3">
+													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
 												</a>
 											</footer>
 										</div>
 									</div>
 								</article>
+								</c:forEach>
+								</c:if>
+			            		<c:if test="${!empty vos4}">
+				                <c:forEach var="vo4" items="${vos4}">
 								<article class="article col-md-12">
 									<div class="inner">
-										<figure>
+										<figure style="height:100px;">                                
 											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+												<img src="https://www.thermofisher.com/${vo4.item1}" alt="allergic4" style="object-fit:cover; width: 100%; height: auto;">
 											</a>
 										</figure>
 										<div class="padding">
 											<div class="detail">
-												<div class="time">December 21, 2016</div>
-												<div class="category"><a href="category.html">Sport</a></div>
+												<div class="category"><a href="category.html">[ 기타 알레르기 ]</a></div>
 											</div>
-											<h2><a href="single.html">기타 알레르기(실내, 계절성 등)</a></h2>
-											<p>Pellentesque habitant morbi tristique senectus et netus et malesuada fames ac turpis egestas. Mauris elementum libero at pharetra auctor.</p>
+											<h2><a href="single.html">${vo4.item2}</a></h2>
+											<p>
+												<c:choose>
+												  <c:when test="${fn:length(vo4.item3) gt 80}">
+												    <c:out value="${fn:substring(vo4.item3,0,80)}" />...
+												  </c:when>
+												  <c:otherwise>
+												    <c:out value="${vo4.item3}" />
+												  </c:otherwise>
+												</c:choose>
+											</p>
 											<footer>
-												<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>980</div></a>
-												<a class="btn btn-primary more" href="single.html">
-													<div>More</div>
+												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a class="btn btn-primary more" href="${ctp}/news/allergic4">
+													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
 												</a>
 											</footer>
 										</div>
 									</div>
 								</article>
+								</c:forEach>
+								</c:if>
 							</div>
 						</div>
 					</div>
@@ -260,56 +309,225 @@
 						<div class="col-md-6 col-sm-6">
 							<h1 class="title-col">
 								워드클라우드(인기단어)
-								<div class="carousel-nav" id="hot-news-nav">
-									<div class="prev">
-										<i class="ion-ios-arrow-left"></i>
-									</div>
-									<div class="next">
-										<i class="ion-ios-arrow-right"></i>
-									</div>
-								</div>
 							</h1>
 						</div>
 					</div>
 					<div class="line top">
 						<div>인기 제품</div>
 					</div>
-					    <!-- Categories Section Begin -->
-    <section class="categories">
+    <section class="product spad">
         <div class="container">
-            <div class="row">
-                <div class="categories__slider owl-carousel">
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="${ctp}/user/noImage.jpg">
-                            <h5><a href="#">Fresh Fruit</a></h5>
+            <div class="row product__filter">
+                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
+                            <span class="label">New</span>
+                            <ul class="product__hover">
+                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6>Piqué Biker Jacket</h6>
+                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>$67.24</h5>
+                            <div class="product__color__select">
+                                <label for="pc-1">
+                                    <input type="radio" id="pc-1">
+                                </label>
+                                <label class="active black" for="pc-2">
+                                    <input type="radio" id="pc-2">
+                                </label>
+                                <label class="grey" for="pc-3">
+                                    <input type="radio" id="pc-3">
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="${ctp}/user/noImage.jpg">
-                            <h5><a href="#">Dried Fruit</a></h5>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
+                            <ul class="product__hover">
+                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6>Piqué Biker Jacket</h6>
+                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>$67.24</h5>
+                            <div class="product__color__select">
+                                <label for="pc-4">
+                                    <input type="radio" id="pc-4">
+                                </label>
+                                <label class="active black" for="pc-5">
+                                    <input type="radio" id="pc-5">
+                                </label>
+                                <label class="grey" for="pc-6">
+                                    <input type="radio" id="pc-6">
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="${ctp}/user/noImage.jpg">
-                            <h5><a href="#">Vegetables</a></h5>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+                    <div class="product__item sale">
+                        <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
+                            <span class="label">Sale</span>
+                            <ul class="product__hover">
+                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6>Multi-pocket Chest Bag</h6>
+                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>$43.48</h5>
+                            <div class="product__color__select">
+                                <label for="pc-7">
+                                    <input type="radio" id="pc-7">
+                                </label>
+                                <label class="active black" for="pc-8">
+                                    <input type="radio" id="pc-8">
+                                </label>
+                                <label class="grey" for="pc-9">
+                                    <input type="radio" id="pc-9">
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="${ctp}/user/noImage.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
+                            <ul class="product__hover">
+                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6>Diagonal Textured Cap</h6>
+                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>$60.9</h5>
+                            <div class="product__color__select">
+                                <label for="pc-10">
+                                    <input type="radio" id="pc-10">
+                                </label>
+                                <label class="active black" for="pc-11">
+                                    <input type="radio" id="pc-11">
+                                </label>
+                                <label class="grey" for="pc-12">
+                                    <input type="radio" id="pc-12">
+                                </label>
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
-                        <div class="categories__item set-bg" data-setbg="${ctp}/user/noImage.jpg">
-                            <h5><a href="#">drink fruits</a></h5>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+                    <div class="product__item">
+                        <div class="product__item__pic set-bg" data-setbg="img/product/product-5.jpg">
+                            <ul class="product__hover">
+                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6>Lether Backpack</h6>
+                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <div class="rating">
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>$31.37</h5>
+                            <div class="product__color__select">
+                                <label for="pc-13">
+                                    <input type="radio" id="pc-13">
+                                </label>
+                                <label class="active black" for="pc-14">
+                                    <input type="radio" id="pc-14">
+                                </label>
+                                <label class="grey" for="pc-15">
+                                    <input type="radio" id="pc-15">
+                                </label>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
+                    <div class="product__item sale">
+                        <div class="product__item__pic set-bg" data-setbg="img/product/product-6.jpg">
+                            <span class="label">Sale</span>
+                            <ul class="product__hover">
+                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                            </ul>
+                        </div>
+                        <div class="product__item__text">
+                            <h6>Ankle Boots</h6>
+                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <div class="rating">
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star"></i>
+                                <i class="fa fa-star-o"></i>
+                            </div>
+                            <h5>$98.49</h5>
+                            <div class="product__color__select">
+                                <label for="pc-16">
+                                    <input type="radio" id="pc-16">
+                                </label>
+                                <label class="active black" for="pc-17">
+                                    <input type="radio" id="pc-17">
+                                </label>
+                                <label class="grey" for="pc-18">
+                                    <input type="radio" id="pc-18">
+                                </label>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </div>
     </section>
-    <!-- Categories Section End -->
-
 				</div>
 				<div class="col-xs-6 col-md-4 sidebar" id="sidebar">
 					<div class="sidebar-title for-tablet">Sidebar</div>
@@ -597,17 +815,7 @@
 									<a href="#">
 										<img src="${ctp}/images/ad1.png" alt="Sponsored">
 									</a>
-								</li> 
-								<li>
-									<a href="#">
-										<img src="${ctp}/images/ad2.png" alt="Sponsored">
-									</a>
-								</li> 
-								<li>
-									<a href="#">
-										<img src="${ctp}/images/ad3.png" alt="Sponsored">
-									</a>
-								</li> 
+								</li>
 								<li>
 									<a href="#">
 										<img src="${ctp}/images/ad4.jpg" alt="Sponsored">
@@ -618,7 +826,51 @@
 					</aside>
 				</div>
 		</section>
-
+   <section class="categories spad m-1" style="padding: 70px 0 30px 0">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-3">
+                    <div class="categories__text">
+                        <h2>Clothings Hot <br /> <span>Shoe Collection</span> <br /> Accessories</h2>
+                    </div>
+                </div>
+                <div class="col-lg-4">
+                    <div class="categories__hot__deal">
+                        <img src="img/product-sale.png" alt="">
+                        <div class="hot__deal__sticker">
+                            <span>Sale Of</span>
+                            <h5>$29.99</h5>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-4 offset-lg-1">
+                    <div class="categories__deal__countdown">
+                        <span>HOT DEAL</span>
+                        <h2>Big Sale for pet</h2>
+                        <div class="categories__deal__countdown__timer" id="countdown">
+                            <div class="cd-item">
+                                <span>3</span>
+                                <p>Days</p>
+                            </div>
+                            <div class="cd-item">
+                                <span>1</span>
+                                <p>Hours</p>
+                            </div>
+                            <div class="cd-item">
+                                <span>50</span>
+                                <p>Minutes</p>
+                            </div>
+                            <div class="cd-item">
+                                <span>18</span>
+                                <p>Seconds</p>
+                            </div>
+                        </div>
+                        <a href="#" class="primary-btn">사러가기</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
 	<section class="best-of-the-week">
 		<div class="container">
 			<h1><div class="text">추천 후기글</div>

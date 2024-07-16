@@ -41,11 +41,11 @@
 											</div>
 										</div>
 										<ul class="vertical-menu">
-											<li><a href="${ctp}/research/crawling"><i class="ion-ios-circle-outline"></i> 뉴스정보</a></li>
-											<li><a href="#"><i class="ion-ios-circle-outline"></i> 호흡기 알레르기</a></li>
-											<li><a href="#"><i class="ion-ios-circle-outline"></i> 아토피 피부염</a></li>
-											<li><a href="#"><i class="ion-ios-circle-outline"></i> 식품 알레르기</a></li>
-											<li><a href="#"><i class="ion-ios-circle-outline"></i> 기타 알레르기</a></li>
+											<li><a href="${ctp}/news/newsList"><i class="ion-ios-circle-outline"></i> 뉴스정보</a></li>
+											<li><a href="${ctp}/news/allergic1"><i class="ion-ios-circle-outline"></i> 호흡기 알레르기</a></li>
+											<li><a href="${ctp}/news/allergic3"><i class="ion-ios-circle-outline"></i> 아토피 피부염</a></li>
+											<li><a href="${ctp}/news/allergic2"><i class="ion-ios-circle-outline"></i> 식품 알레르기</a></li>
+											<li><a href="${ctp}/news/allergic4"><i class="ion-ios-circle-outline"></i> 기타 알레르기</a></li>
 										</ul>
 									</div>
 									<div class="col-md-9">

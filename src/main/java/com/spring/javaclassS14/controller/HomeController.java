@@ -53,159 +53,6 @@ public class HomeController {
 		return "home";
 	}
 	
-//	@RequestMapping(value = "/main", method = RequestMethod.GET)
-//	public String mainPost(HttpServletRequest request, Model model) {
-//        List<CrawlingVO> vos = new ArrayList<>();
-//        WebDriver driver = null;
-//        
-//	    try {
-//	    	String realPath = request.getSession().getServletContext().getRealPath("/resources/crawling/");
-//            System.setProperty("webdriver.chrome.driver", realPath + "chromedriver.exe");
-//            
-//            ChromeOptions options = new ChromeOptions();
-//            options.addArguments("--headless"); // 헤드리스 모드 설정
-//            options.addArguments("--disable-gpu");
-//            options.addArguments("--no-sandbox");
-//            options.addArguments("--disable-dev-shm-usage");
-//            
-//            driver = new ChromeDriver(options);
-//            WebDriverWait wait = new WebDriverWait(driver, Duration.ofSeconds(10));
-//
-//            String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
-//	        for (int page = 1; page <= 5; page++) {
-//	            String url = baseUrl + "&start=" + ((page - 1) * 10 + 1); // 네이버는 페이지네이션을 start=11, 21 등으로 사용합니다.
-//	            driver.get(url);
-//	            
-//	            // 페이지가 완전히 로드될 때까지 대기
-//                wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("a.news_tit")));
-//
-//                // JavaScript를 사용하여 이미지가 로드될 때까지 대기
-//                ((ChromeDriver) driver).executeScript("window.scrollTo(0, document.body.scrollHeight);");
-//                Thread.sleep(2000); // 추가 대기
-//                
-//	            Document document = Jsoup.connect(url).get();
-//	            Elements titleElements = document.select("a.news_tit");
-//	            Elements imageElements = document.select("a.dsc_thumb img");
-//	            Elements broadcastElements = document.select("a.dsc_wrap");
-//	            Elements comElements = document.select("a.info.press");
-//	            Elements infoElements = document.select("span.info");
-//
-//	            int maxItems = titleElements.size();
-//
-//	            for (int i = 0; i < maxItems; i++) {
-//	                CrawlingVO vo = new CrawlingVO();
-//
-//	                if (i < titleElements.size()) {
-//	                    Element element = titleElements.get(i);
-//	                    vo.setItem1(element.text());
-//	                    vo.setItemUrl(element.attr("href"));
-//	                }
-//	                
-//                    if (i < imageElements.size()) {
-//                        Element element = imageElements.get(i);
-//                        String imgTag = element.outerHtml();
-//                        vo.setItem2(imgTag.attr("data-lazy-src"));
-//                        System.out.println("Image: " + vo.getItem2());
-//                    } else {
-//                        vo.setItem2(""); // 이미지가 없는 경우 빈 문자열 설정
-//                        System.out.println("Image: None");
-//                    }
-//
-//	                if (i < broadcastElements.size()) {
-//	                    Element element = broadcastElements.get(i);
-//	                    vo.setItem3(element.text());
-//	                }
-//
-//	                if (i < comElements.size()) {
-//	                    Element element = comElements.get(i);
-//	                    vo.setItem4(element.text());
-//	                }
-//
-//	                if (i < infoElements.size()) {
-//	                    Element element = infoElements.get(i);
-//	                    vo.setItem5(element.text());
-//	                }
-//
-//	                vos.add(vo);
-//	            }
-//	        }
-//	    } catch (Exception e) {
-//	        e.printStackTrace();
-//        } finally {
-//            if (driver != null) {
-//                driver.quit();
-//            }
-//        }
-//        model.addAttribute("vos", vos);
-//
-//	    return "main/main";
-//	}
-
-//	@RequestMapping(value = "/main", method = RequestMethod.GET)
-//    public String mainPost(HttpServletRequest request, Model model) {
-//        List<CrawlingVO> vos = new ArrayList<>();
-//        try {
-//            String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
-//            for (int page = 1; page <= 5; page++) { // 5페이지로 제한
-//                String url = baseUrl + "&start=" + ((page - 1) * 10 + 1); // 페이지네이션을 위한 URL 구성
-//                Document document = Jsoup.connect(url).get();
-//                Elements titleElements = document.select("a.news_tit");
-//                Elements imageElements = document.select("a.dsc_thumb img");
-//                Elements broadcastElements = document.select("div.dsc_wrap");
-//                Elements comElements = document.select("a.info.press");
-//                Elements infoElements = document.select("span.info");
-//
-//                int maxItems = titleElements.size();
-//
-//                for (int i = 0; i < maxItems; i++) {
-//                    CrawlingVO vo = new CrawlingVO();
-//
-//                    if (i < titleElements.size()) {
-//                        Element element = titleElements.get(i);
-//                        vo.setItem1(element.text());
-//                        vo.setItemUrl(element.attr("href"));
-//                        System.out.println("Title: " + vo.getItem1());
-//                        System.out.println("URL: " + vo.getItemUrl());
-//                    }
-//
-//                    if (document.select("a.dsc_thumb").isEmpty() || i >= imageElements.size() || !imageElements.get(i).hasAttr("data-lazysrc")) {
-//                        vo.setItem2("");
-//                    } else {
-//                        Element element = imageElements.get(i);
-//                        String imgSrc = element.attr("data-lazysrc");
-//                        vo.setItem2(imgSrc);
-//                        System.out.println("Image: " + vo.getItem2());
-//                    }
-//
-//                    if (i < broadcastElements.size()) {
-//                        Element element = broadcastElements.get(i);
-//                        vo.setItem3(element.text());
-//                        System.out.println("Broadcast: " + vo.getItem3());
-//                    }
-//
-//                    if (i < comElements.size()) {
-//                        Element element = comElements.get(i);
-//                        vo.setItem4(element.text());
-//                        System.out.println("Company: " + vo.getItem4());
-//                    }
-//
-//                    if (i < infoElements.size()) {
-//                        Element element = infoElements.get(i);
-//                        vo.setItem5(element.text());
-//                        System.out.println("Info: " + vo.getItem5());
-//                    }
-//
-//                    vos.add(vo);
-//                }
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//        }
-//        model.addAttribute("vos", vos);
-//
-//        return "main/main";
-//    }
-	
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPost(HttpServletRequest request, Model model) {
         List<CrawlingVO> vos = new ArrayList<>();
@@ -256,6 +103,114 @@ public class HomeController {
             e.printStackTrace();
         }
         model.addAttribute("vos", vos);
+        
+		try {
+			String url = "https://www.thermofisher.com/diagnostic-education/hcp/us/ko/allergy/respiratory-allergies/allergic-rhinitis-diagnosis-treatment.html";
+			Document document = Jsoup.connect(url).get();
+			List<CrawlingVO> vos1 = new ArrayList<>();
+			CrawlingVO vo1 = new CrawlingVO();
+
+			Element imageElement = document.selectFirst("img.full-hero-img.desktop-hero");
+			if(imageElement != null) {
+				vo1.setItem1(imageElement.attr("src"));
+			}
+
+			Element titleElement = document.selectFirst("div.text-cmp h1 b");
+			if(titleElement != null) {
+				vo1.setItem2(titleElement.text());
+			}
+			
+			Element contentElement = document.selectFirst("#text-1822732708");
+			if(contentElement != null) {
+				vo1.setItem3(contentElement.text());
+			}
+			
+			vos1.add(vo1);
+			model.addAttribute("vos1", vos1);
+		} catch (Exception e) {
+            e.printStackTrace();
+        }
+		
+		try {
+			String url = "https://www.thermofisher.com/diagnostic-education/hcp/us/ko/allergy/food-allergies-diagnosis-treatment.html";
+			Document document = Jsoup.connect(url).get();
+			List<CrawlingVO> vos2 = new ArrayList<>();
+			CrawlingVO vo2 = new CrawlingVO();
+			
+			Element imageElement = document.selectFirst("img.full-hero-img.desktop-hero");
+			if(imageElement != null) {
+				vo2.setItem1(imageElement.attr("src"));
+			}
+			
+			Element titleElement = document.selectFirst("div.text-cmp h1 b");
+			if(titleElement != null) {
+				vo2.setItem2(titleElement.text());
+			}
+			
+			Element contentElement = document.selectFirst("#text-1355993154");
+			if(contentElement != null) {
+				vo2.setItem3(contentElement.text());
+			}
+			
+			vos2.add(vo2);
+			model.addAttribute("vos2", vos2);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			String url = "https://www.thermofisher.com/diagnostic-education/hcp/us/ko/allergy/atopic-dermatitis-diagnosis-treatment.html";
+			Document document = Jsoup.connect(url).get();
+			List<CrawlingVO> vos3 = new ArrayList<>();
+			CrawlingVO vo3 = new CrawlingVO();
+			
+			Element imageElement = document.selectFirst("img.full-hero-img.desktop-hero");
+			if(imageElement != null) {
+				vo3.setItem1(imageElement.attr("src"));
+			}
+			
+			Element titleElement = document.selectFirst("div.text-cmp h1 b");
+			if(titleElement != null) {
+				vo3.setItem2(titleElement.text());
+			}
+			
+			Element contentElement = document.selectFirst("#text-1798408017");
+			if(contentElement != null) {
+				vo3.setItem3(contentElement.text());
+			}
+			
+			vos3.add(vo3);
+			model.addAttribute("vos3", vos3);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		
+		try {
+			String url = "https://www.thermofisher.com/diagnostic-education/hcp/us/ko/allergy/respiratory-allergies/indoor-allergies-diagnosis-treatment.html";
+			Document document = Jsoup.connect(url).get();
+			List<CrawlingVO> vos4 = new ArrayList<>();
+			CrawlingVO vo4 = new CrawlingVO();
+			
+			Element imageElement = document.selectFirst("img.full-hero-img.desktop-hero");
+			if(imageElement != null) {
+				vo4.setItem1(imageElement.attr("src"));
+			}
+			
+			Element titleElement = document.selectFirst("div.text-cmp h1 b");
+			if(titleElement != null) {
+				vo4.setItem2(titleElement.text());
+			}
+			
+			Element contentElement = document.selectFirst("#text-980197978");
+			if(contentElement != null) {
+				vo4.setItem3(contentElement.text());
+			}
+			
+			vos4.add(vo4);
+			model.addAttribute("vos4", vos4);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
 
         return "main/main";
     }

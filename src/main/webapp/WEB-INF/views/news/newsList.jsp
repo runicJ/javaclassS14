@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -13,227 +14,147 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
-<p><br></p>
-<section class="search">
-		<div class="container">
-			<div class="row">
-				<div class="col-md-3">
-					<aside>
-						<h2 class="aside-title">Search</h2>
-						<div class="aside-body">
-							<p>Search with other keywords or use filters for more accurate results.</p>
-							<form>
-								<div class="form-group">
-									<div class="input-group">
-										<input type="text" name="q" class="form-control" placeholder="Type something ..." value="hello">
-										<div class="input-group-btn">
-											<button class="btn btn-primary">
-												<i class="ion-search"></i>
-											</button>
-										</div>
-									</div>
-								</div>
-							</form>
-						</div>
-					</aside>
-					<aside>
-						<h2 class="aside-title">Filter</h2>
-						<div class="aside-body">
-							<form class="checkbox-group">
-								<div class="group-title">Date</div>
-								<div class="form-group">
-									<label><input type="radio" name="date" checked> Anytime</label>
-								</div>
-								<div class="form-group">
-									<label><input type="radio" name="date"> Today</label>
-								</div>
-								<div class="form-group">
-									<label><input type="radio" name="date"> Last Week</label>
-								</div>
-								<div class="form-group">
-									<label><input type="radio" name="date"> Last Month</label>
-								</div>
-								<br>
-								<div class="group-title">Categories</div>
-								<div class="form-group">
-									<label><input type="checkbox" name="category" checked> All Categories</label>
-								</div>
-								<div class="form-group">
-									<label><input type="checkbox" name="category"> Lifestyle</label>
-								</div>
-								<div class="form-group">
-									<label><input type="checkbox" name="category"> Travel</label>
-								</div>
-								<div class="form-group">
-									<label><input type="checkbox" name="category"> Computer</label>
-								</div>
-								<div class="form-group">
-									<label><input type="checkbox" name="category"> Film</label>
-								</div>
-								<div class="form-group">
-									<label><input type="checkbox" name="category"> Sport</label>
-								</div>
-							</form>
-						</div>
-					</aside>
-				</div>
-				<div class="col-md-9">
-					<div class="nav-tabs-group">
-						<ul class="nav-tabs-list">
-							<li class="active"><a href="#">All</a></li>
-							<li><a href="#">Latest</a></li>
-							<li><a href="#">Popular</a></li>
-							<li><a href="#">Trending</a></li>
-							<li><a href="#">Videos</a></li>
-						</ul>
-						<div class="nav-tabs-right">
-							<select class="form-control">
-								<option>Limit</option>
-								<option>10</option>
-								<option>20</option>
-								<option>50</option>
-								<option>100</option>
-							</select>
-						</div>
-					</div>
-					<div class="search-result">
-						Search results for keyword "hello" found in 5,200 posts.
-					</div>
-					<div class="row">
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="images/news/img11.jpg">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-											<a href="#">Film</a>
-										</div>
-										<time>December 19, 2016</time>
-									</div>
-									<h1><a href="single.html">Donec consequat arcu at ultrices sodales quam erat aliquet diam</a></h1>
-									<p>
-									Donec consequat, arcu at ultrices sodales, quam erat aliquet diam, sit amet interdum libero nunc accumsan nisi.
-									</p>
-									<footer>
-										<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>273</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<div class="badge">
-									Sponsored
-								</div>
-								<figure>
-									<a href="single.html">
-										<img src="images/news/img02.jpg">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-											<a href="#">Travel</a>
-										</div>
-										<time>December 18, 2016</time>
-									</div>
-									<h1><a href="single.html">Maecenas accumsan tortor ut velit pharetra mollis</a></h1>
-									<p>
-										Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui.
-									</p>
-									<footer>
-										<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>4209</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="images/news/img03.jpg">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-										<a href="#">Travel</a>
-										</div>
-										<time>December 16, 2016</time>
-									</div>
-									<h1><a href="single.html">Nulla facilisis odio quis gravida vestibulum Proin venenatis pellentesque arcu</a></h1>
-									<p>
-										Nulla facilisis odio quis gravida vestibulum. Proin venenatis pellentesque arcu, ut mattis nulla placerat et.
-									</p>
-									<footer>
-										<a href="#" class="love active"><i class="ion-android-favorite"></i> <div>302</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-						<article class="col-md-12 article-list">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="images/news/img09.jpg">
-									</a>
-								</figure>
-								<div class="details">
-									<div class="detail">
-										<div class="category">
-											<a href="#">Healthy</a>
-										</div>
-										<time>December 16, 2016</time>
-									</div>
-									<h1><a href="single.html">Maecenas blandit ultricies lorem id tempor enim pulvinar at</a></h1>
-									<p>
-										Maecenas blandit ultricies lorem, id tempor enim pulvinar at. Curabitur sit amet tortor eu ipsum lacinia malesuada. Etiam sed vulputate magna.
-									</p>
-									<footer>
-										<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>783</div></a>
-										<a class="btn btn-primary more" href="single.html">
-											<div>More</div>
-											<div><i class="ion-ios-arrow-thin-right"></i></div>
-										</a>
-									</footer>
-								</div>
-							</div>
-						</article>
-	          <div class="col-md-12 text-center">
-	            <ul class="pagination">
-	              <li class="prev"><a href="#"><i class="ion-ios-arrow-left"></i></a></li>
-	              <li class="active"><a href="#">1</a></li>
-	              <li><a href="#">2</a></li>
-	              <li><a href="#">3</a></li>
-	              <li><a href="#">...</a></li>
-	              <li><a href="#">97</a></li>
-	              <li class="next"><a href="#"><i class="ion-ios-arrow-right"></i></a></li>
-	            </ul>
-	            <div class="pagination-help-text">
-	            	Showing 8 results of 776 &mdash; Page 1
-	            </div>
-	          </div>
-					</div>
-				</div>
-			</div>
+<section class="">
+	<div class="container">
+		<h2 class="text-center">사이트별 알레르기 관련 뉴스</h2>
+		<div class="row">
+			<div class="col-md-4 col-sm-4">
+				<h1 class="title-col">네이버 뉴스</h1>
+				<div class="body-col" data-max="100" data-nav="#hot-news-nav" data-item="article">
+					<c:if test="${!empty vos}">
+	                <c:forEach var="vo" items="${vos}" varStatus="status">
+	                    <article class="article-mini">
+	                        <div class="inner">
+	 							<figure>
+	                                <c:choose>
+	                                    <c:when test="${!empty vo.item2}">
+	                                        <img src="${vo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
+	                                    </c:when>
+	                                    <c:otherwise>
+	                                        <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+	                                    </c:otherwise>
+	                                </c:choose>
+	                            </figure>
+	                            <div class="padding">
+	                                <h1><a href="${vo.itemUrl1}" target="_blank">${vo.item1}</a></h1>
+	                                <div class="detail">
+	                                    <div class="category"><a href="${vo.itemUrl2}">${vo.item4}</a></div>
+	                                    <div class="time">${vo.item5}</div>
+                                	</div>
+                            	</div>
+	                        </div>
+          				</article>
+	                </c:forEach>
+	                </c:if>
+		            <c:if test="${empty vos}">
+		            	<article class="article-mini">
+			                <p>spinner</p>
+			                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
+		                </article>
+		            </c:if>
+		         </div>
+		    </div>
+			<div class="col-md-4 col-sm-4">
+				<h1 class="title-col">네이처 저널</h1>
+				<div class="body-col" data-max="100" data-nav="#hot-news-nav" data-item="article">
+					<c:if test="${!empty nVos}">
+	                <c:forEach var="nVo" items="${nVos}" varStatus="status">
+	                    <article class="article-mini">
+	                        <div class="inner">
+	 							<figure>
+	                                <c:choose>
+	                                    <c:when test="${!empty nVo.item2}">
+	                                        <img src="${nVo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
+	                                    </c:when>
+	                                    <c:otherwise>
+	                                        <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+	                                    </c:otherwise>
+	                                </c:choose>
+	                            </figure>
+	                            <div class="padding">
+	                                <h1><a href="https://www.nature.com${nVo.itemUrl1}" target="_blank">
+	                                <c:choose>
+										<c:when test="${fn:length(nVo.item1) gt 50}">
+											<c:out value="${fn:substring(nVo.item1,0,50)}" />...
+										</c:when>
+										<c:otherwise>
+											<c:out value="${nVo.item1}" />
+										</c:otherwise>
+									</c:choose>
+	                                </a></h1>
+	                                <div class="detail">
+	                                    <div class="category">
+	                             	    <c:choose>
+											<c:when test="${fn:length(nVo.item4) gt 15}">
+												<c:out value="${fn:substring(nVo.item4,0,15)}" />...
+											</c:when>
+											<c:otherwise>
+												<c:out value="${nVo.item4}" />
+											</c:otherwise>
+										</c:choose>
+	                                    </div>
+	                                    <div class="time">${nVo.item5}</div>
+                                	</div>
+                            	</div>
+	                        </div>
+          				</article>
+	                </c:forEach>
+	                </c:if>
+		            <c:if test="${empty nVos}">
+		            	<article class="article-mini">
+			                <p>spinner</p>
+			                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
+		                </article>
+		            </c:if>
+		         </div>
+		    </div>
+			<div class="col-md-4 col-sm-4">
+				<h1 class="title-col">구글 학술검색</h1>
+				<div class="body-col" data-max="100" data-nav="#hot-news-nav" data-item="article">
+					<c:if test="${!empty gVos}">
+	                <c:forEach var="gVo" items="${gVos}" varStatus="status">
+	                    <article class="article-mini">
+	                        <div class="inner">
+	                            <div class="padding">
+	                                <h1><a href="${gVo.itemUrl1}" target="_blank">
+	                                <c:choose>
+										<c:when test="${fn:length(gVo.item1) gt 50}">
+											<c:out value="${fn:substring(gVo.item1,0,50)}" />...
+										</c:when>
+										<c:otherwise>
+											<c:out value="${gVo.item1}" />
+										</c:otherwise>
+									</c:choose>
+	                                </a></h1>
+	                                <div class="detail">
+	                                    <div class="category">
+	                             	    <c:choose>
+											<c:when test="${fn:length(gVo.item3) gt 15}">
+												<c:out value="${fn:substring(gVo.item3,0,15)}" />...
+											</c:when>
+											<c:otherwise>
+												<c:out value="${gVo.item3}" />
+											</c:otherwise>
+										</c:choose>
+	                                    </div>
+	                                    <div class="time">${gVo.item4}</div>
+                                	</div>
+                            	</div>
+	                        </div>
+          				</article>
+	                </c:forEach>
+	                </c:if>
+		            <c:if test="${empty nVos}">
+		            	<article class="article-mini">
+			                <p>spinner</p>
+			                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
+		                </article>
+		            </c:if>
+		         </div>
+		    </div>
 		</div>
-	</section>
+	</div>
+</section>
 <p><br></p>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>
