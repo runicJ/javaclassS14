@@ -189,3 +189,25 @@
 <%-- <script src="${ctp}/js/jquery.toast.min.js"></script> --%>
 <script src="${ctp}/js/demo.js"></script>
 <script src="${ctp}/js/e-magz.js"></script>
+<script>
+    $(document).ready(function(){
+        $('.prev').click(function(){
+            $('#hot-news-carousel').carousel('prev');
+        });
+        $('.next').click(function(){
+            $('#hot-news-carousel').carousel('next');
+        });
+    });
+    
+    $(window).scroll(function(){
+    	if ($(this).scrollTop() > 300){
+    		$('.upBtn').show();
+    	} else{
+    		$('.upBtn').hide();
+    	}
+    });
+    $('.upBtn').click(function(){
+    	$('html, body').animate({scrollTop:0},400);
+    	return false;
+    });
+</script>

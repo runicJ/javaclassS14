@@ -22,10 +22,12 @@ public class NewsController {
 	
 	@RequestMapping(value = "/newsList", method = RequestMethod.GET)
 	public String newsListGet(HttpServletRequest request, Model model) {
+		
+		// 네이버 뉴스 리스트
         List<CrawlingVO> vos = new ArrayList<>();
         try {
             String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
-            for (int page = 1; page <= 10; page++) {
+            for (int page = 1; page <= 9; page++) {
                 String url = baseUrl + "&start=" + ((page - 1) * 10 + 1);  // 네이버는 이렇게 페이지 구성함?
                 Document document = Jsoup.connect(url).get();
                 Elements newsElements = document.select("div.news_wrap.api_ani_send");
@@ -71,6 +73,7 @@ public class NewsController {
         }
         model.addAttribute("vos", vos);
         
+        // 네이처 저널리스트
         List<CrawlingVO> nVos = new ArrayList<>();
         try {
         	 String baseUrl = "https://www.nature.com/search?q=allergy&date_range=last_year&order=relevance";
@@ -119,53 +122,55 @@ public class NewsController {
         }
         model.addAttribute("nVos", nVos);
         
+        // 구글 학술회 검색리스트
         List<CrawlingVO> gVos = new ArrayList<>();
         try {
-        	String baseUrl = "https://scholar.google.com/scholar?as_ylo=2023&q=allergy&hl=ko&as_sdt=0,5&as_vis=1";
-        	for (int page = 1; page <= 3; page++) {
-        		String url = baseUrl + "&page=" + page;
-        		Document document = Jsoup.connect(url).get();
-        		Elements newsElements = document.select("div.gs_md_wnw.gs_md_ds.gs_md_wmw");
-        		
-        		for (Element newsElement : newsElements) {
-        			CrawlingVO gVo = new CrawlingVO();
-        			
-        			Element titleElement = newsElement.selectFirst("h3.gs_rt a");
-        			if (titleElement != null) {
-        				gVo.setItem1(titleElement.text());
-        				gVo.setItemUrl1(titleElement.attr("href"));
-        				System.out.println("vo.setItem1 : " + gVo.getItem1());
-        				System.out.println("vo.setItemUrl1 : " + gVo.getItemUrl1());
-        			}
-        			
-        			Element broadcastElement = newsElement.selectFirst("div.gs_rs");
-        			if (broadcastElement != null) {
-        				gVo.setItem2(broadcastElement.text());
-        				System.out.println("vo.getItem2 : " + gVo.getItem2());
-        			}
-        			
-        			Element comElement = newsElement.selectFirst("div.gs_a");
-        			if (comElement != null) {
-        				gVo.setItem3(comElement.text());
-        				System.out.println("vo.getItem3 : " + gVo.getItem3());
-        			}
-        			
-        			Element infoElement = newsElement.selectFirst("div.gs_fl.gs_flb a");
-        			if (infoElement != null) {
-        				gVo.setItem4(infoElement.text());
-        				System.out.println("vo.getItem4 : " + gVo.getItem4());
-        			}
-        			
-        			gVos.add(gVo);
-        		}
+        	for (int page = 1; page <= 5; page++) {
+	        	String baseUrl = "https://scholar.google.com/scholar?as_vis=1&q=allergy&hl=ko&as_sdt=0,5&as_ylo=2023";
+	            String url = baseUrl + "&page=" + page;
+	    		Document document = Jsoup.connect(url).get();
+	    		Elements newsElements = document.select("div.gs_ri");
+	        		
+	            for (Element newsElement : newsElements) {
+	                CrawlingVO gVo = new CrawlingVO();
+	
+	                Element titleElement = newsElement.selectFirst("h3.gs_rt a");
+	                if (titleElement != null) {
+	                    gVo.setItem1(titleElement.text());
+	                    gVo.setItemUrl1(titleElement.attr("href"));
+	                    System.out.println("gVo1 : "+ gVo.getItem1());
+	                    System.out.println("gVo5 : "+ gVo.getItemUrl1());
+	                }
+	
+	                Element broadcastElement = newsElement.selectFirst("div.gs_rs");
+	                if (broadcastElement != null) {
+	                    gVo.setItem2(broadcastElement.text());
+	                    System.out.println("gVo2 : "+ gVo.getItem2());
+	                }
+	
+	                Element comElement = newsElement.selectFirst("div.gs_a");
+	                if (comElement != null) {
+	                    gVo.setItem3(comElement.text());
+	                    System.out.println("gVo3 : "+ gVo.getItem3());
+	                }
+	
+	                Element infoElement = newsElement.selectFirst("div.gs_fl a");
+	                if (infoElement != null) {
+	                    gVo.setItem4(infoElement.text());
+	                    System.out.println("gVo4 : "+ gVo.getItem4());
+	                }
+	
+	                gVos.add(gVo);
+	            }
         	}
         } catch (Exception e) {
-        	e.printStackTrace();
+            e.printStackTrace();
         }
         model.addAttribute("gVos", gVos);
         
 		return "news/newsList";
-	}
+    }
+
 	
 	@RequestMapping(value = "/allergic1", method = RequestMethod.GET)
 	public String allergic1Get(HttpServletRequest request, Model model) {

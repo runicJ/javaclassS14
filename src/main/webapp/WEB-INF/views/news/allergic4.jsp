@@ -138,7 +138,12 @@
 
 								<p>${vo.item5}</p>
 							</div>
+							<p class="text-center">
+								<button type="button" class="btn btn-light rounded-circle border border-2 border-end mr-2"><i class="fa-solid fa-bookmark"></i></button>
+								<button type="button" class="btn btn-light rounded-circle border border-2 border-end"><i class="fa-solid fa-share-nodes"></i></button>
+							</p>
 							<footer>
+								<div class="row">
 								<div class="col">
 									<ul class="tags">
 										<li><a href="#">Free Themes</a></li>
@@ -151,6 +156,7 @@
 								</div>
 								<div class="col">
 									<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1220</div></a>
+								</div>
 								</div>
 							</footer>
 						</article>
@@ -335,6 +341,7 @@
 					</div>
 				</div>
 			</div>
+			<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 		</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>

@@ -594,12 +594,12 @@ $(function(){
 		$("input[type='password']").each(function(i) {
 			var $this = $(this);
 
-			$this.wrap($("<div/>", {
+/*			$this.wrap($("<div/>", {
 				style: 'position:relative'
-			}));
-			$this.css({
+			}));*/
+/*			$this.css({
 				paddingRight: 60
-			});
+			});*/
 			$this.after($("<div/>", {
 				html: 'Show',
 				class: 'btn btn-primary btn-sm',

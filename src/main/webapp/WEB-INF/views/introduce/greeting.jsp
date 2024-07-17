@@ -15,8 +15,6 @@
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <section class="page">
 	<div class="container">
-		<div class="row">
-			<div class="col-md-8 col-md-offset-2">
 		          <ol class="breadcrumb">
 		          	<li><a href="index.html">Home</a></li>
 		            <li class="active">About Us</li>
@@ -58,8 +56,6 @@
 						</div>
 					</div>
 				</div>
-			</div>
-		</div>
 	</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>

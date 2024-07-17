@@ -2,39 +2,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
-<!DOCTYPE html>
-<html>
-<head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
-	<title>title</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
-	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
-	<script>
-		'use strict';
-		
-	   	let lastScroll = 0;  // 마지막 위치
-	  	let curPage = 1;
-	  	
-	  	$(document).scroll(function(){
-	  		let currentScroll = $(this).scrollTop();
-	  		let documentHeight = $(document).height();
-	  		let nowHeight = $(this).scrollTop() + $(window).height();
-	  		
-	  		if(currentScroll > lastScroll) {
-	  			if(documentHeight < (nowHeight + (documentHeight*0.1))) {
-	  				console.log("다음페이지 가져오기");
-	  				curPage++;
-	  				getList(curPage);
-	  			}
-	  		}
-	  		lastScroll = currentScroll;
-	  	});
-	</script>
-</head>
-<body>
-<jsp:include page="/WEB-INF/views/include/user/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
+
 <section class="">
 	<div class="container">
 		<h2 class="text-center">사이트별 알레르기 관련 뉴스</h2>
@@ -166,7 +134,7 @@
           				</article>
 	                </c:forEach>
 	                </c:if>
-		            <c:if test="${empty gVos}">
+		            <c:if test="${empty nVos}">
 		            	<article class="article-mini">
 			                <p>spinner</p>
 			                <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
@@ -175,11 +143,7 @@
 		         </div>
 		    </div>
 		</div>
-		<div class="line"></div>
+		<div class="line"> 끝 </div>
 	</div>
 	<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 </section>
-<p><br></p>
-<jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
-</body>
-</html>

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 public interface UserService {
@@ -38,5 +39,11 @@ public interface UserService {
 	public void cancelUserDelete(String userId);
 
 	public int updateUser(UserVO vo);
+
+	public SaveMypageVO getBookmarkList(String userId);
+
+	public boolean checkUserBookmark(String userId, String partUrl);
+
+	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark);
 
 }

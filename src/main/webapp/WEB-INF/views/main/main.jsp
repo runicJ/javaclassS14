@@ -156,7 +156,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic1">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -192,7 +192,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic2">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -232,7 +232,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic3">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -268,7 +268,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="love"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic4">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -997,27 +997,5 @@
 		<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 	</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
-<script>
-    $(document).ready(function(){
-        $('.prev').click(function(){
-            $('#hot-news-carousel').carousel('prev');
-        });
-        $('.next').click(function(){
-            $('#hot-news-carousel').carousel('next');
-        });
-    });
-    
-    $(window).scroll(function(){
-    	if ($(this).scrollTop() > 300){
-    		$('.upBtn').show();
-    	} else{
-    		$('.upBtn').hide();
-    	}
-    });
-    $('.upBtn').click(function(){
-    	$('html, body').animate({scrollTop:0},400);
-    	return false;
-    });
-</script>
 </body>
 </html>

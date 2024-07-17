@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 public interface UserDAO {
@@ -41,6 +42,12 @@ public interface UserDAO {
 	public void cancelUserDelete(@Param("userId") String userId);
 
 	public int updateUser(UserVO vo);
+
+	public SaveMypageVO getBookmarkList(String userId);
+
+	public boolean checkUserBookmark(String userId, String partUrl);
+
+	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark);
 	
 //	public int setUserDelete(@Param("userId") String userId);
 //	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);

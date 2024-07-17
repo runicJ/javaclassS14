@@ -25,6 +25,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.service.UserService;
+import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 @Controller
@@ -416,12 +417,44 @@ public class UserController {
 //	    return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
 //	}
 
+	// 회원탈퇴 신청
 	@RequestMapping(value="/updateDeletedUsers", method=RequestMethod.GET)
-	public String updateDeletedUsers() {
+	public String updateDeletedUsersGet() {
 	    List<UserVO> deletedUsers = userService.getAllDeletedUsers();
 	    for (UserVO user : deletedUsers) {
 	        userService.updateDeletedUser(user.getUserId());
 	    }
 	    return "redirect:/msg/updateDeletedUsersOk";
+	}
+	
+	// 회원 배송지 리스트
+	@RequestMapping(value="/userAddress", method=RequestMethod.GET)
+	public String userAddressGet() {
+		return "users/userAddress";
+	}
+	
+	// 회원 북마크 리스트
+	@RequestMapping(value="/userBookmarkList", method=RequestMethod.GET)
+	public String userBookmarkListGet(HttpSession session, Model model) {
+	    String userId = (String) session.getAttribute("sUid");
+		SaveMypageVO vo = userService.getBookmarkList(userId);
+		model.addAttribute("vo", vo);
+		return "users/userBookmarkList";
+	}
+	
+	// 북마크 등록
+	@RequestMapping(value="/saveBookmarkToggle", method=RequestMethod.POST)
+	public String saveBookmarkInputPost(HttpSession session, String partUrl) {
+		String userId = (String) session.getAttribute("sUid");
+		
+		boolean bookmarkExist = userService.checkUserBookmark(userId, partUrl);
+		
+        if (!bookmarkExist) {
+        	userService.saveBookmarkToggle(userId, partUrl, true);
+        } else {
+        	userService.saveBookmarkToggle(userId, partUrl, false);
+        }
+		
+		return "users/userBookmarkList";
 	}
 }

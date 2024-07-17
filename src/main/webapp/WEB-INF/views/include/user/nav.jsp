@@ -120,9 +120,8 @@
 										<h2 class="megamenu-title">알레르기 완화 제품</h2>
 										<ul class="vertical-menu">
 											<li><a href="#" class="text-muted">비염 치료기기</a></li>
-											<li><a href="#" class="text-muted">피부 의료기기</a></li>
-											<li><a href="#" class="text-muted">의약외품</a></li>
-											<li><a href="#" class="text-muted">마스크</a></li>
+											<li><a href="#" class="text-muted">피부 관리기기</a></li>
+											<li><a href="#" class="text-muted">마스크 외</a></li>
 										</ul>
 									</div>
 									<div class="col-md-3">
@@ -140,7 +139,6 @@
 											<li><a href="#" class="text-muted">유기농 인증 식제품</a></li>
 											<li><a href="#" class="text-muted">유기농 완구</a></li>
 											<li><a href="#" class="text-muted">비건 화장품</a></li>
-											<li><a href="#" class="text-muted">건강 보조 식품</a></li>
 										</ul>
 									</div>
 								</div>
@@ -150,16 +148,15 @@
 					<li class="dropdown magz-dropdown">
 						<a href="category.html">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/">커뮤니티 소개</a></li>
 							<li class="dropdown magz-dropdown">
 								<a href="#">구독정보<i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
-									<li><a href="${ctp}/users/userLogin">구독 정보 소개</a></li>
-									<li><a href="${ctp}/users/userRegister">구독 금액</a></li>
+									<li><a href="${ctp}/users/userLogin">구독 소개</a></li>
+									<li><a href="${ctp}/users/userRegister">구독 신청</a></li>
 									<li><a href="forgot.html">구독 후기</a></li>
 								</ul>
 							</li>
-							<li><a href="category.html">알레르기 병원리스트</a></li>
+							<li><a href="${ctp}/community/hospitalList">알레르기 병원리스트</a></li>
 							<li><a href="single.html">병원 후기</a></li>
 							<li><a href="search.html">정보를 나눠요(유저채팅)</a></li>
 						</ul>

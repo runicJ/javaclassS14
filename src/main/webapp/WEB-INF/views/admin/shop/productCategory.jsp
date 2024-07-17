@@ -118,9 +118,48 @@
 		                        <tr>
 		                            <th>번호</th>
 		                            <th>대분류</th>
-		                            <th>중분류명</th>
 		                            <th>사용 여부</th>
 		                            <th>중분류 여부</th>
+		                            <th>비고</th>
+		                        </tr>
+		                    </thead>
+		                    <tbody>
+			                    <c:forEach var="vo" items="${vos}" varStatus="st">
+		                        <tr>
+		                            <td>${st.count} </td>
+		                            <td>${vo.productTopName}</td>
+		                            <td>
+		                            	<label class="switch">
+											<input type="checkbox" ${vo.useYn == 'y' ? 'checked' : ''}>
+											<span class="slider"></span>
+										</label>
+		                            </td>
+		                            <td>
+		                            	<label class="switch">
+											<input type="checkbox" ${vo.hasMid == 'y' ? 'checked' : ''}>
+											<span class="slider"></span>
+										</label>
+		                            </td>
+		                            <td>
+		                            	<a type="button" class="badge badge-info text-light mr-1">수정하기</a>
+		                            	<a type="button" class="badge badge-danger text-light">삭제하기</a>
+		                            </td>
+		                        </tr>
+		                        </c:forEach>
+		                    </tbody>
+		                </table>
+		            </div>
+		        </div>
+		        <div class="card-body">
+		            <h4 class="card-title">제품 카테고리 목록</h4>
+		            <div class="table-responsive">
+		                <table class="table">
+		                    <thead class="bg-warning text-white">
+		                        <tr>
+		                            <th>번호</th>
+		                            <th>대분류</th>
+		                            <th>중분류명</th>
+		                            <th>사용 여부</th>
 		                            <th>비고</th>
 		                        </tr>
 		                    </thead>
@@ -133,12 +172,6 @@
 		                            <td>
 		                            	<label class="switch">
 											<input type="checkbox" ${vo.useYn == 'y' ? 'checked' : ''}>
-											<span class="slider"></span>
-										</label>
-		                            </td>
-		                            <td>
-		                            	<label class="switch">
-											<input type="checkbox" ${vo.hasMid == 'y' ? 'checked' : ''}>
 											<span class="slider"></span>
 										</label>
 		                            </td>

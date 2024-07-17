@@ -10,6 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.UserDAO;
+import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 @Service
@@ -125,5 +126,20 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int updateUser(UserVO vo) {
 		return userDAO.updateUser(vo);
+	}
+
+	@Override
+	public SaveMypageVO getBookmarkList(String userId) {
+		return userDAO.getBookmarkList(userId);
+	}
+
+	@Override
+	public boolean checkUserBookmark(String userId, String partUrl) {
+		return userDAO.checkUserBookmark(userId, partUrl);
+	}
+
+	@Override
+	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark) {
+		userDAO.saveBookmarkToggle(userId, partUrl, bookmark);
 	}
 }

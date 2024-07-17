@@ -8,6 +8,47 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>allergic1</title>
   	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+  	<script>
+  		'use strict';
+  		
+  		function bookmarkToggle() {
+  			partUrl = $(location).attr('href');
+  			
+  			if(${sUid == null || sUid == ""}) {
+  				alert("로그인 이후에 가능한 기능입니다!");
+  				let ans = confirm("로그인 이후에 가능한 기능입니다. 로그인 페이지로 이동하시겠습니까?");
+  				if(ans) {
+  					alert("로그인페이지로 이동합니다.");
+  					location.href="${ctp}/users/userLogin";
+  				}
+  				else return;
+  			}
+  			
+  			$.ajax({
+  				url: "${ctp}/users/saveBookmarkInput",
+  				type: "post",
+  				data: {partUrl : partUrl},
+  		        success: function(res) {
+  		        	let icon = document.getElementById("bookmark-icon-" + partUrl);
+  		            if (res.trim() == "true") {
+  		                icon.classList.remove('fa-solid', 'fa-bookmark');
+  		                icon.classList.add('fa-regular', 'fa-bookmark');
+  		                icon.style.color = 'gray';
+  		                alert("해당 게시글이 북마크에 저장되었습니다.");
+  		            } else {
+  		                icon.classList.remove('fa-regular', 'fa-bookmark');
+  		                icon.classList.add('fa-solid', 'fa-bookmark');
+  		                icon.style.color = 'red';
+  		                alert("북마크에서 삭제되었습니다.");
+  		            }
+  		        },
+  		        error: function() {
+  		            alert("전송 오류!");
+  		        }
+  			});
+  			
+  		}
+  	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
@@ -138,7 +179,19 @@
 
 								<p>${vo.item5}</p>
 							</div>
+							<p class="text-center">
+								<a type="button" class="btn btn-light rounded-circle border border-2 border-end mr-2" onclick="bookmarkToggle()" id="saveBookmark">
+									<%-- <c:if test="${vo.isBookmared == 1}">
+										<i id="bookmark-icon-${vo.partUrl}" class="fa-solid fa-bookmark" style="color:red;"></i>
+									</c:if>
+									<c:if test="${vo.isBookmared == 0}">
+										<i id="bookmark-icon-${vo.partUrl}" class="fa-regular fa-bookmark" style="color:gray;"></i>
+									</c:if> --%>
+								</a>
+								<a type="button" class="btn btn-light rounded-circle border border-2 border-end" id="kakaotalk-sharing-btn" href="javascript:shareMessage()"><i class="fa-solid fa-share-nodes"></i></a>
+							</p>
 							<footer>
+								<div class="row">
 								<div class="col">
 									<ul class="tags">
 										<li><a href="#">Free Themes</a></li>
@@ -151,6 +204,7 @@
 								</div>
 								<div class="col">
 									<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1220</div></a>
+								</div>
 								</div>
 							</footer>
 						</article>
@@ -335,7 +389,23 @@
 					</div>
 				</div>
 			</div>
+			<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 		</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
+<script>
+  function shareMessage() {
+	let url = $(location).attr('href');
+    Kakao.Share.sendDefault({
+      objectType: 'text',
+      text:
+        url,
+      link: {
+        // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함
+        mobileWebUrl: 'http://localhost:9090',
+        webUrl: 'http://localhost:9090',
+      },
+    });
+  }
+</script>
 </body>
 </html>

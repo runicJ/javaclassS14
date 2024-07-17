@@ -74,4 +74,12 @@ CREATE TABLE product_images (
     FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );
 
-
+/* 관심 제품 */
+CREATE TABLE liked_product (
+	likedIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	userId VARCHAR(20) NOT NULL,
+	productIdx INT NOT NULL,
+	likedAddDate DATETIME DEFAULT NOW(),
+	FOREIGN KEY (userId) REFERENCES users(userId),
+	FOREIGN KEY (productIdx) REFERENCES product(productIdx)
+);

@@ -29,6 +29,14 @@
 	<select id="recentLog" resultType="int">
 		select count(*) as recentLog from user_log where userId=#{userId} and loginTime > DATE_SUB(NOW(), INTERVAL 1 HOUR);
 	</select>
+	
+	<select id="getBookmarkList" resultType="com.spring.javaclassS14.vo.SaveMypageVO">
+		select * from bookmark where userId=#{userId};
+	</select>
+	
+	<select id="checkUserBookmark" resultType="boolean">
+		select count(*) from bookmark where userId=#{userId} and partUrl=#{partUrl};
+	</select>
 
 
 	<insert id="setUserRegisterOk">
@@ -45,6 +53,10 @@
 	
     <insert id="insertDeletedUser">
         insert into delete_users (userId, email, deleteReason) values (#{userId}, #{email}, #{deleteReason});
+    </insert>
+    
+    <insert id="saveBookmarkToggle">
+    	#{bookmark} ? "insert into bookmark (userId, partUrl) values (#{userId}, #{partUrl})" : "delete from bookmark where userId=#{userId} and partUrl=#{partUrl}";
     </insert>
     
 	

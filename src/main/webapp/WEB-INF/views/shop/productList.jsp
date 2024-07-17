@@ -10,6 +10,7 @@
 	<link rel="icon" type="image/png" href="images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
@@ -92,7 +93,7 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">침구 제품(알러지프리)</a>
+                                        <a data-toggle="collapse" data-target="#collapseFive">유기농 제품</a>
                                     </div>
                                     <div id="#collapseFive" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -676,6 +677,7 @@
 <p><br></p>
 	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
 	<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
+	<script src="${ctp}/js/shop/jquery-ui.min.js"></script>
 	<script src="${ctp}/js/shop/mixitup.min.js"></script>
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
