@@ -41,13 +41,13 @@ public interface UserDAO {
 	
 	public void cancelUserDelete(@Param("userId") String userId);
 
-	public int updateUser(UserVO vo);
+	public int updateUser(@Param("vo") UserVO vo);
 
-	public SaveMypageVO getBookmarkList(String userId);
+	public SaveMypageVO getBookmarkList(@Param("userId") String userId);
 
-	public boolean checkUserBookmark(String userId, String partUrl);
+	public int checkUserBookmark(@Param("userId") String userId, @Param("partUrl") String partUrl);
 
-	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark);
+	public void saveBookmarkToggle(@Param("userId") String userId, @Param("partUrl") String partUrl, @Param("bookmark") boolean bookmark);
 	
 //	public int setUserDelete(@Param("userId") String userId);
 //	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);

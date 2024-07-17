@@ -34,8 +34,8 @@
 		select * from bookmark where userId=#{userId};
 	</select>
 	
-	<select id="checkUserBookmark" resultType="boolean">
-		select count(*) from bookmark where userId=#{userId} and partUrl=#{partUrl};
+	<select id="checkUserBookmark" resultType="int">
+	    select count(*) from bookmark where userId=#{userId} and partUrl=#{partUrl};
 	</select>
 
 
@@ -56,9 +56,16 @@
     </insert>
     
     <insert id="saveBookmarkToggle">
-    	#{bookmark} ? "insert into bookmark (userId, partUrl) values (#{userId}, #{partUrl})" : "delete from bookmark where userId=#{userId} and partUrl=#{partUrl}";
+    	<choose>
+    		<when test="bookmark">
+    			insert into bookmark (userId, partUrl) values (#{userId}, #{partUrl})
+    		</when>
+    		<otherwise>
+    			delete from bookmark where userId=#{userId} and partUrl=#{partUrl}
+    		</otherwise>
+    	</choose>
     </insert>
-    
+
 	
 	<update id="setUserPwdUpdate">
 		update users set userPwd=#{userPwd} where userId=#{userId};

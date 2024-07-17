@@ -283,7 +283,7 @@
 						</div>
 					</div>
 					<div class="banner">
-						<a href="#">
+						<a href="https://www.allerman.com/" target="_blank">
 							<img src="${ctp}/images/ad.png" alt="알레르망">
 						</a>
 					</div>
@@ -597,7 +597,7 @@
 					</aside>
 					<aside>
 						<div class="d-flex justify-content-between align-items-center">
-					    	<h1 class="aside-title">네이버 상위 뉴스 목록 ('알레르기')</h1>
+					    	<h1 class="aside-title">네이버 관련 뉴스 목록</h1>
 					        <div class="carousel-nav" id="hot-news-nav" style="display:flex;">
 					            <div class="prev mr-3" data-target="#hot-news-carousel" data-slide="prev" style="cursor:pointer;">
 					                <i class="ion-ios-arrow-left"></i>

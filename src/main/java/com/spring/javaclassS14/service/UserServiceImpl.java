@@ -135,7 +135,8 @@ public class UserServiceImpl implements UserService {
 
 	@Override
 	public boolean checkUserBookmark(String userId, String partUrl) {
-		return userDAO.checkUserBookmark(userId, partUrl);
+		int count = userDAO.checkUserBookmark(userId, partUrl);
+        return count > 0;
 	}
 
 	@Override

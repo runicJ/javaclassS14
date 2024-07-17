@@ -15,48 +15,56 @@
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <section class="page">
 	<div class="container">
-		          <ol class="breadcrumb">
-		          	<li><a href="index.html">Home</a></li>
-		            <li class="active">About Us</li>
-		          </ol>
-					<h1 class="page-title">About Us</h1>
-					<p class="page-subtitle">We will tell you who we are</p>
-					<div class="line thin"></div>
-					<div class="page-description">
-						<h4>Ullamco Laboris</h4>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</p>
-						<p>
-							Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-							tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam,
-							quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-							consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-							cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-							proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-						</p>
-						<h4>Pellentesque</h4>
-						<p>
-							Nulla facilisi. Donec mollis laoreet diam. Nullam suscipit pretium turpis at pellentesque. Donec suscipit libero nec pellentesque fringilla. Etiam dictum ut nulla eu vehicula. Nullam sed ultricies nisi. Etiam dapibus diam vitae gravida sagittis.
-						</p>
-						<h4>Fermentum</h4>
-						<p>
-							Nulla ante nulla, aliquet vel gravida non, finibus vel eros. Vestibulum lectus augue, placerat ac tincidunt rhoncus, vehicula ac tellus. Nullam a cursus ipsum. Pellentesque ornare mi sit amet nibh euismod gravida. Quisque in tempus odio. Fusce porttitor dolor ut tortor tristique, ut rhoncus nunc cursus. Morbi placerat lorem vel dictum maximus. Vivamus at sollicitudin turpis. Sed eu porta sem, et elementum tellus.
-						</p>
-						<p>
-							Sed nec feugiat sem, nec ultrices orci. Duis ultrices ultricies fringilla. Aliquam convallis diam eu lectus porta, sit amet viverra nibh tincidunt. Etiam et luctus nisi. Integer posuere, augue at elementum aliquet, mauris ante dictum dui, eu pellentesque arcu ante eget libero. Sed consectetur fermentum felis sit amet eleifend.
-						</p>
-						<div class="question">
-							Have a question? <a href="#" class="btn btn-primary">Contact Us</a>
-						</div>
-					</div>
+		<ol class="breadcrumb">
+			<li><a href="${ctp}/main">Home &nbsp;</a></li>
+			<li><i class="fa-solid fa-hashtag"></i></li>
+			<li class="active">인사말</li>
+		</ol>
+		<h1 class="page-title">이곳은, { '괄호 안 쉼표' } 입니다</h1>
+		<p class="page-subtitle">안녕하세요. 이곳에 오신 것을 환영합니다!</p>
+		<div class="line thin"></div>
+		<div class="page-description">
+			<div class="row">
+				<div class="col-6">
+					<p><br></p>
+					<img src="${ctp}/images/greeting.jpg" alt="환영합니다!" height="600px" width="auto"/>
 				</div>
-	</section>
+				<div class="col-6">
+					<h4>괄호 안 쉼표 { , }</h4><br>
+					<p>
+						안녕하세요. 이곳은 제가 만든 공간입니다. 여기까지 오신 분들, 진심으로 환영합니다. <br>
+						오신 분들 모두 각자의 사정으로 이 사이트에 방문하시게 되었을 것입니다. <br>
+						부디 원하시고, 찾고자 하시는 '해답'을 가져가실 수 있기를 바랍니다. <br>
+						이곳에서 말하는 '괄호'는 여러분의 해석에 따라 달라질 수 있겠지만, <br>
+						제가 생각한 '괄호'는 우리가 살아가는 이곳, 세계-공간을 상징한다고 생각했습니다. <br>
+					</p>
+					<p>
+						이 '괄호' 안에서 우리는 숨을 쉬고 생활하며, 이 안에서 삶을 이어갑니다. <br>
+						그러나 한정된 공간 안에서 점차 삶이 각박해지고 어려워지며, <br>
+						우리가 무한히 누리던 공기마저 변화되면서 이 안온한 공간이 점점 답답해지고 <br>
+						우리를 힘들게 하는 방향으로 변화하고 있다고 생각했습니다. <br>
+						이러한 공간 안에서, 우리의 '괄호'를 더 나은 방향으로 이끌기 위해 노력하고 있는 <br>
+						저희 모두에게 '쉼표'를 찍고 싶다는 생각을 하게 되었습니다. <br>
+						여러분 모두, 저를 포함한 모두에게 여러분의 '쉼표'를 누릴 수 있기를 진심으로 바랍니다. <br>
+						감사합니다! <br>
+					</p>
+					<p> 
+						feat, 이것은 저의 '괄호 안 쉼표'입니다. <br> 
+					 	여러분 각자의 '괄호'를 생각하셔도 좋고,<br>
+					 	함께 누리고 싶은 '쉼표'를 떠올리셔도 좋습니다.<br>
+					 	부디 저희 사이트에서 함께 생각을 논해주세요:)
+					</p>
+					<span class="float-right"> 관리자 올림 </span>
+		
+				</div>
+			</div>
+			<p><br></p>
+			<div class="question">
+				이 사이트에 대해 궁금하신가요? <a href="#" class="btn btn-primary">저에게 질문하세요</a>
+			</div>
+		</div>
+	</div>
+</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>
 </html>
