@@ -1,5 +1,6 @@
 show tables;
 
+/* 주문 */
 CREATE TABLE orders (
     orderIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     userId VARCHAR(20) NOT NULL,
@@ -12,6 +13,7 @@ CREATE TABLE orders (
     FOREIGN KEY (couponId) REFERENCES coupons(couponId)
 );
 
+/* 주문 정보 */
 CREATE TABLE order_product (
     orderProductIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     orderIdx INT NOT NULL,
@@ -24,6 +26,7 @@ CREATE TABLE order_product (
     FOREIGN KEY (optionIdx) REFERENCES options(optionIdx)
 );
 
+/* 장바구니 */
 CREATE TABLE cart (
     cartIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     userId VARCHAR(20) NOT NULL,
@@ -37,6 +40,7 @@ CREATE TABLE cart (
     FOREIGN KEY (optionIdx) REFERENCES options(optionIdx)
 );
 
+/* 주문 배송지 정보 */
 CREATE TABLE order_delivery_address (
     deliveryIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     orderIdx INT NOT NULL,

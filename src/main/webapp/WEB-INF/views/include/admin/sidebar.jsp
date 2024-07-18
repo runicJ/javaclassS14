@@ -41,11 +41,11 @@
                 aria-expanded="false"><i data-feather="sidebar" class="feather-icon">
                 </i><span class="hide-menu"> 제품 종합 관리</span></a>
                 	<ul aria-expanded="false" class="collapse first-level base-level-line">
-                        <li class="sidebar-item"><a href="${ctp}/admin/productList" class="sidebar-link">
+                        <li class="sidebar-item"><a href="${ctp}/admin/shop/productList" class="sidebar-link">
                         <span class="hide-menu"> 판매 제품 목록 </span></a></li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/productCategory" class="sidebar-link">
+                        <li class="sidebar-item"><a href="${ctp}/admin/shop/productCategory" class="sidebar-link">
                         <span class="hide-menu"> 제품 카테고리 등록 </span></a></li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/productInput" class="sidebar-link">
+                        <li class="sidebar-item"><a href="${ctp}/admin/shop/productInput" class="sidebar-link">
                         <span class="hide-menu"> 제품 판매글 등록 </span></a></li>
                    </ul>
                 </li>

@@ -26,7 +26,7 @@ CREATE TABLE product (
     productPrice INT NOT NULL,
     productDiscount DECIMAL(10, 2) DEFAULT 0 NOT NULL,
     productPointFlag ENUM('y', 'n') DEFAULT 'y' NOT NULL,
-    productStock INT DEFAULT 50 NOT NULL,
+    productStock INT DEFAULT 100 NOT NULL,
     stockDate DATETIME DEFAULT NULL,
     productQuantity INT DEFAULT 0 NOT NULL,
     productOptFlag ENUM('y', 'n') DEFAULT 'n' NOT NULL,
@@ -37,7 +37,7 @@ CREATE TABLE product (
     shipAddress VARCHAR(255) NOT NULL,
     returnFee INT DEFAULT 0 NOT NULL,
     productTags VARCHAR(255) NOT NULL,
-    storeIdx VARCHAR(20) NOT NULL,
+    storeIdx int NOT NULL,
     favoriteCount INT DEFAULT 0 NOT NULL,
     createdDate DATETIME DEFAULT NOW() NOT NULL,
     updatedDate DATETIME DEFAULT NOW() NOT NULL,
@@ -62,24 +62,4 @@ CREATE TABLE product_option (
     optionName VARCHAR(50) NOT NULL,
     addPrice INT DEFAULT 0 NOT NULL,
     FOREIGN KEY (optionGroupIdx) REFERENCES product_option_group(optionGroupIdx)
-);
-
-/* 제품 추가 이미지 */
-CREATE TABLE product_images (
-    imagesIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    productIdx INT NOT NULL,
-    imageUrl VARCHAR(255),
-    altImage VARCHAR(255) DEFAULT NULL,
-    createdDate DATETIME DEFAULT NOW() NOT NULL,
-    FOREIGN KEY (productIdx) REFERENCES product(productIdx)
-);
-
-/* 관심 제품 */
-CREATE TABLE liked_product (
-	likedIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	userId VARCHAR(20) NOT NULL,
-	productIdx INT NOT NULL,
-	likedAddDate DATETIME DEFAULT NOW(),
-	FOREIGN KEY (userId) REFERENCES users(userId),
-	FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );

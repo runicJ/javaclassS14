@@ -52,7 +52,7 @@ public class NewsController {
         List<CrawlingVO> vos = new ArrayList<>();
 
         if (loadedCount >= MAX_ARTICLES) {
-            return vos; // 빈 리스트 반환
+            return vos;
         }
 
         try {

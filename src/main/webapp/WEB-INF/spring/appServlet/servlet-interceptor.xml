@@ -27,7 +27,7 @@
 	    <beans:ref bean="level3Interceptor" />
 		</interceptor>
 	  	<!-- 정회원 -->
-		<interceptor>
+ 		<interceptor>
 	    <mapping path="/board/**"/>
 	    <mapping path="/study/**"/>
 	    <mapping path="/users/**"/>

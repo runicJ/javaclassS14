@@ -6,35 +6,21 @@
 <head>
   <meta charset="UTF-8">
   <title>photoGalleryInput.jsp</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
-	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+  <%@ include file = "/WEB-INF/views/include/user/bs4.jsp" %>
+  <script src="${ctp}/ckeditor/ckeditor.js"></script>
   <script>
     'use strict';
     
     function fCheck() {
-    	let fName = document.getElementById("file").value;
-    	let ext = "";
-    	let fileSize = 0;
-    	let maxSize = 1024 * 1024 * 20;	// 기본 단위 : Byte,   1024 * 1024 * 20 = 20MByte 허용
-    	
-    	if(fName.trim() == "") {
-    		alert("업로드할 파일을 선택하세요");
-    		return false;
+    	let title = document.getElementById("title").value;
+    	// ckeditor 입력 내용 받기 = CKEDITOR.instances.textarea태그의id.getData();
+    	if(CKEDITOR.instances.content.getData() =='' || CKEDITOR.instances.content.getData().length ==0){
+  	    alert("사진을 등록해주세요.");
+  	    $("#content").focus();
     	}
-    	
-    	let fileLength = document.getElementById("file").files.length;	// 선택한 파일의 갯수
-    	
-    	for(let i=0; i<fileLength; i++) {
-    		fName = document.getElementById("file").files[i].name;		// 선택된 1개의 파일이름가져오기
-    		ext = fName.substring(fName.lastIndexOf(".")+1).toLowerCase();
-	    	fileSize = document.getElementById("file").files[i].size;
-	    	if(ext != 'jpg' && ext != 'gif' && ext != 'png') {
-	    		alert("업로드 가능한 파일은 'jpg/gif/png'만 가능합니다.");
-	    	}
-    	}
-    	
-    	if(fileSize > maxSize) {
-    		alert("업로드 파일의 최대용량은 20MByte입니다.");
+    	else if(title.trim() == "") {
+    		alert('제목을 입력하세요');
+    		$("#title").focus();
     	}
     	else {
     		myform.submit();
@@ -48,9 +34,8 @@
 <p><br/></p>
 <div class="container">
   <h2>사진파일 업로드</h2>
-  <div>(Shift/Ctrl키를 사용하여 여러장의 사진을 업로드할수 있습니다.)</div>
   <hr/>
-  <form name="myform" method="post" enctype="multipart/form-data">
+  <form name="myform" method="post" action="PhotoGalleryInputOk" enctype="multipart/form-data">
     <div class="input-group mb-2">
       <div class="input-group-prepend input-group-text">분 류</div>
       <select name="part" id="part" class="form-control">
@@ -68,13 +53,20 @@
       <input type="text" name="title" id="title" class="form-control"/>
     </div>
     <div class="mb-2">
-    	<input type="file" name="fName" id="file" multiple class="form-control-file border btn btn-light" />
+		  <textarea rows="6" name="content" id="content" required></textarea>
+      <script>
+		    CKEDITOR.replace("content",{
+		    	height:600,
+		    	filebrowserUploadUrl: "${ctp}/imageUpload",
+		    	uploadUrl:"${ctp}/imageUpload"
+		    });
+		  </script>
     </div>
     <div class="row">
     	<div class="col"><input type="button" value="파일전송" onclick="fCheck()" class="btn btn-success"/></div>
-    	<div class="col text-right"><input type="button" value="돌아가기" onclick="location.href='PhotoGallery.ptg';" class="btn btn-warning"/></div>
+    	<div class="col text-right"><input type="button" value="돌아가기" onclick="location.href='photoGallery';" class="btn btn-warning"/></div>
     </div>
-    <input type="hidden" name="userId" value="${sUid}" />
+    <input type="hidden" name="mid" value="${sMid}" />
     <input type="hidden" name="hostIp" value="${pageContext.request.remoteAddr}" />
   </form>
   <hr/>

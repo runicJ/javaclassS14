@@ -68,4 +68,25 @@ CREATE TABLE user_point (
     pointLogType ENUM('사용', '적립', '환불') NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(userId) ON DELETE CASCADE,
     FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx) ON DELETE CASCADE
-)
+);
+
+/* 관심 제품 */
+CREATE TABLE liked_product (
+	likedIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	userId VARCHAR(20) NOT NULL,
+	productIdx INT NOT NULL,
+	likedAddDate DATETIME DEFAULT NOW(),
+	FOREIGN KEY (userId) REFERENCES users(userId),
+	FOREIGN KEY (productIdx) REFERENCES product(productIdx)
+);
+
+/* 게시글 북마크 */
+CREATE TABLE bookmark (
+	bookmarkIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	userId VARCHAR(20) NOT NULL,
+	partUrl VARCHAR(255),
+	part varchar(30),
+	partIdx int,
+	addDate DATETIME DEFAULT NOW(),
+	FOREIGN KEY (userId) REFERENCES users(userId)
+);

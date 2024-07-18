@@ -375,7 +375,7 @@
 	<section class="register first grey">
 		<div class="container">
 			<div class="box-wrapper">				
-				<div class="box box-border" style="width:700px;">
+				<div class="box box-border">
 					<div class="box-body">
 						<h4 class="text-center">회 원 가 입</h4>
 						<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">

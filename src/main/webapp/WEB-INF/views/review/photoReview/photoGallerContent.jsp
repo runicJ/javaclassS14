@@ -9,8 +9,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>photoGalleryContent.jsp</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
-	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+  <%@ include file = "/WEB-INF/views/include/user/bs4.jsp" %>
 	<style>
 		* {box-sizing: border-box}
 		body {font-family: Verdana, sans-serif; margin:0}
@@ -119,13 +118,13 @@
     		return false;
     	}
     	let query = {
-    			mid	: '${sUid}',
-    			photoIdx : '${vo.idx}',
-    			content	: content
+    			mid				: '${sMid}',
+    			photoIdx	: '${vo.idx}',
+    			content		: content
     	}
     	
     	$.ajax({
-    		url  : "${ctp}/review/photoGalleryReplyInput",
+    		url  : "${ctp}/photoGallery/photoGalleryReplyInput",
     		type : "post",
     		data : query,
     		success:function(res) {
@@ -147,7 +146,7 @@
     	if(!ans) return false;
     	
     	$.ajax({
-    		url  : "${ctp}/review/photoGalleryReplyDelete",
+    		url  : "${ctp}/photoGallery/photoGalleryReplyDelete",
     		type : "post",
     		data : {idx : idx},
     		success:function(res) {
@@ -166,7 +165,7 @@
     // 좋아요 처리(중복불허)
     function goodCheck() {
     	$.ajax({
-    		url  : "${ctp}/review/photoGalleryGoodCheck",
+    		url  : "${ctp}/photoGallery/photoGalleryGoodCheck",
     		type : "post",
     		data : {idx : ${vo.idx}},
     		success:function(res) {
@@ -202,7 +201,7 @@
 	  <c:forEach var="i" begin="0" end="${vo.photoCount-1}" varStatus="st">
 			<div class="mySlides">
 			  <div class="numbertext">${i+1} / ${vo.photoCount}</div>
-    		<img src="${ctp}/photoGallery/${fn:split(vo.fSName,'/')[i]}" width="100%" />
+    		<img src="${ctp}/images/photoGallery/${fn:split(vo.fSName,'/')[i]}" width="100%" />
 			  <div class="text">${fn:split(vo.fSName,'/')[i]}</div>
 			</div>
 		</c:forEach>
@@ -219,7 +218,7 @@
   <br/>
   <div class="row">
     <div class="col">
-      <input type="button" value="목록보기" onclick="location.href='${ctp}/review/photoGallery';" class="btn btn-secondary"/>
+      <input type="button" value="목록보기" onclick="location.href='photoGallery';" class="btn btn-secondary"/>
       <input type="button" value="댓글가리기" onclick="replyHide()" id="replyHideBtn" class="btn btn-info"/>
       <input type="button" value="댓글보이기" onclick="replyShow()" id="replyShowBtn" class="btn btn-warning" style="display:none;"/>
     </div>

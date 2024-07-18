@@ -6,8 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <title>photoGallerySingle.jsp</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
-	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+  <%@ include file = "/WEB-INF/views/include/user/bs4.jsp" %>
   <script>
     'use strict';
     
@@ -27,7 +26,7 @@
     			curPage++;
     			//getList(curPage);
     			$.ajax({
-  	    		url  : "${ctp}/review/photoGallerySinglePaging",
+  	    		url  : "PhotoGallerySinglePaging.ptg",
   	    		type : "post",
   	    		data : {pag : curPage},
   	    		success:function(res) {
@@ -66,8 +65,8 @@
       <td>
       </td>
       <td class="text-right">
-        <input type="button" value="사진올리기" onclick="location.href='${ctp}/review/photoGalleryInput';" class="btn btn-success"/>
-        <input type="button" value="여러장씩보기" onclick="location.href='${ctp}/review/photoGallery.ptg';" class="btn btn-info mr-2"/>
+        <input type="button" value="사진올리기" onclick="location.href='PhotoGalleryInput.ptg';" class="btn btn-success"/>
+        <input type="button" value="여러장씩보기" onclick="location.href='PhotoGallery.ptg';" class="btn btn-info mr-2"/>
       </td>
     </tr>
   </table>
@@ -75,7 +74,7 @@
 	  <c:forEach var="photo" items="${vos}" varStatus="st">
 	    <div class="card mb-5" style="width:95%;">
 		    <div class="card-body m-0 p-2 text-center">
-		      <img src="${ctp}/photoGallery/${photo[1]}" width="90%" />
+		      <img src="${ctp}/images/photoGallery/${photo[1]}" width="90%" />
 		    </div> 
 		    <div class="card-footer">
 		      <div class="text-center" style="font-size:10px">${photo[0]} : ${photo[1]}</div>

@@ -88,21 +88,6 @@ public class AdminController {
 		else return "redirect:/msg/userCheckNo?delFlag="+delFlag;
 	}
 	
-	// 제품 카테고리 관리 페이지 이동
-	@RequestMapping(value="/productCategory", method=RequestMethod.GET)
-	public String productCategoryGet(Model model) {
-		List<ShopVO> vos = shopService.getCategoryList();
-		
-		model.addAttribute("vos",vos);
-		return "admin/shop/productCategory";
-	}
-	
-	// 제품 입력 페이지 이동
-	@RequestMapping(value="/productInput", method=RequestMethod.GET)
-	public String productInputGet() {
-		return "admin/shop/productInput";
-	}
-	
 	@Autowired
 	RegSurvService regSurvService;
 	
@@ -233,4 +218,145 @@ public class AdminController {
 		return "redirect:/survList";
 	}
 	
+	
+	// 제품 카테고리 관리 페이지 이동
+	@RequestMapping(value="/shop/productCategory", method=RequestMethod.GET)
+	public String productCategoryGet(Model model) {
+		List<ShopVO> topVOS = shopService.getCategoryTop();
+		List<ShopVO> midVOS = shopService.getCategoryMid();
+		
+		model.addAttribute("topVOS", topVOS);
+		model.addAttribute("midVOS", midVOS);
+		return "admin/shop/productCategory";
+	}
+	
+	// 제품 입력 페이지 이동
+	@RequestMapping(value="/shop/productInput", method=RequestMethod.GET)
+	public String productInputGet(Model model) {
+		List<ShopVO> vos = shopService.getCategoryMid();
+		
+		model.addAttribute("vos",vos);
+		return "admin/shop/productInput";
+	}
+	
+	// 대분류 등록하기
+	@ResponseBody
+	@RequestMapping(value = "/shop/categoryTopInput", method = RequestMethod.POST)
+	public String categoryTopInputPost(String productTopName) {
+		ShopVO topVO = shopService.getCategoryTopHas(productTopName);
+		
+		if(topVO != null) return "0";
+		
+		int res = shopService.setCategoryTopInput(productTopName);
+		return res + "";
+	}
+	
+	// 대분류 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/shop/categoryTopDelete", method = RequestMethod.POST)
+	public String categoryTopDeletePost(int productTopIdx) {
+		// 대분류에 속한 중분류 확인
+		List<ShopVO> midVOS = shopService.getMidInTopHas(productTopIdx);
+		
+		if(midVOS != null) return "0";
+		
+		int res = shopService.setCategoryTopDelete(productTopIdx);
+		return res + "";
+	}
+	
+	// 중분류 등록하기
+	@ResponseBody
+	@RequestMapping(value = "/shop/categoryMidInput", method = RequestMethod.POST)
+	public String categoryMidInputPost(int productTopIdx, String productMidName) {
+		
+		ShopVO midVO = shopService.getCategoryMidHas(productMidName);
+		
+		if(midVO != null) return "0";
+		
+		int res = shopService.setCategoryMidInput(productTopIdx, productMidName);
+		return res + "";
+	}
+	
+	// 중분류 삭제하기
+	@ResponseBody
+	@RequestMapping(value = "/shop/categoryMidDelete", method = RequestMethod.POST)
+	public String categoryMidDeletePost(int productMidIdx) {
+		// 중분류에 속한 제품 확인
+		ShopVO productVO = shopService.getProductInMidHas(productMidIdx);
+		
+		if(productVO != null) return "0";
+		
+		int res = shopService.setCategoryMidDelete(productMidIdx);
+		return res + "";
+	}
+	
+	// 대분류 선택하면 중분류항목 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/shop/productMidName", method = RequestMethod.POST)
+	public List<ShopVO> productMidNamePost(int productTopIdx) {
+		return shopService.getMidInTopHas(productTopIdx);
+	}
+/*	
+	  // 상품 등록을 위한 폼 보기..
+		@RequestMapping(value = "/dbProduct", method=RequestMethod.GET)
+		public String dbProductGet(Model model) {
+			List<DbProductVO> mainVos = dbShopService.getCategoryMain();
+			model.addAttribute("mainVos", mainVos);
+			return "admin/dbShop/dbProduct";
+		}
+		
+		// 상품 등록 처리하기
+		@RequestMapping(value = "/dbProduct", method=RequestMethod.POST)
+		public String dbProductPost(MultipartFile file, DbProductVO vo) {
+			// 이미지파일 업로드시에 ckeditor폴더에서 'dbShop/product'폴더로 복사처리...후~ 처리된 내용을 DB에 저장하기
+			int res = dbShopService.imgCheckProductInput(file, vo);
+			
+			if(res != 0) return "redirect:/message/dbProductInputOk";
+			return "redirect:/message/dbProductInputNo";
+		}*/
+/*	
+	 // 등록된 모든 상품 리스트 보기(관리자화면에서...)
+		@RequestMapping(value = "/productList", method = RequestMethod.GET)
+		public String dbShopListGet(Model model,
+				@RequestParam(name="part", defaultValue = "전체", required = false) String part,
+				@RequestParam(name="mainPrice", defaultValue = "0", required = false) String mainPrice){
+			model.addAttribute("part", part);
+
+			List<ShopVO> productVOS = shopService.getProductList(part, mainPrice);	// 전체 상품리스트 가져오기
+			model.addAttribute("productVOS", productVOS);
+			model.addAttribute("price", mainPrice);
+			
+			return "admin/shop/productList";
+		}
+		
+		// 관리자화면에서 진열된 상품을 클릭하였을경우에 해당 상품의 상세내역 보여주기
+		@RequestMapping(value = "/productContent", method = RequestMethod.GET)
+		public String dbShopContentGet(Model model, int idx) {
+			ShopVO productVO = shopService.getProduct(idx);			// 상품 1건의 정보를 불러온다.
+			List<ShopVO> optionVOS = shopService.getAllOption(idx);	// 해당 상품의 모든 옵션 정보를 가져온다.
+			
+			model.addAttribute("productVO", productVO);
+			model.addAttribute("optionVOS", optionVOS);
+			 
+			return "admin/shop/productContent";
+		}
+		
+		// 옵션 등록창 보여주기(관리자 왼쪽메뉴에서 선택시,또는 상품리스트 상세보기에서 옵션등록클릭시 처리)
+		@RequestMapping(value = "/productOption", method = RequestMethod.GET)
+		public String dbOptionGet(Model model,
+				@RequestParam(name="productName", defaultValue = "", required=false) String productName) {
+			if(productName.equals("")) {
+				List<ShopVO> mainVos = shopService.getCategoryMain();
+				model.addAttribute("mainVos", mainVos);
+			}
+			else {
+				System.out.println("productName : " + productName);
+				ShopVO imsiVO = shopService.getCategoryProductNameOne(productName);
+				System.out.println("imsiVO : " + imsiVO);
+				ShopVO productVO = shopService.getCategoryProductNameOneVO(imsiVO);
+				System.out.println("productVO : " + productVO);
+				model.addAttribute("productVO", productVO);
+			}
+			return "admin/shop/productOption";
+		} */
 }

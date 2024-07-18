@@ -1,9 +1,42 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.ShopDAO">
-
-	<select id="getCategoryList" resultType="com.spring.javaclassS14.vo.ShopVO">
-		select t.*, m.productMidName as productMidName from product_top t left join product_mid m on t.productTopIdx = m.productTopIdx order by t.productTopIdx, m.productMidIdx;
+	
+	<select id="getCategoryTop" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select * from product_top order by productTopIdx;
 	</select>
+	
+	<select id="getCategoryMid" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select t.productTopIdx as productTopIdx, t.productTopName as productTopname, m.* from product_mid m left join product_top t on m.productTopIdx = t.productTopIdx order by m.productMidIdx, t.productTopIdx;
+	</select>
+	
+	<select id="getCategoryTopHas" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select * from product_top where productTopName=#{productTopName};
+	</select>
+	
+	<select id="getMidInTopHas" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select * from product_mid where productTopIdx=#{productTopIdx};
+	</select>
+	
+	<select id="getCategoryMidHas" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select * from product_mid where productMidName=#{productMidName};
+	</select>
+	
+	<select id="getProductInMidHas" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select * from product where productMidIdx=#{productMidIdx};
+	</select>
+	
 
+	<insert id="setCategoryTopInput">
+		insert into product_top values (default, #{productTopName}, default, default);
+	</insert>
+
+	<insert id="setCategoryMidInput">
+		insert into product_mid values (default, #{productTopIdx}, #{productMidName});
+	</insert>
+	
+	
+	<delete id="setCategoryTopDelete">
+		delete from product_mid where productTopIdx=#{productTopIdx};
+	</delete>
 </mapper>

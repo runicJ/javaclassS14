@@ -6,8 +6,7 @@
 <head>
   <meta charset="UTF-8">
   <title>photoGalleryList.jsp</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
-	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+  <%@ include file = "/WEB-INF/views/include/user/bs4.jsp" %>
   <script>
     'use strict';
     
@@ -15,7 +14,7 @@
     	let part = $("#part").val();
     	let choice = $("#choice").val();
     	
-    	location.href = "${ctp}/review/photoGallery?part="+part+"&choice="+choice;
+    	location.href = "photoGallery?part="+part+"&choice="+choice;
     }
     
     
@@ -31,11 +30,11 @@
     	// 스크롤이 아래로 내려갔을때 이벤트 처리..
     	if(currentScroll > lastScroll) {
     		if(documentHeight < (nowHeight + (documentHeight*0.1))) {
-    			//console.log("다음페이지 가져오기");
+    			console.log("다음페이지 가져오기");
     			curPage++;
     			//getList(curPage);
     			$.ajax({
-  	    		url  : "${ctp}/review/photoGalleryPaging",
+  	    		url  : "photoGalleryPaging",
   	    		type : "post",
   	    		data : {pag : curPage},
   	    		success:function(res) {
@@ -50,7 +49,7 @@
     // 리스트 불러오기 함수(ajax처리)
     function getList(curPage) {
     	$.ajax({
-    		url  : "${ctp}/review/photoGallery",
+    		url  : "${ctp}/photoGallery/photoGallery",
     		type : "post",
     		data : {pag : curPage},
     		success:function(res) {
@@ -71,8 +70,8 @@
   </style>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
+<jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <p><br/></p>
 <div class="container">
   <table class="table table-borderless">
@@ -108,8 +107,8 @@
         </div>
       </td>
       <td class="text-right">
-        <input type="button" value="사진올리기" onclick="location.href='${ctp}/review/photoGalleryInput';" class="btn btn-success"/>
-        <input type="button" value="한장씩보기" onclick="location.href='${ctp}/review/photoGallerySingle';" class="btn btn-info mr-2"/>
+        <input type="button" value="사진올리기" onclick="location.href='photoGalleryInput';" class="btn btn-success"/>
+        <input type="button" value="한장씩보기" onclick="location.href='photoGallerySingle';" class="btn btn-info mr-2"/>
       </td>
     </tr>
   </table>
@@ -120,7 +119,7 @@
 		    <%-- <div class="card-body m-0 p-2"><img src="${ctp}/images/photoGallery/${vo.fSName}" width="100%" height="150px" title="${vo.title}" class="m-0" /></div> --%> 
 		    <div class="card-body m-0 p-2 text-center">
 		      <a href="PhotoGallerContent.ptg?idx=${vo.idx}">
-		        <img src="${ctp}/images/photoGallery/${vo.fSName}" width="200px" height="150px" title="${vo.title}" class="m-0" />
+		        <img src="${ctp}/images/photoGallery/${vo.FSName}" width="200px" height="150px" title="${vo.title}" class="m-0" />
 		      </a>
 		    </div> 
 		    <div class="card-footer">
