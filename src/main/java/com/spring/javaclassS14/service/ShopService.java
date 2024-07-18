@@ -28,5 +28,4 @@ public interface ShopService {
 
 	public List<ShopVO> getCategoryMidName(String categoryMainCode);
 
-
 }

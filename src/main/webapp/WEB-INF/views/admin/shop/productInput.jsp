@@ -33,7 +33,7 @@
 
 		}
 		
-	    // 상품 등록하기전에 체크후 전송...
+	    // 상품 등록하기전에 체크 후 전송...
 	    function fCheck() {
 	    	let productTopIdx = myform.selectTopOne.value;
 	    	let productMidIdx = myform.selectMidOne.value;
