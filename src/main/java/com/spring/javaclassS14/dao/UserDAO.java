@@ -41,7 +41,7 @@ public interface UserDAO {
 	
 	public void cancelUserDelete(@Param("userId") String userId);
 
-	public int updateUser(@Param("vo") UserVO vo);
+	public int setUserUpdate(@Param("vo") UserVO vo);
 
 	public SaveMypageVO getBookmarkList(@Param("userId") String userId);
 

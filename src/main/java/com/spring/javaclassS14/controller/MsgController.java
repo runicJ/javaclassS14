@@ -43,6 +43,14 @@ public class MsgController {
 			model.addAttribute("msg", "아이디 또는 비밀번호를 확인해 주세요!");
 			model.addAttribute("url", "/users/userLogin");
 		}
+		else if(msgFlag.equals("userUpdateOk")) {
+			model.addAttribute("msg", "회원정보 수정이 완료되었습니다. \\n로그인 페이지로 이동합니다!");
+			model.addAttribute("url", "/users/userLogin");
+		}
+		else if(msgFlag.equals("userUpdateNo")) {
+			model.addAttribute("msg", "회원정보 수정에 실패하였습니다. \\n 확인 후에 다시 시도해 주세요.");
+			model.addAttribute("url", "/users/userUpdate");
+		}
 		else if(msgFlag.equals("userLogout")) {
 			model.addAttribute("msg", uid+" 님 로그아웃이 정상적으로 처리되었습니다.");
 			model.addAttribute("url", "/users/userLogin");
@@ -66,6 +74,14 @@ public class MsgController {
 		else if(msgFlag.equals("userLevelNo")) {
 			model.addAttribute("msg", "회원 등급을 확인하세요.");
 			model.addAttribute("url", "/users/userMain");
+		}
+		else if(msgFlag.equals("productInputOk")) {
+			model.addAttribute("msg", "상품이 등록되었습니다.");
+			model.addAttribute("url", "/admin/shop/productList");
+		}
+		else if(msgFlag.equals("productInputNo")) {
+			model.addAttribute("msg", "상품 등록 실패~~");
+			model.addAttribute("url", "/admin/shop/productInput");
 		}
 	
 	return "include/msg";

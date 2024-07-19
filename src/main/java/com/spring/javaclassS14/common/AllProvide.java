@@ -1,13 +1,19 @@
 package com.spring.javaclassS14.common;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Date;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.MimeMessage;
 import javax.servlet.http.HttpServletRequest;
 
+import org.apache.commons.lang3.RandomStringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.io.FileSystemResource;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -46,6 +52,23 @@ public class AllProvide {
 		if(file.exists()) file.delete();
 	}
 	
+	// 파일 이름 변경하기(중복방지를 위한 작업)
+	public String saveFileName(String oFileName) {
+		String fileName = "";
+		
+		Calendar cal = Calendar.getInstance();  // 싱글톤 객체랑 같은 형식, 객체를 생성하지 않음(Date는 객체 생성해서 사용), 열거형 상수 사용(singleDateFormat 필요 X(Date는 필요)) // Date객체 Calendar는 기억하기
+		fileName += cal.get(Calendar.YEAR);
+		fileName += cal.get(Calendar.MONTH)+1;
+		fileName += cal.get(Calendar.DATE);
+		fileName += cal.get(Calendar.HOUR_OF_DAY);
+		fileName += cal.get(Calendar.MINUTE);
+		fileName += cal.get(Calendar.SECOND);
+		fileName += cal.get(Calendar.MILLISECOND);
+		fileName += "_" + oFileName;  // 파일명은 주로 _ 사용, 경로명은 -
+		
+		return fileName;
+	}
+	
 	//메일 전송하기(아이디찾기, 비밀번호 찾기)
 	public String mailSend(String toMail, String title, String pwd) throws MessagingException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();  // 그냥 못씀 강제 형변환 해서 request 써야함
@@ -77,4 +100,39 @@ public class AllProvide {
 		
 		return "1";
 	}
+	
+	// 파일명에 지정된 자리수만큼 난수를 붙여서 새로운 파일명으로 만들어 반환하기
+	public String newNameCreate(int len) {
+		Date today = new Date();
+		SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMddHHmm");
+		String newName = sdf.format(today);
+		newName += RandomStringUtils.randomAlphanumeric(len) + "_";
+		return newName;
+	}
+	
+	// oriFilePath경로에 있는 파일을 copyFilePath경로로 복사시켜주기.
+	@SuppressWarnings("unused")
+		public void fileCopyCheck(String oriFilePath, String copyFilePath) {
+		File oriFile = new File(oriFilePath);
+		File copyFile = new File(copyFilePath);
+		
+		try {
+		  FileInputStream  fis = new FileInputStream(oriFile);
+		  FileOutputStream fos = new FileOutputStream(copyFile);
+		
+		  byte[] buffer = new byte[2048];
+		  int count = 0;
+		  while((count = fis.read(buffer)) != -1) {
+		    fos.write(buffer, 0, count);
+		  }
+		  fos.flush();
+		  fos.close();
+		  fis.close();
+		} catch (FileNotFoundException e) {
+		  e.printStackTrace();
+		} catch (IOException e) {
+		  e.printStackTrace();
+		}
+	}
+	
 }

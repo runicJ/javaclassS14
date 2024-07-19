@@ -320,21 +320,13 @@
                                 <h4 class="card-title">회원별 가입목적</h4>
                                 <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
                                 <ul class="list-style-none mb-0">
+                                	<c:forEach var="wayVO" items="${wayVOS}">
                                     <li>
                                         <i class="fas fa-circle text-primary font-10 mr-2"></i>
-                                        <span class="text-muted">Direct Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$2346</span>
+                                        <span class="text-muted">${wayVO.registerWay}</span>
+                                        <span class="text-dark float-right font-weight-medium">${wayVO.wayCount}</span>
                                     </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-danger font-10 mr-2"></i>
-                                        <span class="text-muted">Referral Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$2108</span>
-                                    </li>
-                                    <li class="mt-3">
-                                        <i class="fas fa-circle text-cyan font-10 mr-2"></i>
-                                        <span class="text-muted">Affiliate Sales</span>
-                                        <span class="text-dark float-right font-weight-medium">$1204</span>
-                                    </li>
+                                    </c:forEach>
                                 </ul>
                             </div>
                         </div>
@@ -534,136 +526,138 @@
     <script src="${ctp}/js/admin/c3.min.js"></script>
     <script src="${ctp}/js/admin/chartist.min.js"></script>
     <script src="${ctp}/js/admin/chartist-plugin-tooltip.min.js"></script>
-    <script src="${ctp}/js/admin/dashboard1.min.js"></script>
+    <%-- <script src="${ctp}/js/admin/dashboard1.min.js"></script> --%>
     <script>
-    $(function() {
-        c3.generate({
-            bindto: "#campaign-v2",
-            data: {
-                columns: [
-                    ["Direct Sales", 25],
-                    ["Referral Sales", 15],
-                    ["Afilliate Sales", 10],
-                    ["Indirect Sales", 15]
-                ],
-                type: "donut",
-                tooltip: {
-                    show: !0
-                }
-            },
-            donut: {
-                label: {
-                    show: !1
-                },
-                title: "Sales",
-                width: 18
-            },
-            legend: {
-                hide: !0
-            },
-            color: {
-                pattern: ["#edf2f6", "#5f76e8", "#ff4f70", "#01caf1"]
-            }
-        });
-        d3.select("#campaign-v2 .c3-chart-arcs-title").style("font-family", "Rubik");
-        var e = {
-            axisX: {
-                showGrid: !1
-            },
-            seriesBarDistance: 1,
-            chartPadding: {
-                top: 15,
-                right: 15,
-                bottom: 5,
-                left: 0
-            },
-            plugins: [Chartist.plugins.tooltip()],
-            width: "100%"
-        };
-        new Chartist.Bar(".net-income", {
-            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-            series: [
-                [5, 4, 3, 7, 5, 10]
-            ]
-        }, e, [
-            ["screen and (max-width: 640px)", {
-                seriesBarDistance: 5,
-                axisX: {
-                    labelInterpolationFnc: function(e) {
-                        return e[0]
-                    }
-                }
-            }]
-        ]), jQuery("#visitbylocate").vectorMap({
-            map: "world_mill_en",
-            backgroundColor: "transparent",
-            borderColor: "#000",
-            borderOpacity: 0,
-            borderWidth: 0,
-            zoomOnScroll: !1,
-            color: "#d5dce5",
-            regionStyle: {
-                initial: {
-                    fill: "#d5dce5",
-                    "stroke-width": 1,
-                    stroke: "rgba(255, 255, 255, 0.5)"
-                }
-            },
-            enableZoom: !0,
-            hoverColor: "#bdc9d7",
-            hoverOpacity: null,
-            normalizeFunction: "linear",
-            scaleColors: ["#d5dce5", "#d5dce5"],
-            selectedColor: "#bdc9d7",
-            selectedRegions: [],
-            showTooltip: !0,
-            onRegionClick: function(e, t, o) {
-                var a = 'You clicked "' + o + '" which has the code: ' + t.toUpperCase();
-                alert(a)
-            }
-        });
-        var t = new Chartist.Line(".stats", {
-            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
-            series: [
-                [11, 10, 15, 21, 14, 23, 12]
-            ]
-        }, {
-            low: 0,
-            high: 28,
-            showArea: !0,
-            fullWidth: !0,
-            plugins: [Chartist.plugins.tooltip()],
-            axisY: {
-                onlyInteger: !0,
-                scaleMinSpace: 40,
-                offset: 20,
-                labelInterpolationFnc: function(e) {
-                    return e / 1 + "k"
-                }
-            }
-        });
-        t.on("draw", function(e) {
-            "area" === e.type && e.element.attr({
-                x1: e.x1 + .001
-            })
-        }), t.on("created", function(e) {
-            e.svg.elem("defs").elem("linearGradient", {
-                id: "gradient",
-                x1: 0,
-                y1: 1,
-                x2: 0,
-                y2: 0
-            }).elem("stop", {
-                offset: 0,
-                "stop-color": "rgba(255, 255, 255, 1)"
-            }).parent().elem("stop", {
-                offset: 1,
-                "stop-color": "rgba(80, 153, 255, 1)"
-            })
-        }), $(window).on("resize", function() {
-            t.update()
-        })
-    });
+	    $(function() {
+	        for (var i = 0; i < wayVOS.length; i++) {
+	            wayLabels.push(wayVOS[i].registerWay);
+	            wayData.push(wayVOS[i].wayCount);
+	        }
+	        c3.generate({
+	            bindto: "#campaign-v2",
+	            data: {
+	                columns: [
+	                    wayLabels,
+	                    wayData
+	                ],
+	                type: "donut",
+	                tooltip: {
+	                    show: !0
+	                }
+	            },
+	            donut: {
+	                label: {
+	                    show: !1
+	                },
+	                title: "registerWay",
+	                width: 18
+	            },
+	            legend: {
+	                hide: !0
+	            },
+	            color: {
+	                pattern: ["#edf2f6", "#5f76e8", "#ff4f70", "#01caf1", "#D9E9F6", "#E6E6FA"]
+	            }
+	        });
+	        d3.select("#campaign-v2 .c3-chart-arcs-title").style("font-family", "Rubik");
+	        var e = {
+	            axisX: {
+	                showGrid: !1
+	            },
+	            seriesBarDistance: 1,
+	            chartPadding: {
+	                top: 15,
+	                right: 15,
+	                bottom: 5,
+	                left: 0
+	            },
+	            plugins: [Chartist.plugins.tooltip()],
+	            width: "100%"
+	        };
+	        new Chartist.Bar(".net-income", {
+	            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
+	            series: [
+	                [5, 4, 3, 7, 5, 10]
+	            ]
+	        }, e, [
+	            ["screen and (max-width: 640px)", {
+	                seriesBarDistance: 5,
+	                axisX: {
+	                    labelInterpolationFnc: function(e) {
+	                        return e[0]
+	                    }
+	                }
+	            }]
+	        ]), jQuery("#visitbylocate").vectorMap({
+	            map: "world_mill_en",
+	            backgroundColor: "transparent",
+	            borderColor: "#000",
+	            borderOpacity: 0,
+	            borderWidth: 0,
+	            zoomOnScroll: !1,
+	            color: "#d5dce5",
+	            regionStyle: {
+	                initial: {
+	                    fill: "#d5dce5",
+	                    "stroke-width": 1,
+	                    stroke: "rgba(255, 255, 255, 0.5)"
+	                }
+	            },
+	            enableZoom: !0,
+	            hoverColor: "#bdc9d7",
+	            hoverOpacity: null,
+	            normalizeFunction: "linear",
+	            scaleColors: ["#d5dce5", "#d5dce5"],
+	            selectedColor: "#bdc9d7",
+	            selectedRegions: [],
+	            showTooltip: !0,
+	            onRegionClick: function(e, t, o) {
+	                var a = 'You clicked "' + o + '" which has the code: ' + t.toUpperCase();
+	                alert(a)
+	            }
+	        });
+	        var t = new Chartist.Line(".stats", {
+	            labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+	            series: [
+	                [11, 10, 15, 21, 14, 23, 12]
+	            ]
+	        }, {
+	            low: 0,
+	            high: 28,
+	            showArea: !0,
+	            fullWidth: !0,
+	            plugins: [Chartist.plugins.tooltip()],
+	            axisY: {
+	                onlyInteger: !0,
+	                scaleMinSpace: 40,
+	                offset: 20,
+	                labelInterpolationFnc: function(e) {
+	                    return e / 1 + "k"
+	                }
+	            }
+	        });
+	        t.on("draw", function(e) {
+	            "area" === e.type && e.element.attr({
+	                x1: e.x1 + .001
+	            })
+	        }), t.on("created", function(e) {
+	            e.svg.elem("defs").elem("linearGradient", {
+	                id: "gradient",
+	                x1: 0,
+	                y1: 1,
+	                x2: 0,
+	                y2: 0
+	            }).elem("stop", {
+	                offset: 0,
+	                "stop-color": "rgba(255, 255, 255, 1)"
+	            }).parent().elem("stop", {
+	                offset: 1,
+	                "stop-color": "rgba(80, 153, 255, 1)"
+	            })
+	        }), $(window).on("resize", function() {
+	            t.update()
+	        })
+	    });
     </script>
 </body>
 </html>

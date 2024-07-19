@@ -38,12 +38,13 @@ public interface UserService {
 	
 	public void cancelUserDelete(String userId);
 
-	public int updateUser(UserVO vo);
+	public int setUserUpdate(UserVO vo);
 
 	public SaveMypageVO getBookmarkList(String userId);
 
 	public boolean checkUserBookmark(String userId, String partUrl);
 
 	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark);
+
 
 }

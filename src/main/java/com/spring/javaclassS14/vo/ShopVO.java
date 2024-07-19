@@ -35,6 +35,7 @@ public class ShopVO {
 	private int favoriteCount;
 	private String createdDate;
 	private String updatedDate;
+	private String content;
 	
 	private int optionGroupIdx;
 	private String optionGroupName;

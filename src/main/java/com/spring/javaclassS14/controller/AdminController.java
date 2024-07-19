@@ -46,7 +46,10 @@ public class AdminController {
 	
 	// 관리자 페이지로 이동
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
-	public String adminMainGet() {
+	public String adminMainGet(Model model) {
+		List<UserVO> wayVOS = adminService.getUserRegisterWay();
+		
+		model.addAttribute("wayVOS", wayVOS);
 		return "admin/adminMain";
 	}
 	
@@ -231,15 +234,6 @@ public class AdminController {
 		return "admin/shop/productCategory";
 	}
 	
-	// 제품 입력 페이지 이동
-	@RequestMapping(value="/shop/productInput", method=RequestMethod.GET)
-	public String productInputGet(Model model) {
-		List<ShopVO> vos = shopService.getCategoryMid();
-		
-		model.addAttribute("vos",vos);
-		return "admin/shop/productInput";
-	}
-	
 	// 대분류 등록하기
 	@ResponseBody
 	@RequestMapping(value = "/shop/categoryTopInput", method = RequestMethod.POST)
@@ -297,41 +291,42 @@ public class AdminController {
 	public List<ShopVO> productMidNamePost(int productTopIdx) {
 		return shopService.getMidInTopHas(productTopIdx);
 	}
-	/*
-	// 상품 등록을 위한 폼 보기..
-	@RequestMapping(value = "/dbProduct", method=RequestMethod.GET)
-	public String dbProductGet(Model model) {
-		List<ShopVO> mainVos = shopService.getCategoryMain();
-		model.addAttribute("mainVos", mainVos);
-		return "admin/dbShop/dbProduct";
+	
+	// 제품 입력 페이지 이동
+	@RequestMapping(value="/shop/productInput", method=RequestMethod.GET)
+	public String productInputGet(Model model) {
+		List<ShopVO> vos = shopService.getCategoryTop();
+		
+		model.addAttribute("vos",vos);
+		return "admin/shop/productInput";
 	}
 	
 	// 상품 등록 처리하기
-	@RequestMapping(value = "/dbProduct", method=RequestMethod.POST)
-	public String dbProductPost(MultipartFile file, ShopVO vo) {
+	@RequestMapping(value = "/shop/productInput", method=RequestMethod.POST)
+	public String productInputPost(MultipartFile file, ShopVO vo) {
 		// 이미지파일 업로드 시에 ckeditor폴더에서 'dbShop/product'폴더로 복사처리...후~ 처리된 내용을 DB에 저장하기
 		int res = shopService.imgCheckProductInput(file, vo);
-		
-		if(res != 0) return "redirect:/message/dbProductInputOk";
-		return "redirect:/message/dbProductInputNo";
-	} */
-/*	
-	 // 등록된 모든 상품 리스트 보기(관리자화면에서...)
-		@RequestMapping(value = "/productList", method = RequestMethod.GET)
-		public String dbShopListGet(Model model,
-				@RequestParam(name="part", defaultValue = "전체", required = false) String part,
-				@RequestParam(name="mainPrice", defaultValue = "0", required = false) String mainPrice){
-			model.addAttribute("part", part);
+		System.out.println("res : " + res);
+		if(res != 0) return "redirect:/msg/productInputOk";
+		return "redirect:/msg/productInputNo";
+	}
 
-			List<ShopVO> productVOS = shopService.getProductList(part, mainPrice);	// 전체 상품리스트 가져오기
-			model.addAttribute("productVOS", productVOS);
-			model.addAttribute("price", mainPrice);
-			
-			return "admin/shop/productList";
-		}
+	// 등록된 모든 상품 리스트 보기(관리자화면에서...)
+	@RequestMapping(value = "/shop/productList", method = RequestMethod.GET)
+	public String productListGet(Model model,
+			@RequestParam(name="part", defaultValue = "전체", required = false) String part,
+			@RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice){
+		model.addAttribute("part", part);
+
+		List<ShopVO> productVOS = shopService.getProductList(part, productPrice);	// 전체 상품리스트 가져오기
+		model.addAttribute("productVOS", productVOS);
+		model.addAttribute("productPrice", productPrice);
 		
+		return "admin/shop/productList";
+	}
+	
 		// 관리자화면에서 진열된 상품을 클릭하였을경우에 해당 상품의 상세내역 보여주기
-		@RequestMapping(value = "/productContent", method = RequestMethod.GET)
+		@RequestMapping(value = "/shop/productDetails", method = RequestMethod.GET)
 		public String dbShopContentGet(Model model, int idx) {
 			ShopVO productVO = shopService.getProduct(idx);			// 상품 1건의 정보를 불러온다.
 			List<ShopVO> optionVOS = shopService.getAllOption(idx);	// 해당 상품의 모든 옵션 정보를 가져온다.
@@ -341,7 +336,7 @@ public class AdminController {
 			 
 			return "admin/shop/productContent";
 		}
-		
+		/*
 		// 옵션 등록창 보여주기(관리자 왼쪽메뉴에서 선택시,또는 상품리스트 상세보기에서 옵션등록클릭시 처리)
 		@RequestMapping(value = "/productOption", method = RequestMethod.GET)
 		public String dbOptionGet(Model model,

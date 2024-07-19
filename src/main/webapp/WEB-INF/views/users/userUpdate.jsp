@@ -16,9 +16,7 @@
     let emailCheckSw = 0;
     let timerInterval;
     
-    function fCheck(event) {
-    	event.preventDefault();
-    	
+    function fCheck() {
     	let userPwd = myform.userPwd.value.trim();
     	let pwdCheck = myform.pwdCheck.value.trim();
     	
@@ -299,6 +297,9 @@
     }
   </script>
   <style>
+  	.box-body {
+  		margin: 0;
+  	}
 	.box {
 	  box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
 	  transition: 0.3s;
@@ -347,7 +348,7 @@
 								
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
-								      	<span class="input-group-text">변경할 비밀번호</span>
+								      	<label class="fw input-group-text">변경할 비밀번호</label>
 								    </div>
 									<input type="password" name="userPwdNew" id="userPwdNew" class="form-control" placeholder="비밀번호 변경시 입력하세요">
 								</div>
@@ -502,7 +503,7 @@
 								</div>
 								
 								<div class="form-group text-center">
-									<a type="button" class="btn btn-success mr-3" onclick="fCheck(event)">개인정보 수정</a>
+									<input type="button" class="btn btn-success mr-3" value="개인정보 수정" onclick="fCheck()">
 									<a type="button" class="btn btn-danger" onclick="location.href='${ctp}/users/userMain';">취소</a>
 								</div>
 							    <input type="hidden" name="email" />

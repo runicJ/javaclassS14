@@ -9,7 +9,10 @@
  	<select id="getDeleteUserList" resultType="com.spring.javaclassS14.vo.UserVO">
  		select *, datediff(deleteDate, now()) as deleteDiff from delete_users order by deleteIdx desc limit #{startIndexNo},#{pageSize};
  	</select>
- 	
+
+ 	<select id="getUserRegisterWay" resultType="com.spring.javaclassS14.vo.UserVO">
+ 		select registerWay, count(*) as wayCount from users group by registerWay;
+ 	</select>
  	
  	<update id="getDeleteUser">
  		<if test="#{delFlag == 'Ok'}">

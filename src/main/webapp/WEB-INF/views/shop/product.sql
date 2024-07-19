@@ -43,9 +43,12 @@ CREATE TABLE product (
     updatedDate DATETIME DEFAULT NOW() NOT NULL,
     productTopIdx INT NOT NULL,
     productMidIdx INT NOT NULL,
+    productContent TEXT NOT NULL,
     FOREIGN KEY (productTopIdx) REFERENCES product_top(productTopIdx),
     FOREIGN KEY (productMidIdx) REFERENCES product_mid(productMidIdx)
 );
+
+drop table product;
 
 /* 제품 그룹명 */
 CREATE TABLE product_option_group (

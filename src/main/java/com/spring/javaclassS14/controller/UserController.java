@@ -365,8 +365,7 @@ public class UserController {
 	@RequestMapping(value="/userUpdate", method=RequestMethod.POST)
 	public String userUpdatePost(UserVO vo, MultipartFile fName, HttpSession session, @RequestParam("userPwd") String userPwd,
 		@RequestParam(value="userPwdNew", required=false) String userPwdNew, @RequestParam(value="pwdNewCheck", required=false) String pwdNewCheck,
-		@RequestParam("name") String name, @RequestParam("nickName") String nickName, @RequestParam("email") String email,
-		@RequestParam("tel") String tel, @RequestParam(value="termsOptional", required=false) String termsOptional) {
+		@RequestParam(value="termsOptional", required=false) String termsOptional) {
 		
 		if (!passwordEncoder.matches(userPwd, vo.getUserPwd())) return "redirect:/msg/pwdCheckNo";
 
@@ -375,18 +374,13 @@ public class UserController {
 			vo.setUserPwd(passwordEncoder.encode(userPwdNew));
 		}
 		
-		vo.setName(name);
-		vo.setNickName(nickName);
-		vo.setEmail(email);
-		vo.setTel(tel);
-		
-		if(!fName.getOriginalFilename().equals("")) {
+		if(fName.getOriginalFilename() != null && !fName.getOriginalFilename().equals("")) {
 			vo.setUserImage(userService.fileUpload(fName, vo.getUserId(), vo.getUserImage()));
 		}
 		
 		vo.setPolicyFlag(termsOptional != null && termsOptional.equals("y") ? "y" : "n");
 		
-		int res = userService.updateUser(vo);
+		int res = userService.setUserUpdate(vo);
 		return res != 0 ? "redirect:/msg/userUpdateOk" : "redirect:/msg/userUpdateNo";
 	}
 	
@@ -401,7 +395,7 @@ public class UserController {
 		return "users/userDelete";
 	}
 	
-	// 회원탈퇴 페이지로 이동
+	// 회원탈퇴 신청
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
 	public String userDeletePost(HttpSession session, @RequestParam("deleteReason") String deleteReason) {
 	    String userId = (String) session.getAttribute("sUid");

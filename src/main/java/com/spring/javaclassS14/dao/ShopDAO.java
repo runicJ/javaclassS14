@@ -30,5 +30,11 @@ public interface ShopDAO {
 
 	public List<ShopVO> getCategoryMidName(@Param("categoryMainCode") String categoryMainCode);
 
+	public ShopVO getProductMaxIdx();
+
+	public int setProductInput(@Param("vo") ShopVO vo);
+
+	public List<ShopVO> getProductList(@Param("part") String part, @Param("productPrice") String productPrice);
+
 
 }

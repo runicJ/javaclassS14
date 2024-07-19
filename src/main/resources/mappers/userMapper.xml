@@ -93,7 +93,7 @@
 	    update users set level=1, userStatus='active', deleteRequested=false, deleteRequestDate=null where userId=#{userId};
 	</update>
 	
-	<update id="updateUser">
+	<update id="setUserUpdate">
 		update users set userPwd=#{vo.userPwd}, name=#{vo.name}, nickName=#{vo.nickName}, email=#{vo.email}, tel=#{vo.tel}, userImage=#{vo.userImage}, policyFlag=#{vo.policyFlag} where userId=#{vo.userId};
 	</update>
     

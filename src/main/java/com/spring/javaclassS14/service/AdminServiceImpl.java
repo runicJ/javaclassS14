@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.service;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -27,5 +28,10 @@ public class AdminServiceImpl implements AdminService {
 	@Override
 	public int getDeleteUser(String delFlag, String userId) {
 		return adminDAO.getDeleteUser(delFlag, userId);
+	}
+
+	@Override
+	public List<UserVO> getUserRegisterWay() {
+		return adminDAO.getUserRegisterWay();
 	}
 }

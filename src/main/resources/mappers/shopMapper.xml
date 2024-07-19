@@ -26,6 +26,20 @@
 		select * from product where productMidIdx=#{productMidIdx};
 	</select>
 	
+  	<select id="getProductMaxIdx" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select * from product order by productIdx desc limit 1;
+  	</select>
+	
+  	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
+	  <if test='part == "전체"'>
+	    select * from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
+	 	</if>
+<!-- 	  <if test='part != "전체"'>
+	 		select product.*, sub.categorySubName from dbProduct product, categorySub sub 
+	 		  where sub.categorySubName = #{part} and substring(product.productCode,4,3)=sub.categorySubCode <if test='mainPrice != 0'>and <![CDATA[mainPrice < #{mainPrice}]]></if> order by idx desc;
+	 	</if> -->
+  	</select>
+ 		
 
 	<insert id="setCategoryTopInput">
 		insert into product_top values (default, #{productTopName}, default, default);
@@ -34,6 +48,10 @@
 	<insert id="setCategoryMidInput">
 		insert into product_mid values (default, #{productTopIdx}, #{productMidName});
 	</insert>
+	 	
+ 	<insert id="setProductInput">
+    	insert into product values (default,#{vo.productCode},#{vo.productName},#{vo.productDetails},default,#{vo.productPrice},default,default,default,default,default,default,#{vo.productBrand},#{vo.productCountry},default,#{vo.productThumb},#{vo.shipAddress},default,#{vo.productTags},0,default,default,default,#{vo.productTopIdx},#{vo.productMidIdx},#{vo.content});
+ 	</insert>
 	
 	
 	<delete id="setCategoryTopDelete">
