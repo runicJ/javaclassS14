@@ -6,4 +6,8 @@
 		select * from branch_store order by branchStoreIdx desc;
     </select>
     
+    <select id="findTopNews" resultType="com.spring.javaclassS14.vo.SaveMypageVO">
+       select partUrl, count(partUrl) as urlCnt from bookmark GROUP BY partUrl ORDER BY urlCnt desc limit #{limit};
+    </select>
+    
 </mapper>

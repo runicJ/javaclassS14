@@ -72,7 +72,7 @@
 	</update>
 	
 	<update id="setUserDelete">
-	    update users set level=99, userStatus='off', deleteRequested=true, deleteRequestDate=NOW() where userId=#{userId};
+	    update users set level=99, userStatus='off' where userId=#{userId};
 	    insert into delete_users (userId, deleteReason, deleteDate) values (#{userId}, #{deleteReason}, NOW());
 	</update>
     
@@ -94,8 +94,22 @@
 	</update>
 	
 	<update id="setUserUpdate">
-		update users set userPwd=#{vo.userPwd}, name=#{vo.name}, nickName=#{vo.nickName}, email=#{vo.email}, tel=#{vo.tel}, userImage=#{vo.userImage}, policyFlag=#{vo.policyFlag} where userId=#{vo.userId};
+	    UPDATE users
+	    <set>
+	        <if test="vo.userPwd != null">userPwd = #{vo.userPwd},</if>
+	        <if test="vo.name != null">name = #{vo.name},</if>
+	        <if test="vo.nickName != null">nickName = #{vo.nickName},</if>
+	        <if test="vo.gender != null">gender = #{vo.gender},</if>
+	        <if test="vo.email != null">email = #{vo.email},</if>
+	        <if test="vo.tel != null">tel = #{vo.tel},</if>
+	        <if test="vo.userImage != null">userImage = #{vo.userImage},</if>
+	        <if test="vo.registerWay != null">registerWay = #{vo.registerWay},</if>
+	        updateDate = default,
+	        <if test="vo.policyFlag != null">policyFlag = #{vo.policyFlag},</if>
+	    </set>
+	    WHERE userId = #{vo.userId}
 	</update>
+
     
 
     <select id="getAllDeletedUsers" resultType="com.spring.javaclassS14.vo.UserVO">

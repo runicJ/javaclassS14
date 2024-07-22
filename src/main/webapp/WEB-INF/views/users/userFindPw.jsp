@@ -49,7 +49,7 @@
 	    		},
 	    		success:function(res) {
 	    			if(res != "0") {
-	    				let ans = confirm("새로운 비밀번호가 회원님 메일로 발송 되었습니다.\n메일주소를 확인하세요.");
+	    				let ans = confirm("새로운 비밀번호가 회원님 메일로 발송 되었습니다.\n메일을 확인해주세요!");
 	    				if (ans) {
 	    					window.close();
 	    				}

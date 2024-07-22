@@ -68,7 +68,7 @@ public class AdminController {
 		return "admin/user/userList";
 	}
 	
-	// 회원리스트
+	// 탈퇴 회원리스트
 	@RequestMapping(value="/deleteUserList", method=RequestMethod.GET)
 	public String deleteUserListGet(Model model,
 			@RequestParam(name="pag", defaultValue="1", required=false) int pag,
@@ -83,7 +83,7 @@ public class AdminController {
 		return "admin/user/deleteUserList";
 	}
 	
-	// 회원리스트
+	// 탈퇴 회원 처리
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
 	public String userDeletePost(String delFlag, String userId) {
 		int res = adminService.getDeleteUser(delFlag, userId);
@@ -184,7 +184,6 @@ public class AdminController {
 	}
 	
 	/*
-	 * 작성자 : Bonnie 
 	 * 리스트 응답 폼 보여주기 View
 	 * */
 	@RequestMapping("/resForm")
@@ -221,7 +220,6 @@ public class AdminController {
 		
 		return "redirect:/survList";
 	}
-	
 	
 	// 제품 카테고리 관리 페이지 이동
 	@RequestMapping(value="/shop/productCategory", method=RequestMethod.GET)
@@ -304,7 +302,7 @@ public class AdminController {
 	// 상품 등록 처리하기
 	@RequestMapping(value = "/shop/productInput", method=RequestMethod.POST)
 	public String productInputPost(MultipartFile file, ShopVO vo) {
-		// 이미지파일 업로드 시에 ckeditor폴더에서 'dbShop/product'폴더로 복사처리...후~ 처리된 내용을 DB에 저장하기
+		// 이미지파일 업로드 시에 ckeditor폴더에서 'dbShop/product'폴더로 복사처리 처리된 내용을 DB에 저장하기
 		int res = shopService.imgCheckProductInput(file, vo);
 		System.out.println("res : " + res);
 		if(res != 0) return "redirect:/msg/productInputOk";
@@ -325,34 +323,129 @@ public class AdminController {
 		return "admin/shop/productList";
 	}
 	
-		// 관리자화면에서 진열된 상품을 클릭하였을경우에 해당 상품의 상세내역 보여주기
-		@RequestMapping(value = "/shop/productDetails", method = RequestMethod.GET)
-		public String dbShopContentGet(Model model, int idx) {
-			ShopVO productVO = shopService.getProduct(idx);			// 상품 1건의 정보를 불러온다.
-			List<ShopVO> optionVOS = shopService.getAllOption(idx);	// 해당 상품의 모든 옵션 정보를 가져온다.
-			
-			model.addAttribute("productVO", productVO);
-			model.addAttribute("optionVOS", optionVOS);
-			 
-			return "admin/shop/productContent";
+	// 관리자화면에서 진열된 상품을 클릭하였을경우에 해당 상품의 상세내역 보여주기
+	@RequestMapping(value = "/shop/productDetails", method = RequestMethod.GET)
+	public String dbShopContentGet(Model model, int idx) {
+		ShopVO productVO = shopService.getProduct(idx);			// 상품 1건의 정보를 불러온다.
+		List<ShopVO> optionVOS = shopService.getAllOption(idx);	// 해당 상품의 모든 옵션 정보를 가져온다.
+		
+		model.addAttribute("productVO", productVO);
+		model.addAttribute("optionVOS", optionVOS);
+		 
+		return "admin/shop/productContent";
+	}
+	
+	// 옵션 등록창 보여주기(관리자 왼쪽메뉴에서 선택시,또는 상품리스트 상세보기에서 옵션등록클릭시 처리)
+	@RequestMapping(value = "/shop/productOption", method = RequestMethod.GET)
+	public String dbOptionGet(Model model,
+			@RequestParam(name="productName", defaultValue = "", required=false) String productName) {
+		if(productName.equals("")) {
+			List<ShopVO> topVOS = shopService.getCategoryTop();
+			model.addAttribute("topVOS", topVOS);
 		}
-		/*
-		// 옵션 등록창 보여주기(관리자 왼쪽메뉴에서 선택시,또는 상품리스트 상세보기에서 옵션등록클릭시 처리)
-		@RequestMapping(value = "/productOption", method = RequestMethod.GET)
-		public String dbOptionGet(Model model,
-				@RequestParam(name="productName", defaultValue = "", required=false) String productName) {
-			if(productName.equals("")) {
-				List<ShopVO> mainVos = shopService.getCategoryMain();
-				model.addAttribute("mainVos", mainVos);
-			}
-			else {
-				System.out.println("productName : " + productName);
-				ShopVO imsiVO = shopService.getCategoryProductNameOne(productName);
-				System.out.println("imsiVO : " + imsiVO);
-				ShopVO productVO = shopService.getCategoryProductNameOneVO(imsiVO);
-				System.out.println("productVO : " + productVO);
-				model.addAttribute("productVO", productVO);
-			}
-			return "admin/shop/productOption";
-		} */
+		else {
+			//System.out.println("productName : " + productName);
+			ShopVO imsiVO = shopService.getProductNameOne(productName);
+			//System.out.println("imsiVO : " + imsiVO);
+			ShopVO productVO = shopService.getProductNameOneVO(imsiVO);
+			//System.out.println("productVO : " + productVO);
+			model.addAttribute("productVO", productVO);
+		}
+		return "admin/shop/productOption";
+	}
+
+	// 중분류 선택시에 해당하는 상품명 가져오기
+	@ResponseBody
+	@RequestMapping(value = "/shop/productName", method = RequestMethod.POST)
+	public List<ShopVO> ProductNameGet(int productTopIdx, int productMidIdx) {
+		return shopService.getProductName(productTopIdx, productMidIdx);
+	}
+
+	// 옵셥보기에서 상품선택 콤보상자에서 상품을 선택시 해당 상품의 정보를 보여준다.
+	@ResponseBody
+	@RequestMapping(value = "/shop/getProductInfo", method = RequestMethod.POST)
+	public ShopVO getProductInfoGet(int productIdx) {
+		return shopService.getProductInfo(productIdx);
+	}
+	
+	// 옵셥보기에서 '옵션보기'버튼 클릭시 해당 상품의 옵션리스트를 보여준다.
+	@ResponseBody
+	@RequestMapping(value = "/shop/getOptionGroupList", method = RequestMethod.POST)
+	public List<ShopVO> getOptionGroupListPost(int productIdx) {
+		return shopService.getOptionGroupList(productIdx);
+	}
+	
+	// 옵셥보기에서 '옵션보기'버튼 클릭시 해당 상품의 옵션리스트를 보여준다.
+	@ResponseBody
+	@RequestMapping(value = "/shop/getOptionList", method = RequestMethod.POST)
+	public List<ShopVO> getOptionListPost(int productIdx) {
+		return shopService.getOptionList(productIdx);
+	}
+	
+	// 옵션그룹 등록처리
+    @RequestMapping(value = "/shop/optionGroupInput", method = RequestMethod.POST)
+    public String optionGroupInputPost(Model model, @RequestParam("productIdx") int productIdx, @RequestParam("optionGroupName") String[] groupNames) {
+        boolean success = shopService.productOptionGroup(productIdx, groupNames);
+        if (success) {
+            return "redirect:/msg/optionGroupInputOk";
+        } 
+        else {
+            return "redirect:/msg/optionGroupSame";
+        }
+    }
+    
+	/*
+	// 옵션 등록창에서 옵션리스트를 확인후 필요없는 옵션항목을 삭제처리..
+	@ResponseBody
+	@RequestMapping(value="/shop/optionGroupDelete", method = RequestMethod.POST)
+	public String optionDeletePost(int optionGroupIdx) {
+		int res = shopService.setOptionDelete(optionGroupIdx);
+		return res + "";
+	}
+	*/
+    
+    // 옵션 그룹 조회
+    @ResponseBody
+	@RequestMapping(value = "/shop/getOptionGroup", method = RequestMethod.GET)
+    public List<ShopVO> optionGroupGet(@RequestParam("productIdx") int productIdx) {
+        return shopService.getOptionGroup(productIdx);
+    }
+    
+	// 옵션에 기록한 내용들을 등록처리하기
+    @RequestMapping(value = "/shop/optionInput", method = RequestMethod.POST)
+    public String optionInputPost(Model model,
+                                  @RequestParam("optionGroupIdx") String[] optionGroupIdx,
+                                  @RequestParam("optionName") String[] optionName,
+                                  @RequestParam(value = "addPrice", required = false) String[] addPrice) {
+        int res = 0;
+
+        // 기본값 설정: 빈 값이나 null인 경우 0으로 설정
+        for (int i = 0; i < addPrice.length; i++) {
+            if (addPrice[i] == null || addPrice[i].trim().isEmpty()) {
+                addPrice[i] = "0"; // 기본값 설정
+            }
+        }
+
+        for (int i = 0; i < optionName.length; i++) {
+            int groupIdx = Integer.parseInt(optionGroupIdx[i]); // 필요한 경우 파싱
+            int price = Integer.parseInt(addPrice[i]); // 필요한 경우 파싱
+            System.out.println("grouopIdx : " + groupIdx);
+            int optionCnt = shopService.getOptionSame(groupIdx, optionName[i]);
+            if (optionCnt != 0) continue;
+
+            res = shopService.setOptionInput(groupIdx, optionName[i], price);
+        }
+        if (res != 0) return "redirect:/msg/optionInputOk";
+        else return "redirect:/msg/optionInputNo";
+    }
+    
+	/*
+	// 옵션 등록창에서 옵션리스트를 확인후 필요없는 옵션항목을 삭제처리..
+	@ResponseBody
+	@RequestMapping(value="/shop/optionDelete", method = RequestMethod.POST)
+	public String optionDeletePost(int optionIdx) {
+		int res = shopService.setOptionDelete(optionIdx);
+		return res + "";
+	}
+	*/
 }

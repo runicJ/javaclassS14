@@ -64,16 +64,35 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4">
-                                    <h4 class="card-title">전체 회원 관리</h4>
+                                    <h2 class="card-title">전체 회원 관리</h2>
+                                    <div class="">
+				                        <div class="customize-input">
+				                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
+				                                <option value="createDate" selected>가입순</option>
+				                                <option value="name">이름순</option>
+					                            <optgroup label="등급별"><option value="level">등급순</option>
+					                                <option value="3">지식인</option>
+					                                <option value="2">전문가</option>
+					                                <option value="0.5">귀한분</option>
+					                                <option value="1">숙련가</option>
+					                            </optgroup>
+					                            <optgroup label="상태별"><option value="userStatus">상태순</option>
+					                                <option value="정상">정상</option>
+					                                <option value="탈퇴신청">탈퇴</option>
+					                                <option value="계정정지">정지</option>
+					                            </optgroup>
+				                            </select>
+				                        </div>
+				                    </div>
                                     <div class="ml-auto">
                                         <div class="dropdown sub-dropdown">
                                             <button class="btn btn-link text-muted dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i data-feather="more-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-                                                <a class="dropdown-item" href="#">Insert</a>
-                                                <a class="dropdown-item" href="#">Update</a>
-                                                <a class="dropdown-item" href="#">Delete</a>
+                                                <a class="dropdown-item" href="#">회원 입력</a>
+                                                <a class="dropdown-item" href="#">회원 수정</a>
+                                                <a class="dropdown-item" href="#">회원 삭제</a>
                                             </div>
                                         </div>
                                     </div>

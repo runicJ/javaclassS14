@@ -7,6 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>userRegister</title>
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
  <script>
     'use strict';
@@ -359,7 +360,7 @@
 	  transition: 0.3s;
 	}
 	.box:hover {
-	  background-color: #dbe4e6;
+	  background-color: #fef4db;
 	}
   	div .invalid-feedback {
   		font-size: 13px;
@@ -526,7 +527,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
+                <div class="modal-body text-center">
                     <img id="modalImage" src="" class="img-fluid">
                 </div>
             </div>

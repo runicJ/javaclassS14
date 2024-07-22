@@ -313,23 +313,22 @@
 						</div>
 					</div>
 					<div class="line top">
-						<div>인기 제품</div>
+						<div>신제품 목록</div>
 					</div>
-    <section class="product spad">
-        <div class="container">
-            <div class="row product__filter">
-                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
+            <div class="row">
+            	<c:forEach var="productVO" items="${productVOS}">
+                <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-1.jpg">
+                        <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="object-fit:cover;">
                             <span class="label">New</span>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+                                <li><a href="#"><img src="${ctp}/images/heart.png" alt=""></a></li>
+                                <li><a href="#"><img src="${ctp}/images/compare.png" alt=""> <span>Compare</span></a></li>
+                                <li><a href="#"><img src="${ctp}/images/search.png" alt=""></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6>Piqué Biker Jacket</h6>
+                            <h6>${productVO.productName}</h6>
                             <a href="#" class="add-cart">+ Add To Cart</a>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>
@@ -338,7 +337,7 @@
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
-                            <h5>$67.24</h5>
+                            <h5>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h5>
                             <div class="product__color__select">
                                 <label for="pc-1">
                                     <input type="radio" id="pc-1">
@@ -353,181 +352,9 @@
                         </div>
                     </div>
                 </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-2.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Piqué Biker Jacket</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$67.24</h5>
-                            <div class="product__color__select">
-                                <label for="pc-4">
-                                    <input type="radio" id="pc-4">
-                                </label>
-                                <label class="active black" for="pc-5">
-                                    <input type="radio" id="pc-5">
-                                </label>
-                                <label class="grey" for="pc-6">
-                                    <input type="radio" id="pc-6">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
-                    <div class="product__item sale">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-3.jpg">
-                            <span class="label">Sale</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Multi-pocket Chest Bag</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$43.48</h5>
-                            <div class="product__color__select">
-                                <label for="pc-7">
-                                    <input type="radio" id="pc-7">
-                                </label>
-                                <label class="active black" for="pc-8">
-                                    <input type="radio" id="pc-8">
-                                </label>
-                                <label class="grey" for="pc-9">
-                                    <input type="radio" id="pc-9">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-4.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Diagonal Textured Cap</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$60.9</h5>
-                            <div class="product__color__select">
-                                <label for="pc-10">
-                                    <input type="radio" id="pc-10">
-                                </label>
-                                <label class="active black" for="pc-11">
-                                    <input type="radio" id="pc-11">
-                                </label>
-                                <label class="grey" for="pc-12">
-                                    <input type="radio" id="pc-12">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix new-arrivals">
-                    <div class="product__item">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-5.jpg">
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Lether Backpack</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$31.37</h5>
-                            <div class="product__color__select">
-                                <label for="pc-13">
-                                    <input type="radio" id="pc-13">
-                                </label>
-                                <label class="active black" for="pc-14">
-                                    <input type="radio" id="pc-14">
-                                </label>
-                                <label class="grey" for="pc-15">
-                                    <input type="radio" id="pc-15">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-4 col-md-6 col-sm-6 col-md-6 col-sm-6 mix hot-sales">
-                    <div class="product__item sale">
-                        <div class="product__item__pic set-bg" data-setbg="img/product/product-6.jpg">
-                            <span class="label">Sale</span>
-                            <ul class="product__hover">
-                                <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                            </ul>
-                        </div>
-                        <div class="product__item__text">
-                            <h6>Ankle Boots</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
-                            <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
-                            </div>
-                            <h5>$98.49</h5>
-                            <div class="product__color__select">
-                                <label for="pc-16">
-                                    <input type="radio" id="pc-16">
-                                </label>
-                                <label class="active black" for="pc-17">
-                                    <input type="radio" id="pc-17">
-                                </label>
-                                <label class="grey" for="pc-18">
-                                    <input type="radio" id="pc-18">
-                                </label>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                </c:forEach>
             </div>
-        </div>
-    </section>
+
 				</div>
 				<div class="col-xs-6 col-md-4 sidebar" id="sidebar">
 					<div class="sidebar-title for-tablet">Sidebar</div>
@@ -535,13 +362,13 @@
 						<div class="aside-body">
 							<div class="featured-author">
 								<div class="featured-author-inner">
-									<div class="featured-author-cover" style="background-image: url('${ctp}/images/bg.jpg');">
+									<div class="featured-author-cover">
 										<div class="badges">
 											<div class="badge-item"><i class="ion-star"></i> 귀한분</div>
 										</div>
 										<div class="featured-author-center">
 											<figure class="featured-author-picture">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+												<img src="${ctp}/user/${!empty sUid ? sImage : 'noImage.jpg'}" alt="userImage">
 											</figure>
 											<div class="featured-author-info">
 												<h2 class="name">${!empty sUid ? sNickName : '입문자'}</h2>
@@ -997,5 +824,22 @@
 		<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 	</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
+<script>
+    $('.set-bg').each(function () {
+        var bg = $(this).data('setbg');
+        $(this).css('background-image', 'url(' + bg + ')');
+    });
+
+    //Search Switch
+    $('.search-switch').on('click', function () {
+        $('.search-model').fadeIn(400);
+    });
+
+    $('.search-close-switch').on('click', function () {
+        $('.search-model').fadeOut(400, function () {
+            $('#search-input').val('');
+        });
+    });
+</script>
 </body>
 </html>

@@ -17,255 +17,83 @@
 	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
 </head>
 <body>
+<div id="preloder">
+    <div class="loader"></div>
+</div>
+<div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
 <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
-<p><br></p>
-<!-- Page Preloder -->
-    <div id="preloder">
-        <div class="loader"></div>
-    </div>
-	<div class="col-9">
-    <!-- Shop Section Begin -->
-    <section class="shop spad">
-            <div class="row">
-                <div class="col-lg-3">
-                    <div class="shop__navbar">
-                        <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
-                                <button type="submit"><span class="icon_search"></span></button>
-                            </form>
-                        </div>
-                        <div class="shop__sidebar__accordion">
-                            <div class="accordion" id="accordionExample">
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseOne">알레르기 완화 제품</a>
-                                    </div>
-                                    <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__categories">
-                                                <ul class="nice-scroll">
-                                                    <li><a href="#">비염치료기기 (0)</a></li>
-                                                    <li><a href="#">피부의료기기 (0)</a></li>
-                                                    <li><a href="#">의약외품 (0)</a></li>
-                                                    <li><a href="#">마스크 (0)</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">침구 제품(알러지프리)</a>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__brand">
-                                                <ul>
-                                                    <li><a href="#">매트리스 (0)</a></li>
-                                                    <li><a href="#">베딩 (0)</a></li>
-                                                    <li><a href="#">베개 (0)</a></li>
-                                                    <li><a href="#">키즈 (0)</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">유기농 제품</a>
-                                    </div>
-                                    <div id="#collapseFive" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__color">
-                                                <ul>
-                                                    <li><a href="#">인증 식품 (0)</a></li>
-                                                    <li><a href="#">유기농 완구 (0)</a></li>
-                                                    <li><a href="#">비건 화장품 (0)</a></li>
-                                                    <li><a href="#">건강보조식품 (0)</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
-                                    </div>
-                                    <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__price">
-                                                <ul>
-                                                    <li><a href="#">가격 전체</a></li>
-                                                    <li><a href="#">3만원 이하</a></li>
-                                                    <li><a href="#">3만원~6만원</a></li>
-                                                    <li><a href="#">6만원~9만원</a></li>
-                                                    <li><a href="#">9만원~12만원</a></li>
-                                                    <li><a href="#">12만원 이상</a></li>
-                                                    <li><p class="input-group">
-	                                                    <input type="number" name="limitPrice" class="input-group" />
-	                                                    <span> ~ </span>
-	                                                    <input type="number" name="maxPrice" class="input-group" />
-	                                                    <span> 원 </span>
-	                                                    <input type="button" value="검색" class="btn btn-warning btn-sm" onclick="pSearch()" />
-                                                    </p></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="sidebar__item">
-		                            <h4>Price</h4>
-		                            <div class="price-range-wrap">
-		                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-		                                    data-min="10" data-max="540">
-		                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-		                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-		                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-		                                </div>
-		                                <div class="range-slider">
-		                                    <div class="price-input">
-		                                        <input type="text" id="minamount">
-		                                        <input type="text" id="maxamount">
-		                                    </div>
-		                                </div>
-		                            </div>
-		                        </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFour">별점</a>
-                                    </div>
-                                    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__size">
-                                                <label for="xs">별점 전체
-                                                    <input type="radio" id="xs">
-                                                </label>
-                                                <label for="sm">☆★★★★ 4점 이상
-                                                    <input type="radio" id="sm">
-                                                </label>
-                                                <label for="md">☆☆★★★ 3점 이상
-                                                    <input type="radio" id="md">
-                                                </label>
-                                                <label for="xl">☆☆☆★★ 2점 이상
-                                                    <input type="radio" id="xl">
-                                                </label>
-                                                <label for="2xl">☆☆☆☆★ 1점 이상
-                                                    <input type="radio" id="2xl">
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
-                                    </div>
-                                    <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__tags">
-                                                <a href="#">Product</a>
-                                                <a href="#">Bags</a>
-                                                <a href="#">Shoes</a>
-                                                <a href="#">Fashio</a>
-                                                <a href="#">Clothing</a>
-                                                <a href="#">Hats</a>
-                                                <a href="#">Accessories</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-lg-9">
-                    <div class="shop__product__option">
-                        <div class="row">
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="shop__product__option__left">
-                                    <p>Showing 1–12 of 126 results</p>
-                                </div>
-                            </div>
-                            <div class="col-lg-6 col-md-6 col-sm-6">
-                                <div class="shop__product__option__right">
-                                    <p>Sort by Price:</p>
-                                    <select>
-                                        <option value="">최신등록순</option>
-                                        <option value="">관심도순</option>
-                                        <option value="">추천순</option>
-                                        <option value="">가격순</option>
-                                    </select>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                    	<c:forEach var="productVO" items="${productVOS}">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item">
-                                <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="width:100%">
-                                    <ul class="product__hover">
-                                        <li><a href="#"><img src="img/icon/heart.png" alt=""></a></li>
-                                        <li><a href="#"><img src="img/icon/compare.png" alt=""> <span>Compare</span></a>
-                                        </li>
-                                        <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h6><fmt:formatNumber value="${productVO.productPrice}"/></h6>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
-                                    <div class="rating">
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                        <i class="fa fa-star-o"></i>
-                                    </div>
-                                    <h5>${productVO.productPrice}</h5>
-                                    <div class="product__color__select">
-                                        <label for="pc-4">
-                                            <input type="radio" id="pc-4">
-                                        </label>
-                                        <label class="active black" for="pc-5">
-                                            <input type="radio" id="pc-5">
-                                        </label>
-                                        <label class="grey" for="pc-6">
-                                            <input type="radio" id="pc-6">
-                                        </label>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        </c:forEach>
-                    </div>
-                    <div class="row">
-                        <div class="col-lg-12">
-                            <div class="product__pagination">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-    </section>
-    <!-- Shop Section End -->
-
-    <!-- Search Begin -->
-    <div class="search-model">
-        <div class="h-100 d-flex align-items-center justify-content-center">
-            <div class="search-close-switch">+</div>
-            <form class="search-model-form">
-                <input type="text" id="search-input" placeholder="Search here.....">
-            </form>
-        </div>
-    </div>
-    <!-- Search End -->
+	<div class="page-wrapper">
+		<div class="card p-5">
+	        <div class="shop__product__option">
+	            <div class="row">
+	                <div class="col-lg-6 col-md-6 col-sm-6">
+	                    <div class="shop__product__option__left">
+	                        <p>Showing 1–12 of 126 results</p>
+	                    </div>
+	                </div>
+	                <div class="col-lg-6 col-md-6 col-sm-6">
+	                    <div class="shop__product__option__right">
+	                        <p>Sort by Price:</p>
+	                        <select>
+	                            <option value="">최신등록순</option>
+	                            <option value="">관심도순</option>
+	                            <option value="">추천순</option>
+	                            <option value="">가격순</option>
+	                        </select>
+	                    </div>
+	                </div>
+	            </div>
+	        </div>
+	        <div class="row">
+	        	<c:forEach var="productVO" items="${productVOS}">
+	            <div class="col-lg-4 col-md-6 col-sm-6">
+	                <div class="product__item">
+	                    <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="width:100%">
+	                        <ul class="product__hover">
+	                            <li><a href="#"><img src="img/icon/compare.png" alt=""><span>Compare</span></a></li>
+	                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+	                        </ul>
+	                    </div>
+	                    <div class="product__item__text">
+	                        <h6><fmt:formatNumber value="${productVO.productPrice}"/></h6>
+	                        <div class="rating">
+	                            <i class="fa fa-star-o"></i>
+	                            <i class="fa fa-star-o"></i>
+	                            <i class="fa fa-star-o"></i>
+	                            <i class="fa fa-star-o"></i>
+	                            <i class="fa fa-star-o"></i>
+	                        </div>
+	                        <h5>${productVO.productName}</h5>
+	                        <div class="product__color__select">
+	                            <label for="pc-4">
+	                                <input type="radio" id="pc-4">
+	                            </label>
+	                            <label class="active black" for="pc-5">
+	                                <input type="radio" id="pc-5">
+	                            </label>
+	                            <label class="grey" for="pc-6">
+	                                <input type="radio" id="pc-6">
+	                            </label>
+	                        </div>
+	                    </div>
+	                </div>
+	            </div>
+	            </c:forEach>
+	        </div>
+	        <div class="row">
+	            <div class="col-lg-12">
+	                <div class="product__pagination">
+	                    <a class="active" href="#">1</a>
+	                    <a href="#">2</a>
+	                    <a href="#">3</a>
+	                    <span>...</span>
+	                    <a href="#">21</a>
+	                </div>
+	            </div>
+	        </div>
+	    </div>
+	</div>
 </div>
 <p><br></p>
 	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>

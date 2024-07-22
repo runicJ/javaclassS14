@@ -38,4 +38,24 @@ public interface ShopService {
 
 	public List<ShopVO> getAllOption(int idx);
 
+	public ShopVO getProductNameOne(String productName);
+
+	public ShopVO getProductNameOneVO(ShopVO imsiVO);
+
+	public List<ShopVO> getProductName(int productTopIdx, int productMidIdx);
+
+	public ShopVO getProductInfo(int productIdx);
+
+	public List<ShopVO> getOptionGroupList(int productIdx);
+
+	public List<ShopVO> getOptionList(int productIdx);
+
+	public boolean productOptionGroup(int productIdx, String[] groupNames);
+
+	public List<ShopVO> getOptionGroup(int productIdx);
+
+	public int getOptionSame(int optionGroupIdx, String optionName);
+
+	public int setOptionInput(int optionGroupIdx, String optionName, int addPrice);
+
 }

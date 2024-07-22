@@ -20,13 +20,18 @@ import org.jsoup.nodes.Element;
 import org.jsoup.select.Elements;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS14.service.IntroService;
+import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.vo.CrawlingVO;
+import com.spring.javaclassS14.vo.SaveMypageVO;
+import com.spring.javaclassS14.vo.ShopVO;
 
 /**
  * Handles requests for the application home page.
@@ -76,6 +81,12 @@ public class HomeController {
 		out.flush();
 		fos.close();
 	}
+	
+	@Autowired
+	IntroService introService;
+	
+	@Autowired
+	ShopService shopService;
 	
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPost(HttpServletRequest request, Model model) {
@@ -235,7 +246,13 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+		
+        List<SaveMypageVO> topNewsVOS = introService.findTopNews(3); // 상위 3개의 기사 가져오기
+        model.addAttribute("topNewsVOS", topNewsVOS);
 
+        List<ShopVO> productVOS = shopService.getProductList("전체", "0");
+        model.addAttribute("productVOS", productVOS);
+        
         return "main/main";
     }
     

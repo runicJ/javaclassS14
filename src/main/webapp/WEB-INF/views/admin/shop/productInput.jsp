@@ -99,7 +99,7 @@
         <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
 		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <div class="page-wrapper">
-			<div class="card">
+			<div class="card p-5">
                 <form name="myform" method="post" enctype="multipart/form-data">
                 <div class="card-body">
                     <h2 class="card-title text-center mb-5"><i class="fa-solid fa-tag"></i> 제품 등록하기</h2>

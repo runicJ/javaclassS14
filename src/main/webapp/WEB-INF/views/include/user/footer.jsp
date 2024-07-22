@@ -6,109 +6,48 @@
 <footer class="footer">
 	<div class="container">
 		<div class="row">
-			<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="col-md-3 col-sm-12">
 				<div class="block">
 					<h1 class="block-title">회사 정보란</h1>
 					<div class="block-body">
 						<figure class="foot-logo">
-							<img src="${ctp}/images/logo2.png" class="img-responsive" alt="myLogo">
+							<img src="${ctp}/images/logo.png" class="img-responsive" alt="myLogo">
 						</figure>
 						<p class="brand-description">
 							괄호 안에서 살아가는 우리에게 <br>쉼표가 되어드리고 싶습니다.
 						</p>
-						<a href="page.html" class="btn btn-magz white">우리를 소개합니다 <i class="ion-ios-arrow-thin-right"></i></a>
+						<a href="${ctp}/introduce/greeting" class="btn btn-magz white">우리를 소개합니다 <i class="ion-ios-arrow-thin-right"></i></a>
 					</div>
 				</div>
 			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="col-md-4 col-sm-12">
 				<div class="block">
-					<h1 class="block-title">Popular Tags <span class="right"><a href="#">See All <i class="ion-ios-arrow-thin-right"></i></a></span></h1>
+					<h1 class="block-title">인기 태그(#) <span class="right"><a href="#">더보기 <i class="ion-ios-arrow-thin-right"></i></a></span></h1>
 					<div class="block-body">
 						<ul class="tags">
-							<li><a href="#">HTML5</a></li>
-							<li><a href="#">CSS3</a></li>
-							<li><a href="#">Bootstrap 3</a></li>
-							<li><a href="#">Web Design</a></li>
-							<li><a href="#">Creative Mind</a></li>
-							<li><a href="#">Standing On The Train</a></li>
-							<li><a href="#">at 6.00PM</a></li>
+							<li><a href="#">#도도새</a></li>
+							<li><a href="#">#알레르기</a></li>
+							<li><a href="#">#알레르망</a></li>
+							<li><a href="#">#아이</a></li>
+							<li><a href="#">#아토피</a></li>
+							<li><a href="#">#이불</a></li>
 						</ul>
 					</div>
 				</div>
 				<div class="line"></div>
 			</div>
-			<div class="col-md-3 col-sm-6 col-xs-12">
+			<div class="col"></div>
+			<div class="col-md-4 col-xs-12">
 				<div class="block">
-					<h1 class="block-title">Latest News</h1>
+					<h1 class="block-title">문의하기</h1>
 					<div class="block-body">
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img12.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="single.html">Donec consequat lorem quis augue pharetra</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="single.html">eu dapibus risus aliquam etiam ut venenatis</a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img15.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="single.html">Nulla facilisis odio quis gravida vestibulum </a></h1>
-								</div>
-							</div>
-						</article>
-						<article class="article-mini">
-							<div class="inner">
-								<figure>
-									<a href="single.html">
-										<img src="${ctp}/basic/img16.jpg" alt="Sample Article">
-									</a>
-								</figure>
-								<div class="padding">
-									<h1><a href="single.html">Proin venenatis pellentesque arcu vitae </a></h1>
-								</div>
-							</div>
-						</article>
-						<a href="#" class="btn btn-magz white btn-block">See All <i class="ion-ios-arrow-thin-right"></i></a>
-					</div>
-				</div>
-			</div>
-			<div class="col-md-3 col-xs-12 col-sm-6">
-				<div class="block">
-					<h1 class="block-title">Follow Us</h1>
-					<div class="block-body">
-						<p>Follow us and stay in touch to get the latest news</p>
+						<p><i class="fa-solid fa-location-dot"></i> 충청북도 청주시 서원구 사직대로 109 4층</p>
+						<p><i class="fa-solid fa-paperclip"></i> 그린컴퓨터 아트학원 청주점</p>
 						<ul class="social trp">
 							<li>
 								<a href="#" class="facebook">
 									<svg><rect width="0" height="0"/></svg>
 									<i class="ion-social-facebook"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="twitter">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-twitter-outline"></i>
 								</a>
 							</li>
 							<li>
@@ -129,48 +68,18 @@
 									<i class="ion-social-instagram-outline"></i>
 								</a>
 							</li>
-							<li>
-								<a href="#" class="tumblr">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-tumblr"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="dribbble">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-dribbble"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="linkedin">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-linkedin"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="skype">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-skype"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="rss">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-rss"></i>
-								</a>
-							</li>
 						</ul>
+						<a href="#" class="btn btn-magz white btn-block">1:1문의하기 <i class="ion-ios-arrow-thin-right"></i></a>
 					</div>
 				</div>
-				<div class="line"></div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-md-12">
 				<div class="copyright">
-					COPYRIGHT &copy; MAGZ 2017. ALL RIGHT RESERVED.
+					COPYRIGHT &copy; PAUSE IN BRACE 2024. ALL RIGHT RESERVED.
 					<div>
-						Made with <i class="ion-heart"></i> by <a href="http://kodinger.com">Kodinger</a>
+						Made by RUNIC.
 					</div>
 				</div>
 			</div>

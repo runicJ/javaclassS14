@@ -29,7 +29,7 @@
                 	</i><span class="hide-menu"> 주문 상세 관리</span></a>
       	            <ul aria-expanded="false" class="collapse first-level base-level-line">
                         <li class="sidebar-item"><a href="${ctp}/order/orderList" class="sidebar-link">
-                        <span class="hide-menu"> 현 주문 목록 </span></a></li>
+                        <span class="hide-menu"> 현재 주문 목록 </span></a></li>
                         <li class="sidebar-item"><a href="${ctp}/order/orderCancelList" class="sidebar-link">
                         <span class="hide-menu"> 주문 취소 처리 </span></a></li>
                         <li class="sidebar-item"><a href="${ctp}/order/orderReturnList" class="sidebar-link">
@@ -47,6 +47,8 @@
                         <span class="hide-menu"> 제품 카테고리 등록 </span></a></li>
                         <li class="sidebar-item"><a href="${ctp}/admin/shop/productInput" class="sidebar-link">
                         <span class="hide-menu"> 제품 판매글 등록 </span></a></li>
+                        <li class="sidebar-item"><a href="${ctp}/admin/shop/productOption" class="sidebar-link">
+                        <span class="hide-menu"> 제품 옵션사항 등록 </span></a></li>
                    </ul>
                 </li>
                 <li class="sidebar-item">
@@ -71,27 +73,12 @@
                      	<span class="hide-menu"> 지점/병원 관리</span>
                     	</a>
                     <ul aria-expanded="false" class="collapse first-level base-level-line">
-                        <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span
-                                    class="hide-menu"> 지점 관리</span></a>
+                        <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span class="hide-menu"> 병원 정보 관리</span></a>
                         </li>
-                        <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span
-                                    class="hide-menu"> 병원 정보 관리</span></a>
-                        </li>
-                        <li class="sidebar-item"> <a class="has-arrow sidebar-link" href="javascript:void(0)"
-                                aria-expanded="false"><span class="hide-menu">Menu 1.3</span></a>
+                        <li class="sidebar-item"> <a class="has-arrow sidebar-link" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">지점 관리</span></a>
                             <ul aria-expanded="false" class="collapse second-level base-level-line">
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span
-                                            class="hide-menu"> item
-                                            1.3.1</span></a></li>
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span
-                                            class="hide-menu"> item
-                                            1.3.2</span></a></li>
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span
-                                            class="hide-menu"> item
-                                            1.3.3</span></a></li>
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span
-                                            class="hide-menu"> item
-                                            1.3.4</span></a></li>
+                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span class="hide-menu">지점 등록</span></a></li>
+                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span class="hide-menu">지점 발주 관리</span></a></li>
                             </ul>
                         </li>
                     </ul>

@@ -187,7 +187,7 @@
         <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
 		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <div class="page-wrapper">
-  		    <div class="card text-center">
+  		    <div class="card text-center p-4">
 	        	<div class="card-body">
 					<h2 class="card-title mb-4">제품 카테고리 등록</h2>
 					<form name="categoryTopFrom" method="post">
@@ -214,9 +214,9 @@
 				</div>	
 			</div>
 
-		    <div class="card text-center">
+		    <div class="card text-center p-4">
 		        <div class="card-body">
-		            <h4 class="card-title">제품 대분류 목록</h4>
+		            <h3 class="card-title">제품 대분류 목록</h3>
 		            <div class="table-responsive">
 		                <table class="table">
 		                    <thead class="bg-warning text-white">
@@ -256,7 +256,7 @@
 		            </div>
 		        </div>
 		        <div class="card-body">
-		            <h4 class="card-title">제품 중분류 목록</h4>
+		            <h3 class="card-title">제품 중분류 목록</h3>
 		            <div class="table-responsive">
 		                <table class="table">
 		                    <thead class="bg-warning text-white">

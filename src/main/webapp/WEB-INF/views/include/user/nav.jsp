@@ -37,7 +37,7 @@
 									<div class="col-md-3">
 										<div class="row">
 											<div class="col-md-12">
-												<h2 class="megamenu-title">Trending</h2>
+												<h2 class="megamenu-title">알레르기 목록</h2>
 											</div>
 										</div>
 										<ul class="vertical-menu">
@@ -51,58 +51,28 @@
 									<div class="col-md-9">
 										<div class="row">
 											<div class="col-md-12">
-												<h2 class="megamenu-title">Featured Posts</h2>
+												<h2 class="megamenu-title">인기있는 추천 기사</h2>
 											</div>
 										</div>
 										<div class="row">
+											<c:forEach var="topNewsVO" items="${topNewsVOS}">
 											<article class="article col-md-4 mini">
 												<div class="inner">
 													<figure>
-														<a href="single.html">
-															<img src="${ctp}/basic/img10.jpg" alt="Sample Article">
-														</a>
-													</figure>
+                                                        <a href="${topNewsVO['partUrl']}">
+                                                            <img src="${ctp}/images/default-thumbnail.jpg" alt="Bookmarked Article">
+                                                        </a>
+                                                    </figure>
 													<div class="padding">
-														<div class="detail">
-															<div class="time">December 10, 2016</div>
-															<div class="category"><a href="category.html">Healthy</a></div>
-														</div>
-														<h2><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate</a></h2>
-													</div>
+                                                        <div class="detail">
+                                                            <div class="time">Bookmark</div>
+                                                            <div class="category"><a href="${bookmark['partUrl']}">Category</a></div>
+                                                        </div>
+                                                        <h2><a href="${bookmark['partUrl']}">${bookmark['partUrl']}</a></h2>
+                                                    </div>
 												</div>
 											</article>
-											<article class="article col-md-4 mini">
-												<div class="inner">
-													<figure>
-														<a href="single.html">
-															<img src="${ctp}/basic/img11.jpg" alt="Sample Article">
-														</a>
-													</figure>
-													<div class="padding">
-														<div class="detail">
-															<div class="time">December 13, 2016</div>
-															<div class="category"><a href="category.html">Lifestyle</a></div>
-														</div>
-														<h2><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate</a></h2>
-													</div>
-												</div>
-											</article>
-											<article class="article col-md-4 mini">
-												<div class="inner">
-													<figure>
-														<a href="single.html">
-															<img src="${ctp}/basic/img14.jpg" alt="Sample Article">
-														</a>
-													</figure>
-													<div class="padding">
-														<div class="detail">
-															<div class="time">December 14, 2016</div>
-															<div class="category"><a href="category.html">Travel</a></div>
-														</div>
-														<h2><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate</a></h2>
-													</div>
-												</div>
-											</article>
+											</c:forEach>
 										</div>
 									</div>
 								</div>								

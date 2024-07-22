@@ -12,14 +12,15 @@
 	  left: 0;
 	  background-color: #111;
 	  overflow-x: hidden;
-	  padding: 40px 0;
+	  padding: 20px 0;
+	  font-family: 'Raleway', sans-serif;
 	}
 	
 	.sidenav a, .dropdown-btn {
-	  padding: 6px 8px 6px 16px;
+	  padding: 15px 16px;
 	  text-decoration: none;
-	  font-size: 20px;
-	  color: #818181;
+	  font-size: 18px;
+	  color: #fff;
 	  display: block;
 	  border: none;
 	  background: none;
@@ -30,7 +31,8 @@
 	}
 	
 	.sidenav a:hover, .dropdown-btn:hover {
-	  color: #f1f1f1;
+	  color: #000D35;
+	  background-color: #FEF4DB;
 	}
 	
 	.sidenav .main {
@@ -40,13 +42,13 @@
 	}
 	
 	.sidenav .dropdown-btn .active {
-	  background-color: green;
-	  color: white;
+	  background-color: #ffe2b0;
+	  color: #000D35;
 	}
 	
 	.sidenav .dropdown-container {
 	  display: none;
-	  background-color: #262626;
+	  background-color: #333333;
 	  padding-left: 8px;
 	}
 	
@@ -71,18 +73,18 @@
 			<div class="aside-body">
 				<div class="featured-author">
 					<div class="featured-author-inner">
-						<div class="featured-author-cover" style="background-image: url('${ctp}/images/bg.jpg');">
+						<div class="featured-author-cover">
 							<div class="badges">
 								<div class="badge-item"><i class="ion-star"></i> 귀한분</div>
 							</div>
 							<div class="featured-author-center">
-								<p>안녕하세요!</p>
+								<p style="font-size:16px;">안녕하세요! <br>다시 만나 반갑습니다:)</p>
 								<figure class="featured-author-picture">
-									<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+									<img src="${ctp}/user/${sImage}" alt="유저 이미지">
 								</figure>
 								<div class="featured-author-info">
 									<h2 class="name">${sNickName}</h2>
-									<div class="desc">@${sUid}</div>
+									<div class="desc mb-3">@${sUid}</div>
 								</div>
 							</div>
 						</div>
@@ -171,3 +173,19 @@
 		</div>
 	</aside>
 </div>
+<script>
+window.onload = function() {
+  var dropdown = document.getElementsByClassName("dropdown-btn");
+  for (var i = 0; i < dropdown.length; i++) {
+    dropdown[i].addEventListener("click", function() {
+      this.classList.toggle("active");
+      var dropdownContent = this.nextElementSibling;
+      if (dropdownContent.style.display === "block") {
+        dropdownContent.style.display = "none";
+      } else {
+        dropdownContent.style.display = "block";
+      }
+    });
+  }
+};
+</script>

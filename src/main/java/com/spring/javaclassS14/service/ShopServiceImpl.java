@@ -7,6 +7,7 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
@@ -160,4 +161,60 @@ public class ShopServiceImpl implements ShopService {
 		return null;
 	}
 
+	@Override
+	public ShopVO getProductNameOne(String productName) {
+		return shopDAO.getProductNameOne(productName);
+	}
+
+	@Override
+	public ShopVO getProductNameOneVO(ShopVO imsiVO) {
+		return shopDAO.getProductNameOneVO(imsiVO);
+	}
+
+	@Override
+	public List<ShopVO> getProductName(int productTopIdx, int productMidIdx) {
+		return shopDAO.getProductName(productTopIdx, productMidIdx);
+	}
+
+	@Override
+	public ShopVO getProductInfo(int productIdx) {
+		return shopDAO.getProductInfo(productIdx);
+	}
+
+	@Override
+	public List<ShopVO> getOptionGroupList(int productIdx) {
+		return shopDAO.getOptionGroupList(productIdx);
+	}
+
+	@Override
+	public List<ShopVO> getOptionList(int productIdx) {
+		return shopDAO.getOptionList(productIdx);
+	}
+
+	@Override
+	public int getOptionSame(int optionGroupIdx, String optionName) {
+		return shopDAO.getOptionSame(optionGroupIdx, optionName);
+	}
+
+	@Override
+	public int setOptionInput(int optionGroupIdx, String optionName, int addPrice) {
+		return shopDAO.setOptionInput(optionGroupIdx,optionName,addPrice);
+	}
+
+    @Transactional
+    public boolean productOptionGroup(int productIdx, String[] groupNames) {
+        for (String optionGroupName : groupNames) {
+            int count = shopDAO.getOptionGroupSame(productIdx, optionGroupName);
+            if (count != 0) {
+                return false;
+            }
+            shopDAO.setOptionGroupInput(productIdx, optionGroupName);
+        }
+        return true;
+    }
+
+	@Override
+	public List<ShopVO> getOptionGroup(int productIdx) {
+		return shopDAO.getOptionGroup(productIdx);
+	}
 }

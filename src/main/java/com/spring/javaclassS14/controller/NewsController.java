@@ -22,7 +22,6 @@ import com.spring.javaclassS14.vo.CrawlingVO;
 @RequestMapping("/news")
 public class NewsController {
 	
-    private static final int PAGE_SIZE = 10; // 한번에 가져올 기사 수
     private static final int MAX_ARTICLES = 100; // 최대 기사 수
 
     @RequestMapping(value = "/newsList", method = RequestMethod.GET)

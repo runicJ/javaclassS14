@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -91,30 +92,33 @@ public class UserController {
 		return "users/userPolicy";
 	}
 	
+	// 약관동의(세션 저장)
 	@RequestMapping(value="/userPolicy", method=RequestMethod.POST)
 	public String userPolicyPost(HttpSession session,
-			@RequestParam(name="agree1", defaultValue="false") boolean policyAgree1,
-			@RequestParam(name="agree2", defaultValue="false") boolean policyAgree2,
-			@RequestParam(name="agree3", defaultValue="false") boolean policyOptional) {
-        if (!policyAgree2 || !policyAgree2) {
-            return "redirect:/users/agreeTerms?error=required";
-        }
+	                             @RequestParam(name="agreeRequired", defaultValue="false") boolean agreeRequired,
+	                             @RequestParam(name="agreeOptional", defaultValue="false") boolean agreeOptional) {
+	    if (!agreeRequired) {
+	        return "redirect:/users/userPolicy?error=required";
+	    }
 
-        // 약관 동의 정보 세션에 저장
-        session.setAttribute("termsRequired1", policyAgree1);
-        session.setAttribute("termsRequired2", policyAgree2);
-        session.setAttribute("termsOptional", policyOptional);
-        return "redirect:/users/userRegister";
+	    session.setAttribute("agreeRequired", agreeRequired);
+	    session.setAttribute("agreeOptional", agreeOptional);
+	    return "redirect:/users/userRegister";
 	}
 	
 	// 회원가입 페이지로 이동
 	@RequestMapping(value="/userRegister", method=RequestMethod.GET)
-    public String userRegisterGet(HttpSession session, Model model) {
-        // 약관 동의 정보를 모델에 추가
-        model.addAttribute("termsRequired1", session.getAttribute("termsRequired1"));
-        model.addAttribute("termsRequired2", session.getAttribute("termsRequired2"));
-        model.addAttribute("termsOptional", session.getAttribute("termsOptional"));
-        return "users/userRegister";
+	public String userRegisterGet(Model model, HttpSession session) {
+	    Boolean agreeRequired = (Boolean) session.getAttribute("agreeRequired");
+
+	    if (agreeRequired == null || !agreeRequired) {
+	    	return "redirect:/msg/agreeRequiredNo";
+	    }
+
+	    Boolean agreeOptional = (Boolean) session.getAttribute("agreeOptional");
+	    model.addAttribute("agreeOptional", agreeOptional);
+
+	    return "users/userRegister";
 	}
 	
 	// 회원가입 처리
@@ -126,18 +130,19 @@ public class UserController {
 
 		vo.setUserPwd(passwordEncoder.encode(vo.getUserPwd()));
 		
-		
 		if(!fName.getOriginalFilename().equals("")) vo.setUserImage(userService.fileUpload(fName, vo.getUserId(), ""));
 		else vo.setUserImage("noImage.jpg");
 		
 		// 선택 약관 동의 정보 설정
-        boolean termsOptional = (boolean) session.getAttribute("termsOptional");
-        String policyFlag = (termsOptional ? "y" : "n");
+        boolean agreeOptional = (boolean) session.getAttribute("agreeOptional");
+        String policyFlag = (agreeOptional ? "y" : "n");
         vo.setPolicyFlag(policyFlag);
 		
 		int res = userService.setUserRegisterOk(vo);
 		
         if (res != 0) {
+            session.removeAttribute("agreeRequired");
+            session.removeAttribute("agreeOptional");
             return "redirect:/msg/userRegisterOk";
         } else {
             return "redirect:/msg/userRegisterNo";
@@ -188,6 +193,7 @@ public class UserController {
 			session.setAttribute("sNickName", vo.getNickName());
 			session.setAttribute("sLevel", vo.getLevel());
 			session.setAttribute("strLevel", strLevel);
+			session.setAttribute("sImage", vo.getUserImage());
 			
 			if(idSave.equals("on")) {
 				Cookie cookieUid = new Cookie("cUid", userId);
@@ -363,25 +369,63 @@ public class UserController {
 	
 	// 회원정보 수정 처리
 	@RequestMapping(value="/userUpdate", method=RequestMethod.POST)
-	public String userUpdatePost(UserVO vo, MultipartFile fName, HttpSession session, @RequestParam("userPwd") String userPwd,
-		@RequestParam(value="userPwdNew", required=false) String userPwdNew, @RequestParam(value="pwdNewCheck", required=false) String pwdNewCheck,
-		@RequestParam(value="termsOptional", required=false) String termsOptional) {
+	public String userUpdatePost(UserVO vo, MultipartFile fName, HttpSession session,
+	        @RequestParam(value="pwdNew", required=false) String pwdNew,
+            @RequestParam(value="pwdNewCheck", required=false) String pwdNewCheck,
+            @RequestParam(value="nameNew", required=false) String nameNew,
+            @RequestParam(value="nickNameNew", required=false) String nickNameNew,
+            @RequestParam("policyFlag") String policyFlag) {
 		
-		if (!passwordEncoder.matches(userPwd, vo.getUserPwd())) return "redirect:/msg/pwdCheckNo";
+	    // 세션에서 사용자 아이디를 가져옵니다.
+	    String userId = (String) session.getAttribute("sUid");
+	    UserVO voBasic = userService.getUserIdCheck(userId);
+	    
+	    // 닉네임 체크
+	    String nickName = (String) session.getAttribute("sNickName");
+	    if (nickNameNew != null && !nickNameNew.isEmpty()) {
+		    if(userService.getUserNickCheck(nickNameNew) != null && !nickName.equals(nickNameNew)) {
+		        return "redirect:/msg/nickCheckNo";
+		    }
+		    else vo.setNickName(nickNameNew);
+	    }
+	    else vo.setNickName(null);
+	    
 
-		if(userPwdNew != null && !userPwdNew.equals(pwdNewCheck)) return "redirect:/msg/pwdCheckNo";
-		if(userPwdNew != null && passwordEncoder.matches(userPwdNew, vo.getUserPwd())) {
-			vo.setUserPwd(passwordEncoder.encode(userPwdNew));
-		}
+	    // 비밀번호 체크
+	    if (!passwordEncoder.matches(vo.getUserPwd(), voBasic.getUserPwd())) {
+	        return "redirect:/msg/pwdCheckNo";
+	    }
+
+	    // 새로운 비밀번호가 있으면 업데이트
+	    if (pwdNew != null && !pwdNew.isEmpty()) {
+	        if (!pwdNew.equals(pwdNewCheck)) {
+	            return "redirect:/msg/pwdNewCheckNo";
+	        }
+	        vo.setUserPwd(passwordEncoder.encode(pwdNew));
+	    } 
+	    else {
+	        vo.setUserPwd(null); // 기존 비밀번호 유지
+	    }
+	    
+	    if (nameNew != null && !nameNew.isEmpty()) {
+	    	vo.setName(nameNew);
+	    } else {
+	    	vo.setName(null);
+	    }
 		
 		if(fName.getOriginalFilename() != null && !fName.getOriginalFilename().equals("")) {
 			vo.setUserImage(userService.fileUpload(fName, vo.getUserId(), vo.getUserImage()));
 		}
 		
-		vo.setPolicyFlag(termsOptional != null && termsOptional.equals("y") ? "y" : "n");
-		
+	    vo.setPolicyFlag(policyFlag);
+
 		int res = userService.setUserUpdate(vo);
-		return res != 0 ? "redirect:/msg/userUpdateOk" : "redirect:/msg/userUpdateNo";
+		if(res != 0) {
+			session.setAttribute("sNickName", vo.getNickName());
+			session.setAttribute("sImage", vo.getUserImage());
+			return "redirect:/msg/userUpdateOk";
+		}
+		else return "redirect:/msg/userUpdateNo";
 	}
 	
 	// 회원탈퇴 페이지로 이동
@@ -403,13 +447,6 @@ public class UserController {
 		
 		return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
 	}
-
-//	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-//	public String userDeletePost(HttpSession session, @RequestParam("deleteReason") String deleteReason) {
-//	    String userId = (String) session.getAttribute("sUid");
-//	    int res = userService.deleteUserWithReason(userId, deleteReason);
-//	    return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
-//	}
 
 	// 회원탈퇴 신청
 	@RequestMapping(value="/updateDeletedUsers", method=RequestMethod.GET)

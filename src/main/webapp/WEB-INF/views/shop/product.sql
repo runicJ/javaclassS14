@@ -58,6 +58,8 @@ CREATE TABLE product_option_group (
     FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );
 
+desc product_option_group;
+
 /* 제품 그룹의 옵션 */
 CREATE TABLE product_option (
     optionIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -66,3 +68,5 @@ CREATE TABLE product_option (
     addPrice INT DEFAULT 0 NOT NULL,
     FOREIGN KEY (optionGroupIdx) REFERENCES product_option_group(optionGroupIdx)
 );
+
+desc product_option;

@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>userMain</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 </head>
 <body>
@@ -105,21 +105,5 @@
 			</div>
 	</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
-<script>
-var dropdown = document.getElementsByClassName("dropdown-btn");
-var i;
-
-for (i = 0; i < dropdown.length; i++) {
-  dropdown[i].addEventListener("click", function() {
-    this.classList.toggle("active");
-    var dropdownContent = this.nextElementSibling;
-    if (dropdownContent.style.display === "block") {
-      dropdownContent.style.display = "none";
-    } else {
-      dropdownContent.style.display = "block";
-    }
-  });
-}
-</script>
 </body>
 </html>

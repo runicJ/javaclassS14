@@ -26,7 +26,7 @@
 	<resources mapping="/user/**" location="/resources/data/user/" />
 	<resources mapping="/photoGallery/**" location="/resources/data/photoGallery/" />
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/" />
-	<resources mapping="/product/**" location="/resources/data/shop/product" />
+	<resources mapping="/product/**" location="/resources/data/shop/product/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">

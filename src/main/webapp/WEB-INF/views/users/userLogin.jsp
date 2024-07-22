@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>userLogin</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
   	<%@ include file = "/WEB-INF/views/include/user/bs4.jsp"%>
   	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
   	<script src="http://developers.kakao.com/sdk/js/kakao.js"></script>
@@ -38,7 +38,7 @@
 		}
 		
 		.box:hover {
-		  background-color: #dbe4e6;
+		  background-color: #fef4db;
 		}
 		
 		@media screen and (min-width:992px) {
@@ -125,7 +125,7 @@
 						</div>
 						<div class="form-group">
 				    		<input type="checkbox" id="idSave" name="idSave" checked /><span style="font-size:0.8em;"> 아이디 저장</span>
-							<p class="float-right"><span class="text-muted mr-2" style="font-size:0.8em;">아직 계정이 없으신가요? </span><a class="p-1" href="${ctp}/users/userRegister" style="border:1px solid #ccc;box-shadow: 0px 0px 2px #444;background-color:#fff;">회원가입</a></p>
+							<p class="float-right"><span class="text-muted mr-2" style="font-size:0.8em;">아직 계정이 없으신가요? </span><a class="p-1" href="${ctp}/users/userPolicy" style="border:1px solid #ccc;box-shadow: 0px 0px 2px #444;background-color:#fff;">회원가입</a></p>
 						</div>
 						<p><br></p>
 						<div class="title-line">

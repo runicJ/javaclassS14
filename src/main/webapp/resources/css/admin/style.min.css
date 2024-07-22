@@ -325,7 +325,7 @@ legend {
     color: inherit
 }
 
-.fa-500px:before {
+/* .fa-500px:before {
     content: "\f26e"
 }
 
@@ -3815,7 +3815,7 @@ legend {
 
 .fa-youtube-square:before {
     content: "\f431"
-}
+} */
 
 .sr-only {
     margin: -1px

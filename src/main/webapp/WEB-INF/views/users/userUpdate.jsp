@@ -12,25 +12,41 @@
  <script>
     'use strict';
     
-    let nickCheckSw = 0;
-    let emailCheckSw = 0;
+    let nickCheckSw = 1;
+    let emailCheckSw = 1;
     let timerInterval;
     
     function fCheck() {
-    	let userPwd = myform.userPwd.value.trim();
-    	let pwdCheck = myform.pwdCheck.value.trim();
-    	
-    	let name = myform.name.value.trim();
-    	let nickName = myform.nickName.value.trim();
-    	
-       	let email1 = myform.email1.value.trim();
-       	let email2 = myform.email2.value;
-       	let email = email1 + "@" + email2;
-       	
-    	let tel1 = myform.tel1.value;
-       	let tel2 = myform.tel2.value.trim();
-       	let tel3 = myform.tel3.value.trim();
-       	let tel = tel1 + "-" + tel2 + "-" + tel3;
+    	 let userPwd = myform.userPwd.value.trim();
+         let pwdNew = myform.pwdNew.value.trim();
+         let pwdNewCheck = myform.pwdNewCheck.value.trim();
+         
+         let name = myform.name.value.trim();
+         let nameNew = myform.nameNew.value.trim();
+         if(nameNew) name = nameNew; // 새로운 값이 있으면 이를 사용
+         
+         let nickName = myform.nickName.value.trim();
+         let nickNameNew = myform.nickNameNew.value.trim();
+         if(nickNameNew) nickName = nickNameNew; // 새로운 값이 있으면 이를 사용
+         
+         let email1 = myform.email1.value.trim();
+         let email2 = myform.email2.value;
+         
+         let email = email1 + "@" + email2;
+         
+         let tel1 = myform.tel1.value;
+         let tel1New = myform.tel1New.value;
+         if(tel1New) tel1 = tel1New; // 새로운 값이 있으면 이를 사용
+         
+         let tel2 = myform.tel2.value.trim();
+         let tel2New = myform.tel2New.value.trim();
+         if(tel2New) tel2 = tel2New; // 새로운 값이 있으면 이를 사용
+         
+         let tel3 = myform.tel3.value.trim();
+         let tel3New = myform.tel3New.value.trim();
+         if(tel3New) tel3 = tel3New; // 새로운 값이 있으면 이를 사용
+         
+         let tel = tel1 + "-" + tel2 + "-" + tel3;
     	
         //let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
 		let regName = /^[가-힣a-zA-Z]+$/;
@@ -38,23 +54,29 @@
 	    let regTel = /^010-\d{3,4}-\d{4}$/;
 	    let regEmail = /^[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_\.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i;
 		
-		if(userPwd == "") {
-			alert("비밀번호를 입력하세요");
+	    if(userPwd == "") {
+	        alert("정보를 수정하시려면 비밀번호를 입력해주세요.");
 	        myform.userPwd.focus();
-			return false;
-		}
+	        return false;
+	    }
+	    
+	    if(pwdNew != "" && userPwd == pwdNew) {
+	        alert("새 비밀번호는 현재 비밀번호와 다르게 입력해야 합니다.");
+	        myform.pwdNew.focus();
+	        return false;
+	    }
 
-/* 		if(!regPwd.test(userPwd)) {
+    	if(pwdNew != "" && pwdNew != pwdNewCheck) {
+    		alert("새로 입력하신 비밀번호와 일치하지 않습니다. 비밀번호를 확인해 주세요.");
+            myform.pwdNew.focus();
+            return false;
+    	}
+    	
+/* 		if(!regPwd.test(pwdNewCheck)) {
 	        alert("비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.");
 	        myform.userPwd.focus();
 	        return false;
       	} */
-		
-    	if(pwdCheck == "" || pwdCheck != userPwd) {
-    		alert("입력하신 비밀번호와 일치하지 않습니다. 비밀번호를 확인해 주세요.");
-            myform.pwdCheck.focus();
-            return false;
-    	}
     	
 		if(name == "") {
 			alert("이름을 입력하세요");
@@ -113,14 +135,14 @@
 	  			return false;
 	  		}	  			
   		}
-
+  		
     	if(nickCheckSw == 0) {
     		alert("닉네임 중복체크 버튼을 눌러주세요");
     		document.getElementById("nickNameBtn").focus();
     		return false;
     	}
-/* 
-        if (emailCheckSw == 0) {
+ 
+/*         if (emailCheckSw == 0) {
             alert("이메일 중복체크 버튼을 눌러주세요");
             document.getElementById("emailCheckSw").focus();
             return false;
@@ -133,7 +155,7 @@
     }
 	
     function nickCheck() {
-    	let nickName = myform.nickName.value.trim();
+    	let nickName = myform.nickNameNew.value.trim();
     	
     	if(nickName.trim() == "") {
     		alert("닉네임을 입력하세요!");
@@ -153,7 +175,6 @@
 	    				alert("사용 가능한 닉네임입니다.");
 	    	    		nickCheckSw = 1;
 	    				$("#nickNameBtn").attr("disabled",true);
-	    				myform.email1.focus();
 	    			}
 	    		},
 	    		error:function() {
@@ -261,22 +282,41 @@
     
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('nameUpdateBtn').addEventListener('click', function() {
-            $("#name").removeAttr("readonly");
-            $("#nameUpdateInput").show();
+          $("#nameUpdateInput").show();
         });
         document.getElementById('nickUpdateBtn').addEventListener('click', function() {
-            $("#nickUpdateInput").show();
+          nickCheckSw = 0; // 새로운 값 입력 시 스위치 초기화
+          $("#nickUpdateInput").show();
         });
-        document.getElementById('emailUpdateBtn').addEventListener('click', function() {
-            $("#emailUpdateInput").show();
+        
+        /*
+        $(document).ready(function() {
+            $('#email1').on('input', function() {
+                $('#emailCheckBtn').prop('disabled', false);
+            });
+
+            $('#email2').on('change', function() {
+                $('#emailCheckBtn').prop('disabled', false);
+            });
+        });
+        */
+        document.getElementById('email1').addEventListener('input', function() {
+            document.getElementById('emailCheckBtn').disabled = false;
+        });
+
+        document.getElementById('email2').addEventListener('change', function() {
+            document.getElementById('emailCheckBtn').disabled = false;
         });
         document.getElementById('telUpdateBtn').addEventListener('click', function() {
-            $("#telUpdateInput").show();
+          $("#telUpdateInput").show();
         });
 
         // 이미지 미리보기
         document.getElementById('file').addEventListener('change', previewImage);
-    });
+        
+     	// 체크박스 변경 시 hidden 필드 업데이트
+        document.querySelector('input[name="agreeOptional"]').addEventListener('change', updatePolicyFlag);
+      });
 
     function previewImage() {
         let file = document.getElementById("file").files[0];
@@ -295,6 +335,11 @@
             preview.style.display = 'none';
         }
     }
+    
+    function updatePolicyFlag() {
+        let agreeOptional = document.querySelector('input[name="agreeOptional"]').checked;
+        document.querySelector('input[name="policyFlag"]').value = agreeOptional ? "y" : "n";
+    }
   </script>
   <style>
   	.box-body {
@@ -305,7 +350,7 @@
 	  transition: 0.3s;
 	}
 	.box:hover {
-	  background-color: #dbe4e6;
+	  background-color: #fef4db;
 	}
   	div .invalid-feedback {
   		font-size: 13px;
@@ -313,12 +358,107 @@
   	select {
   		font-size: 16px;
   	}
+  	
+    .file-input-container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      margin-top: 10px;
+    }
+    
+    #file {
+      display: none;
+    }
+  	
+    .file-input-label {
+      display: inline-block;
+      padding: 10px 15px;
+      font-size: 20px;
+      cursor: pointer;
+      background-color: #000d35;
+      color: white;
+      border-radius: 22px;
+      margin-top: 10px;
+      position: absolute;
+      bottom: -30px;
+      right: 200px;
+    }
+    .file-input-label:hover {
+      background-color: #F39C12;
+    }
+    
+    .file-input-group {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+    }
+    
+    .file-input-group img {
+    	display: block;
+    }
+    
+/* Style the Image Used to Trigger the Modal */
+#imageDemo {
+  border-radius: 5px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+#imageDemo:hover {opacity: 0.7;}
+
+.modal {
+	width: 50%;
+	margin-top:200px;
+	position: fixed;
+	top: 50%;
+	left: 50%;
+	transform: translate(-50%, -50%);
+}
+
+#modalImage {
+	width:auto;
+	max-height: 500px;
+}
+
+/* Caption of Modal Image (Image Text) - Same Width as the Image */
+#caption {
+  margin: auto;
+  display: block;
+  width: 80%;
+  max-width: 700px;
+  text-align: center;
+  color: #ccc;
+  padding: 10px 0;
+  height: 150px;
+}
+
+/* Add Animation - Zoom in the Modal */
+.modal-content, #caption {
+  animation-name: zoom;
+  animation-duration: 0.6s;
+}
+
+@keyframes zoom {
+  from {transform:scale(0)}
+  to {transform:scale(1)}
+}
+
+/* 100% Image Width on Smaller Screens */
+@media only screen and (max-width: 700px){
+  .modal-content {
+    width: 100%;
+  }
+}
   </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
-	<section class="userMain" style="padding-top: 245.125px;">
+	<section class="userUpdate" style="padding-top: 245.125px;">
 		<div class="container">
 			<div class="row">
 				<jsp:include page="/WEB-INF/views/include/user/sidebar.jsp" />
@@ -327,16 +467,17 @@
 						<div class="box-body">
 							<h4 class="text-center">내 정보 수정</h4>
 							<form name="myform" method="post" enctype="multipart/form-data" action="${ctp}/users/userUpdate">
-								<div class="mb-3 text-center">
-								    <img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${vo.userImage}" onclick="$('#imageModal').modal('show');">
-								    <p><input type="file" name="fName" id="file"><i class="fa-solid fa-wrench"></i> 프로필 사진 변경</p>
+								<div class="file-input-group text-center mb-5" style="display:flex;justify-content:center;align-items:center;">
+				                  <img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${sImage}" onclick="$('#imageModal').modal('show');">
+					                  <label for="file" class="file-input-label"><i class="fas fa-tools"></i></label>
+					                  <input type="file" id="file" name="fName" onchange="previewImage()">
 								</div>
 								
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 								      	<span class="input-group-text">아이디</span>
 								    </div>
-								    <input type="text" class="form-control" value="${vo.userId}" readonly>
+								    <input type="text" name="userId" class="form-control" value="${vo.userId}" readonly>
 								</div>
 								
 								<div class="input-group mb-3">
@@ -350,7 +491,7 @@
 									<div class="input-group-prepend">
 								      	<label class="fw input-group-text">변경할 비밀번호</label>
 								    </div>
-									<input type="password" name="userPwdNew" id="userPwdNew" class="form-control" placeholder="비밀번호 변경시 입력하세요">
+									<input type="password" name="pwdNew" id="pwdNew" class="form-control" placeholder="비밀번호 변경시 입력하세요">
 								</div>
 								
 								<div class="input-group mb-3">
@@ -364,7 +505,7 @@
 									<div class="input-group-prepend">
 								      	<span class="input-group-text">이름</span>
 								    </div>
-								    <input type="text" class="form-control" value="${vo.name}" readonly>
+								    <input type="text" name="name" id="name" class="form-control" value="${vo.name}" readonly>
 								    <div class="input-group-append">
 								      	<a type="button" id="nameUpdateBtn" class="btn btn-warning">정보 수정</a>
 								    </div>
@@ -372,7 +513,7 @@
 								
 								<div class="form-group" id="nameUpdateInput" style="display:none;">
 									<label for="name"><i class="fa-solid fa-caret-right"></i> 이름</label>
-									<input type="text" name="name" id="name" class="form-control" placeholder="이름을 입력하세요." required>
+									<input type="text" name="nameNew" id="nameNew" class="form-control" placeholder="이름을 입력하세요." required>
 									<div class="invalid-feedback">이름은 한글과 영문 대/소문자만 사용가능합니다.</div>
 								</div>
 								
@@ -380,7 +521,7 @@
 									<div class="input-group-prepend">
 								      	<span class="input-group-text">닉네임</span>
 								    </div>
-								    <input type="text" class="form-control" value="${vo.nickName}" readonly>
+								    <input type="text" name="nickName" id="nickName" class="form-control" value="${vo.nickName}" readonly>
 								    <div class="input-group-append">
 								      	<a type="button" id="nickUpdateBtn" class="btn btn-warning">정보 수정</a>
 								    </div>
@@ -389,43 +530,42 @@
 								<div class="form-group" id="nickUpdateInput" style="display:none;">
 									<label for="nickName"><i class="fa-solid fa-caret-right"></i> 닉네임</label>
 									<div class="input-group">
-										<input type="text" name="nickName" id="nickName" class="form-control" required>
+										<input type="text" name="nickNameNew" id="nickNameNew" class="form-control" required>
 										<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="input-group-append btn btn-info btn-sm" onclick="nickCheck()"/>
 										<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
 									</div>
 								</div>
-																
 								<div class="input-group mb-3">
 									<div class="input-group-prepend">
 								      	<span class="input-group-text">이메일</span>
 								    </div>
 								    <c:set var="email" value="${fn:split(vo.email,'@')}" />
-								    <input type="text" id="email1" name="email1" class="form-control mr-2" value="${email[0]}" readonly />
+								    <input type="text" id="email1" name="email1" class="form-control mr-2" value="${email[0]}"/>
 										<span style="font-size:1.1em;">@</span>
-										<select id="email2" name="email2" class="ml-2" style="width:120px;" disabled>
+										<select id="email2" name="email2" class="ml-2" style="width:120px;">
 											<option value="naver.com" ${email[1]=='naver.com' ? 'selected' : ''}>naver.com</option>
 											<option value="gmail.com" ${email[1]=='gmail.com' ? 'selected' : ''}>gmail.com</option>
 											<option value="daum.net" ${email[1]=='daum.net' ? 'selected' : ''}>daum.net</option>
 										</select>
 								    <div class="input-group-append">
-								      	<a type="button" id="emailUpdateBtn" class="btn btn-warning">정보 수정</a>
+								      	<input type="button" value="이메일 중복체크" id="emailCheckBtn" class="input-group-append btn btn-info btn-sm" onclick="emailCheck()" disabled/>
 								    </div>
 								</div>
-							    
-							    <div class="form-group" id="emailUpdateInput" style="display:none;">
-							      <label for="email1"><i class="fa-solid fa-caret-right"></i> 이메일</label>
-							        <div class="input-group">
-										<input type="text" id="email1" name="email1" class="form-control mr-2" placeholder="이메일 주소를 입력하세요." required />
-										<span style="font-size:1.1em;">@</span>
-										<select id="email2" name="email2" class="ml-2" style="width:120px;">
-											<option value="naver.com" selected>naver.com</option>
-											<option value="gmail.com">gmail.com</option>
-											<option value="daum.net">daum.net</option>
-										</select>
-							        </div>
-							    </div>
+								<div id="confirmCodeSection" style="display:none;">
+								    <div class="form-group">
+								    	<div class="m-0 p-0">
+									        <label for="confirmCode" style="font-size:1.1em;">인증코드 확인</label>
+											<p class="float-right" id="timer" style="font-size:1.1em; color:red;"></p>
+										</div>
+								        <div class="input-group">
+								            <input type="text" id="confirmCode" name="confirmCode" class="form-control" placeholder="인증 코드를 입력하세요." />
+								            <input type="button" value="인증코드 제출" id="confirmCodeBtn" class="btn btn-info btn-sm" onclick="confirmCodeCheck()" />
+								            <input type="button" value="인증코드 재발급" id="confirmCodeReBtn" class="input-group-append btn btn-danger btn-sm" onclick="confirmCodeReCheck()" />
+								        </div>
+								    </div>
+								</div>
 								
-								<div class="input-group mb-3">
+								<div class="form-group mb-3">
 									<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
@@ -442,20 +582,20 @@
 									      	<a type="button" id="telUpdateBtn" class="btn btn-warning">정보 수정</a>
 									    </div>
 								    </div>
-								</div>
+							    </div>
 								
 								<div class="form-group" id="telUpdateInput" style="display:none;">
 									<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
 									<div class="input-group">
 										<div class="input-group-prepend">
-								            <select name="tel1" id="tel1" class="form-control">
+								            <select name="tel1New" id="tel1New" class="form-control">
 								              <option value="010" selected>010</option>
 								            </select>
 								        </div>
 										<span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-								        <input type="text" id="tel2" name="tel2" size=4 maxlength=4 class="form-control" required />
+								        <input type="text" id="tel2New" name="tel2New" size=4 maxlength=4 class="form-control" />
 								        <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-								        <input type="text" id="tel3" name="tel3" size=4 maxlength=4 class="form-control" required />
+								        <input type="text" id="tel3New" name="tel3New" size=4 maxlength=4 class="form-control" />
 								    </div>
 								</div>
 								
@@ -494,12 +634,11 @@
 								</div>
 								
 								<div class="form-group">
-									<label class="mr-3"><i class="fa-solid fa-caret-right"></i> 선택 약관 동의</label>
-							      	<div class="form-check-inline">
-								        <label class="form-check-label">
-								          	<input type="checkbox" class="form-check-input" name="termsOptional" value="y" ${vo.policyFlag == 'y' ? 'checked' : ''}>동의함
-								        </label>
-									</div>
+									<label class="mr-3"><i class="fa-solid fa-caret-right"></i> 선택 약관 동의 &nbsp;&nbsp;&nbsp;</label>
+                                    <label class="form-check-label">
+                                        <input type="checkbox" class="form-check-input" name="agreeOptional"
+                                               value="y" ${vo.policyFlag == 'y' ? 'checked' : ''}>동의함
+                                    </label>
 								</div>
 								
 								<div class="form-group text-center">
@@ -508,6 +647,7 @@
 								</div>
 							    <input type="hidden" name="email" />
 	    						<input type="hidden" name="tel" />
+	    						<input type="hidden" name="policyFlag" value="${vo.policyFlag}" />
 	    						<p><br><p>
 							</form>
 						</div>
@@ -517,7 +657,7 @@
 		</div>
 	</section>
 <p><br/></p>
-	<div class="modal fade" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
+	<div class="modal fade bottom" id="imageModal" tabindex="-1" role="dialog" aria-labelledby="imageModalLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -526,10 +666,11 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <div class="modal-body">
-                    <img id="modalImage" src="" class="img-fluid">
+                <div class="modal-body text-center">
+                    <img id="modalImage" src="${ctp}/user/${sImage}" class="img-fluid">
                 </div>
             </div>
+          	<div id="caption">${vo.name}</div>
         </div>
     </div>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
