@@ -12,7 +12,7 @@ public class Level0Interceptor extends HandlerInterceptorAdapter {
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
 		HttpSession session = request.getSession();
-		int level = session.getAttribute("sLevel")==null ? 99 : (int) session.getAttribute("sLevel");
+		double level = session.getAttribute("sLevel")==null ? 99 : (double) session.getAttribute("sLevel");
 		
 		if(level != 0) {
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/msg/adminNo");

@@ -7,14 +7,14 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-public class Level2Interceptor extends HandlerInterceptorAdapter {
+public class Level0p5Interceptor extends HandlerInterceptorAdapter {
 	@Override
 	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
 		
 		HttpSession session = request.getSession();
 		double level = session.getAttribute("sLevel")==null ? 99 : (double) session.getAttribute("sLevel");
 		
-		if(level > 2) {
+		if(level > 0.5) {
 			RequestDispatcher dispatcher;
 			if(level == 99) {
 				dispatcher = request.getRequestDispatcher("/msg/userNo");

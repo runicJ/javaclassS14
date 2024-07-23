@@ -60,13 +60,9 @@
 	  	from product, product_top top, product_mid mid
 	  	where productIdx=#{productIdx} order by productIdx limit 1;
   	</select>
-  
-  	<select id="getOptionGroupList" resultType="com.spring.javaclassS14.vo.ShopVO">
-  		select * from product_option_group where productIdx = #{productIdx} order by optionGroupIdx;
-  	</select>
   	
   	<select id="getOptionList" resultType="com.spring.javaclassS14.vo.ShopVO">
-  		select * from product_option where productIdx = #{productIdx} order by optionIdx;
+  		select g.optiongroupIdx, g.optionGroupName, o.optionIdx, o.optionName from product_option_group as g left join product_option as o on g.optionGroupIdx=o.optionGroupIdx where g.productIdx=#{productIdx} order by g.optionGroupIdx, o.optionIdx;
   	</select>
   	
   	<select id="getOptionGroupSame" resultType="int">
@@ -79,6 +75,18 @@
   	
   	<select id="getOptionGroup" resultType="com.spring.javaclassS14.vo.ShopVO">
   		select * FROM product_option_group where productIdx = #{productIdx} order by optionGroupIdx;
+  	</select>
+  	
+ 	<select id="getOptionHas" resultType="int">
+  		select count(*) FROM product_option where optionGroupIdx = #{optionGroupIdx};
+  	</select>
+  	
+ 	<select id="getProduct" resultType="com.spring.javaclassS14.vo.ShopVO">
+  		select * FROM product where productIdx = #{productIdx};
+  	</select>
+  	
+ 	<select id="getAllOption" resultType="com.spring.javaclassS14.vo.ShopVO">
+  		select g.optiongroupIdx, g.optionGroupName, o.optionIdx, o.optionName, o.addPrice from product_option_group as g left join product_option as o on g.optionGroupIdx=o.optionGroupIdx where g.productIdx=#{productIdx} order by g.optionGroupIdx, o.optionIdx;
   	</select>
 
 
@@ -105,5 +113,13 @@
 	
 	<delete id="setCategoryTopDelete">
 		delete from product_mid where productTopIdx=#{productTopIdx};
+	</delete>
+	
+	<delete id="setoptionGroupDelete">
+		delete from product_option_group where optionGroupIdx=#{optionGroupIdx};
+	</delete>
+	
+	<delete id="setOptionDelete">
+		delete from product_option where optionIdx=#{optionIdx};
 	</delete>
 </mapper>

@@ -479,13 +479,15 @@ public class UserController {
 		String userId = (String) session.getAttribute("sUid");
 		
 		boolean bookmarkExist = userService.checkUserBookmark(userId, partUrl);
-		
+		int res = 0;
         if (!bookmarkExist) {
         	userService.saveBookmarkToggle(userId, partUrl, true);
-        } else {
+        	res = 1;
+        } 
+        else {
         	userService.saveBookmarkToggle(userId, partUrl, false);
         }
 		
-		return "users/userBookmarkList";
+		return res + "";
 	}
 }

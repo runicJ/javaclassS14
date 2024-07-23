@@ -8,7 +8,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>productList</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/jquery-ui.min.css" type="text/css">
@@ -29,12 +29,12 @@
 	            <div class="row">
 	                <div class="col-lg-6 col-md-6 col-sm-6">
 	                    <div class="shop__product__option__left">
-	                        <p>Showing 1–12 of 126 results</p>
+	                        <p>총 126 항목 중 1–12개 제품</p>
 	                    </div>
 	                </div>
 	                <div class="col-lg-6 col-md-6 col-sm-6">
 	                    <div class="shop__product__option__right">
-	                        <p>Sort by Price:</p>
+	                        <p>정렬기준 </p>
 	                        <select>
 	                            <option value="">최신등록순</option>
 	                            <option value="">관심도순</option>
@@ -51,12 +51,11 @@
 	                <div class="product__item">
 	                    <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="width:100%">
 	                        <ul class="product__hover">
-	                            <li><a href="#"><img src="img/icon/compare.png" alt=""><span>Compare</span></a></li>
-	                            <li><a href="#"><img src="img/icon/search.png" alt=""></a></li>
+	                            <li><a href="#"><i class="fa-solid fa-wrench" style="color:red;font-size:25px;"></i><span>수정하기</span></a></li>
+	                            <li><a href="#"><i class="fa-solid fa-trash" style="color:red;font-size:25px;"></i></a><span>삭제하기</span></li>
 	                        </ul>
 	                    </div>
 	                    <div class="product__item__text">
-	                        <h6><fmt:formatNumber value="${productVO.productPrice}"/></h6>
 	                        <div class="rating">
 	                            <i class="fa fa-star-o"></i>
 	                            <i class="fa fa-star-o"></i>
@@ -64,18 +63,8 @@
 	                            <i class="fa fa-star-o"></i>
 	                            <i class="fa fa-star-o"></i>
 	                        </div>
-	                        <h5>${productVO.productName}</h5>
-	                        <div class="product__color__select">
-	                            <label for="pc-4">
-	                                <input type="radio" id="pc-4">
-	                            </label>
-	                            <label class="active black" for="pc-5">
-	                                <input type="radio" id="pc-5">
-	                            </label>
-	                            <label class="grey" for="pc-6">
-	                                <input type="radio" id="pc-6">
-	                            </label>
-	                        </div>
+	                        <h5><button class="btn btn-success" onclick="location.href='${ctp}/admin/shop/productDetails?productIdx=${productVO.productIdx}';">${productVO.productName}</button><span class="float-right">￦ <fmt:formatNumber value="${productVO.productPrice}"/></span></h5>
+	                        <p>${productVO.productDetails}</p>
 	                    </div>
 	                </div>
 	            </div>

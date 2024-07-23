@@ -150,15 +150,13 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public ShopVO getProduct(int idx) {
-		// TODO Auto-generated method stub
-		return null;
+	public ShopVO getProduct(int productIdx) {
+		return shopDAO.getProduct(productIdx);
 	}
 
 	@Override
-	public List<ShopVO> getAllOption(int idx) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<ShopVO> getAllOption(int productIdx) {
+		return shopDAO.getAllOption(productIdx);
 	}
 
 	@Override
@@ -179,11 +177,6 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public ShopVO getProductInfo(int productIdx) {
 		return shopDAO.getProductInfo(productIdx);
-	}
-
-	@Override
-	public List<ShopVO> getOptionGroupList(int productIdx) {
-		return shopDAO.getOptionGroupList(productIdx);
 	}
 
 	@Override
@@ -216,5 +209,20 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<ShopVO> getOptionGroup(int productIdx) {
 		return shopDAO.getOptionGroup(productIdx);
+	}
+
+	@Override
+	public int setoptionGroupDelete(int optionGroupIdx) {
+		return shopDAO.setoptionGroupDelete(optionGroupIdx);
+	}
+
+	@Override
+	public int setOptionDelete(int optionIdx) {
+		return shopDAO.setOptionDelete(optionIdx);
+	}
+
+	@Override
+	public int getOptionHas(int optionGroupIdx) {
+		return shopDAO.getOptionHas(optionGroupIdx);
 	}
 }

@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.SurveyDAO">
+
+	<!-- regSurMapper -->
+	    <select id="getUserInfo" parameterType="String" resultType="String">
+        SELECT nickName FROM users WHERE userId = #{userId};
+    </select>
+
+    <insert id="insertSurv" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+        INSERT INTO SURVEY (survTitle, CHAR, regId, regDate, modDate, useYn)
+        VALUES (#{survTitle}, #{survDesc}, #{regId}, default, default, #{useYn});
+    </insert>
+
+    <insert id="insertSurvqust" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+        <selectKey resultType="int" keyProperty="survNo" order="BEFORE">
+            SELECT ISNULL(MAX(survNo),0) FROM SURVEY;
+        </selectKey>
+        INSERT INTO survQuest (survNo, questOrder, questContent, questType)
+        VALUES (#{survNo}, #{qustSeq}, #{qustCont}, #{qustType});
+    </insert>
+
+    <insert id="insertQustopt" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+        <selectKey resultType="int" keyProperty="qustNo" order="BEFORE">
+            SELECT ISNULL(MAX(questNo),0) FROM survQuest;
+        </selectKey>
+        INSERT INTO questNo (questNo, optOrder, optContent)
+        VALUES (#{qustNo}, #{optSeq}, #{optCont});
+    </insert>
+
+    <select id="getSurvey" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
+        SELECT survNo AS survNo, survTitle AS survTitle, survDesc AS survDesc, regId AS regId, useYn, regDate AS regDate, modDate AS modDate
+        FROM SURVEY WHERE survNo = #{survNo};
+    </select>
+
+    <select id="getSurvqustList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
+        SELECT survNo AS survNo, questNo AS qustNo, questOrder AS qustSeq, questType AS qustType, questContent AS qustCont
+        FROM survQuest WHERE survNo = #{survNo};
+    </select>
+
+    <select id="getQustoptList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
+        SELECT questNo AS qustNo, optNo AS optNo, optOrder AS optSeq, optContent AS optCont
+        FROM questOpt WHERE questNo = #{qustNo};
+    </select>
+
+    <update id="delOneSurvey" parameterType="int">
+        UPDATE SURVEY SET delYn = 'Y', useYn = 'N' WHERE survNo = #{survNo};
+    </update>
+
+    <delete id="delSurvqust" parameterType="int">
+        DELETE FROM survQuest WHERE survNo = #{survNo};
+    </delete>
+
+    <delete id="delQustopt" parameterType="int">
+        DELETE FROM questOpt WHERE questNo IN (SELECT questNo FROM survQuest WHERE survNo = #{surv_no});
+    </delete>
+
+    <delete id="delAnswer" parameterType="int">
+        DELETE FROM Answer WHERE questNo IN (SELECT questNo FROM SURVQUST WHERE survNo = #{survNo});
+    </delete>
+
+    <update id="updateNewSurv" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+        UPDATE SURVEY SET survTitle = #{survTitle}, survDesc = #{survDesc}, modDate = now(), useYn = #{useYn} WHERE survNo = #{survNo};
+    </update>
+
+    <insert id="insertNewSurvqust" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+        INSERT INTO SURVQUST (survNo, questOrder, questContent, questType) VALUES (#{survNo}, #{qustSeq}, #{qustCont}, #{qustType});
+    </insert>
+
+	
+	<!-- resSurvMapper -->
+    <insert id="insertAnswer" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+        INSERT INTO answer (questNo, ansContent, ansLong, userId, ansDate)
+        VALUES (#{qustNo}, #{answCont}, #{answLong}, #{memId}, now());
+    </insert>
+
+    <select id="resSurvYn" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="Integer">
+        SELECT COUNT(*)
+        FROM (SELECT questNo FROM survQuest WHERE survNo = #{survNo}) AS qust
+        INNER JOIN (SELECT questNo FROM ANSWER WHERE userId = #{userId}) AS answ
+        ON qust.questNo = answ.questNo;
+    </select>
+	
+	
+	<sql id="search">
+		<if test="keyword != null and keyword != ''">
+		AND
+			<choose>
+				<when test="'all'.equals(srchTyp)">
+					(
+						s.survTitle LIKE CONCAT('%', #{keyword}, '%')
+						OR m.nickName LIKE CONCAT('%', #{keyword}, '%')
+						OR s.survNo LIKE #{keyword}
+					)
+				</when>
+				<when test="'title'.equals(srchTyp)">
+					s.survTitle LIKE CONCAT('%', #{keyword}, '%')
+				</when>
+				<when test="'regid'.equals(srchTyp)">
+					m.nickName LIKE CONCAT('%', #{keyword}, '%')
+				</when>
+				<when test="'survNo'.equals(srchTyp)">
+					s.survNo = #{keyword}
+				</when>
+			</choose>
+		</if>
+	</sql>
+	
+	<sql id="mySearch">
+		<if test="keyword != null and keyword != ''">
+		AND
+			survTitle LIKE CONCAT('%', #{keyword}, '%')
+		</if>
+		<choose>
+				<when test="'useY'.equals(srchTyp)">
+					AND useYn = 'y'
+				</when>
+				<when test="'useN'.equals(srchTyp)">
+					AND useYn = 'n'
+				</when>
+		</choose>
+	</sql>
+
+	<select id="getSurvList" parameterType="com.spring.javaclassS14.vo.SearchVo" resultType="com.spring.javaclassS14.vo.SurveyVO">
+		SELECT
+			survNo, survTitle, regDate, modDate, memNick, rownum
+		FROM
+			(SELECT 	
+				s.survNo as survNo,
+				s.survTitle as survTitle,
+				s.regId as regId,
+				s.regDate as regDate,
+				s.modDate as modDate,
+				m.nickName as nickName,
+				ROW_NUMBER() OVER (ORDER BY s.survNo desc) as rownum
+			FROM	
+				Survey as s
+				LEFT JOIN users as m
+				ON s.regId = m.userId
+			WHERE 	
+				useYn = 'y'
+				AND delYn = 'n'
+			<include refid="search" />
+			) A
+		<if test="firstRecordIndex != null and lastRecordIndex != null">
+		WHERE
+			rownum BETWEEN #{firstRecordIndex} AND #{lastRecordIndex}
+		</if>
+		;	
+	</select>
+	
+	<select id="getListCnt" parameterType="com.spring.javaclassS14.vo.SearchVo" resultType="Integer">
+		SELECT 	
+			count(s.survNo)
+		FROM	
+			Survey as s
+			LEFT JOIN users as m
+			ON s.regId = m.userId
+		WHERE 	
+			useYn = 'y'
+			AND delYn = 'n'
+		<include refid="search" />
+		;	
+	</select>
+	
+	<select id="getMyList" parameterType="com.spring.javaclassS14.vo.SearchVo" resultType="com.spring.javaclassS14.vo.SurveyVO">
+		SELECT
+			survNo, survTitle, regDate, modDate, useYn, rownum
+		FROM
+			(SELECT 	
+				survNo as survNo,
+				survTitle as survTitle,
+				useYn,
+				regDate as regDate,
+				modDate as modDate,
+				ROW_NUMBER() OVER (ORDER BY survNo desc) as rownum
+			FROM	
+				Survey
+			WHERE 	
+				regId = #{regId}
+				AND delYn = 'N'
+			<include refid="mySearch" />
+			) A
+		<if test="firstRecordIndex != null and lastRecordIndex != null">
+		WHERE
+			rownum BETWEEN #{firstRecordIndex} AND #{lastRecordIndex}
+		</if>
+		;	
+	</select>
+	
+	<select id="getMyCnt" parameterType="com.spring.javaclassS14.vo.SearchVo" resultType="Integer">
+		SELECT 	
+			count(*)
+		FROM	
+			Survey
+		WHERE 	
+			regId = #{regId}
+			AND delYn = 'N'
+		<include refid="mySearch" />
+		;	
+	</select>
+	
+	<select id="getOneSurv" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
+		SELECT 	
+			survNo as survNo,
+			survTitle as survTitle,
+			survDesc as survDesc,
+			regId as regId,
+			useYn,
+			delYn,
+			regDate as regDate,
+			modDate as modDate
+		FROM	
+			Survey
+		WHERE 	
+			survNo = #{survNo}
+		;	
+	</select>
+	
+	<select id="getSurvQust" parameterType="Integer" resultType="com.spring.javaclassS14.vo.SurveyVO">
+		SELECT 	
+			questNo as qustNo,
+			questContent as qustCont,
+			questType as qustType,
+			questOrder as qustSeq
+		FROM	
+			survQuest
+		WHERE 	
+			survNo = #{survNo}
+		;	
+	</select>
+	
+	<select id="getAnswer" parameterType="Integer" resultType="com.spring.javaclassS14.vo.SurveyVO">
+		SELECT 	
+			count(*) as count,
+			ansContent as answCont
+		FROM	
+			Answer
+		WHERE 	
+			questNo = #{qustNo}
+		GROUP BY ansContent
+		;	
+	</select>
+	
+	<select id="getLongAnswer" parameterType="Integer" resultType="com.spring.javaclassS14.vo.SurveyVO">
+		SELECT 	
+			ansLong as answLong
+		FROM	
+			Answer
+		WHERE 	
+			questNo = #{qustNo}
+		;	
+	</select>
+	
+	<select id="getRegNick" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="String">
+		SELECT 	
+				m.nickName as memNick
+			FROM	
+				Survey as s
+				LEFT JOIN users as m
+				ON s.regId = m.userId
+			WHERE
+				s.regId = #{regId}
+				AND s.survNo = #{survNo}
+		;
+	</select>
+
+
+
+
+
+
+</mapper>

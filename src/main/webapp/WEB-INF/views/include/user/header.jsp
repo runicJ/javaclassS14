@@ -43,6 +43,7 @@
 						<c:if test="${!empty sUid}">
 							<c:if test="${sUid == 'admin'}">
 							<li><a href="${ctp}/"><i class="fas fa-bell"></i><span style="font-size:0.8em;float:bottom">0</span></a></li>
+							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">0</span></a></li>
 							<li><a href="${ctp}/admin/adminMain"><i class="ion-person"></i><span>관리자페이지</span></a></li>
 							<li><a href="${ctp}/users/userLogout"><i class="fa-solid fa-right-from-bracket"></i><span>끝내기</span></a></li>
 							</c:if>

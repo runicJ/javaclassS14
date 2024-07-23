@@ -91,7 +91,7 @@ public class MsgController {
 			model.addAttribute("msg", "관리자만 접속하실 수 있습니다.");
 			model.addAttribute("url", "/");
 		}
-		else if(msgFlag.equals("UserNo")) {
+		else if(msgFlag.equals("userNo")) {
 			model.addAttribute("msg", "회원 로그인 후 이용가능합니다.");
 			model.addAttribute("url", "/users/userLogin");
 		}

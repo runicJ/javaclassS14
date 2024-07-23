@@ -28,12 +28,9 @@
 		</interceptor>
 	  	<!-- 정회원 -->
  		<interceptor>
-	    <mapping path="/board/**"/>
-	    <mapping path="/study/**"/>
-	    <mapping path="/users/**"/>
-	    <mapping path="/dbShop/**"/>
-	    <mapping path="/pds/pdsList"/>
-	    <mapping path="/pds/pdsDownload"/>
+	    <mapping path="/community/**"/>
+	    <mapping path="/shop/**"/>
+	    <mapping path="/review/photoReview"/>
 		<!-- 비회원 처리 인터셉트가 추가로 필요함(비회원 못막음) -->
 	    <exclude-mapping path="/board/boardList"/>
 	    <beans:ref bean="level2Interceptor" />

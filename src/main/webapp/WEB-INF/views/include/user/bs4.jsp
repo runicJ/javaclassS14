@@ -16,7 +16,33 @@
 <script>
   Kakao.init('f8adb2181213318e34c8e8f99a4eb70c');
 </script>
-
+	<style>
+		.upBtn {
+			display:none;
+			position:fixed;
+			bottom:30px;
+			right:30px;
+			width:45px;
+			height:45px;
+			z-index:999;
+			-webkit-transition: all .5s;
+			border:1px solid #ddd;
+			outline:none;
+			background-color:white;
+			color:#333;
+			cursor:pointer;
+			text-align:center;
+			line-height:2.5;
+		    will-change: opacity, visibility;
+		    visibility: visible;
+		    background-color: rgba(247, 247, 248, 0.9);
+		    border-radius: 18px;
+		    transition: visibility 400ms ease 0s;
+		    animation: 400ms cubic-bezier(0.36, 0, 0, 1) 0s 1 normal both running jBcSpD;
+		    box-shadow: rgba(255, 255, 255, 0.2) 0px 0px 0px 1px inset, rgba(0, 0, 0, 0.1) 0px 4px 6px, rgba(0, 0, 0, 0.15) 0px 8px 30px;
+		}
+	</style>
+	
 <!-- OwlCarousel -->
 <link rel="stylesheet" href="${ctp}/css/owl.carousel.min.css">
 <link rel="stylesheet" href="${ctp}/css/owl.theme.default.min.css">

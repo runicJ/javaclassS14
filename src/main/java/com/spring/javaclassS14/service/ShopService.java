@@ -34,9 +34,9 @@ public interface ShopService {
 
 	public List<ShopVO> getProductList(String part, String productPrice);
 
-	public ShopVO getProduct(int idx);
+	public ShopVO getProduct(int productIdx);
 
-	public List<ShopVO> getAllOption(int idx);
+	public List<ShopVO> getAllOption(int productIdx);
 
 	public ShopVO getProductNameOne(String productName);
 
@@ -45,8 +45,6 @@ public interface ShopService {
 	public List<ShopVO> getProductName(int productTopIdx, int productMidIdx);
 
 	public ShopVO getProductInfo(int productIdx);
-
-	public List<ShopVO> getOptionGroupList(int productIdx);
 
 	public List<ShopVO> getOptionList(int productIdx);
 
@@ -57,5 +55,11 @@ public interface ShopService {
 	public int getOptionSame(int optionGroupIdx, String optionName);
 
 	public int setOptionInput(int optionGroupIdx, String optionName, int addPrice);
+
+	public int setoptionGroupDelete(int optionGroupIdx);
+
+	public int setOptionDelete(int optionIdx);
+
+	public int getOptionHas(int optionGroupIdx);
 
 }

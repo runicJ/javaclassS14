@@ -43,7 +43,7 @@ CREATE TABLE product (
     updatedDate DATETIME DEFAULT NOW() NOT NULL,
     productTopIdx INT NOT NULL,
     productMidIdx INT NOT NULL,
-    productContent TEXT NOT NULL,
+    content TEXT NOT NULL,
     FOREIGN KEY (productTopIdx) REFERENCES product_top(productTopIdx),
     FOREIGN KEY (productMidIdx) REFERENCES product_mid(productMidIdx)
 );
@@ -59,6 +59,7 @@ CREATE TABLE product_option_group (
 );
 
 desc product_option_group;
+select * from product_option_group;
 
 /* 제품 그룹의 옵션 */
 CREATE TABLE product_option (
@@ -68,5 +69,6 @@ CREATE TABLE product_option (
     addPrice INT DEFAULT 0 NOT NULL,
     FOREIGN KEY (optionGroupIdx) REFERENCES product_option_group(optionGroupIdx)
 );
-
+select g.optionGroupName, o.* from product_option_group as g, product_option as o where g.optionGroupIdx=o.optionGroupIdx and g.productIdx = 9 order by g.optionGroupIdx, o.optionIdx;
+select g.optiongroupIdx, g.optionGroupName, o.optionIdx, o.optionName from product_option_group as g left join product_option as o on g.optionGroupIdx=o.optionGroupIdx where g.productIdx=9 order by g.optionGroupIdx, o.optionIdx;
 desc product_option;

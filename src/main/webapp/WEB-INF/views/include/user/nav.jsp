@@ -89,26 +89,26 @@
 									<div class="col-md-3">
 										<h2 class="megamenu-title">알레르기 완화 제품</h2>
 										<ul class="vertical-menu">
-											<li><a href="#" class="text-muted">비염 치료기기</a></li>
-											<li><a href="#" class="text-muted">피부 관리기기</a></li>
-											<li><a href="#" class="text-muted">마스크 외</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">비염 치료기기</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">피부 관리기기</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">마스크 외</a></li>
 										</ul>
 									</div>
 									<div class="col-md-3">
 										<h2 class="megamenu-title">침구 제품(알러지프리)</h2>
 										<ul class="vertical-menu">
-											<li><a href="#" class="text-muted">매트리스</a></li>
-											<li><a href="#" class="text-muted">이불</a></li>
-											<li><a href="#" class="text-muted">베개</a></li>
-											<li><a href="#" class="text-muted">키즈</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">매트리스</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">이불</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">베개</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">키즈</a></li>
 										</ul>
 									</div>
 									<div class="col-md-3">
 										<h2 class="megamenu-title">유기농 제품</h2>
 										<ul class="vertical-menu">
-											<li><a href="#" class="text-muted">유기농 인증 식제품</a></li>
-											<li><a href="#" class="text-muted">유기농 완구</a></li>
-											<li><a href="#" class="text-muted">비건 화장품</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">유기농 인증 식제품</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">유기농 완구</a></li>
+											<li><a href="${ctp}/shop/productList" class="text-muted">비건 화장품</a></li>
 										</ul>
 									</div>
 								</div>
@@ -116,7 +116,7 @@
 						</div>
 					</li>
 					<li class="dropdown magz-dropdown">
-						<a href="category.html">커뮤니티<i class="ion-ios-arrow-right"></i></a>
+						<a href="#">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li class="dropdown magz-dropdown">
 								<a href="#">구독정보<i class="ion-ios-arrow-right"></i></a>
@@ -126,29 +126,29 @@
 									<li><a href="forgot.html">구독 후기</a></li>
 								</ul>
 							</li>
-							<li><a href="${ctp}/community/hospitalList">알레르기 병원리스트</a></li>
-							<li><a href="single.html">병원 후기</a></li>
-							<li><a href="search.html">정보를 나눠요(유저채팅)</a></li>
+							<li><a href="${ctp}/community/hospirtal/hospitalList">알레르기 병원리스트</a></li>
+							<li><a href="${ctp}/community/hospirtal/hospitalReview">병원 후기</a></li>
+							<li><a href="${ctp}/community/chat/userChat">정보를 나눠요(유저채팅)</a></li>
 						</ul>
 					</li>
 					<li class="dropdown magz-dropdown"><a href="#">고객센터<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="category.html">공지사항</a></li>
-							<li class="dropdown magz-dropdown"><a href="category.html">자주묻는질문</a></li>
+							<li><a href="${ctp}/cs/notice">공지사항</a></li>
+							<li class="dropdown magz-dropdown"><a href="${ctp}/cs/faq">자주묻는질문</a></li>
 							<li class="dropdown magz-dropdown"><a href="#">1:1문의 <i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
-									<li><a href="category.html">구독문의</a></li>
-									<li><a href="category.html">정보문의</a></li>
-									<li><a href="category.html">제품문의</a></li>
+									<li><a href="${ctp}/cs/inquery/subscribe">구독문의</a></li>
+									<li><a href="${ctp}/cs/inquery/news">알레르기 정보문의</a></li>
+									<li><a href="${ctp}/cs/inquery/product">제품문의</a></li>
 									<li><a href="category.html">신고문의</a></li>
 								</ul>
 							</li>
 						</ul>
 					</li>
 					<li class="dropdown magz-dropdown">
-						<a href="category.html">이벤트<i class="ion-ios-arrow-right"></i></a>
+						<a href="#">이벤트<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/">이벤트 목록</a></li>
+							<li><a href="${ctp}/cs/event/eventList">이벤트 목록</a></li>
 							<li><a href="${ctp}/review/photoReview/photoGalleryList">포토 후기</a></li>
 							<li><a href="${ctp}/survey/surveyList">설문 조사 참여</a></li>
 						</ul>
@@ -157,11 +157,10 @@
 					<li class="dropdown magz-dropdown"><a href="${ctp}/${sUid == 'admin' ? 'admin/adminMain' : 'user/userMain'}">내정보<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/users/userMain"><i class="icon ion-person"></i>내정보관리</a></li>
-							<li><a href="#"><i class="icon ion-heart"></i>관심목록</a></li>
-							<li><a href="#"><i class="icon ion-heart"></i>북마크목록</a></li>
-							<li><a href="#"><i class="icon ion-chatbox"></i>내가쓴게시글</a></li>
-							<li><a href="${ctp}/users/userUpdate"><i class="icon ion-key"></i>회원정보수정</a></li>
-							<li><a href="#"><i class="icon ion-settings"></i>설정변경</a></li>
+							<li><a href="${ctp}/users/userLikedList"><i class="icon ion-heart"></i>관심목록</a></li>
+							<li><a href="${ctp}/users/userBookmarkList"><i class="icon ion-heart"></i>북마크목록</a></li>
+							<li><a href="${ctp}/users/userCommentList"><i class="icon ion-chatbox"></i>내가쓴게시글</a></li>
+							<li><a href="${ctp}/users/userUpdate"><i class="icon ion-settings"></i>회원정보수정</a></li>
 							<li class="divider"></li>
 							<li><a href="${ctp}/users/userLogout"><i class="icon ion-log-out"></i>로그아웃</a></li>
 						</ul>

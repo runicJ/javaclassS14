@@ -35,6 +35,10 @@
 					</div>
 				</div>
 				<div class="line"></div>
+				<p class="d-flex justify-content-between">
+					<a href="#" class="btn btn-magz white">광고 입점 신청 <i class="ion-ios-arrow-thin-right"></i></a>
+					<a href="#" class="btn btn-magz white">가맹점 신청 문의 <i class="ion-ios-arrow-thin-right"></i></a>
+				</p>
 			</div>
 			<div class="col"></div>
 			<div class="col-md-4 col-xs-12">

@@ -44,18 +44,26 @@ public interface ShopDAO {
 
 	public ShopVO getProductInfo(@Param("productIdx") int productIdx);
 
-	public List<ShopVO> getOptionGroupList(@Param("productIdx") int productIdx);
-
 	public List<ShopVO> getOptionList(@Param("productIdx") int productIdx);
 
 	public int getOptionSame(@Param("optionGroupIdx") int optionGroupIdx, @Param("optionName") String optionName);
 
 	public int setOptionInput(@Param("optionGroupIdx") int optionGroupIdx, @Param("optionName") String optionName, @Param("addPrice") int addPrice);
 
-	public int getOptionGroupSame(@Param("optionGroupIdx") int optionGroupIdx, @Param("optionGroupName") String optionGroupName);
+	public int getOptionGroupSame(@Param("productIdx") int productIdx, @Param("optionGroupName") String optionGroupName);
 
 	public void setOptionGroupInput(@Param("productIdx") int productIdx, @Param("optionGroupName") String optionGroupName);
 
 	public List<ShopVO> getOptionGroup(@Param("productIdx") int productIdx);
+
+	public int setoptionGroupDelete(@Param("optionGroupIdx") int optionGroupIdx);
+
+	public int setOptionDelete(@Param("optionIdx") int optionIdx);
+
+	public int getOptionHas(@Param("optionGroupIdx") int optionGroupIdx);
+
+	public ShopVO getProduct(@Param("productIdx") int productIdx);
+
+	public List<ShopVO> getAllOption(@Param("productIdx") int productIdx);
 
 }

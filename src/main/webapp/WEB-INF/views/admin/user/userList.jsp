@@ -64,8 +64,8 @@
                         <div class="card">
                             <div class="card-body">
                                 <div class="d-flex align-items-center mb-4">
-                                    <h2 class="card-title">전체 회원 관리</h2>
-                                    <div class="">
+                                    <h2 class="card-title mr-3">전체 회원 관리</h2>
+                                    <div class="mr-3">
 				                        <div class="customize-input">
 				                            <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
 				                                <option value="createDate" selected>가입순</option>
@@ -73,7 +73,6 @@
 					                            <optgroup label="등급별"><option value="level">등급순</option>
 					                                <option value="3">지식인</option>
 					                                <option value="2">전문가</option>
-					                                <option value="0.5">귀한분</option>
 					                                <option value="1">숙련가</option>
 					                            </optgroup>
 					                            <optgroup label="상태별"><option value="userStatus">상태순</option>
@@ -84,14 +83,19 @@
 				                            </select>
 				                        </div>
 				                    </div>
+	                                <form>
+	                                    <div class="customize-input">
+	                                        <input class="form-control custom-shadow custom-radius border-0 bg-white" type="search" placeholder="회원검색" aria-label="Search">
+	                                    </div>
+	                                </form>
                                     <div class="ml-auto">
                                         <div class="dropdown sub-dropdown">
                                             <button class="btn btn-link text-muted dropdown-toggle" type="button" id="dd1" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                                 <i data-feather="more-vertical"></i>
                                             </button>
                                             <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-                                                <a class="dropdown-item" href="#">회원 입력</a>
                                                 <a class="dropdown-item" href="#">회원 수정</a>
+                                                <a class="dropdown-item" href="#">회원 정지</a>
                                                 <a class="dropdown-item" href="#">회원 삭제</a>
                                             </div>
                                         </div>
@@ -136,7 +140,10 @@
                                                         <div class="mr-3">
                                                         	<img src="${ctp}/user/${vo.userImage}" alt="user" class="rounded-circle" width="45" height="45" />
                                                         </div>
-                                                        <h5 class="text-dark mb-0 font-16 font-weight-medium">${vo.name} [${vo.gender}]</h5>
+                                                        <div class="text-center">
+	                                                        <h5 class="text-dark mb-0 font-16 font-weight-medium">${vo.name} [${vo.gender}]</h5>
+	                                                        <p><a type="button" data-toggle="modal" data-target="#myModal" class="badge badge-info">상세보기</a></p>
+                                                        </div>
                                                     </div>
                                                 </td>
                                                 <td class="font-weight-medium border-top-0 text-dark px-2 py-4 font-14">${vo.userId}
@@ -213,6 +220,214 @@
     <!-- End Wrapper -->
     <!-- ============================================================== -->
 <p><br/></p>
+<!-- The Modal -->
+  <div class="modal" id="myModal">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+      
+        <!-- Modal Header -->
+        <div class="modal-header">
+          <h4 class="modal-title">회원 상세정보</h4>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+        </div>
+        
+        <!-- Modal body -->
+        <div class="modal-body">
+			<form name="myform" method="post" enctype="multipart/form-data" action="${ctp}/users/userUpdate">
+				<div class="file-input-group text-center mb-5" style="display:flex;justify-content:center;align-items:center;">
+                  <img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${sImage}" onclick="$('#imageModal').modal('show');">
+	                  <label for="file" class="file-input-label"><i class="fas fa-tools"></i></label>
+	                  <input type="file" id="file" name="fName" onchange="previewImage()">
+				</div>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+				      	<span class="input-group-text">아이디</span>
+				    </div>
+				    <input type="text" name="userId" class="form-control" value="${vo.userId}" readonly>
+				</div>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+				      	<span class="input-group-text">현재 비밀번호</span>
+				    </div>
+					<input type="password" name="userPwd" id="userPwd" class="form-control" placeholder="정보 수정시 비밀번호를 입력하세요">
+				</div>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+				      	<label class="fw input-group-text">변경할 비밀번호</label>
+				    </div>
+					<input type="password" name="pwdNew" id="pwdNew" class="form-control" placeholder="비밀번호 변경시 입력하세요">
+				</div>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+				      	<span class="input-group-text">새 비밀번호 확인</span>
+				    </div>
+					<input type="password" name="pwdNewCheck" id="pwdNewCheck" class="form-control" placeholder="비밀번호 변경시 입력하세요">
+				</div>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+				      	<span class="input-group-text">이름</span>
+				    </div>
+				    <input type="text" name="name" id="name" class="form-control" value="${vo.name}" readonly>
+				    <div class="input-group-append">
+				      	<a type="button" id="nameUpdateBtn" class="btn btn-warning">정보 수정</a>
+				    </div>
+				</div>
+				
+				<div class="form-group" id="nameUpdateInput" style="display:none;">
+					<label for="name"><i class="fa-solid fa-caret-right"></i> 이름</label>
+					<input type="text" name="nameNew" id="nameNew" class="form-control" placeholder="이름을 입력하세요." required>
+					<div class="invalid-feedback">이름은 한글과 영문 대/소문자만 사용가능합니다.</div>
+				</div>
+				
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+				      	<span class="input-group-text">닉네임</span>
+				    </div>
+				    <input type="text" name="nickName" id="nickName" class="form-control" value="${vo.nickName}" readonly>
+				    <div class="input-group-append">
+				      	<a type="button" id="nickUpdateBtn" class="btn btn-warning">정보 수정</a>
+				    </div>
+				</div>
+				
+				<div class="form-group" id="nickUpdateInput" style="display:none;">
+					<label for="nickName"><i class="fa-solid fa-caret-right"></i> 닉네임</label>
+					<div class="input-group">
+						<input type="text" name="nickNameNew" id="nickNameNew" class="form-control" required>
+						<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="input-group-append btn btn-info btn-sm" onclick="nickCheck()"/>
+						<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
+					</div>
+				</div>
+				<div class="input-group mb-3">
+					<div class="input-group-prepend">
+				      	<span class="input-group-text">이메일</span>
+				    </div>
+				    <c:set var="email" value="${fn:split(vo.email,'@')}" />
+				    <input type="text" id="email1" name="email1" class="form-control mr-2" value="${email[0]}"/>
+						<span style="font-size:1.1em;">@</span>
+						<select id="email2" name="email2" class="ml-2" style="width:120px;">
+							<option value="naver.com" ${email[1]=='naver.com' ? 'selected' : ''}>naver.com</option>
+							<option value="gmail.com" ${email[1]=='gmail.com' ? 'selected' : ''}>gmail.com</option>
+							<option value="daum.net" ${email[1]=='daum.net' ? 'selected' : ''}>daum.net</option>
+						</select>
+				    <div class="input-group-append">
+				      	<input type="button" value="이메일 중복체크" id="emailCheckBtn" class="input-group-append btn btn-info btn-sm" onclick="emailCheck()" disabled/>
+				    </div>
+				</div>
+				<div id="confirmCodeSection" style="display:none;">
+				    <div class="form-group">
+				    	<div class="m-0 p-0">
+					        <label for="confirmCode" style="font-size:1.1em;">인증코드 확인</label>
+							<p class="float-right" id="timer" style="font-size:1.1em; color:red;"></p>
+						</div>
+				        <div class="input-group">
+				            <input type="text" id="confirmCode" name="confirmCode" class="form-control" placeholder="인증 코드를 입력하세요." />
+				            <input type="button" value="인증코드 제출" id="confirmCodeBtn" class="btn btn-info btn-sm" onclick="confirmCodeCheck()" />
+				            <input type="button" value="인증코드 재발급" id="confirmCodeReBtn" class="input-group-append btn btn-danger btn-sm" onclick="confirmCodeReCheck()" />
+				        </div>
+				    </div>
+				</div>
+				
+				<div class="form-group mb-3">
+					<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
+					<div class="input-group">
+						<div class="input-group-prepend">
+				            <select name="tel1" id="tel1" class="form-control">
+				              <option value="010" selected>010</option>
+				            </select>
+				        </div>
+				        <c:set var="tel" value="${fn:split(vo.tel,'-')}" />
+						<span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+				        <input type="text" id="tel2" name="tel2" value="${tel[1]}" class="form-control" readonly />
+				        <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+				        <input type="text" id="tel3" name="tel3" value="${tel[2]}" class="form-control" readonly />
+					    <div class="input-group-append">
+					      	<a type="button" id="telUpdateBtn" class="btn btn-warning">정보 수정</a>
+					    </div>
+				    </div>
+			    </div>
+				
+				<div class="form-group" id="telUpdateInput" style="display:none;">
+					<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
+					<div class="input-group">
+						<div class="input-group-prepend">
+				            <select name="tel1New" id="tel1New" class="form-control">
+				              <option value="010" selected>010</option>
+				            </select>
+				        </div>
+						<span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+				        <input type="text" id="tel2New" name="tel2New" size=4 maxlength=4 class="form-control" />
+				        <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
+				        <input type="text" id="tel3New" name="tel3New" size=4 maxlength=4 class="form-control" />
+				    </div>
+				</div>
+				
+				<div class="form-group">
+					<label class="mr-3"><i class="fa-solid fa-caret-right"></i> 성별</label>
+			      	<div class="form-check-inline">
+				        <label class="form-check-label">
+				          	<input type="radio" class="form-check-input" name="gender" value="n" ${vo.gender =='n' ? 'checked' : ''}>미선택
+				        </label>
+					</div>
+			      	<div class="form-check-inline">
+				        <label class="form-check-label">
+				          	<input type="radio" class="form-check-input" name="gender" value="m" ${vo.gender =='m' ? 'checked' : ''}>남자
+				        </label>
+					</div>
+					<div class="form-check-inline">
+						<label class="form-check-label">
+							<input type="radio" class="form-check-input" name="gender" value="f" ${vo.gender =='f' ? 'checked' : ''}>여자
+						</label>
+					</div>
+				</div>
+				
+				<div class="form-group">
+					<div class="input-group d-flex justify-content-between">
+					    <label><i class="fa-solid fa-caret-right"></i> 홈페이지 가입 목적(선택)</label>
+					    <select class="form-select" id="registerWay" name="registerWay">
+					        <option value="미선택" ${vo.registerWay =='미선택' ? 'selected' : ''}>미선택</option>
+					        <option value="정보 취득" ${vo.registerWay =='정보 취득' ? 'selected' : ''}>정보 취득</option>
+					        <option value="본인의 알레르기" ${vo.registerWay =='본인의 알레르기' ? 'selected' : ''}>본인의 알레르기</option>
+					        <option value="자녀 혹은 주변인의 알레르기" ${vo.registerWay =='자녀 혹은 주변인의 알레르기' ? 'selected' : ''}>자녀 혹은 주변인의 알레르기</option>
+					        <option value="환경에 대한 관심" ${vo.registerWay =='환경에 대한 관심' ? 'selected' : ''}>환경에 대한 관심</option>
+					        <option value="알레르기 물품 구입" ${vo.registerWay =='알레르기 물품 구입' ? 'selected' : ''}>물품 구입</option>
+					        <option value="기타" ${vo.registerWay =='기타' ? 'selected' : ''}>기타</option>
+					    </select>
+				    </div>
+				</div>
+				
+				<div class="form-group">
+					<label class="mr-3"><i class="fa-solid fa-caret-right"></i> 선택 약관 동의 &nbsp;&nbsp;&nbsp;</label>
+                    <label class="form-check-label">
+                        <input type="checkbox" class="form-check-input" name="agreeOptional" value="y" ${vo.policyFlag == 'y' ? 'checked' : ''}>동의함
+                    </label>
+				</div>
+				
+				<div class="form-group text-center">
+					<input type="button" class="btn btn-success mr-3" value="개인정보 수정" onclick="fCheck()">
+					<a type="button" class="btn btn-danger" onclick="location.href='${ctp}/users/userMain';">취소</a>
+				</div>
+			    <input type="hidden" name="email" />
+ 						<input type="hidden" name="tel" />
+ 						<input type="hidden" name="policyFlag" value="${vo.policyFlag}" />
+ 						<p><br><p>
+			</form>
+        </div>
+        
+        <!-- Modal footer -->
+        <div class="modal-footer">
+          <button type="button" class="btn btn-success btnj-sm" data-dismiss="modal">확인</button>
+          <input type="button" class="btn btn-success btn-sm" value="수정">
+          <input type="button" class="btn btn-danger btn-sm" value="정지">
+        </div>
+        
+      </div>
+    </div>
+  </div>
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>
 </html>

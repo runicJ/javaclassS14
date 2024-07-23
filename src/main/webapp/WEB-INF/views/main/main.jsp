@@ -44,7 +44,7 @@
 	</style>
 </head>
 
-<body class="skin-orange">
+<body class="skin-pulple">
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 	<section class="home">
@@ -156,7 +156,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic1">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -192,7 +192,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic2">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -232,7 +232,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic3">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -268,7 +268,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="#" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic4">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -658,41 +658,41 @@
             <div class="row">
                 <div class="col-lg-3">
                     <div class="categories__text">
-                        <h2>Clothings Hot <br /> <span>Shoe Collection</span> <br /> Accessories</h2>
+                        <h2>알레르기 완화 <br /> <span>알러지 프리</span> <br /> 유기농</h2>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="categories__hot__deal">
-                        <img src="img/product-sale.png" alt="">
+                        <img src="${ctp}/images/product-sale.png" alt="">
                         <div class="hot__deal__sticker">
-                            <span>Sale Of</span>
-                            <h5>$29.99</h5>
+                            <span>세일 가격</span>
+                            <h5>29880</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 offset-lg-1">
                     <div class="categories__deal__countdown">
-                        <span>HOT DEAL</span>
-                        <h2>Big Sale for pet</h2>
+                        <span>BIG DEAL</span>
+                        <h2>신촌 입점 기념 세일</h2>
                         <div class="categories__deal__countdown__timer" id="countdown">
                             <div class="cd-item">
                                 <span>3</span>
-                                <p>Days</p>
+                                <p>일</p>
                             </div>
                             <div class="cd-item">
                                 <span>1</span>
-                                <p>Hours</p>
+                                <p>시간</p>
                             </div>
                             <div class="cd-item">
                                 <span>50</span>
-                                <p>Minutes</p>
+                                <p>분</p>
                             </div>
                             <div class="cd-item">
                                 <span>18</span>
-                                <p>Seconds</p>
+                                <p>초</p>
                             </div>
                         </div>
-                        <a href="#" class="primary-btn">사러가기</a>
+                        <a href="${ctp}/shop/productList" class="primary-btn">바로 구매하기</a>
                     </div>
                 </div>
             </div>

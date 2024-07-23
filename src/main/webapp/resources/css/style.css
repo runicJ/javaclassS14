@@ -2539,6 +2539,7 @@ section .container {
     right: 15px;
     border-radius: 0;
     background-color: #000d35;
+    color: #fff;
 }
 
 .article-list .inner {
@@ -4546,8 +4547,8 @@ blockquote {
 
 .featured-author .featured-author-cover .featured-author-picture {
     margin: 0 auto;
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     overflow: hidden;
     border-radius: 50%;
     border: 2px solid #fff;
@@ -4567,7 +4568,7 @@ blockquote {
 }
 
 .featured-author .featured-author-cover .featured-author-info .desc {
-    font-size: 12px;
+    font-size: 15px;
     margin-top: 3px;
     color: #111;
 }

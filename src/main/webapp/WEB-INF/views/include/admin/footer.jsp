@@ -13,3 +13,17 @@
 <script src="${ctp}/js/admin/chartist.min.js"></script>
 <script src="${ctp}/js/admin/chartist-plugin-tooltip.min.js"></script>
 <script src="${ctp}/js/admin/dashboard1.min.js"></script>
+
+<script>
+    $(window).scroll(function(){
+    	if ($(this).scrollTop() > 300){
+    		$('.upBtn').show();
+    	} else{
+    		$('.upBtn').hide();
+    	}
+    });
+    $('.upBtn').click(function(){
+    	$('html, body').animate({scrollTop:0},400);
+    	return false;
+    });
+</script>

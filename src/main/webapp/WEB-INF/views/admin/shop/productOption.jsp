@@ -219,10 +219,9 @@
     			str += '<tr><td colspan="3" class="text-center"><input type="button" value="등록된 옵션보기(삭제)" onclick="showOptions('+vo.productIdx+')" class="btn btn-info btn-sm"/></td></tr>';
     			str += '</table>';
     			str += '<hr/>';
-    			str += '<div id="optionGroupDemo"></div>';
     			str += '<div id="optionDemo"></div>';
     			$("#demo").html(str);
-    			document.myform.productIdx.value = vo.productIdx;
+    			myform.productIdx.value = vo.productIdx;
     		},
     		error : function() {
     			alert("전송오류!");
@@ -230,42 +229,29 @@
     	});
     }
     
-    function showOptions(type, productIdx) {
-        let url = "";
-        if (type === "group") {
-            url = "${ctp}/admin/shop/getOptionGroupList";
-        } 
-        else if (type === "option") {
-            url = "${ctp}/admin/shop/getOptionList";
-        }
-
+    function showOptions(productIdx) {
         $.ajax({
             type: "post",
-            url: url,
+            url: "${ctp}/admin/shop/getOptionList",
             data: { productIdx: productIdx },
             success: function (vos) {
                 let str = '';
                 if (vos.length != 0) {
-                    str = "옵션 : / ";
+                    str = "- 옵션 목록 -<br>";
                     for (let i = 0; i < vos.length; i++) {
-                        if (type == "group") {
-                        	str += "<a href=\"javascript:deleteOption('group', " + vos[i].optionGroupIdx + ")\">";
-                            str += vos[i].optionGroupName + "</a> / ";
-                        } 
-                        else if (type === "option") {
-                            str += "<a href=\"javascript:deleteOption('option', " + vos[i].optionIdx + ")\">";
-                            str += vos[i].optionName + "</a> / ";
+                      	str += "<a href=\"javascript:deleteOption('group', " + vos[i].optionGroupIdx + ")\">";
+                        str += vos[i].optionGroupName + "</a> | ";
+                        if(vos[i].optionIdx != 0) {
+	                        str += "<a href=\"javascript:deleteOption('option', " + vos[i].optionIdx + ")\">";
+	                        str += vos[i].optionName + "</a> | <br>";
                         }
+                        else str += " [옵선 없음] |";
                     }
                 }
     			else {
-    				str = "<div class='text-center'><font color='red'>현 제품에 등록된 " + (type === "group" ? "옵션그룹" : "옵션") + "이 없습니다.</font></div>";
+    				str = "<div class='text-center'><font color='red'>현 제품에 등록된 옵션그룹이나 옵션이 없습니다.</font></div>";
     			}
-                if (type == "group") {
-                    $("#optionGroupDemo").html(str);
-                } else if (type == "option") {
-                    $("#optionDemo").html(str);
-                }
+                $("#optionDemo").html(str);
             },
             error: function () {
                 alert("전송오류!");
@@ -280,7 +266,8 @@
         let url = "";
         if (type == "group") {
             url = "${ctp}/admin/shop/optionGroupDelete";
-        } else if (type == "option") {
+        } 
+        else if (type == "option") {
             url = "${ctp}/admin/shop/optionDelete";
         }
 
@@ -288,9 +275,12 @@
             type: "post",
             url: url,
             data: type == "group" ? { optionGroupIdx: idx } : { optionIdx: idx },
-            success: function () {
-                alert("삭제되었습니다.");
-                location.reload();
+            success: function (res) {
+            	if(res != 0) {
+	                alert("옵션이 삭제되었습니다.");
+	                location.reload();
+            	}
+            	else alert("옵션의 하위항목이 존재합니다. 하위항목 삭제 후에 시도해주세요!");
             },
             error: function () {
                 alert("전송오류!");
@@ -347,7 +337,7 @@
 		        <option value="">제품을 선택하세요</option>
 		        <c:if test="${!empty productVO}"><option value="${productVO.productIdx}" selected>${productVO.productName}</option></c:if>
 		      </select>
-		      <div id="demo"></div>
+		      <div class="text-center" id="demo"></div>
 		    </div>
 		    
 		    <hr/>

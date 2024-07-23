@@ -18,36 +18,26 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.spring.javaclassS14.service.RegSurvService;
-import com.spring.javaclassS14.service.ResSurvService;
-import com.spring.javaclassS14.service.SurvListService;
-import com.spring.javaclassS14.vo.AnswerDto;
+import com.spring.javaclassS14.service.SurveyService;
 import com.spring.javaclassS14.vo.SearchVo;
-import com.spring.javaclassS14.vo.SurveyDto;
-import com.spring.javaclassS14.vo.SurvqustDto;
+import com.spring.javaclassS14.vo.SurveyVO;
 
 @Controller
 @RequestMapping("/survey")
 public class SurveyController {
 	
 	@Autowired
-	RegSurvService regSurvService;
-	
-	@Autowired
-	ResSurvService resSurvService;
-	
-	@Autowired
-	SurvListService survListService;
+	SurveyService surveyService;
 
 	// My Survey > 설문 수정하기 View
 	@GetMapping("/modSurvForm")
 	public String modSurv(@RequestParam(value="survNo") Integer survNo, @AuthenticationPrincipal UserDetails userInfo, Model model) {
 		System.out.println("===modSurv Controller START===");
-		String userNick = regSurvService.getUserInfo(userInfo.getUsername());
+		String userNick = surveyService.getUserInfo(userInfo.getUsername());
 		
 		System.out.println("수정할 survNo : "+survNo+" userNick :"+userNick);
 		
-		SurveyDto surveyDto = regSurvService.getSurvey(survNo);
+		SurveyVO surveyDto = surveyService.getSurvey(survNo);
 		System.out.println("뿌려줄 surveyDto ==> "+surveyDto.toString());
 		
 		surveyDto.setNickName(userNick);
@@ -61,8 +51,8 @@ public class SurveyController {
 	// 리스트 응답 폼 보여주기 View
 	@GetMapping("/resForm")
 	public String resForm(@RequestParam(value="survNo") Integer survNo, @AuthenticationPrincipal UserDetails userInfo, HttpServletRequest request , Model model) {
-		SurveyDto surveyDto = regSurvService.getSurvey(survNo);
-		String userNick = regSurvService.getUserInfo(surveyDto.getUserId());
+		SurveyVO surveyDto = surveyService.getSurvey(survNo);
+		String userNick = surveyService.getUserInfo(surveyDto.getUserId());
 		
 		surveyDto.setNickName(userNick);
 		if(surveyDto.getSurvDesc() != null) {
@@ -83,10 +73,10 @@ public class SurveyController {
 	// 응답하기 
 	@PostMapping("/resSurv")
 	@ResponseBody
-	public String resSurv(@RequestBody SurvqustDto qustDto) {	
-		List<AnswerDto> answerList = qustDto.getAnswerList();
+	public String resSurv(@RequestBody SurveyVO qustDto) {	
+		List<SurveyVO> answerList = qustDto.getAnswerList();
 		System.out.println(answerList);
-		resSurvService.insertAnswer(answerList);
+		surveyService.insertAnswer(answerList);
 		return "redirect:/survey/surveyList";
 	}
 	
@@ -106,12 +96,12 @@ public class SurveyController {
 			searchVo.setKeyword(request.getParameter("keyword"));
 			searchVo.setSrchTyp(request.getParameter("srchTyp"));
 			
-			int total = survListService.getMyCnt(searchVo);
+			int total = surveyService.getMyCnt(searchVo);
 			mv.addObject("total", total);
 			searchVo.setTotalRecordCount(total);
 			
 			if(total != 0) {
-				mv.addObject("survList", survListService.getMyList(searchVo));
+				mv.addObject("survList", surveyService.getMyList(searchVo));
 			} else {
 				mv.addObject("survList", null);
 			}
@@ -124,7 +114,7 @@ public class SurveyController {
 		// 해당 설문 응답 여부 확인
 //		@PostMapping("/survey/checkRes")
 //		@ResponseBody
-//		public int checkRes(@RequestBody SurveyDto surveyDto) { 
+//		public int checkRes(@RequestBody SurveyVO surveyDto) { 
 //			System.out.println(surveyDto);
 //			int cnt = survListService.resSurvYn(surveyDto);
 //			return cnt;
