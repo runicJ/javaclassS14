@@ -74,6 +74,7 @@
 					                                <option value="3">지식인</option>
 					                                <option value="2">전문가</option>
 					                                <option value="1">숙련가</option>
+					                                <option value="0.5">귀한분</option>
 					                            </optgroup>
 					                            <optgroup label="상태별"><option value="userStatus">상태순</option>
 					                                <option value="정상">정상</option>
@@ -114,7 +115,7 @@
                                                 <th class="border-0 font-14 font-weight-medium text-muted px-2">아이디</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">연락 수단</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted text-center">가입일</th>
-                                                <th class="border-0 font-14 font-weight-medium text-muted">샹태</th>
+                                                <th class="border-0 font-14 font-weight-medium text-muted">상태</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted text-center">가입경로</th>
                                             </tr>
                                         </thead>
@@ -165,8 +166,7 @@
 	                                                    <c:if test="${vo.userStatus == 'off'}">
                                                         	<a class="btn btn-danger rounded-circle btn-circle font-12 popover-item" href="javascript:void(0)">탈퇴</a>
                                                         </c:if>
-                                                        <!-- <a class="btn btn-cyan rounded-circle btn-circle font-12 popover-item"
-                                                            href="javascript:void(0)">문의</a> -->
+                                                        <!-- <a class="btn btn-cyan rounded-circle btn-circle font-12 popover-item" href="javascript:void(0)">문의</a> -->
                                                     </div>
                                                 </td>
                                                 <td class="border-top-0 text-center font-weight-medium text-muted px-2 py-4">
@@ -233,7 +233,7 @@
         
         <!-- Modal body -->
         <div class="modal-body">
-			<form name="myform" method="post" enctype="multipart/form-data" action="${ctp}/users/userUpdate">
+			<form name="myform" method="post" enctype="multipart/form-data" action="${ctp}/admin/user/userDetails">
 				<div class="file-input-group text-center mb-5" style="display:flex;justify-content:center;align-items:center;">
                   <img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${sImage}" onclick="$('#imageModal').modal('show');">
 	                  <label for="file" class="file-input-label"><i class="fas fa-tools"></i></label>
@@ -249,23 +249,9 @@
 				
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
-				      	<span class="input-group-text">현재 비밀번호</span>
-				    </div>
-					<input type="password" name="userPwd" id="userPwd" class="form-control" placeholder="정보 수정시 비밀번호를 입력하세요">
-				</div>
-				
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
 				      	<label class="fw input-group-text">변경할 비밀번호</label>
 				    </div>
 					<input type="password" name="pwdNew" id="pwdNew" class="form-control" placeholder="비밀번호 변경시 입력하세요">
-				</div>
-				
-				<div class="input-group mb-3">
-					<div class="input-group-prepend">
-				      	<span class="input-group-text">새 비밀번호 확인</span>
-				    </div>
-					<input type="password" name="pwdNewCheck" id="pwdNewCheck" class="form-control" placeholder="비밀번호 변경시 입력하세요">
 				</div>
 				
 				<div class="input-group mb-3">
@@ -278,12 +264,6 @@
 				    </div>
 				</div>
 				
-				<div class="form-group" id="nameUpdateInput" style="display:none;">
-					<label for="name"><i class="fa-solid fa-caret-right"></i> 이름</label>
-					<input type="text" name="nameNew" id="nameNew" class="form-control" placeholder="이름을 입력하세요." required>
-					<div class="invalid-feedback">이름은 한글과 영문 대/소문자만 사용가능합니다.</div>
-				</div>
-				
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
 				      	<span class="input-group-text">닉네임</span>
@@ -292,15 +272,6 @@
 				    <div class="input-group-append">
 				      	<a type="button" id="nickUpdateBtn" class="btn btn-warning">정보 수정</a>
 				    </div>
-				</div>
-				
-				<div class="form-group" id="nickUpdateInput" style="display:none;">
-					<label for="nickName"><i class="fa-solid fa-caret-right"></i> 닉네임</label>
-					<div class="input-group">
-						<input type="text" name="nickNameNew" id="nickNameNew" class="form-control" required>
-						<input type="button" id="nickNameBtn" value="닉네임 중복체크" class="input-group-append btn btn-info btn-sm" onclick="nickCheck()"/>
-						<div class="invalid-feedback">닉네임은 한글, 영문 대/소문자, 숫자만 사용가능합니다.</div>
-					</div>
 				</div>
 				<div class="input-group mb-3">
 					<div class="input-group-prepend">
@@ -316,19 +287,6 @@
 						</select>
 				    <div class="input-group-append">
 				      	<input type="button" value="이메일 중복체크" id="emailCheckBtn" class="input-group-append btn btn-info btn-sm" onclick="emailCheck()" disabled/>
-				    </div>
-				</div>
-				<div id="confirmCodeSection" style="display:none;">
-				    <div class="form-group">
-				    	<div class="m-0 p-0">
-					        <label for="confirmCode" style="font-size:1.1em;">인증코드 확인</label>
-							<p class="float-right" id="timer" style="font-size:1.1em; color:red;"></p>
-						</div>
-				        <div class="input-group">
-				            <input type="text" id="confirmCode" name="confirmCode" class="form-control" placeholder="인증 코드를 입력하세요." />
-				            <input type="button" value="인증코드 제출" id="confirmCodeBtn" class="btn btn-info btn-sm" onclick="confirmCodeCheck()" />
-				            <input type="button" value="인증코드 재발급" id="confirmCodeReBtn" class="input-group-append btn btn-danger btn-sm" onclick="confirmCodeReCheck()" />
-				        </div>
 				    </div>
 				</div>
 				
@@ -350,21 +308,6 @@
 					    </div>
 				    </div>
 			    </div>
-				
-				<div class="form-group" id="telUpdateInput" style="display:none;">
-					<label for="tel2"><i class="fa-solid fa-caret-right"></i> 연락처</label>
-					<div class="input-group">
-						<div class="input-group-prepend">
-				            <select name="tel1New" id="tel1New" class="form-control">
-				              <option value="010" selected>010</option>
-				            </select>
-				        </div>
-						<span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-				        <input type="text" id="tel2New" name="tel2New" size=4 maxlength=4 class="form-control" />
-				        <span>&nbsp;&nbsp; - &nbsp;&nbsp;</span>
-				        <input type="text" id="tel3New" name="tel3New" size=4 maxlength=4 class="form-control" />
-				    </div>
-				</div>
 				
 				<div class="form-group">
 					<label class="mr-3"><i class="fa-solid fa-caret-right"></i> 성별</label>
@@ -406,15 +349,6 @@
                         <input type="checkbox" class="form-check-input" name="agreeOptional" value="y" ${vo.policyFlag == 'y' ? 'checked' : ''}>동의함
                     </label>
 				</div>
-				
-				<div class="form-group text-center">
-					<input type="button" class="btn btn-success mr-3" value="개인정보 수정" onclick="fCheck()">
-					<a type="button" class="btn btn-danger" onclick="location.href='${ctp}/users/userMain';">취소</a>
-				</div>
-			    <input type="hidden" name="email" />
- 						<input type="hidden" name="tel" />
- 						<input type="hidden" name="policyFlag" value="${vo.policyFlag}" />
- 						<p><br><p>
 			</form>
         </div>
         

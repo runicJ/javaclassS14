@@ -99,7 +99,6 @@
 										<ul class="vertical-menu">
 											<li><a href="${ctp}/shop/productList" class="text-muted">매트리스</a></li>
 											<li><a href="${ctp}/shop/productList" class="text-muted">이불</a></li>
-											<li><a href="${ctp}/shop/productList" class="text-muted">베개</a></li>
 											<li><a href="${ctp}/shop/productList" class="text-muted">키즈</a></li>
 										</ul>
 									</div>

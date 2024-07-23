@@ -85,7 +85,6 @@
                                                 <ul>
                                                     <li><a href="#">매트리스 (0)</a></li>
                                                     <li><a href="#">베딩 (0)</a></li>
-                                                    <li><a href="#">베개 (0)</a></li>
                                                     <li><a href="#">키즈 (0)</a></li>
                                                 </ul>
                                             </div>
