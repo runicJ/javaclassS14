@@ -187,7 +187,7 @@
         <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
 		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <div class="page-wrapper">
-  		    <div class="card text-center p-4">
+  		    <div class="card text-center p-5">
 	        	<div class="card-body">
 					<h2 class="card-title mb-4">제품 카테고리 등록</h2>
 					<form name="categoryTopFrom" method="post">
@@ -264,7 +264,6 @@
 		                            <th>번호</th>
 		                            <th>대분류</th>
 		                            <th>중분류명</th>
-		                            <th>사용 여부</th>
 		                            <th>비고</th>
 		                        </tr>
 		                    </thead>
@@ -274,12 +273,6 @@
 		                            <td>${st.count} </td>
 		                            <td>${midVO.productTopName}</td>
 		                            <td class="input-group"><input type="text" class="form-control" value="${midVO.productMidName}" readonly style="width:150px;" /><span class="form-group-append"><i class="fa-regular fa-pen-to-square"></i></span></td>
-		                            <td>
-		                            	<label class="switch">
-											<input type="checkbox" ${midVO.useYn == 'y' ? 'checked' : ''}>
-											<span class="slider"></span>
-										</label>
-		                            </td>
 		                            <td>
 		                            	<a type="button" class="badge badge-info text-light mr-1">수정하기</a>
 		                            	<a type="button" class="badge badge-danger text-light" onclick="categoryMidDelete('${midVO.productMidIdx}')">삭제하기</a>

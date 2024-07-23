@@ -298,7 +298,7 @@ public class AdminController {
 	public String productInputPost(MultipartFile file, ShopVO vo) {
 		// 이미지파일 업로드 시에 ckeditor폴더에서 'dbShop/product'폴더로 복사처리 처리된 내용을 DB에 저장하기
 		int res = shopService.imgCheckProductInput(file, vo);
-		System.out.println("res : " + res);
+		//System.out.println("res : " + res);
 		if(res != 0) return "redirect:/msg/productInputOk";
 		return "redirect:/msg/productInputNo";
 	}
