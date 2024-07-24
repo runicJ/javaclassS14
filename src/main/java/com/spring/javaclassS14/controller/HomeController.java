@@ -252,6 +252,12 @@ public class HomeController {
 
         List<ShopVO> productVOS = shopService.getNewProduct();
         model.addAttribute("productVOS", productVOS);
+
+        List<ShopVO> categoryTopVOS = shopService.getCategoryTop();
+        model.addAttribute("categoryTopVOS", categoryTopVOS);
+        
+		List<ShopVO> productTopMidVOS = shopService.getProductTopMidList();
+		model.addAttribute("productTopMidVOS", productTopMidVOS);
         
         return "main/main";
     }

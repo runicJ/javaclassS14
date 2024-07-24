@@ -44,4 +44,7 @@ public class ShopVO {
 	private String optionName;
 	private int addPrice;
 	
+	private int createDiff;
+	private int productCnt;
+	
 }

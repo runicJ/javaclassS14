@@ -9,6 +9,7 @@
 	
 	<!-- Interceptor 설정(정의) 가장 관대한 순 -> 폐쇄적인 순 -->
  	<beans:bean id="level0Interceptor" class="com.spring.javaclassS14.intercepter.Level0Interceptor"></beans:bean>
+ 	<beans:bean id="Level0p5Interceptor" class="com.spring.javaclassS14.intercepter.Level0p5Interceptor"></beans:bean>
 	<beans:bean id="level1Interceptor" class="com.spring.javaclassS14.intercepter.Level1Interceptor"></beans:bean>
 	<beans:bean id="level2Interceptor" class="com.spring.javaclassS14.intercepter.Level2Interceptor"></beans:bean>
 	<beans:bean id="level3Interceptor" class="com.spring.javaclassS14.intercepter.Level3Interceptor"></beans:bean>
@@ -17,6 +18,8 @@
 		<!-- 준회원/비회원 처리 -->
 		<interceptor>
 	    <mapping path="/users/**"/>
+   	    <mapping path="/community/**"/>
+	    <!-- <mapping path="/shop/addToCart"/> -->
 	    <exclude-mapping path="/users/userLogin"/>
 	    <exclude-mapping path="/users/userResister"/>
 	    <exclude-mapping path="/users/userFindId"/>
@@ -29,7 +32,6 @@
 	  	<!-- 정회원 -->
  		<interceptor>
 	    <mapping path="/community/**"/>
-	    <mapping path="/shop/**"/>
 	    <mapping path="/review/photoReview"/>
 		<!-- 비회원 처리 인터셉트가 추가로 필요함(비회원 못막음) -->
 	    <exclude-mapping path="/board/boardList"/>

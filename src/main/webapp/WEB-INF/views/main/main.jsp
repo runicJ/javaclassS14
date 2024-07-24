@@ -41,6 +41,28 @@
             color: #FF4500;
             opacity: 0.7;
         }
+        
+        .ad {
+        	position: relative;
+			overflow: hidden;
+			cursor: pointer;
+			opacity: 0.6;        	
+        }
+        
+        .ad img {
+        	width: 100%;
+        	height: 100%;
+        	animation : enlarge 6s infinite alternate;
+        }
+        
+        @keyframes enlarge {
+        	from {
+        		transform:scale(1);
+        	}
+        	to {
+        		transform:scale(1.2);
+        	}
+        }
 	</style>
 </head>
 
@@ -320,16 +342,15 @@
                 <div class="col-lg-4 col-md-6 col-sm-6">
                     <div class="product__item">
                         <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="object-fit:cover;">
-                            <span class="label">New</span>
+                            <c:if test="${productVO.createDiff > -7}"><span class="label">New</span></c:if>
                             <ul class="product__hover">
-                                <li><a href="#"><img src="${ctp}/images/heart.png" alt=""></a></li>
-                                <li><a href="#"><img src="${ctp}/images/compare.png" alt=""> <span>Compare</span></a></li>
-                                <li><a href="#"><img src="${ctp}/images/search.png" alt=""></a></li>
+	                            <li><a href="#"><i class="fa-solid fa-heart"></i><span>관심등록</span></a></li>
+	                            <li><a href="#"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
+	                            <li><a href="#"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">
-                            <h6>${productVO.productName}</h6>
-                            <a href="#" class="add-cart">+ Add To Cart</a>
+                            <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
                             <div class="rating">
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
@@ -337,7 +358,7 @@
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
-                            <h5>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h5>
+                            <h6>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
                             <div class="product__color__select">
                                 <label for="pc-1">
                                     <input type="radio" id="pc-1">
@@ -354,6 +375,9 @@
                 </div>
                 </c:forEach>
             </div>
+       		<div class="float-right">
+				<a href="${ctp}/shop/productList" class="all">더보기 <i class="ion-ios-arrow-right"></i></a>
+			</div>
 
 				</div>
 				<div class="col-xs-6 col-md-4 sidebar" id="sidebar">
@@ -638,12 +662,12 @@
 						<h1 class="aside-title">유료 광고 배너</h1>
 						<div class="aside-body">
 							<ul class="sponsored">
-								<li>
+								<li class="ad">
 									<a href="#">
 										<img src="${ctp}/images/ad1.png" alt="Sponsored">
 									</a>
 								</li>
-								<li>
+								<li class="ad">
 									<a href="#">
 										<img src="${ctp}/images/ad4.jpg" alt="Sponsored">
 									</a>

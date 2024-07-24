@@ -32,10 +32,10 @@
 	
   	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
 	  <if test='part == "전체"'>
-	  	select * from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
+	  	select *, (select count(*) from product) as productCnt from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
 	  </if>
  	  <if test='part != "전체"'>
- 	  	select * from product where <if test='mainPrice != 0'>and <![CDATA[mainPrice < #{mainPrice}]]></if> order by part;
+ 	  	select *, (select count(*) from product where productMidIdx=#{part}) as productCnt from product where productMidIdx=#{part} <if test='productPrice != 0'>and <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
  	  </if>
   	</select>
  		
@@ -89,7 +89,15 @@
   	</select>
   	
  	<select id="getNewProduct" resultType="com.spring.javaclassS14.vo.ShopVO">
-  		select * from product order by createdDate desc limit 6;
+  		select *,datediff(createdDate, now()) as createDiff from product order by createdDate desc limit 6;
+  	</select>
+  	
+ 	<select id="getCartProductOptionSearch" resultType="com.spring.javaclassS14.vo.CartVO">
+  		select * from cart where productIdx=#{productIdx} and optionIdx=#{optionIdx} and userId=#{userId};
+  	</select>
+  	  	
+ 	<select id="getProductTopMidList" resultType="com.spring.javaclassS14.vo.ShopVO">
+  		select t.*, m.productMidIdx, m.productMidName, (select count(*) from product as p where p.productMidIdx = m.productMidIdx) as productCnt from product_top as t left join product_mid as m on t.productTopIdx = m.productTopIdx;
   	</select>
 
 
@@ -113,6 +121,15 @@
 	<insert id="setOptionInput">
 	    insert into product_option values (default, #{optionGroupIdx}, #{optionName}, COALESCE(#{addPrice}, 0));
 	</insert>
+	
+	<insert id="setShopCartInput">
+	  insert into cart values (default,#{vo.userId},#{vo.productIdx},#{vo.quantity},default,default,#{vo.optionIdx});
+	</insert>
+	
+	
+	<update id="setShopCartUpdate">
+		update cart set quantity=#{vo.quantity} where productIdx=#{vo.productIdx} and optionIdx=#{vo.optionIdx};
+	</update>
 	
 	
 	<delete id="setCategoryTopDelete">

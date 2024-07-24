@@ -5,6 +5,7 @@ import java.util.List;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.vo.ShopVO;
+import com.spring.javaclassS14.vo.CartVO;
 
 public interface ShopService {
 
@@ -63,5 +64,14 @@ public interface ShopService {
 	public int getOptionHas(int optionGroupIdx);
 
 	public List<ShopVO> getNewProduct();
+
+	public CartVO getCartProductOptionSearch(int productIdx, int optionIdx, String userId);
+
+	public int setShopCartUpdate(CartVO vo);
+
+	public int setShopCartInput(CartVO vo);
+
+	public List<ShopVO> getProductTopMidList();
+
 
 }

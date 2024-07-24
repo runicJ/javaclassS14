@@ -86,30 +86,22 @@
 									<div class="col-md-3">
 										<h2 class="megamenu-title"><a href="${ctp}/shop/productList">전체 제품 조회</a></h2>
 									</div>
+									<c:forEach var="categoryTopVO" items="${categoryTopVOS}">
 									<div class="col-md-3">
-										<h2 class="megamenu-title">알레르기 완화 제품</h2>
+										<h2 class="megamenu-title">${categoryTopVO.productTopName}</h2>
 										<ul class="vertical-menu">
-											<li><a href="${ctp}/shop/productList" class="text-muted">비염 치료기기</a></li>
-											<li><a href="${ctp}/shop/productList" class="text-muted">피부 관리기기</a></li>
-											<li><a href="${ctp}/shop/productList" class="text-muted">마스크 외</a></li>
+											<c:forEach var="productTopMidVO" items="${productTopMidVOS}">
+											<c:if test="${productTopMidVO.productTopIdx == categoryTopVO.productTopIdx}">
+												<li>
+													<a href="${ctp}/shop/productList?part=${productTopMidVO.productMidIdx}" class="text-muted">
+														${productTopMidVO.productMidName}
+													</a>
+												</li>
+											</c:if>
+											</c:forEach>
 										</ul>
 									</div>
-									<div class="col-md-3">
-										<h2 class="megamenu-title">침구 제품(알러지프리)</h2>
-										<ul class="vertical-menu">
-											<li><a href="${ctp}/shop/productList" class="text-muted">매트리스</a></li>
-											<li><a href="${ctp}/shop/productList" class="text-muted">이불</a></li>
-											<li><a href="${ctp}/shop/productList" class="text-muted">키즈</a></li>
-										</ul>
-									</div>
-									<div class="col-md-3">
-										<h2 class="megamenu-title">유기농 제품</h2>
-										<ul class="vertical-menu">
-											<li><a href="${ctp}/shop/productList" class="text-muted">유기농 인증 식제품</a></li>
-											<li><a href="${ctp}/shop/productList" class="text-muted">유기농 완구</a></li>
-											<li><a href="${ctp}/shop/productList" class="text-muted">비건 화장품</a></li>
-										</ul>
-									</div>
+									</c:forEach>
 								</div>
 							</div>
 						</div>
@@ -117,11 +109,12 @@
 					<li class="dropdown magz-dropdown">
 						<a href="#">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/community/hospirtal/hospitalList">알레르기 병원리스트</a></li>
-							<li><a href="${ctp}/community/hospirtal/hospitalReview">병원 후기</a></li>
+							<li><a href="${ctp}/community/hospital/hospitalList">알레르기 전문병원</a></li>
+							<li><a href="${ctp}/community/hospital/hospitalReview">병원 후기</a></li>
 							<li><a href="${ctp}/community/chat/userChat">정보를 나눠요(유저채팅)</a></li>
 						</ul>
 					</li>
+					
 					<li class="dropdown magz-dropdown"><a href="#">고객센터<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/cs/notice">공지사항</a></li>

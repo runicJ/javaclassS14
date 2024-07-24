@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 public interface ShopDAO {
@@ -67,5 +68,13 @@ public interface ShopDAO {
 	public List<ShopVO> getAllOption(@Param("productIdx") int productIdx);
 
 	public List<ShopVO> getNewProduct();
+
+	public CartVO getCartProductOptionSearch(@Param("productIdx") int productIdx, @Param("optionIdx") int optionIdx, @Param("userId") String userId);
+
+	public int setShopCartUpdate(@Param("vo") CartVO vo);
+
+	public int setShopCartInput(@Param("vo") CartVO vo);
+
+	public List<ShopVO> getProductTopMidList();
 
 }

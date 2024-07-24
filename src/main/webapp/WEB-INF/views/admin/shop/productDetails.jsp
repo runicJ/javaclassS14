@@ -87,7 +87,7 @@
 			                                        <input type="text" value="1">
 			                                    </div>
 			                                </div>
-			                                <a href="#" class="primary-btn">장바구니 담기</a>
+			                                <a href="${ctp}/shop/addToCart" class="primary-btn">장바구니 담기</a>
 			                            </div>
 			                            <div class="product__details__btns__option">
 			                                <a href="#"><i class="fa fa-heart"></i> 관심상품</a>
@@ -365,7 +365,7 @@
 	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
 	<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
 	<script src="${ctp}/js/shop/jquery-ui.min.js"></script>
-	<script src="${ctp}/js/shop/mixitup.min.js"></script>
+	<%-- <script src="${ctp}/js/shop/mixitup.min.js"></script> --%>
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>

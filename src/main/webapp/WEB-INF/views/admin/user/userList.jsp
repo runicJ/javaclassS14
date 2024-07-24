@@ -181,24 +181,24 @@
                             </div>
                         </div>
                         <div class="text-center">
-                         <nav aria-label="...">
-                          <ul class="pagination justify-content-center">
-                              <c:if test="${pageVO.pag > 1}"><li class="page-item">
-                              	<a class="page-link" href="${ctp}/admin/userList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
-                              </li></c:if>
-                              <c:if test="${pageVO.curBlock > 0}"><li class="page-item">
-                              	<a class="page-link" href="${ctp}/admin/userList??pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
-                              </li></c:if>
-                              
-                              <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
-								    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
-								    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
-							  </c:forEach>
-                              
-							  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
-							  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
-                          </ul>
-                      	</nav>
+	                        <nav aria-label="...">
+		                         <ul class="pagination justify-content-center">
+		                             <c:if test="${pageVO.pag > 1}"><li class="page-item">
+		                             	<a class="page-link" href="${ctp}/admin/userList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
+		                             </li></c:if>
+		                             <c:if test="${pageVO.curBlock > 0}"><li class="page-item">
+		                             	<a class="page-link" href="${ctp}/admin/userList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
+		                             </li></c:if>
+		                             
+		                             <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
+									    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+									    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+									  </c:forEach>
+			                             
+									  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
+									  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
+		                         </ul>
+	                      	</nav>
                      	</div>
                     </div>
                 </div>

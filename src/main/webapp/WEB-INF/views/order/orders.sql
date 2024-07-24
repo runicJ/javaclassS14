@@ -26,20 +26,6 @@ CREATE TABLE order_product (
     FOREIGN KEY (optionIdx) REFERENCES options(optionIdx)
 );
 
-/* 장바구니 */
-CREATE TABLE cart (
-    cartIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    userId VARCHAR(20) NOT NULL,
-    productIdx INT NOT NULL,
-    quantity INT DEFAULT 1 NOT NULL,
-    addedDate DATETIME DEFAULT NOW() NOT NULL,
-    is_sold_out ENUM('y','n') DEFAULT 'n' NOT NULL,
-    optionIdx INT DEFAULT NULL,
-    FOREIGN KEY (userId) REFERENCES users(userId),
-    FOREIGN KEY (productIdx) REFERENCES products(productIdx),
-    FOREIGN KEY (optionIdx) REFERENCES options(optionIdx)
-);
-
 /* 주문 배송지 정보 */
 CREATE TABLE order_delivery_address (
     deliveryIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,

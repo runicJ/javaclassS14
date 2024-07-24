@@ -58,59 +58,29 @@
                         </div>
                         <div class="shop__sidebar__accordion">
                             <div class="accordion" id="accordionExample">
+                            	<c:forEach var="categoryTopVO" items="${categoryTopVOS}" varStatus="st">
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseOne">알레르기 완화 제품</a>
+                                        <a data-toggle="collapse" data-target="#collapse${st.index}">${categoryTopVO.productTopName}</a>
                                     </div>
-                                    <div id="collapseOne" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__categories">
-                                                <ul class="nice-scroll">
-                                                    <li><a href="#">비염치료기기 (0)</a></li>
-                                                    <li><a href="#">피부의료기기 (0)</a></li>
-                                                    <li><a href="#">의약외품 (0)</a></li>
-                                                    <li><a href="#">마스크 (0)</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseTwo">침구 제품(알러지프리)</a>
-                                    </div>
-                                    <div id="collapseTwo" class="collapse show" data-parent="#accordionExample">
+                                    <div id="collapse1" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__brand">
-                                                <ul>
-                                                    <li><a href="#">매트리스 (0)</a></li>
-                                                    <li><a href="#">베딩 (0)</a></li>
-                                                    <li><a href="#">키즈 (0)</a></li>
+                                                <ul class="nice-scroll">
+                                                <c:forEach var="productTopMidVO" items="${productTopMidVOS}">
+                                                <c:if test="${productTopMidVO.productTopIdx == categoryTopVO.productTopIdx}">
+                                                    <li><a href="${ctp}/shop/productList?part=${productTopMidVO.productMidIdx}">${productTopMidVO.productMidName} (${productTopMidVO.productCnt})</a></li>
+                                                </c:if>
+                                                </c:forEach>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                </c:forEach>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFive">유기농 제품</a>
-                                    </div>
-                                    <div id="#collapseFive" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__color">
-                                                <ul>
-                                                    <li><a href="#">인증 식품 (0)</a></li>
-                                                    <li><a href="#">유기농 완구 (0)</a></li>
-                                                    <li><a href="#">비건 화장품 (0)</a></li>
-                                                    <li><a href="#">건강보조식품 (0)</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">Filter Price</a>
+                                        <a data-toggle="collapse" data-target="#collapseThree">가격</a>
                                     </div>
                                     <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
@@ -227,15 +197,14 @@
                                 <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}">
                                     <!-- <span class="label">Sale</span> -->
                                     <ul class="product__hover">
-                                        <li><a href="#"><img src="${ctp}/images/heart.png" alt=""></a></li>
-                                        <li><a href="#"><img src="${ctp}/images/compare.png" alt=""><span>Compare</span></a></li>
-                                        <li><a href="#"><img src="${ctp}/images/search.png" alt=""></a></li>
+                                        <li><a href="#"><i class="fa-solid fa-heart"></i><span>관심등록</span></a></li>
+                                        <li><a href="#"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
+                                        <li><a href="#"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
                                     </ul>
                                 </div>
                                 <div class="product__item__text">
-                                    <h6>${productVO.productName}</h6>
+                                    <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
                                     <p>${productVO.productDetails}</p>
-                                    <a href="#" class="add-cart">+ Add To Cart</a>
                                     <div class="rating">
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star"></i>
@@ -243,7 +212,7 @@
                                         <i class="fa fa-star"></i>
                                         <i class="fa fa-star-o"></i>
                                     </div>
-                                    <h5>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h5>
+                                    <h6>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
                                     <div class="product__color__select">
                                         <label for="pc-7">
                                             <input type="radio" id="pc-7">
@@ -271,6 +240,24 @@
                             </div>
                         </div>
                     </div>
+                    <div class="product__pagination">
+                    <nav aria-label="...">
+                      <ul class="pagination justify-content-center">
+                          <c:if test="${pageVO.pag > 1}"><li class="page-item">
+                          	<a class="page-link" href="${ctp}/shop/productList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
+                          </li></c:if>
+                          <c:if test="${pageVO.curBlock > 0}"><li class="page-item">
+                          	<a class="page-link" href="${ctp}/shop/productList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
+                          </li></c:if>
+                          <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
+						    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/shop/productList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+						    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+						  </c:forEach>
+						  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
+						  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
+                      </ul>
+                   	</nav>
+                 	</div>
                 </div>
             </div>
         </div>
@@ -292,7 +279,7 @@
 	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
 	<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
 	<script src="${ctp}/js/shop/jquery-ui.min.js"></script>
-	<script src="${ctp}/js/shop/mixitup.min.js"></script>
+	<%-- <script src="${ctp}/js/shop/mixitup.min.js"></script> --%>
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>

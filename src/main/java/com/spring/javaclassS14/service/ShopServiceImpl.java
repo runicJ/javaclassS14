@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.ShopDAO;
+import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 @Service
@@ -229,5 +230,25 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<ShopVO> getNewProduct() {
 		return shopDAO.getNewProduct();
+	}
+
+	@Override
+	public CartVO getCartProductOptionSearch(int productIdx, int optionIdx, String userId) {
+		return shopDAO.getCartProductOptionSearch(productIdx, optionIdx, userId);
+	}
+
+	@Override
+	public int setShopCartUpdate(CartVO vo) {
+		return shopDAO.setShopCartUpdate(vo);
+	}
+
+	@Override
+	public int setShopCartInput(CartVO vo) {
+		return shopDAO.setShopCartInput(vo);
+	}
+
+	@Override
+	public List<ShopVO> getProductTopMidList() {
+		return shopDAO.getProductTopMidList();
 	}
 }

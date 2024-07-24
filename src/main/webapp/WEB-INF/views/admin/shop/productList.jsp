@@ -88,7 +88,7 @@
 	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
 	<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
 	<script src="${ctp}/js/shop/jquery-ui.min.js"></script>
-	<script src="${ctp}/js/shop/mixitup.min.js"></script>
+	<%-- <script src="${ctp}/js/shop/mixitup.min.js"></script> --%>
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>

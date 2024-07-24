@@ -13,6 +13,8 @@
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/ionicons/2.0.1/css/ionicons.min.css">
 <script src="https://unpkg.com/ionicons@4.5.10-0/dist/ionicons.js"></script>
 <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.0/mixitup.min.js" integrity="sha512-vNxzM1ciPhd7UnKdgrAWNJ/JAdxaPPfmFen8WXcjZ2X99lptf001o+KB3OE1M0b8UsISc2kvLCI3M9ND4BcmnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
 <script>
   Kakao.init('f8adb2181213318e34c8e8f99a4eb70c');
 </script>

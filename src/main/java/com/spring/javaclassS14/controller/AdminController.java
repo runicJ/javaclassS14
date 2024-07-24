@@ -418,17 +418,18 @@ public class AdminController {
         else return "redirect:/msg/optionInputNo";
     }
     
+    // 옵션그룹 삭제하기
 	@ResponseBody
 	@RequestMapping(value="/shop/optionGroupDelete", method = RequestMethod.POST)
 	public String optionGroupDeletePost(int optionGroupIdx) {
 		int res = 0;
 		int optionCnt = shopService.getOptionHas(optionGroupIdx);
-		System.out.println("optionCnt" + optionCnt);
         if (optionCnt == 0) res = shopService.setoptionGroupDelete(optionGroupIdx);
         else res = 0;
         return res + "";
 	}
-
+	
+	// 옵션 삭제하기
 	@ResponseBody
 	@RequestMapping(value="/shop/optionDelete", method = RequestMethod.POST)
 	public String optionDeletePost(int optionIdx) {
