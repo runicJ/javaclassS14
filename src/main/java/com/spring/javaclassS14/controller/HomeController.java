@@ -250,7 +250,7 @@ public class HomeController {
         List<SaveMypageVO> topNewsVOS = introService.findTopNews(3); // 상위 3개의 기사 가져오기
         model.addAttribute("topNewsVOS", topNewsVOS);
 
-        List<ShopVO> productVOS = shopService.getProductList("전체", "0");
+        List<ShopVO> productVOS = shopService.getNewProduct();
         model.addAttribute("productVOS", productVOS);
         
         return "main/main";

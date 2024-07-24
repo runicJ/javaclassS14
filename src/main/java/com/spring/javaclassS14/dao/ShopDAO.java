@@ -66,4 +66,6 @@ public interface ShopDAO {
 
 	public List<ShopVO> getAllOption(@Param("productIdx") int productIdx);
 
+	public List<ShopVO> getNewProduct();
+
 }

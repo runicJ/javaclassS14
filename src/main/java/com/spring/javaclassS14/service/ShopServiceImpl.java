@@ -225,4 +225,9 @@ public class ShopServiceImpl implements ShopService {
 	public int getOptionHas(int optionGroupIdx) {
 		return shopDAO.getOptionHas(optionGroupIdx);
 	}
+
+	@Override
+	public List<ShopVO> getNewProduct() {
+		return shopDAO.getNewProduct();
+	}
 }

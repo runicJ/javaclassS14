@@ -62,4 +62,6 @@ public interface ShopService {
 
 	public int getOptionHas(int optionGroupIdx);
 
+	public List<ShopVO> getNewProduct();
+
 }

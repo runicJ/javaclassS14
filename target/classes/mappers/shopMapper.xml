@@ -32,12 +32,11 @@
 	
   	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
 	  <if test='part == "전체"'>
-	    select * from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
-	 	</if>
-<!-- 	  <if test='part != "전체"'>
-	 		select product.*, sub.categorySubName from dbProduct product, categorySub sub 
-	 		  where sub.categorySubName = #{part} and substring(product.productCode,4,3)=sub.categorySubCode <if test='mainPrice != 0'>and <![CDATA[mainPrice < #{mainPrice}]]></if> order by idx desc;
-	 	</if> -->
+	  	select * from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
+	  </if>
+ 	  <if test='part != "전체"'>
+ 	  	select * from product where <if test='mainPrice != 0'>and <![CDATA[mainPrice < #{mainPrice}]]></if> order by part;
+ 	  </if>
   	</select>
  		
   	<select id="getProductNameOne" resultType="com.spring.javaclassS14.vo.ShopVO">
@@ -88,6 +87,10 @@
  	<select id="getAllOption" resultType="com.spring.javaclassS14.vo.ShopVO">
   		select g.optiongroupIdx, g.optionGroupName, o.optionIdx, o.optionName, o.addPrice from product_option_group as g left join product_option as o on g.optionGroupIdx=o.optionGroupIdx where g.productIdx=#{productIdx} order by g.optionGroupIdx, o.optionIdx;
   	</select>
+  	
+ 	<select id="getNewProduct" resultType="com.spring.javaclassS14.vo.ShopVO">
+  		select * from product order by createdDate desc limit 6;
+  	</select>
 
 
 	<insert id="setCategoryTopInput">
@@ -122,4 +125,5 @@
 	<delete id="setOptionDelete">
 		delete from product_option where optionIdx=#{optionIdx};
 	</delete>
+	
 </mapper>

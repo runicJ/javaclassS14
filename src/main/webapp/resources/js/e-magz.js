@@ -1,5 +1,5 @@
 $(function(){
-	var youtube_api_key = 'YOUR_API_KEY';
+	var youtube_api_key = 'EK3XVaq3IO0';
 
 	var loading = {
 		show: function() {
