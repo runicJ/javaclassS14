@@ -7,7 +7,7 @@
 	</select>
 	
 	<select id="getCategoryMid" resultType="com.spring.javaclassS14.vo.ShopVO">
-		select t.productTopIdx as productTopIdx, t.productTopName as productTopname, m.* from product_mid m left join product_top t on m.productTopIdx = t.productTopIdx order by m.productMidIdx, t.productTopIdx;
+		select t.productTopIdx as productTopIdx, t.productTopName as productTopname, m.* from product_mid m left join product_top t on m.productTopIdx = t.productTopIdx order by t.productTopIdx, m.productMidIdx;
 	</select>
 	
 	<select id="getCategoryTopHas" resultType="com.spring.javaclassS14.vo.ShopVO">
@@ -99,6 +99,7 @@
 
 	<insert id="setCategoryMidInput">
 		insert into product_mid values (default, #{productTopIdx}, #{productMidName});
+		update product_top set hasMid='y' where productTopIdx=#{productTopIdx};
 	</insert>
 	 	
  	<insert id="setProductInput">

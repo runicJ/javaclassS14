@@ -117,14 +117,6 @@
 					<li class="dropdown magz-dropdown">
 						<a href="#">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li class="dropdown magz-dropdown">
-								<a href="#">구독정보<i class="ion-ios-arrow-right"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="${ctp}/users/userLogin">구독 소개</a></li>
-									<li><a href="${ctp}/users/userRegister">구독 신청</a></li>
-									<li><a href="forgot.html">구독 후기</a></li>
-								</ul>
-							</li>
 							<li><a href="${ctp}/community/hospirtal/hospitalList">알레르기 병원리스트</a></li>
 							<li><a href="${ctp}/community/hospirtal/hospitalReview">병원 후기</a></li>
 							<li><a href="${ctp}/community/chat/userChat">정보를 나눠요(유저채팅)</a></li>
@@ -136,10 +128,10 @@
 							<li class="dropdown magz-dropdown"><a href="${ctp}/cs/faq">자주묻는질문</a></li>
 							<li class="dropdown magz-dropdown"><a href="#">1:1문의 <i class="ion-ios-arrow-right"></i></a>
 								<ul class="dropdown-menu">
-									<li><a href="${ctp}/cs/inquery/subscribe">구독문의</a></li>
 									<li><a href="${ctp}/cs/inquery/news">알레르기 정보문의</a></li>
 									<li><a href="${ctp}/cs/inquery/product">제품문의</a></li>
 									<li><a href="category.html">신고문의</a></li>
+									<li><a href="${ctp}/cs/ad/adApply">광고 입점 문의</a></li>
 								</ul>
 							</li>
 						</ul>

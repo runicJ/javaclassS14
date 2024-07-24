@@ -100,7 +100,6 @@
 								    		<input type="button" class="btn btn-danger btn-sm" value="삭제" onclick="productDelete(${productVO.productIdx})" />
 								    	</div>
 			                            <div class="product__details__last__option">
-			                                <img src="${ctp}/images/details-payment.png" alt="">
 			                                <h5><span>제품 상세정보</span></h5>
 			                                <ul>
 			                                    <li><span>SKU:</span> 3812912</li>
