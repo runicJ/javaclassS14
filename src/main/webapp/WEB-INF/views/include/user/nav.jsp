@@ -133,7 +133,7 @@
 						<a href="#">이벤트<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/cs/event/eventList">이벤트 목록</a></li>
-							<li><a href="${ctp}/review/photoReview/photoGalleryList">포토 후기</a></li>
+							<li><a href="${ctp}/photoGallery/photoGalleryList">포토 후기</a></li>
 							<li><a href="${ctp}/survey/surveyList">설문 조사 참여</a></li>
 						</ul>
 					</li>

@@ -1971,7 +1971,7 @@ article footer .btn-primary:focus {
     z-index: -2;
     top: 0;
     left: 0;
-    height: auto;
+    height: inherit;
     width: 100%;
 }
 

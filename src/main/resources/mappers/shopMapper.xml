@@ -32,10 +32,20 @@
 	
   	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
 	  <if test='part == "전체"'>
-	  	select *, (select count(*) from product) as productCnt from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
+	  	<if test='sort == "전체"'>
+	  		select *, (select count(*) from product) as productCnt from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
+	  	</if>
+ 	  	<if test='sort != "전체"'>
+	  		select *, (select count(*) from product) as productCnt from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by #{sort};
+ 	  	</if>
 	  </if>
  	  <if test='part != "전체"'>
- 	  	select *, (select count(*) from product where productMidIdx=#{part}) as productCnt from product where productMidIdx=#{part} <if test='productPrice != 0'>and <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
+	  	<if test='sort == "전체"'>
+ 	  		select *, (select count(*) from product where productMidIdx=#{part}) as productCnt from product where productMidIdx=#{part} <if test='productPrice != 0'>and <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
+ 	  	</if>
+ 	  	<if test='sort != "전체"'>
+ 	  		select *, (select count(*) from product where productMidIdx=#{part}) as productCnt from product where productMidIdx=#{part} <if test='productPrice != 0'>and <![CDATA[productPrice < #{productPrice}]]></if> order by sort;
+ 	  	</if>
  	  </if>
   	</select>
  		

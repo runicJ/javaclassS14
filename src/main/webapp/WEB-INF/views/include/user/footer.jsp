@@ -30,6 +30,7 @@
 							<li><a href="#">#알레르망</a></li>
 							<li><a href="#">#아이</a></li>
 							<li><a href="#">#아토피</a></li>
+							<li><a href="#">#비염</a></li>
 							<li><a href="#">#이불</a></li>
 						</ul>
 					</div>

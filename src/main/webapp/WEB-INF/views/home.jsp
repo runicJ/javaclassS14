@@ -85,8 +85,8 @@
                           <div class="swiper-slide">
                             <div class="img-container four">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link city-project-link">숨을
-                                  <div class="view-project">위하여 우리 함께 나아갑시다</div>
+                                <a href="#0" class="project-link city-project-link">편안한 숨을
+                                  <div class="view-project">삶을 위하여 우리 함께 나아갑시다</div>
                                  </a>
                               </div>
                             </div>

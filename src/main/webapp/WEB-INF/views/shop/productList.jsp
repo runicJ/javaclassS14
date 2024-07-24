@@ -15,6 +15,75 @@
     <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+	<style>
+.price-range-wrap .range-slider {
+margin-top: 20px;
+}
+
+.price-range-wrap .range-slider .price-input {
+	position: relative;
+}
+
+.price-range-wrap .range-slider .price-input:after {
+	position: absolute;
+	left: 38px;
+	top: 13px;
+	height: 1px;
+	width: 5px;
+	background: #dd2222;
+	content: "";
+}
+
+.price-range-wrap .range-slider .price-input input {
+	font-size: 16px;
+	color: #dd2222;
+	font-weight: 700;
+	max-width: 20%;
+	border: none;
+	display: inline-block;
+}
+
+.price-range-wrap .price-range {
+	border-radius: 0;
+}
+
+.price-range-wrap .price-range.ui-widget-content {
+	border: none;
+	background: #ebebeb;
+	height: 5px;
+}
+
+.price-range-wrap .price-range.ui-widget-content .ui-slider-handle {
+	height: 13px;
+	width: 13px;
+	border-radius: 50%;
+	background: #ffffff;
+	border: none;
+	-webkit-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+	box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
+	outline: none;
+	cursor: pointer;
+}
+
+.price-range-wrap .price-range .ui-slider-range {
+	background: #dd2222;
+	border-radius: 0;
+}
+
+.price-range-wrap .price-range .ui-slider-range.ui-corner-all.ui-widget-header:last-child {
+	background: #dd2222;
+}
+	</style>
+	<script>
+		'use strict';
+		
+		function productSort() {
+			let sort = $("#sort").val();
+			alert("sort : " + sort);
+			
+			location.href = "photoGalleryList?sort="+sort;
+		}
+	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
@@ -32,10 +101,10 @@
             <div class="row">
                 <div class="col-lg-12">
                     <div class="breadcrumb__text">
-                        <h4>Shop</h4>
+                        <h4>판매목록</h4>
                         <div class="breadcrumb__links">
-                            <a href="./index.html">Home</a>
-                            <span>Shop</span>
+                            <a href="./index.html">메인페이지</a>
+                            <span>제품목록</span>
                         </div>
                     </div>
                 </div>
@@ -86,29 +155,23 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__price">
                                                 <ul>
-                                                    <li><a href="#">가격 전체</a></li>
-                                                    <li><a href="#">3만원 이하</a></li>
-                                                    <li><a href="#">3만원~6만원</a></li>
-                                                    <li><a href="#">6만원~9만원</a></li>
-                                                    <li><a href="#">9만원~12만원</a></li>
-                                                    <li><a href="#">12만원 이상</a></li>
-                                                    <li><p class="input-group">
-	                                                    <input type="number" name="limitPrice" class="input-group" />
-	                                                    <span> ~ </span>
-	                                                    <input type="number" name="maxPrice" class="input-group" />
-	                                                    <span> 원 </span>
-	                                                    <input type="button" value="검색" class="btn btn-warning btn-sm" onclick="pSearch()" />
-                                                    </p></li>
+                                                    <li><a href="${ctp}/shop/productList">가격 전체</a></li>
+                                                    <li><a href="${ctp}/shop/productList?productPrice=100000">~10만원</a></li>
+                                                    <li><a href="${ctp}/shop/productList?productPrice=300000">~30만원</a></li>
+                                                    <li><a href="${ctp}/shop/productList?productPrice=600000">~60만원</a></li>
+                                                    <li><a href="${ctp}/shop/productList?productPrice=1000000">~100만원</a></li>
                                                 </ul>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
+                                <div class="card">
                                 <div class="sidebar__item">
-		                            <h4>Price</h4>
+                                    <div class="card-heading">
+		                            <h4>가격 상세설정</h4>
+		                            </div>
 		                            <div class="price-range-wrap">
-		                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content"
-		                                    data-min="10" data-max="540">
+		                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="1000" data-max="5000000">
 		                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
 		                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
 		                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
@@ -116,10 +179,12 @@
 		                                <div class="range-slider">
 		                                    <div class="price-input">
 		                                        <input type="text" id="minamount">
+		                                        <span> ~ </span>
 		                                        <input type="text" id="maxamount">
 		                                    </div>
 		                                </div>
 		                            </div>
+		                        </div>
 		                        </div>
                                 <div class="card">
                                     <div class="card-heading">
@@ -129,19 +194,19 @@
                                         <div class="card-body">
                                             <div class="shop__sidebar__size">
                                                 <label for="xs">별점 전체
-                                                    <input type="radio" id="xs">
+                                                    <input type="radio" id="all">
                                                 </label>
                                                 <label for="sm">☆★★★★ 4점 이상
-                                                    <input type="radio" id="sm">
+                                                    <input type="radio" id="fourth">
                                                 </label>
                                                 <label for="md">☆☆★★★ 3점 이상
-                                                    <input type="radio" id="md">
+                                                    <input type="radio" id="third">
                                                 </label>
                                                 <label for="xl">☆☆☆★★ 2점 이상
-                                                    <input type="radio" id="xl">
+                                                    <input type="radio" id="second">
                                                 </label>
                                                 <label for="2xl">☆☆☆☆★ 1점 이상
-                                                    <input type="radio" id="2xl">
+                                                    <input type="radio" id="first">
                                                 </label>
                                             </div>
                                         </div>
@@ -149,18 +214,18 @@
                                 </div>
                                 <div class="card">
                                     <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseSix">Tags</a>
+                                        <a data-toggle="collapse" data-target="#collapseSix">추천 태그</a>
                                     </div>
                                     <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
                                         <div class="card-body">
                                             <div class="shop__sidebar__tags">
-                                                <a href="#">Product</a>
-                                                <a href="#">Bags</a>
-                                                <a href="#">Shoes</a>
-                                                <a href="#">Fashio</a>
-                                                <a href="#">Clothing</a>
-                                                <a href="#">Hats</a>
-                                                <a href="#">Accessories</a>
+                                                <a href="#">#도도새</a>
+                                                <a href="#">#알레르기</a>
+                                                <a href="#">#알레르망</a>
+                                                <a href="#">#아이</a>
+                                                <a href="#">#아토피</a>
+                                                <a href="#">#비염</a>
+                                                <a href="#">#이불</a>
                                             </div>
                                         </div>
                                     </div>
@@ -174,17 +239,17 @@
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Showing 1–12 of 126 results</p>
+                                    <p>Showing 1–12 of ${productCntVO.productCnt} results</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
-                                    <p>Sort by Price:</p>
-                                    <select>
-                                        <option value="">최신등록순</option>
-                                        <option value="">관심도순</option>
-                                        <option value="">추천순</option>
-                                        <option value="">가격순</option>
+                                    <p>정렬순서</p>
+                                    <select name="sort" id="sort" onchange="productSort()">
+                                        <option value="productIdx desc" ${sort == 'productIdx desc' ? 'selected' : ''}>최신등록순</option>
+                                        <option value="likedCnt" ${sort == 'likedCnt' ? 'selected' : ''}>관심등록순</option>
+                                        <option value="productPrice" ${sort == 'productPrice' ? 'selected' : ''}>가격낮은순</option>
+                                        <option value="productPrice desc" ${sort == 'productPrice desc' ? 'selected' : ''}>가격높은순</option>
                                     </select>
                                 </div>
                             </div>
@@ -282,5 +347,27 @@
 	<%-- <script src="${ctp}/js/shop/mixitup.min.js"></script> --%>
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
+<script>
+/*-----------------------
+Price Range Slider
+------------------------ */
+var rangeSlider = $(".price-range"),
+minamount = $("#minamount"),
+maxamount = $("#maxamount"),
+minPrice = rangeSlider.data('min'),
+maxPrice = rangeSlider.data('max');
+rangeSlider.slider({
+range: true,
+min: minPrice,
+max: maxPrice,
+values: [minPrice, maxPrice],
+slide: function (event, ui) {
+    minamount.val('￦' + ui.values[0]);
+    maxamount.val('￦' + ui.values[1]);
+}
+});
+minamount.val('￦' + rangeSlider.slider("values", 0));
+maxamount.val('￦' + rangeSlider.slider("values", 1));
+</script>
 </body>
 </html>

@@ -33,7 +33,7 @@ public interface ShopService {
 
 	public int imgCheckProductInput(MultipartFile file, ShopVO vo);
 
-	public List<ShopVO> getProductList(String part, String productPrice);
+	public List<ShopVO> getProductList(String part, String sort ,String productPrice);
 
 	public ShopVO getProduct(int productIdx);
 

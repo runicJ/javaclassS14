@@ -35,7 +35,7 @@ public interface ShopDAO {
 
 	public int setProductInput(@Param("vo") ShopVO vo);
 
-	public List<ShopVO> getProductList(@Param("part") String part, @Param("productPrice") String productPrice);
+	public List<ShopVO> getProductList(@Param("part") String part, @Param("sort") String sort, @Param("productPrice") String productPrice);
 
 	public ShopVO getProductNameOne(@Param("productName") String productName);
 

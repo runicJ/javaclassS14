@@ -9,7 +9,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>Home</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 	<style>
@@ -57,10 +57,10 @@
         
         @keyframes enlarge {
         	from {
-        		transform:scale(1);
+        		transform:scale(1.1);
         	}
         	to {
-        		transform:scale(1.2);
+        		transform:scale(1);
         	}
         }
 	</style>
@@ -77,19 +77,19 @@
 						<div class="nav text-center" id="headline-nav">
 							<a class="left carousel-control" role="button" data-slide="prev">
 								<span class="ion-ios-arrow-left" aria-hidden="true"></span>
-								<span class="sr-only">Previous</span>
+								<span class="sr-only">이전</span>
 							</a>
 							<a class="right carousel-control" role="button" data-slide="next">
 								<span class="ion-ios-arrow-right" aria-hidden="true"></span>
-								<span class="sr-only">Next</span>
+								<span class="sr-only">다음</span>
 							</a>
 						</div>
 						<div class="owl-carousel owl-theme" id="headline">							
 							<div class="item">
-								<a href="#"><span class="badge">Tip!</span> 이벤트 공지</a>
+								<a href="#"><span class="badge">공지</span> 이벤트 공지</a>
 							</div>
 							<div class="item">
-								<a href="#">홈페이지 오픈</a>
+								<a href="#"><span class="badge">주목</span> 홈페이지 오픈 기념 무료 배송</a>
 							</div>
 						</div>
 					</div>
@@ -98,7 +98,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/banner1.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner1.png" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="#">공지사항</a></div>
@@ -111,7 +111,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/banner2.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner2.png" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="${ctp}/event/eventList">이벤트</a></div>
@@ -124,7 +124,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/banner3.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner3.png" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="${ctp}/event/eventList">이벤트</a></div>
@@ -137,7 +137,7 @@
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/banner4.jpg" alt="Sample Article">
+									<img src="${ctp}/images/banner4.png" alt="Sample Article">
 								</figure>
 								<div class="details">
 									<div class="category"><a href="#">공지사항</a></div>
@@ -306,7 +306,7 @@
 					</div>
 					<div class="banner">
 						<a href="https://www.allerman.com/" target="_blank">
-							<img src="${ctp}/images/ad.png" alt="알레르망">
+							<img src="${ctp}/images/ad1.png" alt="알레르망">
 						</a>
 					</div>
 					<div class="line transparent little"></div>
@@ -662,14 +662,14 @@
 						<h1 class="aside-title">유료 광고 배너</h1>
 						<div class="aside-body">
 							<ul class="sponsored">
-								<li class="ad">
+								<li class="ad mb-3">
 									<a href="#">
-										<img src="${ctp}/images/ad1.png" alt="Sponsored">
+										<img src="${ctp}/images/ad3.png" alt="Sponsored">
 									</a>
 								</li>
 								<li class="ad">
 									<a href="#">
-										<img src="${ctp}/images/ad4.jpg" alt="Sponsored">
+										<img src="${ctp}/images/ad5.png" alt="Sponsored">
 									</a>
 								</li> 
 							</ul>

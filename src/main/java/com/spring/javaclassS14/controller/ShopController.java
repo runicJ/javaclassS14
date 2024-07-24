@@ -29,10 +29,12 @@ public class ShopController {
 	@RequestMapping(value="/productList", method=RequestMethod.GET)
 	public String productListGet(Model model,
 			@RequestParam(name="part", defaultValue = "전체", required = false) String part,
+			@RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
 			@RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice){
-		
+		System.out.println("sort : " + sort);
 		model.addAttribute("part", part);
-		List<ShopVO> productVOS = shopService.getProductList(part, productPrice);	// 전체 상품리스트 가져오기
+		model.addAttribute("sort", sort);
+		List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice);	// 전체 상품리스트 가져오기
 		model.addAttribute("productVOS", productVOS);
 		model.addAttribute("productPrice", productPrice);
 		
@@ -48,8 +50,10 @@ public class ShopController {
 	@RequestMapping(value="/productDetails", method=RequestMethod.GET)
 	public String productDetailsGet(Model model, int productIdx) {
 		ShopVO productVO = shopService.getProduct(productIdx);			// 상품 1건의 정보를 불러온다.
+		List<ShopVO> optionGroupVOS	 = shopService.getOptionGroup(productIdx);
 		List<ShopVO> optionVOS = shopService.getAllOption(productIdx);	// 해당 상품의 모든 옵션 정보를 가져온다.
 		
+		model.addAttribute("optionGroupVOS", optionGroupVOS);
 		model.addAttribute("productVO", productVO);
 		model.addAttribute("optionVOS", optionVOS);
 		

@@ -55,6 +55,12 @@ public class HomeController {
 		
 		model.addAttribute("serverTime", formattedDate );
 		
+        List<ShopVO> categoryTopVOS = shopService.getCategoryTop();
+        model.addAttribute("categoryTopVOS", categoryTopVOS);
+        
+		List<ShopVO> productTopMidVOS = shopService.getProductTopMidList();
+		model.addAttribute("productTopMidVOS", productTopMidVOS);
+		
 		return "home";
 	}
 	

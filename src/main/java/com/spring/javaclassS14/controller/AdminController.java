@@ -307,10 +307,11 @@ public class AdminController {
 	@RequestMapping(value = "/shop/productList", method = RequestMethod.GET)
 	public String productListGet(Model model,
 			@RequestParam(name="part", defaultValue = "전체", required = false) String part,
+			@RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
 			@RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice){
 		model.addAttribute("part", part);
 
-		List<ShopVO> productVOS = shopService.getProductList(part, productPrice);	// 전체 상품리스트 가져오기
+		List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice);	// 전체 상품리스트 가져오기
 		model.addAttribute("productVOS", productVOS);
 		model.addAttribute("productPrice", productPrice);
 		

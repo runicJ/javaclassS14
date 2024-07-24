@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -7,7 +8,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>productDetails</title>
-	<link rel="icon" type="image/png" href="ctp/images/favicon-mark.png">
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/jquery-ui.min.css" type="text/css">
@@ -30,9 +31,10 @@
             <div class="container">
                 <div class="row">
                     <div class="col-lg-12">
-                        <div class="product__details__breadcrumb">
-                            <a href="./index.html">메인페이지</a>
-                            <a href="./shop.html">제품구매</a>
+                        <div class="product__details__breadcrumb text-right">
+                        	<i class="fa-solid fa-barcode"></i> &nbsp;
+                            <a href="${ctp}/">메인페이지</a>
+                            <a href="${ctp}/shop/productList">제품판매</a>
                             <span>${productVO.productName}</span>
                         </div>
                     </div>
@@ -60,42 +62,25 @@
                                 <i class="fa fa-star-o"></i>
                                 <span> - 5 Reviews</span>
                             </div>
-                            <h3>￦ ${productVO.productPrice} <span>0</span></h3>
-                            <p>${productVO.productDetails}</p>
-                            <div class="product__details__option">
-                                <div class="product__details__option__size">
-                                    <span>Size:</span>
-                                    <label for="xxl">xxl
-                                        <input type="radio" id="xxl">
-                                    </label>
-                                    <label class="active" for="xl">xl
-                                        <input type="radio" id="xl">
-                                    </label>
-                                    <label for="l">l
-                                        <input type="radio" id="l">
-                                    </label>
-                                    <label for="sm">s
-                                        <input type="radio" id="sm">
-                                    </label>
-                                </div>
-                                <div class="product__details__option__color">
-                                    <span>Color:</span>
-                                    <label class="c-1" for="sp-1">
-                                        <input type="radio" id="sp-1">
-                                    </label>
-                                    <label class="c-2" for="sp-2">
-                                        <input type="radio" id="sp-2">
-                                    </label>
-                                    <label class="c-3" for="sp-3">
-                                        <input type="radio" id="sp-3">
-                                    </label>
-                                    <label class="c-4" for="sp-4">
-                                        <input type="radio" id="sp-4">
-                                    </label>
-                                    <label class="c-9" for="sp-9">
-                                        <input type="radio" id="sp-9">
-                                    </label>
-                                </div>
+                            <div class="form-group">
+                            	<form name="optionForm">
+		                            <h3>￦ <fmt:formatNumber value="${productVO.productPrice}" /><span>0</span></h3>
+		                            <p>${productVO.productDetails}</p>
+		                            <div class="product__details__option">
+		                            	<c:forEach var="optionGroupVO" items="${optionGroupVOS}">
+		                                <div class="product__details__option__size">
+		                                    <span>${optionGroupVO.optionGroupName}</span>
+		                                    <c:forEach var="optionVO" items="${optionVOS}">
+		                                    <c:if test="">
+			                                    <label for="${optionVO.optionIdx}">${optionVO.optionName}
+			                                        <input type="radio" id="${optionVO.optionIdx}">
+			                                    </label>
+		                                    </c:if>
+		                                    </c:forEach>
+		                                </div>
+		                                </c:forEach>
+		                            </div>
+	                            </form>
                             </div>
                             <div class="product__details__cart__option">
                                 <div class="quantity">
@@ -106,8 +91,8 @@
                                 <a href="${ctp}/shop/addToCart" class="primary-btn">장바구니 담기</a>
                             </div>
                             <div class="product__details__btns__option">
-                                <a href="#"><i class="fa fa-heart"></i> 관심상품</a>
-                                <a href="#"><i class="fa fa-exchange"></i> 공유하기</a>
+                                <a href="#"><i class="fa-brands fa-gratipay"></i> 관심상품</a>
+                                <a href="#"><i class="fa-solid fa-square-share-nodes"></i> 공유하기</a>
                             </div>
                             <div class="product__details__last__option">
                                 <h5><span>제품 정보</span></h5>
