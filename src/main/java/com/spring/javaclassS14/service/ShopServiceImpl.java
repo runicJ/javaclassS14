@@ -251,4 +251,14 @@ public class ShopServiceImpl implements ShopService {
 	public List<ShopVO> getProductTopMidList() {
 		return shopDAO.getProductTopMidList();
 	}
+
+	@Override
+	public List<CartVO> getProductCart(String userId) {
+		return shopDAO.getProductCart(userId);
+	}
+
+	@Override
+	public String setProductCartDelete(int productIdx) {
+		return shopDAO.setProductCartDelete(productIdx);
+	}
 }

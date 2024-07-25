@@ -7,7 +7,7 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>productCart</title>
-	<link rel="icon" type="image/png" href="images/favicon-mark.png">
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
 	<link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
@@ -52,9 +52,9 @@
                         <table>
                             <thead>
                                 <tr>
-                                    <th>Product</th>
-                                    <th>Quantity</th>
-                                    <th>Total</th>
+                                    <th>제품명</th>
+                                    <th>수량</th>
+                                    <th>가격</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -77,46 +77,6 @@
                                         </div>
                                     </td>
                                     <td class="cart__price">$ 30.00</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-2.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Diagonal Textured Cap</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 32.50</td>
-                                    <td class="cart__close"><i class="fa fa-close"></i></td>
-                                </tr>
-                                <tr>
-                                    <td class="product__cart__item">
-                                        <div class="product__cart__item__pic">
-                                            <img src="img/shopping-cart/cart-3.jpg" alt="">
-                                        </div>
-                                        <div class="product__cart__item__text">
-                                            <h6>Basic Flowing Scarf</h6>
-                                            <h5>$98.49</h5>
-                                        </div>
-                                    </td>
-                                    <td class="quantity__item">
-                                        <div class="quantity">
-                                            <div class="pro-qty-2">
-                                                <input type="text" value="1">
-                                            </div>
-                                        </div>
-                                    </td>
-                                    <td class="cart__price">$ 47.00</td>
                                     <td class="cart__close"><i class="fa fa-close"></i></td>
                                 </tr>
                                 <tr>
@@ -145,31 +105,31 @@
                     <div class="row">
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn">
-                                <a href="#">Continue Shopping</a>
+                                <a href="#">쇼핑 더하기</a>
                             </div>
                         </div>
                         <div class="col-lg-6 col-md-6 col-sm-6">
                             <div class="continue__btn update__btn">
-                                <a href="#"><i class="fa fa-spinner"></i> Update cart</a>
+                                <a href="#"><i class="fa fa-spinner"></i> 장바구니 새로고침</a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4">
                     <div class="cart__discount">
-                        <h6>Discount codes</h6>
+                        <h6>쿠폰/할인 내역</h6>
                         <form action="#">
                             <input type="text" placeholder="Coupon code">
                             <button type="submit">Apply</button>
                         </form>
                     </div>
                     <div class="cart__total">
-                        <h6>Cart total</h6>
+                        <h6>장바구니</h6>
                         <ul>
-                            <li>Subtotal <span>$ 169.50</span></li>
-                            <li>Total <span>$ 169.50</span></li>
+                            <li>상품금액 <span>$ 169.50</span></li>
+                            <li>총금액 <span>$ 169.50</span></li>
                         </ul>
-                        <a href="#" class="primary-btn">Proceed to checkout</a>
+                        <a href="#" class="primary-btn">결제하기</a>
                     </div>
                 </div>
             </div>
@@ -191,7 +151,6 @@
 <p><br></p>
 	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
 	<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
-	<%-- <script src="${ctp}/js/shop/mixitup.min.js"></script> --%>
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>

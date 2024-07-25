@@ -47,4 +47,5 @@ public class ShopVO {
 	private int createDiff;
 	private int productCnt;
 	
+	private int isLiked;
 }

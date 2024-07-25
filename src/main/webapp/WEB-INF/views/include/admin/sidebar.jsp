@@ -86,14 +86,14 @@
                 
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                         aria-expanded="false"><i data-feather="box" class="feather-icon"></i><span
-                            class="hide-menu"> 유료/광고 관리 </span></a>
+                            class="hide-menu"> 공지/광고 관리 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
                         <li class="sidebar-item"><a href="form-inputs.html" class="sidebar-link"><span
-                                    class="hide-menu"> 유료 구독 관리
+                                    class="hide-menu"> 공지사항 관리
                                 </span></a>
                         </li>
                         <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
-                                    class="hide-menu"> 광고 게시 관리
+                                    class="hide-menu"> 광고게시 관리
                                 </span></a>
                         </li>
                     </ul>
@@ -102,7 +102,7 @@
                         aria-expanded="false"><i data-feather="bar-chart" class="feather-icon"></i><span
                             class="hide-menu"> 통계 목록 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                        <li class="sidebar-item"><a href="${ctp}/admin/survey/surveyInput" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/survey/surveyInput" class="sidebar-link"><span
                                     class="hide-menu"> 설문조사 등록
                                 </span></a>
                         </li>

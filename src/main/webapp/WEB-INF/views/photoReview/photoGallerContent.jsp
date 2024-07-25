@@ -183,6 +183,7 @@
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <p><br/></p>
+<section class="page">
 <div class="container">
   <h2>[${vo.part}] ${vo.title}</h2>
   <div class="row">
@@ -270,6 +271,7 @@
 		</table>
   </div>
 </div>
+</section>
 <p><br/></p>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 <script>

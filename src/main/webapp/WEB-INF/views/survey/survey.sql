@@ -10,6 +10,7 @@ CREATE TABLE survey (
 	regDate datetime default now(),
 	modDate datetime default now()
 );
+desc survey;
 
 CREATE TABLE survQuest (	
 	questNo int PRIMARY KEY auto_increment NOT NULL,
@@ -19,6 +20,7 @@ CREATE TABLE survQuest (
 	questOrder int,
 	FOREIGN KEY (survNo) REFERENCES survey(survNo) on delete set null
 );
+desc survQuest;
 
 CREATE TABLE questOpt (	
 	optNo int PRIMARY KEY auto_increment NOT NULL,

@@ -12,6 +12,7 @@
 		<org.springframework-version>4.3.14.RELEASE</org.springframework-version>
 		<org.aspectj-version>1.6.10</org.aspectj-version>
 		<org.slf4j-version>1.6.6</org.slf4j-version>
+		<org.apache.tiles-version>3.0.8</org.apache.tiles-version>
 	</properties>
 	
 	<dependencies>
@@ -319,6 +320,38 @@
 			<groupId>com.google.api-client</groupId>
 			<artifactId>google-api-client</artifactId>
 			<version>1.32.1</version>
+		</dependency>
+		
+		<!-- tiles 사용을 위한 라이브러리(5개) -->
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-jsp -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-jsp</artifactId>
+		    <version>${org.apache.tiles-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-core // 버전 위랑 맞추기 -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-core</artifactId>
+		    <version>${org.apache.tiles-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-servlet -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-servlet</artifactId>
+		    <version>${org.apache.tiles-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-api -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-api</artifactId>
+		    <version>${org.apache.tiles-version}</version>
+		</dependency>
+		<!-- https://mvnrepository.com/artifact/org.apache.tiles/tiles-template -->
+		<dependency>
+		    <groupId>org.apache.tiles</groupId>
+		    <artifactId>tiles-template</artifactId>
+		    <version>${org.apache.tiles-version}</version>
 		</dependency>
 		
 	</dependencies>

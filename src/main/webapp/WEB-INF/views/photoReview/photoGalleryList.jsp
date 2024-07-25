@@ -103,10 +103,11 @@
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <p><br/></p>
+<section class="page">
 <div class="container">
   <table class="table table-borderless">
     <tr>
-      <td colspan="2"><h2 class="text-center">포토 갤러리</h2></td>
+      <td colspan="2"><h2 class="text-center">포토 리뷰 이벤트</h2></td>
     </tr>
     <tr>
       <td>
@@ -114,13 +115,9 @@
           <div>
 	          <select name="part" id="part" class="form-control mr-1" style="width:100px">
 		          <option value="전체" ${part == '전체' ? 'selected' : ''}>전체</option>
-		          <option value="풍경" ${part == '풍경' ? 'selected' : ''}>풍경</option>
-		          <option value="인물" ${part == '인물' ? 'selected' : ''}>인물</option>
-		          <option value="음식" ${part == '음식' ? 'selected' : ''}>음식</option>
-        			<option value="여행" ${part == '여행' ? 'selected' : ''}>여행</option>
-		          <option value="학습" ${part == '학습' ? 'selected' : ''}>학습</option>
-		          <option value="사물" ${part == '사물' ? 'selected' : ''}>사물</option>
-		          <option value="기타" ${part == '기타' ? 'selected' : ''}>기타</option>
+		          <option value="풍경" ${part == '풍경' ? 'selected' : ''}>제품</option>
+		          <option value="인물" ${part == '인물' ? 'selected' : ''}>병원</option>
+		          <option value="음식" ${part == '음식' ? 'selected' : ''}>자연</option>
 		        </select>
 	        </div>
 	        <div class="input-group-append">
@@ -164,6 +161,7 @@
 	  </c:forEach>
   </section>
 </div>
+</section>
 <p style="clear:both;"><br/></p>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 <!-- 위로가기 버튼 -->

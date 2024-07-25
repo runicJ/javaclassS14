@@ -8,25 +8,25 @@
     </select>
 
     <insert id="insertSurv" parameterType="com.spring.javaclassS14.vo.SurveyVO">
-        INSERT INTO SURVEY (survTitle, CHAR, regId, regDate, modDate, useYn)
-        VALUES (#{survTitle}, #{survDesc}, #{regId}, default, default, #{useYn});
+        INSERT INTO SURVEY VALUES (default, #{surveyDto.survTitle}, #{surveyDto.survDesc}, default, default, #{surveyDto.userId}, default, default);
     </insert>
 
-    <insert id="insertSurvqust" parameterType="com.spring.javaclassS14.vo.SurveyVO">
-        <selectKey resultType="int" keyProperty="survNo" order="BEFORE">
-            SELECT ISNULL(MAX(survNo),0) FROM SURVEY;
-        </selectKey>
-        INSERT INTO survQuest (survNo, questOrder, questContent, questType)
-        VALUES (#{survNo}, #{qustSeq}, #{qustCont}, #{qustType});
-    </insert>
+<insert id="insertSurvqust" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+    <selectKey resultType="int" keyProperty="survNo" order="BEFORE">
+        SELECT IFNULL(MAX(survNo),0) + 1 FROM SURVEY;
+    </selectKey>
+    INSERT INTO survQuest (survNo, questOrder, questContent, questType)
+    VALUES (#{survqustDto.survNo}, #{survqustDto.qustSeq}, #{survqustDto.qustCont}, #{survqustDto.qustType});
+</insert>
 
-    <insert id="insertQustopt" parameterType="com.spring.javaclassS14.vo.SurveyVO">
-        <selectKey resultType="int" keyProperty="qustNo" order="BEFORE">
-            SELECT ISNULL(MAX(questNo),0) FROM survQuest;
-        </selectKey>
-        INSERT INTO questNo (questNo, optOrder, optContent)
-        VALUES (#{qustNo}, #{optSeq}, #{optCont});
-    </insert>
+
+<insert id="insertQustopt" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+    <selectKey resultType="int" keyProperty="qustNo" order="BEFORE">
+        SELECT IFNULL(MAX(qustoptDto.questNo),0) + 1 FROM survQuest;
+    </selectKey>
+    INSERT INTO questNo (questNo, optOrder, optContent)
+    VALUES (#{qustoptDto.qustNo}, #{qustoptDto.optSeq}, #{qustoptDto.optCont});
+</insert>
 
     <select id="getSurvey" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
         SELECT survNo AS survNo, survTitle AS survTitle, survDesc AS survDesc, regId AS regId, useYn, regDate AS regDate, modDate AS modDate

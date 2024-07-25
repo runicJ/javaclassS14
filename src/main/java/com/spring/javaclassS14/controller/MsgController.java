@@ -128,6 +128,23 @@ public class MsgController {
 			model.addAttribute("url", "/admin/shop/productOption?productName="+tempFlag);
 		}
 		
+		else if(msgFlag.equals("cartOrderOk")) {
+			model.addAttribute("msg", "장바구니에 상품이 등록되었습니다.\\n주문창으로 이동합니다.");
+			model.addAttribute("url", "/shop/productCart");
+		}
+		else if(msgFlag.equals("cartOrderNo")) {
+			model.addAttribute("msg", "장바구니에 상품 등록실패");
+			model.addAttribute("url", "/shop/productCart");
+		}
+		else if(msgFlag.equals("cartInputOk")) {
+			model.addAttribute("msg", "장바구니에 상품이 등록되었습니다.\\n즐거운 쇼핑되세요.");
+			model.addAttribute("url", "/shop/productList");
+		}
+		else if(msgFlag.equals("cartEmpty")) {
+			model.addAttribute("msg", "장바구니가 비어있습니다.");
+			model.addAttribute("url", "/shop/productList");
+		}
+		
 	return "include/msg";
 	}
 }

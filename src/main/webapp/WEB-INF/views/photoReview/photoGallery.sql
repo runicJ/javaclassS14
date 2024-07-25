@@ -2,7 +2,7 @@ show tables;
 
 create table photoGallery (
   idx   int not null auto_increment,	/* 고유번호 */
-  mid   varchar(20) not null,					/* 포토갤러리에 올린이 아이디 */
+  userId   varchar(20) not null,					/* 포토갤러리에 올린이 아이디 */
   part  varchar(10)  not null,				/* 분류(풍경/인물/학습/사물/기타) */		
   title varchar(100) not null,				/* 제목 */
   content     text   not null,				/* 포토갤러리 상세내역-사진 List(CKEDITOR사용) */
@@ -19,12 +19,12 @@ drop table photoGallery;
 
 create table photoReply (
   idx  int not null auto_increment,
-  mid   varchar(20) not null,				/* 포토갤러리에 댓글 올린이 아이디 */
+  userId   varchar(20) not null,				/* 포토갤러리에 댓글 올린이 아이디 */
   photoIdx int not null,						/* 포토갤러리 고유번호 */
   content  text not null,						/* 포토갤러리 댓글 내용 */
   prDate   datetime default now(),	/* 댓글 입력일자 */
   primary key(idx),
-  foreign key(photoIdx) references photoGallery2(idx),
+  foreign key(photoIdx) references photoGallery(idx),
   foreign key(userId) references users(userId)
 );
 drop table photoReply;

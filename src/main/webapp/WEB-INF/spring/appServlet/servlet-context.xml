@@ -60,4 +60,5 @@
 	<!-- 스프링 스케줄러 생성 -->
 	<task:scheduler id="jobScheduler" pool-size="10" />
 	<task:annotation-driven scheduler="jobScheduler"/>
+	
 </beans:beans>

@@ -79,7 +79,6 @@ margin-top: 20px;
 		
 		function productSort() {
 			let sort = $("#sort").val();
-			alert("sort : " + sort);
 			
 			location.href = "photoGalleryList?sort="+sort;
 		}

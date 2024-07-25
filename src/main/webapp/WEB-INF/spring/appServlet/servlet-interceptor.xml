@@ -18,6 +18,7 @@
 		<!-- 준회원/비회원 처리 -->
 		<interceptor>
 	    <mapping path="/users/**"/>
+	    <mapping path="/shop/**" />
    	    <mapping path="/community/**"/>
 	    <!-- <mapping path="/shop/addToCart"/> -->
 	    <exclude-mapping path="/users/userLogin"/>

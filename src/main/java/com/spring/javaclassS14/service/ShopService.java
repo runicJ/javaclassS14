@@ -73,5 +73,9 @@ public interface ShopService {
 
 	public List<ShopVO> getProductTopMidList();
 
+	public List<CartVO> getProductCart(String userId);
+
+	public String setProductCartDelete(int productIdx);
+
 
 }

@@ -397,7 +397,8 @@
 	let url = $(location).attr('href');
     Kakao.Share.sendDefault({
       objectType: 'text',
-      text:
+      text: '괄호 안 쉼표 입니다.',
+      imageUrl : 'https://search1.kakaocdn.net/argon/0x200_85_hr/8x5qcdbcQwi',
         url,
       link: {
         // [내 애플리케이션] > [플랫폼] 에서 등록한 사이트 도메인과 일치해야 함

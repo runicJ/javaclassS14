@@ -77,4 +77,8 @@ public interface ShopDAO {
 
 	public List<ShopVO> getProductTopMidList();
 
+	public List<CartVO> getProductCart(@Param("userId") String userId);
+
+	public String setProductCartDelete(@Param("productIdx") int productIdx);
+
 }

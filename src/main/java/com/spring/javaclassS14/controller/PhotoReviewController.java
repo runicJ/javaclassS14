@@ -22,7 +22,7 @@ import com.spring.javaclassS14.service.PhotoGalleryVO;
 
 @Controller
 @RequestMapping("/photoGallery")
-public class PhotoGalleryController {
+public class PhotoReviewController {
 	
 	@Autowired
 	PhotoGalleryService photoGalleryService;

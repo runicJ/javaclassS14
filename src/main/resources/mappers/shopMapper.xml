@@ -109,6 +109,10 @@
  	<select id="getProductTopMidList" resultType="com.spring.javaclassS14.vo.ShopVO">
   		select t.*, m.productMidIdx, m.productMidName, (select count(*) from product as p where p.productMidIdx = m.productMidIdx) as productCnt from product_top as t left join product_mid as m on t.productTopIdx = m.productTopIdx;
   	</select>
+  	  	
+ 	<select id="getProductCart" resultType="com.spring.javaclassS14.vo.ShopVO">
+  		select * from cart where userId=#{userId} order by cartIdx;
+  	</select>
 
 
 	<insert id="setCategoryTopInput">
@@ -152,6 +156,10 @@
 	
 	<delete id="setOptionDelete">
 		delete from product_option where optionIdx=#{optionIdx};
+	</delete>
+	
+	<delete id="setProductCartDelete">
+		delete from cart where productIdx=#{productIdx};
 	</delete>
 	
 </mapper>

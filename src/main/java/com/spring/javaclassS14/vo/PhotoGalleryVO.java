@@ -3,7 +3,7 @@ package com.spring.javaclassS14.vo;
 import lombok.Data;
 
 @Data
-public class PhotoReviewVO {
+public class PhotoGalleryVO {
 	// photoGallery.sql
 	private int idx;
 	private String mid;
