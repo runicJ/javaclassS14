@@ -9608,7 +9608,7 @@ fieldset:disabled a.btn {
 }
 
 .dropdown-menu-right {
-    right: 0;
+    right: 10px;
     left: auto
 }
 

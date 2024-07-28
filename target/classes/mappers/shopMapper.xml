@@ -101,19 +101,79 @@
  	<select id="getNewProduct" resultType="com.spring.javaclassS14.vo.ShopVO">
   		select *,datediff(createdDate, now()) as createDiff from product order by createdDate desc limit 6;
   	</select>
-  	
- 	<select id="getCartProductOptionSearch" resultType="com.spring.javaclassS14.vo.CartVO">
-  		select * from cart where productIdx=#{productIdx} and optionIdx=#{optionIdx} and userId=#{userId};
-  	</select>
   	  	
  	<select id="getProductTopMidList" resultType="com.spring.javaclassS14.vo.ShopVO">
   		select t.*, m.productMidIdx, m.productMidName, (select count(*) from product as p where p.productMidIdx = m.productMidIdx) as productCnt from product_top as t left join product_mid as m on t.productTopIdx = m.productTopIdx;
   	</select>
-  	  	
- 	<select id="getProductCart" resultType="com.spring.javaclassS14.vo.ShopVO">
-  		select * from cart where userId=#{userId} order by cartIdx;
-  	</select>
+  	
+	<!-- CartItem의 ResultMap 정의 -->
+    <resultMap id="CartItemResultMap" type="com.spring.javaclassS14.vo.CartItem">
+        <result property="productIdx" column="productIdx"/>
+        <result property="optionIdx" column="optionIdx"/>
+        <result property="quantity" column="quantity"/>
+        <result property="isSoldOut" column="isSoldOut"/>
+        <result property="addedDate" column="addedDate"/>
+        <result property="productThumb" column="productThumb"/>
+        <result property="productName" column="productName"/>
+        <result property="productPrice" column="productPrice"/>
+        <result property="optionName" column="optionName"/> <!-- 추가 -->
+    	<result property="optionGroupName" column="optionGroupName"/> <!-- 추가 -->
+    </resultMap>
 
+    <!-- CartVO의 ResultMap 정의 -->
+    <resultMap id="CartVOResultMap" type="com.spring.javaclassS14.vo.CartVO">
+        <result property="cartIdx" column="cartIdx"/>
+        <result property="userId" column="userId"/>
+        <collection property="items" ofType="com.spring.javaclassS14.vo.CartItem" resultMap="CartItemResultMap"/>
+    </resultMap>
+
+    <!-- 장바구니 항목 가져오기 -->
+	<select id="getProductCart" resultMap="CartVOResultMap">
+	    SELECT 
+	        c.cartIdx,
+	        c.userId,
+	        c.productIdx,
+	        c.optionIdx,
+	        IFNULL(o.optionName, '기본') AS optionName, <!-- optionIdx가 없을 경우 '기본'으로 처리 -->
+	        IFNULL(g.optionGroupName, '기본') AS optionGroupName, <!-- optionIdx가 없을 경우 '기본'으로 처리 -->
+	        c.quantity,
+	        c.isSoldOut,
+	        c.addedDate,
+	        p.productThumb,
+	        p.productName,
+	        p.productPrice
+	    FROM 
+	        cart c
+	    JOIN
+	        product p ON c.productIdx = p.productIdx
+	    LEFT JOIN
+	        product_option o ON c.optionIdx = o.optionIdx
+	    LEFT JOIN
+	        product_option_group g ON o.optionGroupIdx = g.optionGroupIdx
+	    WHERE 
+	        c.userId = #{userId}
+	</select>
+
+	<select id="getCartProductOptionSearch" resultType="com.spring.javaclassS14.vo.CartItem">
+	    SELECT productIdx, optionIdx, quantity, isSoldOut, addedDate
+	    FROM cart
+	    WHERE productIdx = #{productIdx} AND optionIdx = #{optionIdx} AND userId = #{userId}
+	</select>
+	
+    <!-- productIdx 존재 여부 확인 -->
+    <select id="checkProductExists" resultType="int">
+        SELECT COUNT(*) FROM product WHERE productIdx = #{productIdx}
+    </select>
+
+    <!-- optionIdx 존재 여부 확인 -->
+    <select id="checkOptionExists" resultType="int">
+        SELECT COUNT(*) FROM product_option WHERE optionIdx = #{optionIdx}
+    </select>
+    
+    <select id="getUserCartCnt" resultType="int">
+        SELECT COUNT(*) FROM cart WHERE userId = #{userId}
+    </select>
+    
 
 	<insert id="setCategoryTopInput">
 		insert into product_top values (default, #{productTopName}, default, default);
@@ -140,12 +200,26 @@
 	  insert into cart values (default,#{vo.userId},#{vo.productIdx},#{vo.quantity},default,default,#{vo.optionIdx});
 	</insert>
 	
-	
-	<update id="setShopCartUpdate">
-		update cart set quantity=#{vo.quantity} where productIdx=#{vo.productIdx} and optionIdx=#{vo.optionIdx};
-	</update>
-	
-	
+    <!-- 장바구니에 항목 추가 -->
+    <insert id="addCart">
+        INSERT INTO cart VALUES (default, #{userId}, #{cartItem.productIdx}, #{cartItem.quantity}, default, #{cartItem.isSoldOutAsString}, 
+        <if test="cartItem.optionIdx != 0">
+            #{cartItem.optionIdx}
+        </if>
+        <if test="cartItem.optionIdx == 0">
+            default
+        </if>)
+    </insert>
+
+
+    <!-- 장바구니 항목 업데이트 -->
+    <update id="updateCart">
+        UPDATE cart
+        SET quantity = #{cartItem.quantity}, isSoldOut = #{cartItem.isSoldOutAsString}
+        WHERE productIdx = #{cartItem.productIdx} AND optionIdx = #{cartItem.optionIdx} AND userId = #{userId}
+    </update>
+    
+    
 	<delete id="setCategoryTopDelete">
 		delete from product_mid where productTopIdx=#{productTopIdx};
 	</delete>
@@ -158,8 +232,9 @@
 		delete from product_option where optionIdx=#{optionIdx};
 	</delete>
 	
-	<delete id="setProductCartDelete">
-		delete from cart where productIdx=#{productIdx};
-	</delete>
+    <!-- 장바구니에서 특정 항목 삭제 -->
+    <delete id="setProductCartDelete" parameterType="int">
+        DELETE FROM cart WHERE cartIdx = #{cartIdx}
+    </delete>
 	
 </mapper>

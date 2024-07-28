@@ -63,7 +63,54 @@
         		transform:scale(1);
         	}
         }
+        
+        .good { color: green; }
+        .moderate { color: orange; }
+        .bad { color: red; }
 	</style>
+	<script>
+		function getAirQualityData() {
+	        var xhr = new XMLHttpRequest();
+	        var url = 'http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getUnityAirEnvrnIdexSnstiveAboveMsrstnList';
+	        var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + 'otJChM%2F2%2FlhEU46DhF2TXCxo%2FN9BNwpNNkd7XGrlrOdggtMr%2FDciosXbEvJ4D4KWcS5sjYmneyYHiQSWh%2ByUMQ%3D%3D';
+	        queryParams += '&' + encodeURIComponent('returnType') + '=' + encodeURIComponent('json');
+	        queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('1');
+	        queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
+	        xhr.open('GET', url + queryParams);
+	        xhr.onreadystatechange = function () {
+	            if (this.readyState == 4) {
+	                if (this.status == 200) {
+	                    var response = JSON.parse(this.responseText);
+	                    var airQualityValue = response.response.body.items[0].pm10Value;
+	                    var airQualityLevel = '';
+	                    var icon = '';
+	
+	                    if (airQualityValue <= 30) {
+	                        airQualityLevel = 'Good';
+	                        icon = 'good_icon.png';
+	                    } else if (airQualityValue <= 80) {
+	                        airQualityLevel = 'Moderate';
+	                        icon = 'moderate_icon.png';
+	                    } else {
+	                        airQualityLevel = 'Bad';
+	                        icon = 'bad_icon.png';
+	                    }
+	
+	                    document.getElementById('airQualityIcon').src = icon;
+	                    document.getElementById('airQualityText').innerHTML = '현재 대기오염 수치: ' + airQualityValue;
+	                    document.getElementById('airQualityText').className = airQualityLevel.toLowerCase();
+	                } else {
+	                    alert('Error: ' + this.status);
+	                }
+	            }
+	        };
+	        xhr.send('');
+	    }
+	
+	    window.onload = function() {
+	        getAirQualityData();
+	    };
+	</script>
 </head>
 
 <body class="skin-pulple">
@@ -506,8 +553,12 @@
 					<aside>
 						<div class="aside-body">
 							<form class="newsletter">
-								<h1>Newsletter</h1>
-								<p>By subscribing you will receive new articles in your email.</p>
+								<h1>날씨API</h1>
+								<p>한국환경공단_에어코리아_대기오염정보</p>
+				                <div id="airQualityInfo">
+				                    <img id="airQualityIcon" src="" alt="Air Quality Icon">
+				                    <p id="airQualityText">데이터 로딩 중...</p>
+				                </div>
 							</form>
 						</div>
 					</aside>

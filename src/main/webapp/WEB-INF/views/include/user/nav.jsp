@@ -26,7 +26,6 @@
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/introduce/greeting">인사말</a></li>
 							<li><a href="${ctp}/introduce/introduce">홈페이지소개</a></li>
-							<li><a href="${ctp}/introduce/purpose">설립목적</a></li>
 							<li><a href="${ctp}/introduce/branch/branchMap">지점위치</a></li>
 						</ul>
 					</li>

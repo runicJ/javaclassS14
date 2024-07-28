@@ -129,9 +129,6 @@
 	</style>
 	<script>
 		$(function () {
-			var header = $("meta[name='_csrf_header']").attr('content');
-			var token = $("meta[name='_csrf']").attr('content');
-			
 			$(".surv_opt_box").each(function(index, item) {
 				let qustType = $(item).find("ol").attr("id");
 				let optNum = $(item).find("li").length;
@@ -241,15 +238,10 @@
 						
 						if (chkChangedRslt) {
 							$.ajax({
-								url: '${ctp}/survey/surveyInput',
+								url: '${ctp}/admin/survey/surveyInput',
 								type: 'POST',
 								contentType: "application/json; charset=utf-8",
 								data: JSON.stringify(param),
-								beforeSend: function(xhr) {
-									if (header && token) {
-										xhr.setRequestHeader(header, token);
-									}
-								},	
 								success: function() {
 									alert('등록 완료');
 									oldParam = param;
@@ -323,9 +315,6 @@
 						type: 'POST',
 						contentType: "application/json; charset=utf-8",
 						data: JSON.stringify(param),
-						beforeSend: function(xhr) {
-							xhr.setRequestHeader(header, token);
-						},
 						success: function() {
 							alert('수정 완료!!');
 							let query = window.location.search;
@@ -359,9 +348,6 @@
 					data: {
 						"survNo": survNo
 					},
-					beforeSend: function(xhr) {
-						xhr.setRequestHeader(header, token);
-				    },
 					success: function() {
 						alert('삭제 완료');
 						let query = window.location.search;
@@ -600,7 +586,6 @@
 							<span>설문 기본정보</span>
 							<button id="regSurvBtn">등록</button>
 						</caption>
-						<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}" />
 						<tr>
 							<td class="form-tbl-col">제목</td>
 							<td><input id="survTitle" type="text" placeholder="제목을 입력해주세요(최대30자)" /></td>

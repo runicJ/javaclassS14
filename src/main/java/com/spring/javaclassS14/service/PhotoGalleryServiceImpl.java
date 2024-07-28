@@ -18,6 +18,7 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.PhotoGalleryDAO;
+import com.spring.javaclassS14.vo.PhotoGalleryVO;
 
 @Service
 public class PhotoGalleryServiceImpl implements PhotoGalleryService {

@@ -20,6 +20,8 @@ CREATE TABLE users (
     userStatus ENUM('on','off','stop') DEFAULT 'on' NOT NULL
 );
 
+select * from users where level > 0 AND userStatus = 'on' order by name;
+
 drop table users;
 select * from users;
 

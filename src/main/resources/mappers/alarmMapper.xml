@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.AlarmDAO">
+
+    <insert id="insertAlarm" parameterType="com.spring.javaclassS14.vo.AlarmVO">
+        INSERT INTO alarm (receiverIdx, senderIdx, alarmPart, alarmPartIdx, alarmDate, alarmCheckFlag)
+        VALUES (#{receiverIdx}, #{senderIdx}, #{alarmPart}, #{alarmPartIdx}, #{alarmDate}, #{alarmCheckFlag})
+    </insert>
+
+    <select id="getAlarmsByReceiver" parameterType="int" resultType="com.spring.javaclassS14.vo.AlarmVO">
+        SELECT * FROM alarm WHERE receiverIdx = #{receiverIdx} ORDER BY alarmDate DESC
+    </select>
+
+    <update id="updateAlarmCheckFlag" parameterType="int">
+        UPDATE alarm SET alarmCheckFlag = 'y' WHERE alarmIdx = #{alarmIdx}
+    </update>
+
+</mapper>

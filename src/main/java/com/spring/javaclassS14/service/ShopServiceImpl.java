@@ -14,7 +14,9 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.ShopDAO;
+import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 @Service
@@ -233,11 +235,6 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public CartVO getCartProductOptionSearch(int productIdx, int optionIdx, String userId) {
-		return shopDAO.getCartProductOptionSearch(productIdx, optionIdx, userId);
-	}
-
-	@Override
 	public int setShopCartUpdate(CartVO vo) {
 		return shopDAO.setShopCartUpdate(vo);
 	}
@@ -252,13 +249,69 @@ public class ShopServiceImpl implements ShopService {
 		return shopDAO.getProductTopMidList();
 	}
 
+    @Override
+    public List<CartVO> getProductCart(String userId) {
+        return shopDAO.getProductCart(userId);
+    }
+
+    @Override
+    public CartItem getCartProductOptionSearch(int productIdx, int optionIdx, String userId) {
+        return shopDAO.getCartProductOptionSearch(productIdx, optionIdx, userId);
+    }
+
+    @Override
+    public int addCart(CartVO cartVO) {
+        int result = 0;
+        for (CartItem item : cartVO.getItems()) {
+            // 로그 추가
+            System.out.println("Adding Cart Item: " + item.getProductIdx() + ", Option: " + item.getOptionIdx());
+            
+            // productIdx 존재 여부 확인
+            if (shopDAO.checkProductExists(item.getProductIdx()) == 0) {
+                throw new RuntimeException("Invalid productIdx: " + item.getProductIdx());
+            }
+            result += shopDAO.addCart(cartVO.getUserId(), item);
+        }
+        return result;
+    }
+    
+    @Override
+    public int updateCart(CartItem cartItem, String userId) {
+        return shopDAO.updateCart(userId, cartItem);
+    }
+    
+    @Override
+    public int setProductCartDelete(int cartIdx) {
+        return shopDAO.setProductCartDelete(cartIdx);
+    }
+
 	@Override
-	public List<CartVO> getProductCart(String userId) {
-		return shopDAO.getProductCart(userId);
+	public int getUserCartCnt(String userId) {
+        return shopDAO.getUserCartCnt(userId);
 	}
 
 	@Override
-	public String setProductCartDelete(int productIdx) {
-		return shopDAO.setProductCartDelete(productIdx);
+	public OrderVO getOrderMaxIdx() {
+		// TODO Auto-generated method stub
+		return null;
 	}
+
+	@Override
+	public CartVO getCartIdx(int parseInt) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setOrder(OrderVO vo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void setCartDeleteAll(int orderProductIdx) {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -6,7 +6,7 @@ import lombok.Data;
 public class PhotoGalleryVO {
 	// photoGallery.sql
 	private int idx;
-	private String mid;
+	private String userId;
 	private String part;
 	private String title;
 	private int photoCount;
@@ -17,7 +17,7 @@ public class PhotoGalleryVO {
 	
 	// photoStorage.sql
 	private int storageIdx;
-	private String fSName;
+	private String thumbnail;
 	
 	// photoReply.sql
 	private int replyIdx;

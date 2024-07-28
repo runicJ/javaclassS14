@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.OrderDAO">
+
+  <select id="getOrderMaxIdx" resultType="com.spring.javaclassS14.vo.OrderVO">
+    SELECT MAX(orderIdx) AS orderIdx FROM orders
+  </select>
+
+  <select id="getCartIdx" parameterType="int" resultType="com.spring.javaclassS14.vo.CartVO">
+    SELECT * FROM cart WHERE cartIdx = #{cartIdx}
+  </select>
+
+  <insert id="setOrder" parameterType="com.spring.javaclassS14.vo.OrderVO">
+    INSERT INTO orders (orderIdx, userId, totalPrice, couponIdx, pointUse, orderStatus, orderDate, orderProductIdx, productIdx, orderQuantity, price, optionIdx)
+    VALUES (#{orderIdx}, #{userId}, #{totalPrice}, #{couponIdx}, #{pointUse}, #{orderStatus}, #{orderDate}, #{orderProductIdx}, #{productIdx}, #{orderQuantity}, #{price}, #{optionIdx})
+  </insert>
+
+  <delete id="setCartDeleteAll" parameterType="int">
+    DELETE FROM cart WHERE orderProductIdx = #{orderProductIdx}
+  </delete>
+
+  <insert id="setDelivery" parameterType="com.spring.javaclassS14.vo.OrderVO">
+    INSERT INTO delivery (orderIdx, receiverName, receiverTel, receiverAddress, country, imp_uid, merchant_uid, paid_amount, apply_num)
+    VALUES (#{orderIdx}, #{receiverName}, #{receiverTel}, #{receiverAddress}, #{country}, #{imp_uid}, #{merchant_uid}, #{paid_amount}, #{apply_num})
+  </insert>
+
+  <update id="setUserPointPlus" parameterType="map">
+    UPDATE users SET points = points + #{points} WHERE userId = #{userId}
+  </update>
+
+  <select id="getOrderDelivery" parameterType="String" resultType="com.spring.javaclassS14.vo.OrderVO">
+    SELECT * FROM delivery WHERE orderIdx = #{orderIdx}
+  </select>
+
+  <select id="getTotalDeleveryOrder" parameterType="int" resultType="int">
+    SELECT SUM(totalPrice) FROM orders WHERE orderIdx = #{orderIdx}
+  </select>
+    
+</mapper>

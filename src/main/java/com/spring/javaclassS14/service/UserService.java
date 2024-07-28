@@ -46,5 +46,4 @@ public interface UserService {
 
 	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark);
 
-
 }

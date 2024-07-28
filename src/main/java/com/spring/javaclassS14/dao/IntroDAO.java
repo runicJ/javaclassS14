@@ -12,4 +12,6 @@ public interface IntroDAO {
 
 	public List<SaveMypageVO> findTopNews(int limit);
 
+	public List<String> getMenuOptions();
+
 }

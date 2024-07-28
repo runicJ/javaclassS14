@@ -64,5 +64,7 @@
 		</property>
 	</bean>
 	
+    <!-- WebSocket Config 등록 -->
+    <bean id="webSocketConfig" class="com.spring.javaclassS14.common.WebSocketConfig" />
 	
 </beans>

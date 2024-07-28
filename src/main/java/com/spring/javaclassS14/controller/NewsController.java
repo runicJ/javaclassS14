@@ -28,19 +28,19 @@ public class NewsController {
     public String newsListGet(HttpServletRequest request, Model model) {
         List<CrawlingVO> vos = new ArrayList<>();
         List<CrawlingVO> nVos = new ArrayList<>();
-        List<CrawlingVO> gVos = new ArrayList<>();
+        List<CrawlingVO> bVos = new ArrayList<>();
 
         try {
             vos = getNaverNews(1, 0);
             nVos = getNatureNews(1, 0);
-            gVos = getGoogleScholarNews(1, 0);
+            bVos = getBBCNews(1, 0);
         } catch (Exception e) {
             e.printStackTrace();
         }
 
         model.addAttribute("vos", vos);
         model.addAttribute("nVos", nVos);
-        model.addAttribute("gVos", gVos);
+        model.addAttribute("bVos", bVos);
 
         return "news/newsList";
     }
@@ -59,8 +59,8 @@ public class NewsController {
                 vos = getNaverNews(page, loadedCount);
             } else if ("nature".equals(source)) {
                 vos = getNatureNews(page, loadedCount);
-            } else if ("google".equals(source)) {
-                vos = getGoogleScholarNews(page, loadedCount);
+            } else if ("bbc".equals(source)) {
+                vos = getBBCNews(page, loadedCount);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -159,42 +159,40 @@ public class NewsController {
         return nVos;
     }
 
-    private List<CrawlingVO> getGoogleScholarNews(int page, int loadedCount) throws Exception {
-        List<CrawlingVO> gVos = new ArrayList<>();
-        String baseUrl = "https://scholar.google.com/scholar?as_vis=1&q=allergy&hl=ko&as_sdt=0,5&as_ylo=2023";
-        String url = baseUrl + "&start=" + ((page - 1) * 10);
+    private List<CrawlingVO> getBBCNews(int page, int loadedCount) throws Exception {
+        List<CrawlingVO> bVos = new ArrayList<>();
+        String baseUrl = "https://www.bbc.com/news/science_and_environment";
+        String url = baseUrl + "?page=" + page;
         Document document = Jsoup.connect(url).get();
-        Elements newsElements = document.select("div.gs_ri");
+        Elements newsElements = document.select("div.gs-c-promo");
 
         for (Element newsElement : newsElements) {
-            if (gVos.size() + loadedCount >= MAX_ARTICLES) break;
+            if (bVos.size() + loadedCount >= MAX_ARTICLES) break;
 
-            CrawlingVO gVo = new CrawlingVO();
+            CrawlingVO bVo = new CrawlingVO();
 
-            Element titleElement = newsElement.selectFirst("h3.gs_rt a");
+            Element titleElement = newsElement.selectFirst("h3.gs-c-promo-heading__title");
             if (titleElement != null) {
-                gVo.setItem1(titleElement.text());
-                gVo.setItemUrl1(titleElement.attr("href"));
+                bVo.setItem1(titleElement.text());
+                Element linkElement = newsElement.selectFirst("a.gs-c-promo-heading");
+                bVo.setItemUrl1("https://www.bbc.com" + linkElement.attr("href"));
             }
 
-            Element broadcastElement = newsElement.selectFirst("div.gs_rs");
-            if (broadcastElement != null) {
-                gVo.setItem2(broadcastElement.text());
+            Element imageElement = newsElement.selectFirst("img");
+            if (imageElement != null) {
+                bVo.setItem2(imageElement.attr("src"));
+            } else {
+                bVo.setItem2("");
             }
 
-            Element comElement = newsElement.selectFirst("div.gs_a");
-            if (comElement != null) {
-                gVo.setItem3(comElement.text());
+            Element timeElement = newsElement.selectFirst("time");
+            if (timeElement != null) {
+                bVo.setItem5(timeElement.attr("datetime"));
             }
 
-            Element infoElement = newsElement.selectFirst("div.gs_fl a");
-            if (infoElement != null) {
-                gVo.setItem5(infoElement.text());
-            }
-
-            gVos.add(gVo);
+            bVos.add(bVo);
         }
-        return gVos;
+        return bVos;
     }
 	
 	@RequestMapping(value = "/allergic1", method = RequestMethod.GET)

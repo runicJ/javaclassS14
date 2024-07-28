@@ -25,6 +25,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
+import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.UserVO;
@@ -35,6 +36,9 @@ public class UserController {
 	
 	@Autowired
 	UserService userService;
+	
+	@Autowired
+	ShopService shopService;
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;

@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -69,16 +70,27 @@ public interface ShopDAO {
 
 	public List<ShopVO> getNewProduct();
 
-	public CartVO getCartProductOptionSearch(@Param("productIdx") int productIdx, @Param("optionIdx") int optionIdx, @Param("userId") String userId);
-
 	public int setShopCartUpdate(@Param("vo") CartVO vo);
 
 	public int setShopCartInput(@Param("vo") CartVO vo);
 
 	public List<ShopVO> getProductTopMidList();
 
-	public List<CartVO> getProductCart(@Param("userId") String userId);
+	public int deleteCartItem(@Param("cartIdx") int cartIdx);
 
-	public String setProductCartDelete(@Param("productIdx") int productIdx);
+	public List<CartVO> getProductCart(@Param("userId") String userId);
+	public CartItem getCartProductOptionSearch(@Param("productIdx") int productIdx, @Param("optionIdx") int optionIdx, @Param("userId") String userId);
+
+	public int addCart(@Param("userId") String userId, @Param("cartItem") CartItem cartItem);
+
+	public int updateCart(@Param("userId") String userId, @Param("cartItem") CartItem cartItem);
+
+	public int setProductCartDelete(@Param("cartIdx") int cartIdx);
+
+	public int checkOptionExists(@Param("optionIdx") int optionIdx);
+
+	public int checkProductExists(@Param("productIdx") int productIdx);
+
+	public int getUserCartCnt(@Param("userId") String userId);
 
 }

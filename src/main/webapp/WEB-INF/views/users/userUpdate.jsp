@@ -468,9 +468,9 @@
 							<h4 class="text-center">내 정보 수정</h4>
 							<form name="myform" method="post" enctype="multipart/form-data" action="${ctp}/users/userUpdate">
 								<div class="file-input-group text-center mb-5" style="display:flex;justify-content:center;align-items:center;">
-				                  <img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${sImage}" onclick="$('#imageModal').modal('show');">
-					                  <label for="file" class="file-input-label"><i class="fas fa-tools"></i></label>
-					                  <input type="file" id="file" name="fName" onchange="previewImage()">
+		                  			<img id="imageDemo" style="width:200px;height:220px;cursor:pointer;" src="${ctp}/user/${sImage}" onclick="$('#imageModal').modal('show');">
+									<label for="file" class="file-input-label"><i class="fas fa-tools"></i></label>
+									<input type="file" id="file" name="fName" onchange="previewImage()">
 								</div>
 								
 								<div class="input-group mb-3">

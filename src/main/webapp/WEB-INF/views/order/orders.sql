@@ -1,17 +1,19 @@
 show tables;
 
 /* 주문 */
-CREATE TABLE orders (
+CREATE TABLE orders_p (
     orderIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     userId VARCHAR(20) NOT NULL,
     totalPrice INT NOT NULL,
-    couponId INT DEFAULT NULL,
+    couponIdx INT DEFAULT NULL,
     pointUse INT DEFAULT 0 NOT NULL,
     orderStatus ENUM('주문', '완료', '취소') DEFAULT '주문' NOT NULL,
     orderDate DATETIME DEFAULT NOW() NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(userId),
-    FOREIGN KEY (couponId) REFERENCES coupons(couponId)
+    FOREIGN KEY (couponIdx) REFERENCES coupon(couponIdx)
 );
+
+desc orders_p;
 
 /* 주문 정보 */
 CREATE TABLE order_product (
@@ -21,21 +23,24 @@ CREATE TABLE order_product (
     orderQuantity INT NOT NULL,
     price INT NOT NULL,
     optionIdx INT DEFAULT NULL,
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
-    FOREIGN KEY (productIdx) REFERENCES products(productIdx),
-    FOREIGN KEY (optionIdx) REFERENCES options(optionIdx)
+    FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx),
+    FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );
 
+drop table order_product;
+
 /* 주문 배송지 정보 */
-CREATE TABLE order_delivery_address (
+CREATE TABLE order_delivery (
     deliveryIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     orderIdx INT NOT NULL,
-    reciever_name VARCHAR(50) NOT NULL,
-    reciever_phone VARCHAR(20) NOT NULL,
-    reciever_address VARCHAR(255) NOT NULL,
+    recieverName VARCHAR(50) NOT NULL,
+    recieverTel VARCHAR(20) NOT NULL,
+    recieverAddress VARCHAR(255) NOT NULL,
     country VARCHAR(100) NOT NULL,
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx)
+    FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx)
 );
+
+drop table order_delivery;
 
 /* 주문 취소 테이블 */
 CREATE TABLE order_cancel (
@@ -78,18 +83,6 @@ CREATE TABLE order_return (
     FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
     FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (productIdx) REFERENCES products(productIdx)
-);
-
-/* 쿠폰 반환 테이블 */
-CREATE TABLE coupon_refund (
-    couponRefundId INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    userId VARCHAR(20) NOT NULL,
-    orderIdx INT NOT NULL,
-    couponIdx INT NOT NULL,
-    refundDate DATETIME DEFAULT NOW() NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users(userId),
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
-    FOREIGN KEY (couponIdx) REFERENCES coupons(couponId)
 );
 
 /* 환불 테이블 */

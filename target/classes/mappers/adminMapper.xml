@@ -2,9 +2,61 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.AdminDAO">
 
- 	<select id="getUserList" resultType="com.spring.javaclassS14.vo.UserVO">
- 		select * from users order by userIdx desc limit #{startIndexNo},#{pageSize};
- 	</select>
+<select id="getUserList" parameterType="map" resultType="com.spring.javaclassS14.vo.UserVO">
+    SELECT * 
+    FROM users
+    WHERE level > 0
+    <if test="keyword != null and keyword != ''">
+        AND (name LIKE CONCAT('%', #{keyword}, '%') OR userId LIKE CONCAT('%', #{keyword}, '%'))
+    </if>
+    <if test="numericOption != null">
+        <if test="numericOption == 3">
+            AND level = 3
+        </if>
+        <if test="numericOption == 2">
+            AND level = 2
+        </if>
+        <if test="numericOption == 1">
+            AND level = 1
+        </if>
+        <if test="numericOption == 0.5">
+            AND level = 0.5
+        </if>
+    </if>
+    <if test="stringOption != null">
+        <if test='stringOption == "정상"'>
+            AND userStatus = 'on'
+        </if>
+        <if test='stringOption == "탈퇴"'>
+            AND userStatus = 'off'
+        </if>
+        <if test='stringOption == "정지"'>
+            AND userStatus = 'stop'
+        </if>
+     </if>
+    ORDER BY ${orderBy}
+    LIMIT #{startIndexNo}, #{pageSize};
+</select>
+
+<update id="updateUser">
+    UPDATE users
+    <set>
+        <if test="userPwd != null">userPwd = #{userPwd},</if>
+        <if test="name != null">name = #{name},</if>
+        <if test="nickName != null">nickName = #{nickName},</if>
+        <if test="email != null">email = #{email},</if>
+        <if test="tel != null">tel = #{tel},</if>
+        <if test="userImage != null">userImage = #{userImage},</if>
+        <if test="gender != null">gender = #{gender},</if>
+        <if test="registerWay != null">registerWay = #{registerWay},</if>
+        <if test="userStatus != null">userStatus = #{userStatus},</if>
+        <if test="level != null">level = #{level},</if>
+        <if test="point != null">point = #{point},</if>
+        policyFlag = #{policyFlag},
+        updateDate = NOW()
+    </set>
+    WHERE userId = #{userId}
+</update>
 
  	<select id="getDeleteUserList" resultType="com.spring.javaclassS14.vo.UserVO">
  		select *, datediff(deleteDate, now()) as deleteDiff from delete_users order by deleteIdx desc limit #{startIndexNo},#{pageSize};
@@ -14,14 +66,25 @@
  		select registerWay, count(*) as wayCount from users group by registerWay;
  	</select>
  	
- 	<update id="getDeleteUser">
- 		<if test="#{delFlag == 'Ok'}">
- 			update delete_users set userId='del_'userId and email='del_'email where userId=#{userId};
- 			delete from users where userId=#{userId};
- 		</if>
- 		<if test="#{delFlag != 'Ok'}">
- 			update users set userStatus='on' where userId=#{userId};
- 			delete from delete_users where userId=#{userId};
- 		</if>
- 	</update>
+<update id="getDeleteUser">
+    <if test="delFlag == 'Ok'">
+        update delete_users 
+        set userId = CONCAT('del_', userId), 
+            email = CONCAT('del_', email) 
+        where userId = #{userId};
+        delete from users where userId = #{userId};
+    </if>
+    <if test="delFlag != 'Ok'">
+        update users set userStatus = 'on' where userId = #{userId};
+        delete from delete_users where userId = #{userId};
+    </if>
+</update>
+
+<update id="updateUserStatus">
+    UPDATE users SET userStatus = #{flag} WHERE userId = #{userId}
+</update>
+
+<delete id="deleteUser">
+    DELETE FROM users WHERE userId = #{userId}
+</delete>
 </mapper>

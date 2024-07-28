@@ -8,11 +8,12 @@
 		http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
 	
 	<!-- Interceptor 설정(정의) 가장 관대한 순 -> 폐쇄적인 순 -->
- 	<beans:bean id="level0Interceptor" class="com.spring.javaclassS14.intercepter.Level0Interceptor"></beans:bean>
- 	<beans:bean id="Level0p5Interceptor" class="com.spring.javaclassS14.intercepter.Level0p5Interceptor"></beans:bean>
-	<beans:bean id="level1Interceptor" class="com.spring.javaclassS14.intercepter.Level1Interceptor"></beans:bean>
-	<beans:bean id="level2Interceptor" class="com.spring.javaclassS14.intercepter.Level2Interceptor"></beans:bean>
-	<beans:bean id="level3Interceptor" class="com.spring.javaclassS14.intercepter.Level3Interceptor"></beans:bean>
+ 	<beans:bean id="level0Interceptor" class="com.spring.javaclassS14.interceptor.Level0Interceptor"></beans:bean>
+ 	<beans:bean id="Level0p5Interceptor" class="com.spring.javaclassS14.interceptor.Level0p5Interceptor"></beans:bean>
+	<beans:bean id="level1Interceptor" class="com.spring.javaclassS14.interceptor.Level1Interceptor"></beans:bean>
+	<beans:bean id="level2Interceptor" class="com.spring.javaclassS14.interceptor.Level2Interceptor"></beans:bean>
+	<beans:bean id="level3Interceptor" class="com.spring.javaclassS14.interceptor.Level3Interceptor"></beans:bean>
+	<beans:bean id="commonDataInterceptor" class="com.spring.javaclassS14.interceptor.CommonDataInterceptor"></beans:bean>
 	
  	<interceptors>
 		<!-- 준회원/비회원 처리 -->
@@ -51,6 +52,12 @@
 	    <mapping path="/admin/**"/>
 	    <beans:ref bean="level0Interceptor" />
 		</interceptor>
+        <!-- 공통 데이터 설정 인터셉터 (admin 제외 모든 경로에 대해 적용) -->
+        <interceptor>
+            <mapping path="/**"/>
+            <exclude-mapping path="/admin/**"/>
+            <beans:ref bean="commonDataInterceptor"/>
+        </interceptor>
 	</interceptors>
 	
 </beans:beans>

@@ -36,20 +36,20 @@
 					<ul class="nav-icons">
 						<c:if test="${empty sUid}">
 							<li><a href="${ctp}/"><i class="fa-solid fa-bullhorn"></i><span style="font-size:0.8em;float:bottom">0</span></a></li>
-							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:sub;">0</span></a></li>
+							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">${cartCount}</span></a></li>
 							<li><a href="${ctp}/users/userPolicy"><i class="fa-solid fa-user-group"></i><span> 회원가입</span></a></li>
 							<li><a href="${ctp}/users/userLogin"><i class="ion-person"></i><span>로그인</span></a></li>
 						</c:if>
 						<c:if test="${!empty sUid}">
 							<c:if test="${sUid == 'admin'}">
 							<li><a href="${ctp}/"><i class="fas fa-bell"></i><span style="font-size:0.8em;float:bottom">0</span></a></li>
-							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">0</span></a></li>
+							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">${cartCount}</span></a></li>
 							<li><a href="${ctp}/admin/adminMain"><i class="ion-person"></i><span>관리자페이지</span></a></li>
 							<li><a href="${ctp}/users/userLogout"><i class="fa-solid fa-right-from-bracket"></i><span>끝내기</span></a></li>
 							</c:if>
 							<c:if test="${sUid != 'admin'}">
 							<li><a href="${ctp}/"><i class="fa-solid fa-bullhorn"></i><span style="font-size:0.8em;float:bottom">0</span></a></li>
-							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">0</span></a></li>
+							<li><a href="${ctp}/shop/productCart"><i class="fa-solid fa-cart-shopping"></i><span style="font-size:0.8em;float:bottom;">${cartCount}</span></a></li>
 							<li><a href="${ctp}/users/userMain"><i class="ion-person"></i><span>마이페이지</span></a></li>
 							<li><a href="${ctp}/users/userLogout"><i class="fa-solid fa-right-from-bracket"></i><span>로그아웃</span></a></li>
 							</c:if>

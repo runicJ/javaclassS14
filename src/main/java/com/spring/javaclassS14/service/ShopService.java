@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.javaclassS14.vo.ShopVO;
+import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.ShopVO;
 
 public interface ShopService {
 
@@ -65,8 +67,6 @@ public interface ShopService {
 
 	public List<ShopVO> getNewProduct();
 
-	public CartVO getCartProductOptionSearch(int productIdx, int optionIdx, String userId);
-
 	public int setShopCartUpdate(CartVO vo);
 
 	public int setShopCartInput(CartVO vo);
@@ -74,8 +74,20 @@ public interface ShopService {
 	public List<ShopVO> getProductTopMidList();
 
 	public List<CartVO> getProductCart(String userId);
+	public CartItem getCartProductOptionSearch(int productIdx, int optionIdx, String userId);
+	public int updateCart(CartItem cartItem, String userId);
+	public int addCart(CartVO cartVO);
 
-	public String setProductCartDelete(int productIdx);
+	public int setProductCartDelete(int cartIdx);
 
+	public int getUserCartCnt(String userId);
+
+	public OrderVO getOrderMaxIdx();
+
+	public CartVO getCartIdx(int parseInt);
+
+	public void setOrder(OrderVO vo);
+
+	public void setCartDeleteAll(int orderProductIdx);
 
 }

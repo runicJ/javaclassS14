@@ -18,164 +18,142 @@
   	<script>
   	'use strict';
 
-  	let idxArray = new Array();
+    let idxArray = new Array();
 
-  	// 옵션박스에서, 옵션항목을 선택하였을때 처리하는 함수(고유번호/옵션명/콤마붙인가격)을 화면에 출력시켜주고 있다.
-  	$(function() {
-  	    $(".selectOption").change(function() {
-  	        let selectOption = $(this).val(); // (옵션값은 '옵션고유번호:옵션명_옵션가격' 형식으로 넘어오고 있다.)
-  	        let optionIdx = selectOption.substring(0, selectOption.indexOf(":"));
-  	        let optionName = selectOption.substring(selectOption.indexOf(":") + 1, selectOption.indexOf("_"));
-  	        let addPrice = parseInt(selectOption.substring(selectOption.indexOf("_") + 1));
-  	        let basePrice = parseInt(${productVO.productPrice});
-  	        let totalOptionPrice = basePrice + addPrice;
-  	        let commaPrice = numberWithCommas(totalOptionPrice);
+    $(function() {
+        $(".selectOption").change(function() {
+            let selectOption = $(this).val();
+            let optionIdx = selectOption.substring(0, selectOption.indexOf(":"));
+            let optionName = selectOption.substring(selectOption.indexOf(":") + 1, selectOption.indexOf("_"));
+            let addPrice = parseInt(selectOption.substring(selectOption.indexOf("_") + 1));
+            let basePrice = parseInt(${productVO.productPrice});
+            let totalOptionPrice = basePrice + addPrice;
+            let commaPrice = numberWithCommas(totalOptionPrice);
+            let quantity = parseInt($("#numBoxMain").val());
 
-  	        // 콤보상자에서 옵션선택시 수행처리하는 부분이다. 이미 선택한 옵션항목은 또다시 선택할수 없도록 처리했다.
-  	        if ($("#layer" + optionIdx).length == 0) {
-  	            idxArray[optionIdx] = optionIdx;
-  	            // numBox:수량, imsiPrice:콤마붙인 가격(수량변경처리적용됨), price:콤마없는옵션가격(수량변경처리적용됨), statePrice:상품의정상가격, optionIdx:옵션고유번호(단,기본품목은0이다.), optionName:옵션명, optionPrice:옵션원래정상가격
-  	            let str = '';
-  	            str += '<div class="layer row" id="layer' + optionIdx + '"><div class="col">' + optionName + '</div>';
-  	            str += '<input type="number" class="text-center numBox" id="numBox' + optionIdx + '" name="quantity" onchange="numChange(' + optionIdx + ')" value="1" min="1"/> &nbsp;';
-  	            str += '<input type="text" id="imsiPrice' + optionIdx + '" class="price" value="' + commaPrice + '" readonly /><span> 원</span>';
-  	            str += '<input type="hidden" id="price' + optionIdx + '" value="' + totalOptionPrice + '"/> &nbsp;';
-  	            str += '<input type="button" class="btn btn-outline-danger btn-sm" onclick="remove(' + optionIdx + ')" value="X"/>';
-  	            str += '<input type="hidden" name="statePrice" id="statePrice' + optionIdx + '" value="' + totalOptionPrice + '"/>';
-  	            str += '<input type="hidden" name="optionIdx" value="' + optionIdx + '"/>';
-  	            str += '<input type="hidden" name="optionName" value="' + optionName + '"/>';
-  	            str += '<input type="hidden" name="optionPrice" value="' + totalOptionPrice + '"/>';
-  	          	str += '<input type="hidden" name="quantity[' + optionIdx + ']" id="formQuantity' + optionIdx + '" value="' + document.getElementById("numBoxMain").value + '"/>';
-  	            str += '</div>';
-  	            $("#product1").append(str); // 선택한 옵션항목을 아래 준비한공간(#product1)에 추가시켜주고 있다.
-  	            onTotal(); // 옵션항목에 변경이 생긴다면 무조건 가격총합계를 재계산처리시키고 있다.
-  	        } else {
-  	            alert("이미 선택한 옵션입니다.");
-  	        }
-  	    });
-  	});
+            if ($("#layer" + optionIdx).length == 0) {
+                idxArray.push(optionIdx);
+                let index = idxArray.length - 1;
+                let str = '';
+                str += '<div class="layer row" id="layer' + optionIdx + '"><div class="col">' + optionName + '</div>';
+                str += '<input type="number" class="text-center numBox" id="numBox' + optionIdx + '" name="items[' + index + '].quantity" onchange="numChange(' + optionIdx + ')" value="' + quantity + '" min="1"/> &nbsp;';
+                str += '<input type="text" id="imsiPrice' + optionIdx + '" class="price" value="' + commaPrice + '" readonly /><span> 원</span>';
+                str += '<input type="hidden" id="price' + optionIdx + '" value="' + totalOptionPrice + '" data-add-price="' + addPrice + '"/> &nbsp;';
+                str += '<input type="button" class="btn btn-outline-danger btn-sm" onclick="remove(' + optionIdx + ')" value="X"/>';
+                str += '<input type="hidden" name="items[' + index + '].optionIdx" value="' + optionIdx + '"/>';
+                str += '<input type="hidden" name="items[' + index + '].productIdx" value="${productVO.productIdx}"/>';
+                str += '<input type="hidden" name="items[' + index + '].isSoldOut" value="false"/>';
+                str += '</div>';
+                $("#product1").append(str);
+                onTotal();
+            } 
+            else {
+                alert("이미 선택한 옵션입니다.");
+            }
+        });
+    });
 
-  	// 등록(추가)시킨 옵션의 상품을 삭제처리하기
-  	function remove(optionIdx) {
-  	    $("div").remove("#layer" + optionIdx);
+    function remove(optionIdx) {
+        $("div").remove("#layer" + optionIdx);
 
-  	    if ($(".price").length) onTotal();
-  	    else location.reload();
-  	}
+        if ($(".price").length) onTotal();
+        else location.reload();
+    }
 
-  	// 상품의 총 금액을 (재)계산처리한다.
-  	function onTotal() {
-  	    let total = 0;
-  	    for (let i = 0; i < idxArray.length; i++) {
-  	        if ($("#layer" + idxArray[i]).length != 0) {
-  	            total += parseInt(document.getElementById("price" + idxArray[i]).value);
-  	            document.getElementById("totalPrice").value = total;
-  	        }
-  	    }
-  	    document.getElementById("totalPrice").value = numberWithCommas(total);
-  	}
+    function onTotal() {
+        let total = 0;
+        for (let i = 0; i < idxArray.length; i++) {
+            if ($("#layer" + idxArray[i]).length != 0) {
+                total += parseInt(document.getElementById("price" + idxArray[i]).value);
+            }
+        }
+        document.getElementById("totalPrice").value = numberWithCommas(total);
+    }
 
-  	// 수량을 변경시 처리하는 함수(콤마붙인가격과 콤마없는 가격을 함께 변경적용시켜준다.)
-  	function numChange(optionIdx) {
-  	    let price = document.getElementById("statePrice" + optionIdx).value * document.getElementById("numBox" + optionIdx).value;
-  	    document.getElementById("imsiPrice" + optionIdx).value = numberWithCommas(price);
-  	    document.getElementById("price" + optionIdx).value = price;
-  	  	document.getElementById("formQuantity" + optionIdx).value = quantity;
-  	    onTotal();
-  	}
+    function numChange(optionIdx) {
+        let basePrice = parseInt(${productVO.productPrice});
+        let addPrice = parseInt($("#price" + optionIdx).data("addPrice"));
+        let quantity = parseInt(document.getElementById("numBox" + optionIdx).value);
+        let totalPrice = (basePrice + addPrice) * quantity;
+        document.getElementById("imsiPrice" + optionIdx).value = numberWithCommas(totalPrice);
+        document.getElementById("price" + optionIdx).value = totalPrice;
+        onTotal();
+    }
 
-  	// 장바구니 호출시 수행하는 함수
-  	function cart() {
-  	    if (document.getElementById("totalPrice").value == 0) {
-  	        alert("옵션을 선택해주세요");
-  	        return false;
-  	    } 
-  	    else {
-  	        myform.action = "${ctp}/shop/addToCart"; // 장바구니 추가 액션 설정
-  	        myform.submit();
-  	    }
-  	}
+    function cart() {
+        if (document.getElementById("totalPrice").value == 0) {
+            alert("옵션을 선택해주세요");
+            return false;
+        } 
+        else {
+            myform.action = "${ctp}/shop/addToCart";
+            myform.submit();
+        }
+    }
 
-  	// 직접 주문하기
-  	function order() {
-  	    let totalPrice = document.getElementById("totalPrice").value;
-  	    if ('${sUid}' == "") {
-  	        alert("로그인 후 이용 가능합니다.");
-  	        location.href = "${ctp}/users/userLogin";
-  	    } else if (totalPrice == "" || totalPrice == 0) {
-  	        alert("옵션을 선택해주세요");
-  	        return false;
-  	    } else {
-  	        document.getElementById("flag").value = "order";
-  	        document.myform.submit();
-  	    }
-  	}
+    function numberWithCommas(x) {
+        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+    }
 
-  	// 천단위마다 콤마를 표시해 주는 함수
-  	function numberWithCommas(x) {
-  	    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-  	}
+    function likedToggle(productIdx) {
+        if (sUid == null || sUid == "") {
+            alert("로그인 이후에 가능한 메뉴입니다!");
+            return false;
+        }
 
-  	// 좋아요 토글
-  	function likedToggle(productIdx) {
-  	    if (sUid == null || sUid == "") {
-  	        alert("로그인 이후에 가능한 메뉴입니다!");
-  	        return false;
-  	    }
-
-  	    $.ajax({
-  	        url: "${ctp}/shop/productLikedToggle",
-  	        type: "post",
-  	        data: { productIdx: productIdx },
-  	        success: function(res) {
-  	            let icon = document.getElementById("liked-icon-" + productIdx);
-  	            let wishCnt = document.getElementById("likedCnt");
-  	            if (res.trim() == "true") {
-  	                alert("해당 숙소를 위시리스트에서 제거하였습니다.");
-  	                icon.classList.remove('fa-solid', 'fa-heart');
-  	                icon.classList.add('fa-regular', 'fa-heart');
-  	                wishCnt.textContent = parseInt(wishCnt.textContent) - 1;
-  	            } else {
-  	                alert("해당 숙소를 위시리스트에 추가하였습니다.");
-  	                icon.classList.remove('fa-regular', 'fa-heart');
-  	                icon.classList.add('fa-solid', 'fa-heart');
-  	                icon.style.color = 'red';
-  	                wishCnt.textContent = parseInt(wishCnt.textContent) + 1;
-  	            }
-  	        },
-  	        error: function() {
-  	            alert("전송 오류!");
-  	        }
-  	    });
-  	}
-  	</script>
-  	<style>
-  	   .layer  {
-	      border:0px;
-	      width:100%;
-	      padding:10px;
-	      margin-left:1px;
-	      background-color:#eee;
-	    }
-	    .numBox {width:40px}
-	    .price  {
-	      width:160px;
-	      background-color:#eee;
-	      text-align:right;
-	      font-size:1.2em;
-	      border:0px;
-	      outline: none;
-	    }
-	    .totalPrice {
-	      text-align:right;
-	      margin-right:10px;
-	      color:#f63;
-	      font-size:1.5em;
-	      font-weight: bold;
-	      border:0px;
-	      outline: none;
-	    }
-  	</style>
+        $.ajax({
+            url: "${ctp}/shop/productLikedToggle",
+            type: "post",
+            data: { productIdx: productIdx },
+            success: function(res) {
+                let icon = document.getElementById("liked-icon-" + productIdx);
+                let wishCnt = document.getElementById("likedCnt");
+                if (res.trim() == "true") {
+                    alert("해당 상품을 위시리스트에서 제거하였습니다.");
+                    icon.classList.remove('fa-solid', 'fa-heart');
+                    icon.classList.add('fa-regular', 'fa-heart');
+                    wishCnt.textContent = parseInt(wishCnt.textContent) - 1;
+                } else {
+                    alert("해당 상품을 위시리스트에 추가하였습니다.");
+                    icon.classList.remove('fa-regular', 'fa-heart');
+                    icon.classList.add('fa-solid', 'fa-heart');
+                    icon.style.color = 'red';
+                    wishCnt.textContent = parseInt(wishCnt.textContent) + 1;
+                }
+            },
+            error: function() {
+                alert("전송 오류!");
+            }
+        });
+    }
+    </script>
+    <style>
+       .layer  {
+          border:0px;
+          width:100%;
+          padding:10px;
+          margin-left:1px;
+          background-color:#eee;
+        }
+        .numBox {width:40px}
+        .price  {
+          width:160px;
+          background-color:#eee;
+          text-align:right;
+          font-size:1.2em;
+          border:0px;
+          outline: none;
+        }
+        .totalPrice {
+          text-align:right;
+          margin-right:10px;
+          color:#f63;
+          font-size:1.5em;
+          font-weight: bold;
+          border:0px;
+          outline: none;
+        }
+    </style>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
@@ -193,7 +171,7 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <div class="product__details__breadcrumb text-right">
-                        	<i class="fa-solid fa-barcode"></i> &nbsp;
+                            <i class="fa-solid fa-barcode"></i> &nbsp;
                             <a href="${ctp}/">메인페이지</a>
                             <a href="${ctp}/shop/productList">제품판매</a>
                             <span>${productVO.productName}</span>
@@ -202,10 +180,10 @@
                 </div>
                 <div class="row">
                     <div class="col-lg-12">
-		                <div class="product__details__pic__item">
-		                	<img src="${ctp}/product/${productVO.productThumb}" alt="product Thumbnail">
-		                </div>
-                	</div>
+                        <div class="product__details__pic__item">
+                            <img src="${ctp}/product/${productVO.productThumb}" alt="product Thumbnail">
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
@@ -230,75 +208,75 @@
                             </div>
                             
                             <div class="form-group">
-                            	<form name="optionForm">
-		                            <h3>￦ <fmt:formatNumber value="${productVO.productPrice}" /><span>0</span></h3>
-		                            <p>${productVO.productDetails}</p>
-		                            <div class="product__details__cart__option">
-		                                <div class="quantity mb-2">
-		                                    <div class="pro-qty">
-		                                        <input type="number" name="quantity" min="1" value="1" id="numBoxMain">
-		                                    </div>
-		                                </div>
-		                                <a type="button" onclick="likedToggle(${productVO.productIdx})" class="btn btn-inline-light">
-			                                <c:if test="${productVO.isLiked != 0}">
-			                                	<i id="liked-icon-${productVO.productIdx}" class="fa-solid fa-heart" style="color:red;"></i>
-			                                </c:if>
-			                                <c:if test="${productVO.isLiked == 0}">
-			                                	<i id="liked-icon-${productVO.productIdx}" class="fa-regular fa-heart" style="color:#eee;"></i>
-			                                </c:if>
-			                                <span>명 관심등록</span>
-		                                </a>
-		                            </div>
-		                            <div class="product__details__option">
-	                                	<c:if test="${empty optionGroupVOS}">
-		                                <div class="product__details__option__size">
-		                                    <label for="basicIdx"> 기본
-		                                        <input type="radio" id="basicIdx" class="selectOption" name="selectOption" value="0:기본_0">
-		                                    </label>
-	                                    </div>
-	                                	</c:if>
-		                            	<c:forEach var="optionGroupVO" items="${optionGroupVOS}">
-		                                <div class="product__details__option__size">
-		                                    <span>${optionGroupVO.optionGroupName}</span>
-		                                    <label for="basicIdx"> 기본
-		                                        <input type="radio" id="basicIdx" class="selectOption" name="selectOption" value="0:기본_0">
-		                                    </label>
-		                                    <c:forEach var="optionVO" items="${optionVOS}">
-		                                    <c:if test="${optionGroupVO.optionGroupIdx == optionVO.optionGroupIdx}">
-											<label for="${optionVO.optionIdx}">${optionVO.optionName} 
-											    <c:if test="${optionVO.addPrice != 0}">
-											        <span> (+</span><fmt:formatNumber value="${optionVO.addPrice}" /><span>원)</span>
-											    </c:if>
-											    <input type="radio" id="${optionVO.optionIdx}" class="selectOption" name="selectOption" value="${optionVO.optionIdx}:${optionVO.optionName}_${optionVO.addPrice}">
-											</label>
-		                                    </c:if>
-		                                    </c:forEach>
-		                                </div>
-		                                </c:forEach>
-		                            </div>
-	                            </form>
+                                <form name="optionForm">
+                                    <h3>￦ <fmt:formatNumber value="${productVO.productPrice}" /><span>0</span></h3>
+                                    <p>${productVO.productDetails}</p>
+                                    <div class="product__details__cart__option">
+										<div class="quantity mb-2">
+                                            <div class="pro-qty">
+                                                <input type="number" name="quantity" min="1" value="1" id="numBoxMain">
+                                            </div>
+                                        </div>
+                                        <a type="button" onclick="likedToggle(${productVO.productIdx})" class="btn btn-inline-light">
+                                            <c:if test="${productVO.isLiked != 0}">
+                                                <i id="liked-icon-${productVO.productIdx}" class="fa-solid fa-heart" style="color:red;"></i>
+                                            </c:if>
+                                            <c:if test="${productVO.isLiked == 0}">
+                                                <i id="liked-icon-${productVO.productIdx}" class="fa-regular fa-heart" style="color:#eee;"></i>
+                                            </c:if>
+                                            <span>명 관심등록</span>
+                                        </a>
+                                    </div>
+                                    <div class="product__details__option">
+                                        <c:if test="${empty optionGroupVOS}">
+                                        <div class="product__details__option__size">
+                                            <label for="basicIdx"> 기본
+                                                <input type="radio" id="basicIdx" class="selectOption" name="selectOption" value="0:기본_0">
+                                            </label>
+                                        </div>
+                                        </c:if>
+                                        <c:forEach var="optionGroupVO" items="${optionGroupVOS}">
+                                        <div class="product__details__option__size">
+                                            <span>${optionGroupVO.optionGroupName}</span>
+                                            <c:if test="${optionGroupVO.optionGroupName != '색상'}">
+                                            <label for="basicIdx"> 기본
+                                                <input type="radio" id="basicIdx" class="selectOption" name="selectOption" value="0:기본_0">
+                                            </label>
+                                            </c:if>
+                                            <c:forEach var="optionVO" items="${optionVOS}">
+                                            <c:if test="${optionGroupVO.optionGroupIdx == optionVO.optionGroupIdx}">
+                                            <label for="${optionVO.optionIdx}">${optionVO.optionName} 
+                                                <c:if test="${optionVO.addPrice != 0}">
+                                                    <span> (+</span><fmt:formatNumber value="${optionVO.addPrice}" /><span>원)</span>
+                                                </c:if>
+                                                <input type="radio" id="${optionVO.optionIdx}" class="selectOption" name="selectOption" value="${optionVO.optionIdx}:${optionVO.optionName}_${optionVO.addPrice}">
+                                            </label>
+                                            </c:if>
+                                            </c:forEach>
+                                        </div>
+                                        </c:forEach>
+                                    </div>
+                                </form>
                             </div>
 
                             <div>
-                            	<form name="myform" method="post">
-						          <input type="hidden" name="userId" value="${sUid}"/>
-						          <input type="hidden" name="productIdx" value="${productVo.productIdx}"/>
-						          <input type="hidden" name="productPrice" value="${productVo.productPrice}"/>
-						          <input type="hidden" name="flag" id="flag"/>
-						
-						          <div id="product1"></div>	<!-- 앞의 콤보상자에서 선택한 옵션항목을 동적폼으로 출력처리하고 있다. -->
-						        </form>
+                                <form name="myform" method="post">
+                                  <input type="hidden" name="userId" value="${sUid}"/>
+                                  <input type="hidden" name="productPrice" value="${productVO.productPrice}"/>
+                                  <input type="hidden" name="flag" id="flag"/>
+                                  <div id="product1"></div>
+                                </form>
                             </div>
                             <div>
-					        <hr/>
-					      <div class="text-left"><font size="4" color="black">총 상품 금액</font></div>
-					        <p class="text-right">
-					          <b><input type="text" class="totalPrice text-right" id="totalPrice" value="<fmt:formatNumber value='0'/>" readonly /></b>
-					        </p>
-			               <a href="${ctp}/shop/addToCart" class="primary-btn mr-2">바로 구매하기</a>
-			               <a type="button" onclick="cart()" class="primary-btn mr-2">장바구니 담기</a>
-					      </div>
-			                <div class="line"></div>
+                            <hr/>
+                            <div class="text-left"><font size="4" color="black">총 상품 금액</font></div>
+                                <p class="text-right">
+                                    <b><input type="text" class="totalPrice text-right" id="totalPrice" value="<fmt:formatNumber value='0'/>" readonly /></b>
+                                </p>
+                                <a href="${ctp}/shop/addToCart" class="primary-btn mr-2">바로 구매하기</a>
+                                <a type="button" onclick="cart()" class="primary-btn mr-2">장바구니 담기</a>
+                            </div>
+                            <div class="line"></div>
                             <div class="product__details__last__option">
                                 <h5><span>제품 정보</span></h5>
                                 <ul>
@@ -307,7 +285,7 @@
                                     <li><span>상품 브랜드 : </span> [ ${productVO.productBrand} ]</li>
                                 </ul>
                             </div>
-                        </div>
+                    	</div>
                     </div>
                 </div>
                 <div class="row">
@@ -329,9 +307,9 @@
                                 <div class="tab-pane active" id="tabs-5" role="tabpanel">
                                     <div class="product__details__tab__content">
                                         <div class="product__details__tab__content__item">
-	                                    	<div id="content" class="text-center">
-	                                        	${productVO.content}
-	                                        </div>
+                                            <div id="content" class="text-center">
+                                                ${productVO.content}
+                                            </div>
                                         </div>
                                     </div>
                                 </div>
@@ -563,15 +541,15 @@
 <a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 </div>
 <p><br/></p>
-	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
-	<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
-	<script src="${ctp}/js/shop/jquery-ui.min.js"></script>
-    <script src="${ctp}/js/shop/main.js"></script>
+<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
+<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
+<script src="${ctp}/js/shop/jquery-ui.min.js"></script>
+<script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 <script>
     /*-------------------
-		Radio Btn
-	--------------------- */
+        Radio Btn
+    --------------------- */
     $(".product__color__select label, .shop__sidebar__size label, .product__details__option__size label").on('click', function () {
         $(".product__color__select label, .shop__sidebar__size label, .product__details__option__size label").removeClass('active');
         $(this).addClass('active');

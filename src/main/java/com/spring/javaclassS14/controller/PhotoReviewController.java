@@ -18,7 +18,7 @@ import org.springframework.web.servlet.ModelAndView;
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.PhotoGalleryService;
-import com.spring.javaclassS14.service.PhotoGalleryVO;
+import com.spring.javaclassS14.vo.PhotoGalleryVO;
 
 @Controller
 @RequestMapping("/photoGallery")

@@ -1,17 +1,17 @@
 package com.spring.javaclassS14.controller;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -23,6 +23,7 @@ import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.AdminService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.SurveyService;
+import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.ShopVO;
 import com.spring.javaclassS14.vo.SurveyVO;
@@ -39,7 +40,13 @@ public class AdminController {
 	AdminService adminService;
 	
 	@Autowired
+	UserService userService;
+	
+	@Autowired
 	ShopService shopService;
+	
+	@Autowired
+	SurveyService surveyService;
 	
 	// 관리자 페이지로 이동
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
@@ -51,22 +58,26 @@ public class AdminController {
 	}
 	
 	// 회원리스트
-	@RequestMapping(value="/userList", method=RequestMethod.GET)
-	public String userListGet(Model model,
-		@RequestParam(name="pag", defaultValue="1", required=false) int pag,
-		@RequestParam(name="pageSize", defaultValue="5", required=false) int pageSize) {
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "user", "", "");
-		
-		ArrayList<UserVO> vos = adminService.getUserList(pageVO.getStartIndexNo(), pageSize);
-		
-		model.addAttribute("vos", vos);
-		model.addAttribute("pageVO", pageVO);
-		
-		return "admin/user/userList";
+	@RequestMapping(value = "/user/userList", method = RequestMethod.GET)
+	public String userListGet(@RequestParam(name = "keyword", defaultValue = "", required = false) String keyword,
+				            @RequestParam(name = "sortOption", defaultValue = "createDate", required = false) String sortOption,
+				            @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
+				            @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
+	                        Model model) {
+		System.out.println();
+	    PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "user", sortOption, keyword);
+	    List<UserVO> vos = adminService.getUserList(pageVO.getStartIndexNo(), pageSize, keyword, sortOption);
+
+	    model.addAttribute("vos", vos);
+	    model.addAttribute("pageVO", pageVO);
+	    model.addAttribute("sortOption", sortOption);
+	    model.addAttribute("keyword", keyword);
+
+	    return "admin/user/userList";
 	}
 	
 	// 탈퇴 회원리스트
-	@RequestMapping(value="/deleteUserList", method=RequestMethod.GET)
+	@RequestMapping(value="/user/deleteUserList", method=RequestMethod.GET)
 	public String deleteUserListGet(Model model,
 			@RequestParam(name="pag", defaultValue="1", required=false) int pag,
 			@RequestParam(name="pageSize", defaultValue="5", required=false) int pageSize) {
@@ -89,132 +100,39 @@ public class AdminController {
 		else return "redirect:/msg/userCheckNo?delFlag="+delFlag;
 	}
 	
-	@Autowired
-	SurveyService surveyService;
-	
-	/*
-	 * 설문 만들기 View
-	 */
-	@RequestMapping(value="/survey/surveyInput", method=RequestMethod.GET)
-	public String surveyInputGet(HttpSession session, Model model) {
-		String nickName = (String) session.getAttribute("sNickName");
-		model.addAttribute("nickName", nickName);
-		return "admin/survey/surveyInput";
-	}
+	@ResponseBody
+    @GetMapping("/user/userInfo")
+    public UserVO userInfoGet(@RequestParam String userId) {
+    	UserVO user = userService.getUserIdCheck(userId);
+    	System.out.println("UserVO1: " + user);
+        return user;
+    }
 
-	/*
-	 * 설문 만들기 
-	*/
-	@ResponseBody
-	@RequestMapping("survey/surveyInputOk")
-	public String regSurv(@RequestBody SurveyVO surveyDto
-			, @AuthenticationPrincipal UserDetails userInfo) throws Exception {	
-		System.out.println("===regSurv Controller START");
-		
-		surveyDto.setUserId(userInfo.getUsername());
-		System.out.println("surveyDto ==> "+surveyDto.toString());
-		surveyService.insertSurv(surveyDto);
-		
-		System.out.println("===regSurv Controller END===");
-		return "admin/survey/surveyInput";
-	}
-	
-	/*
-	 * My Survey > 설문 수정하기 View
-	 */
-	@RequestMapping("/modSurvForm")
-	public String modSurv(@RequestParam(value="survNo") Integer survNo
-						 , @AuthenticationPrincipal UserDetails userInfo
-						 , Model model) {
-		System.out.println("===modSurv Controller START===");
-		String memNick = surveyService.getUserInfo(userInfo.getUsername());
-		
-		System.out.println("수정할 survNo : "+survNo+" memNick :"+memNick);
-		
-		SurveyVO surveyDto = surveyService.getSurvey(survNo);
-		System.out.println("뿌려줄 surveyDto ==> "+surveyDto.toString());
-		
-		surveyDto.setNickName(memNick);
-		
-		model.addAttribute("surveyDto",surveyDto);
-		
-		System.out.println("===modSurv Controller END===");
-		return "survey/modSurv";
-	}
-	
-	/*
-	 * 설문 삭제하기
-	 */
-	@RequestMapping("/delSurv")
-	public String delSurv(@AuthenticationPrincipal UserDetails userInfo
-						  ,@RequestParam Map<String,String> param) {
-		System.out.println("delSurv Controller START");
-		
-		int survNo = Integer.parseInt(param.get("survNo"));
-		
-		String memNick = surveyService.getUserInfo(userInfo.getUsername());
-		System.out.println("survNo : "+survNo+"  memNick : "+memNick);
+//    @PostMapping("/user/userUpdate")
+//    public String updateUser(@ModelAttribute UserVO userVO, @RequestParam("fName") MultipartFile file) {
+//        int res = userService.setUserUpdate(userVO, file);
+//        return res != 0 ? "redirect:/msg/userUpdateOK" : "redirect:/msg/userUpdateNO";
+//    }
 
-		surveyService.delOneSurvey(survNo);
-		
-		return "redirect:myList";
-	}
-	
-	/*
-	 * 설문 수정하기
-	 */
-	@RequestMapping("/updateSurv")
-	@ResponseBody
-	public void updateSurv(@AuthenticationPrincipal UserDetails userInfo
-						  ,@RequestBody SurveyVO surveyDto) {
-		System.out.println("updateSurv controller START");
-		surveyDto.setUserId(userInfo.getUsername());
-		
-		int survNo = surveyDto.getSurvNo();
-		surveyService.delOldSurvey(survNo);
-		surveyService.insertNewSurv(surveyDto);
-		
-		System.out.println("updateSurv controller END");
-	}
-	
-	/*
-	 * 리스트 응답 폼 보여주기 View
-	 * */
-	@RequestMapping("/resForm")
-	public String resForm(@RequestParam(value="survNo") Integer survNo
-			, @AuthenticationPrincipal UserDetails userInfo,
-			HttpServletRequest request , Model model) {
-		SurveyVO surveyDto = surveyService.getSurvey(survNo);
-		String memNick = surveyService.getUserInfo(surveyDto.getUserId());
-		
-		surveyDto.setNickName(memNick);
-		if(surveyDto.getSurvDesc() != null) {
-			surveyDto.setSurvDesc(surveyDto.getSurvDesc().replace("\n","<br>"));
-		}
-		
-		model.addAttribute("surveyDto",surveyDto);
-		model.addAttribute("memId", userInfo.getUsername());
-		model.addAttribute("currentPage",request.getParameter("currentPage"));
-		model.addAttribute("cntPerPage",request.getParameter("cntPerPage"));
-		model.addAttribute("pageSize",request.getParameter("pageSize"));
-		model.addAttribute("srchTyp",request.getParameter("srchTyp"));
-		model.addAttribute("keyword",request.getParameter("keyword"));
-		
-		return "survey/resSurv";
-	}
-	
-	@RequestMapping("/resSurv")
-	@ResponseBody
-	public String resSurv(@RequestBody SurveyVO qustDto) {	
-		List<SurveyVO> answerList = qustDto.getAnswerList();
-		
-		System.out.println(answerList);
-		
-		surveyService.insertAnswer(answerList);
-		
-		return "redirect:/survList";
-	}
-	
+    @PostMapping("/user/userDelete")
+    public String deleteUser(@RequestParam String userId) {
+        int res = userService.setUserDelete(userId, "");
+        return res != 0 ? "redirect:/msg/userDeleteOK" : "redirect:/msg/userDeleteNO";
+    }
+    
+    @PostMapping("/user/allAction")
+    @ResponseBody
+    public Map<String, String> allAction(@RequestParam("action") String action, @RequestParam("users") List<String> users) {
+        Map<String, String> response = new HashMap<>();
+        try {
+            adminService.allAction(action, users);
+            response.put("message", "작업이 성공적으로 완료되었습니다.");
+        } catch (Exception e) {
+            response.put("message", "작업 중 오류가 발생했습니다.");
+        }
+        return response;
+    }
+    
 	// 제품 카테고리 관리 페이지 이동
 	@RequestMapping(value="/shop/productCategory", method=RequestMethod.GET)
 	public String productCategoryGet(Model model) {
@@ -437,5 +355,82 @@ public class AdminController {
         int res = shopService.setOptionDelete(optionIdx);
 		return res + "";
 	}
+	
+    // 설문 만들기 View (ADMIN과 MANAGER만 접근 가능)
+    @RequestMapping(value="/survey/surveyInput", method = RequestMethod.GET)
+    public String regSurvForm(HttpSession session) {
+        String userId = (String) session.getAttribute("sUid");
+        if (userId.equals("admin")) {
+            return "admin/survey/surveyInput";
+        } else {
+            return "redirect:/accessDenied";
+        }
+    }
 
+    // 설문 만들기 (ADMIN과 MANAGER만 접근 가능)
+    @RequestMapping(value="/survey/surveyInput", method=RequestMethod.POST)
+    @ResponseBody
+    public String regSurv(@RequestBody SurveyVO surveyDto, HttpSession session) throws Exception {
+        String userId = (String) session.getAttribute("sUid");
+        if (userId.equals("admin")) {
+            System.out.println("===regSurv Controller START");
+
+            surveyDto.setUserId(userId);
+            System.out.println("surveyDto ==> " + surveyDto.toString());
+            surveyService.insertSurv(surveyDto);
+
+            System.out.println("===regSurv Controller END===");
+            return "admin/survey/surveyInput";
+        } else {
+            return "redirect:/accessDenied";
+        }
+    }
+/*
+    // 설문 삭제하기 (ADMIN만 접근 가능)
+    @RequestMapping(value="/survey/delSurv", method=RequestMethod.POST)
+    public String delSurv(@RequestParam("survNo") int survNo, HttpSession session) {
+        String userId = (String) session.getAttribute("sUid");
+        if (userId.equals("admin")) {
+            System.out.println("delSurv Controller START");
+
+            surveyService.delOneSurvey(survNo);
+
+            return "redirect:/admin/survey/myList";
+        } else {
+            return "redirect:/accessDenied";
+        }
+    }
+
+    // 설문 수정하기 (ADMIN과 MANAGER만 접근 가능)
+    @RequestMapping(value="/survey/updateSurv", method=RequestMethod.POST)
+    @ResponseBody
+    public void updateSurv(@RequestBody SurveyVO surveyDto, HttpSession session) {
+        String userId = (String) session.getAttribute("sUid");
+        if (userId.equals("admin")) {
+            System.out.println("updateSurv Controller START");
+
+            surveyService.delOldSurvey(surveyDto.getSurvNo());
+            surveyService.insertNewSurv(surveyDto);
+
+            System.out.println("updateSurv Controller END");
+        }
+    }
+
+    // My Survey > 설문 수정하기 View (ADMIN과 MANAGER만 접근 가능)
+    @RequestMapping(value="/survey/modSurvForm", method=RequestMethod.GET)
+    public String modSurv(@RequestParam(value="survNo") Integer survNo, HttpSession session, Model model) {
+        String userId = (String) session.getAttribute("sUid");
+        if (userId.equals("admin")) {
+            System.out.println("===modSurv Controller START===");
+
+            SurveyVO surveyDto = surveyService.getSurvey(survNo);
+            model.addAttribute("surveyDto", surveyDto);
+
+            System.out.println("===modSurv Controller END===");
+            return "admin/survey/modSurv";
+        } else {
+            return "redirect:/accessDenied";
+        }
+    }
+    */
 }

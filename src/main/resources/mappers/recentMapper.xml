@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.RecentDAO">
+
+    <insert id="saveRecentProductView">
+        INSERT INTO recent_view_product (userId, productIdx)
+        VALUES (#{userId}, #{productIdx})
+    </insert>
+    <insert id="saveRecentSearch">
+        INSERT INTO recent_search (userId, search_term)
+        VALUES (#{userId}, #{searchTerm})
+    </insert>
+    <insert id="saveBookmark">
+        INSERT INTO bookmark (userId, partUrl, category)
+        VALUES (#{userId}, #{partUrl}, #{category})
+    </insert>
+    <insert id="saveFavoriteProduct">
+        INSERT INTO favorite_product (userId, productIdx)
+        VALUES (#{userId}, #{productIdx})
+    </insert>
+    <select id="getRecentProductViews" resultType="map">
+        SELECT * FROM recent_view_product WHERE userId = #{userId} ORDER BY viewDate DESC LIMIT 10
+    </select>
+    <select id="getRecentSearches" resultType="map">
+        SELECT * FROM recent_search WHERE userId = #{userId} ORDER BY searchDate DESC LIMIT 10
+    </select>
+    <select id="getBookmarks" resultType="map">
+        SELECT * FROM bookmark WHERE userId = #{userId} AND category = #{category} ORDER BY addDate DESC
+    </select>
+    <select id="getFavoriteProducts" resultType="map">
+        SELECT * FROM favorite_product WHERE userId = #{userId} ORDER BY addDate DESC
+    </select>
+
+</mapper>

@@ -3,6 +3,8 @@ package com.spring.javaclassS14.service;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.spring.javaclassS14.vo.PhotoGalleryVO;
+
 public interface PhotoGalleryService {
 
 	public int imgCheck(PhotoGalleryVO vo, String realPath);

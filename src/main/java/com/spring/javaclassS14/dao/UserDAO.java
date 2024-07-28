@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.dao;
 
 import java.util.List;
+import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -27,8 +28,6 @@ public interface UserDAO {
 
 	public int totRecCnt();
 
-	public int totRecCntSearch(@Param("search") String search, @Param("searchString") String searchString);
-
 	public int recentLog(@Param("userId") String userId);
 	
 	public void setUserLog(@Param("userId") String userId, @Param("hostIp") String hostIp);
@@ -48,6 +47,10 @@ public interface UserDAO {
 	public int checkUserBookmark(@Param("userId") String userId, @Param("partUrl") String partUrl);
 
 	public void saveBookmarkToggle(@Param("userId") String userId, @Param("partUrl") String partUrl, @Param("bookmark") boolean bookmark);
+
+	public int totRecCntKeyword(@Param("keyword") String keyword);
+
+	public int totRecCntOption(Map<String, Object> paramMap);
 	
 //	public int setUserDelete(@Param("userId") String userId);
 //	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);

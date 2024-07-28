@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.spring.javaclassS14.service.PhotoGalleryVO;
+import com.spring.javaclassS14.vo.PhotoGalleryVO;
 
 public interface PhotoGalleryDAO {
 

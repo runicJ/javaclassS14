@@ -18,9 +18,9 @@
                       aria-expanded="false"><i data-feather="feather" class="feather-icon">
                       </i><span class="hide-menu"> 회원 관리</span></a>
                       <ul aria-expanded="false" class="collapse first-level base-level-line">
-                          <li class="sidebar-item"><a href="${ctp}/admin/userList" class="sidebar-link">
+                          <li class="sidebar-item"><a href="${ctp}/admin/user/userList" class="sidebar-link">
                         <span class="hide-menu"> 현재 회원 리스트 </span></a></li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/deleteUserList" class="sidebar-link">
+                        <li class="sidebar-item"><a href="${ctp}/admin/user/deleteUserList" class="sidebar-link">
                         <span class="hide-menu"> 탈퇴 회원 정보 </span></a></li>
                     </ul>
                 </li>
@@ -102,7 +102,7 @@
                         aria-expanded="false"><i data-feather="bar-chart" class="feather-icon"></i><span
                             class="hide-menu"> 통계 목록 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                        <li class="sidebar-item"><a href="${ctp}/survey/surveyInput" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/admin/survey/surveyInput" class="sidebar-link"><span
                                     class="hide-menu"> 설문조사 등록
                                 </span></a>
                         </li>

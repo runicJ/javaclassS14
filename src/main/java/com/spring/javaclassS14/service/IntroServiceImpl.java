@@ -25,5 +25,10 @@ public class IntroServiceImpl implements IntroService {
 	public List<SaveMypageVO> findTopNews(int limit) {
         return introDAO.findTopNews(limit);
 	}
+
+	@Override
+	public List<String> getMenuOptions() {
+        return introDAO.getMenuOptions();
+	}
 	
 }

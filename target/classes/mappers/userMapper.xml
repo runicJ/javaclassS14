@@ -18,13 +18,59 @@
 		select * from users where nickName = #{nickName} and email = #{email} limit 1;
 	</select>
 	
-	<select id="totRecCnt" resultType="int">
-		select count(*) from users;
-	</select>
-	
-	<select id="totRecCntSearch"  resultType="int">
-		select count(*) from users where ${search} like concat("%",#{searchString},"%"); 
-	</select>
+<select id="totRecCnt" resultType="int">
+    select count(*) from users;
+</select>
+
+<select id="totRecCntOption" parameterType="map" resultType="int">
+<choose>
+    <when test="stringOption != null">
+        <choose>
+            <when test="stringOption == '정상'">
+                select count(*) from users where userStatus = 'on'
+            </when>
+            <when test="stringOption == '탈퇴'">
+                select count(*) from users where userStatus = 'off'
+            </when>
+            <when test="stringOption == '정지'">
+                select count(*) from users where userStatus = 'stop'
+            </when>
+            <otherwise>
+                select count(*) from users where 1=1
+            </otherwise>
+        </choose>
+    </when>
+    <when test="numericOption != null">
+        <choose>
+            <when test="numericOption == 3">
+                select count(*) from users where level = 3
+            </when>
+            <when test="numericOption == 2">
+                select count(*) from users where level = 2
+            </when>
+            <when test="numericOption == 1">
+                select count(*) from users where level = 1
+            </when>
+            <when test="numericOption == 0.5">
+                select count(*) from users where level = 0.5
+            </when>
+            <otherwise>
+                select count(*) from users where 1=1
+            </otherwise>
+        </choose>
+    </when>
+    <otherwise>
+        select count(*) from users where 1=1
+    </otherwise>
+</choose>
+</select>
+
+<select id="totRecCntKeyword" resultType="int">
+    select count(*) from users
+    <where>
+        name LIKE CONCAT('%', #{keyword}, '%') OR userId LIKE CONCAT('%', #{keyword}, '%') OR nickName LIKE CONCAT('%', #{keyword}, '%')
+    </where>
+</select>
 	
 	<select id="recentLog" resultType="int">
 		select count(*) as recentLog from user_log where userId=#{userId} and loginTime > DATE_SUB(NOW(), INTERVAL 1 HOUR);

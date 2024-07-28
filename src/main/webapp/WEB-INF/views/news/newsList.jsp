@@ -21,74 +21,52 @@
     <script>
         'use strict';
 
-        let lastScroll = 0;
         let curPageNaver = 1;
         let curPageNature = 1;
-        let curPageGoogle = 1;
-        let isLoadingNaver = false;
-        let isLoadingNature = false;
-        let isLoadingGoogle = false;
+        let curPageBBC = 1;
         let loadedCountNaver = ${fn:length(vos)};
         let loadedCountNature = ${fn:length(nVos)};
-        let loadedCountGoogle = ${fn:length(gVos)};
+        let loadedCountBBC = ${fn:length(bVos)};
         const MAX_ARTICLES = 100;
 
-        $(document).scroll(function() {
-            let currentScroll = $(this).scrollTop();
-            let documentHeight = $(document).height();
-            let nowHeight = $(this).scrollTop() + $(window).height();
-
-            if (currentScroll > lastScroll) {
-                if (documentHeight < (nowHeight + (documentHeight * 0.1))) {
-                    if (!isLoadingNaver && loadedCountNaver < MAX_ARTICLES) {
-                        curPageNaver++;
-                        loadMoreArticles('naver', curPageNaver, loadedCountNaver);
-                    }
-                    if (!isLoadingNature && loadedCountNature < MAX_ARTICLES) {
-                        curPageNature++;
-                        loadMoreArticles('nature', curPageNature, loadedCountNature);
-                    }
-                    if (!isLoadingGoogle && loadedCountGoogle < MAX_ARTICLES) {
-                        curPageGoogle++;
-                        loadMoreArticles('google', curPageGoogle, loadedCountGoogle);
-                    }
-                }
-            }
-            lastScroll = currentScroll;
-        });
-
-        function loadMoreArticles(source, page, loadedCount) {
+        function loadMoreArticles(source) {
             let url = '';
-            let isLoadingVar = '';
-            let loadedCountVar = '';
+            let page = 1;
+            let loadedCount = 0;
             switch (source) {
                 case 'naver':
-                    url = `${ctp}/news/loadMore?source=naver&page=${page}&loadedCount=${loadedCount}`;
-                    isLoadingVar = 'isLoadingNaver';
-                    loadedCountVar = 'loadedCountNaver';
+                    curPageNaver++;
+                    page = curPageNaver;
+                    loadedCount = loadedCountNaver;
                     break;
                 case 'nature':
-                    url = `${ctp}/news/loadMore?source=nature&page=${page}&loadedCount=${loadedCount}`;
-                    isLoadingVar = 'isLoadingNature';
-                    loadedCountVar = 'loadedCountNature';
+                    curPageNature++;
+                    page = curPageNature;
+                    loadedCount = loadedCountNature;
                     break;
-                case 'google':
-                    url = `${ctp}/news/loadMore?source=google&page=${page}&loadedCount=${loadedCount}`;
-                    isLoadingVar = 'isLoadingGoogle';
-                    loadedCountVar = 'loadedCountGoogle';
+                case 'bbc':
+                    curPageBBC++;
+                    page = curPageBBC;
+                    loadedCount = loadedCountBBC;
                     break;
             }
-            window[isLoadingVar] = true;
+            url = `${ctp}/news/loadMore?source=${source}&page=${page}&loadedCount=${loadedCount}`;
             $.ajax({
                 url: url,
                 type: "GET",
                 success: function(data) {
                     appendArticles(source, data);
-                    window[isLoadingVar] = false;
-                    window[loadedCountVar] += data.length;
-                },
-                error: function() {
-                    window[isLoadingVar] = false;
+                    switch (source) {
+                        case 'naver':
+                            loadedCountNaver += data.length;
+                            break;
+                        case 'nature':
+                            loadedCountNature += data.length;
+                            break;
+                        case 'bbc':
+                            loadedCountBBC += data.length;
+                            break;
+                    }
                 }
             });
         }
@@ -102,8 +80,8 @@
                 case 'nature':
                     containerSelector = '#nature-news';
                     break;
-                case 'google':
-                    containerSelector = '#google-news';
+                case 'bbc':
+                    containerSelector = '#bbc-news';
                     break;
             }
             let container = $(containerSelector);
@@ -135,9 +113,9 @@
             <h2 class="text-center">사이트 별 '알레르기' 관련 뉴스</h2>
             <div class="line"></div>
             <div class="row">
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3">
                     <h1 class="title-col">네이버 뉴스</h1>
-                    <div id="naver-news" class="body-col" data-max="100" data-nav="#hot-news-nav" data-item="article">
+                    <div id="naver-news" class="body-col">
                         <c:if test="${!empty vos}">
                             <c:forEach var="vo" items="${vos}" varStatus="status">
                                 <article class="article-mini">
@@ -169,11 +147,12 @@
                                 <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
                             </article>
                         </c:if>
+                        <button onclick="loadMoreArticles('naver')">더보기</button>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
+                <div class="col-md-3 col-sm-3">
                     <h1 class="title-col">네이처 저널</h1>
-                    <div id="nature-news" class="body-col" data-max="100" data-nav="#hot-news-nav" data-item="article">
+                    <div id="nature-news" class="body-col">
                         <c:if test="${!empty nVos}">
                             <c:forEach var="nVo" items="${nVos}" varStatus="status">
                                 <article class="article-mini">
@@ -225,52 +204,44 @@
                                 <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
                             </article>
                         </c:if>
+                        <button onclick="loadMoreArticles('nature')">더보기</button>
                     </div>
                 </div>
-                <div class="col-md-4 col-sm-4">
-                    <h1 class="title-col">구글 학술검색</h1>
-                    <div id="google-news" class="body-col" data-max="100" data-nav="#hot-news-nav" data-item="article">
-                        <c:if test="${!empty gVos}">
-                            <c:forEach var="gVo" items="${gVos}" varStatus="status">
+                <div class="col-md-3 col-sm-3">
+                    <h1 class="title-col">BBC 뉴스</h1>
+                    <div id="bbc-news" class="body-col">
+                        <c:if test="${!empty bVos}">
+                            <c:forEach var="bVo" items="${bVos}" varStatus="status">
                                 <article class="article-mini">
                                     <div class="inner">
+                                        <figure>
+                                            <c:choose>
+                                                <c:when test="${!empty bVo.item2}">
+                                                    <img src="${bVo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
+                                                </c:when>
+                                                <c:otherwise>
+                                                    <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+                                                </c:otherwise>
+                                            </c:choose>
+                                        </figure>
                                         <div class="padding">
-                                            <h1>
-                                                <a href="${gVo.itemUrl1}" target="_blank">
-                                                    <c:choose>
-                                                        <c:when test="${fn:length(gVo.item1) gt 50}">
-                                                            <c:out value="${fn:substring(gVo.item1,0,50)}" />...
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:out value="${gVo.item1}" />
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </a>
-                                            </h1>
+                                            <h1><a href="${bVo.itemUrl1}" target="_blank">${bVo.item1}</a></h1>
                                             <div class="detail">
-                                                <div class="category">
-                                                    <c:choose>
-                                                        <c:when test="${fn:length(gVo.item3) gt 15}">
-                                                            <c:out value="${fn:substring(gVo.item3,0,15)}" />...
-                                                        </c:when>
-                                                        <c:otherwise>
-                                                            <c:out value="${gVo.item3}" />
-                                                        </c:otherwise>
-                                                    </c:choose>
-                                                </div>
-                                                <div class="time">${gVo.item5}</div>
+                                                <div class="category"><a href="${bVo.itemUrl2}">${bVo.item4}</a></div>
+                                                <div class="time">${bVo.item5}</div>
                                             </div>
                                         </div>
                                     </div>
                                 </article>
                             </c:forEach>
                         </c:if>
-                        <c:if test="${empty gVos}">
+                        <c:if test="${empty bVos}">
                             <article class="article-mini">
                                 <p>spinner</p>
                                 <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
                             </article>
                         </c:if>
+                        <button onclick="loadMoreArticles('bbc')">더보기</button>
                     </div>
                 </div>
             </div>

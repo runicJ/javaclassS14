@@ -4,7 +4,18 @@ CREATE TABLE coupon (
     couponCode VARCHAR(50) NOT NULL,
     discountPercent DECIMAL(10,2) NOT NULL,
     expirationDate DATETIME NOT NULL,
-    isActive ENUM('y', 'n') DEFAULT 'n' NOT NULL
+    isActive ENUM('y', 'n') DEFAULT 'y' NOT NULL
+);
+desc coupon
+
+CREATE TABLE userCoupon (
+    userCouponIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+    userId varchar(20) NOT NULL,
+    couponIdx INT NOT NULL,
+    issuedDate DATETIME NOT NULL,
+    isUsed ENUM('y', 'n') DEFAULT 'n' NOT NULL,
+    FOREIGN KEY (userId) REFERENCES users(userId),
+    FOREIGN KEY (couponIdx) REFERENCES coupon(couponIdx)
 );
 
 /* 광고 */

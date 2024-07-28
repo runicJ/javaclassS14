@@ -16,6 +16,7 @@ create table photoGallery (
   foreign key(userId) references users(userId)
 );
 drop table photoGallery;
+desc photoGallery
 
 create table photoReply (
   idx  int not null auto_increment,

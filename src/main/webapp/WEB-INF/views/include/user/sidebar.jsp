@@ -92,7 +92,7 @@
 							<div class="featured-author-count">
 								<div class="userItem">
 									<a href="#">
-										<div class="value">0</div>														
+										<div class="value">*${strLevel}*</div>														
 										<div class="name">등급</div>
 									</a>
 								</div>
@@ -126,7 +126,7 @@
 										<a href="#">주문배송조회</a>
 										<a href="#">주문정보변경</a>
 										<a href="#">주문취소</a>
-										<a href="#">반품환불</a>
+										<a href="#">반품/환불</a>
 								  </div>
 								  <button class="dropdown-btn">등급별혜택
 								    <i class="fa fa-caret-down"></i>
@@ -136,26 +136,23 @@
 										<a href="#">포인트 현황</a>
 										<a href="#">회원혜택 안내</a>
 								  </div>
-								  <button class="dropdown-btn">회원활동내역
+								  <button class="dropdown-btn">회원활동 내역
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
-										<a href="#">1:1문의</a>
-										<a href="#">문의글 조회</a>
-										<a href="#">상품후기</a>
-										<a href="#">구매한 상품</a>
-										<a href="#">이벤트내역</a>
-								  </div>
-								  <button class="dropdown-btn">관심목록
-								    <i class="fa fa-caret-down"></i>
-								  </button>
-								  <div class="dropdown-container">
-										<a href="#">찜한상품</a>
-										<a href="#">게시글 북마크</a>
+										<a href="#">1:1 문의</a>
+										<a href="#">상품 Q&A</a>
 										<a href="#">작성한 게시글</a>
 										<a href="#">작성한 리뷰글</a>
+								  </div>
+								  <button class="dropdown-btn">관심 목록
+								    <i class="fa fa-caret-down"></i>
+								  </button>
+								  <div class="dropdown-container">
+										<a href="#">관심등록 제품</a>
+										<a href="#">게시글 북마크</a>
 										<a href="#">최근 내역</a>
-										<a href="#">입고 알림 신청 내역</a>
+										<a href="#">재입고 알림 신청 내역</a>
 								  </div>
 								  <button class="dropdown-btn">회원정보
 								    <i class="fa fa-caret-down"></i>
