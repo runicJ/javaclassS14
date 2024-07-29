@@ -120,6 +120,7 @@ public class ShopController {
         }
         
         model.addAttribute("productCartVOS", productCartVOS);
+        
         return "shop/productCart";
     }
 

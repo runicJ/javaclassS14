@@ -19,6 +19,7 @@
         }
     </style>
     <script>
+    /*
         'use strict';
 
         let curPageNaver = 1;
@@ -103,6 +104,7 @@
                 container.append(articleHtml);
             });
         }
+    */
     </script>
 </head>
 <body>
@@ -113,7 +115,8 @@
             <h2 class="text-center">사이트 별 '알레르기' 관련 뉴스</h2>
             <div class="line"></div>
             <div class="row">
-                <div class="col-md-3 col-sm-3">
+                 <!-- Naver News Column -->
+                <div class="col-md-4 col-sm-4">
                     <h1 class="title-col">네이버 뉴스</h1>
                     <div id="naver-news" class="body-col">
                         <c:if test="${!empty vos}">
@@ -131,9 +134,29 @@
                                             </c:choose>
                                         </figure>
                                         <div class="padding">
-                                            <h1><a href="${vo.itemUrl1}" target="_blank">${vo.item1}</a></h1>
+                                            <h1>
+                                                <a href="${vo.itemUrl1}" target="_blank">
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(vo.item1) gt 50}">
+                                                            <c:out value="${fn:substring(vo.item1,0,50)}" />...
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:out value="${vo.item1}" />
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a>
+                                            </h1>
                                             <div class="detail">
-                                                <div class="category"><a href="${vo.itemUrl2}">${vo.item4}</a></div>
+                                                <div class="category">
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(vo.item4) gt 15}">
+                                                            <c:out value="${fn:substring(vo.item4,0,15)}" />...
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:out value="${vo.item4}" />
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
                                                 <div class="time">${vo.item5}</div>
                                             </div>
                                         </div>
@@ -147,10 +170,10 @@
                                 <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
                             </article>
                         </c:if>
-                        <button onclick="loadMoreArticles('naver')">더보기</button>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-3">
+                <!-- Nature News Column -->
+                <div class="col-md-4 col-sm-4">
                     <h1 class="title-col">네이처 저널</h1>
                     <div id="nature-news" class="body-col">
                         <c:if test="${!empty nVos}">
@@ -169,7 +192,7 @@
                                         </figure>
                                         <div class="padding">
                                             <h1>
-                                                <a href="https://www.nature.com${nVo.itemUrl1}" target="_blank">
+                                                <a href="${nVo.itemUrl1}" target="_blank">
                                                     <c:choose>
                                                         <c:when test="${fn:length(nVo.item1) gt 50}">
                                                             <c:out value="${fn:substring(nVo.item1,0,50)}" />...
@@ -204,10 +227,10 @@
                                 <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
                             </article>
                         </c:if>
-                        <button onclick="loadMoreArticles('nature')">더보기</button>
                     </div>
                 </div>
-                <div class="col-md-3 col-sm-3">
+                <!-- BBC News Column -->
+                <div class="col-md-4 col-sm-4">
                     <h1 class="title-col">BBC 뉴스</h1>
                     <div id="bbc-news" class="body-col">
                         <c:if test="${!empty bVos}">
@@ -225,9 +248,29 @@
                                             </c:choose>
                                         </figure>
                                         <div class="padding">
-                                            <h1><a href="${bVo.itemUrl1}" target="_blank">${bVo.item1}</a></h1>
+                                            <h1>
+                                                <a href="${bVo.itemUrl1}" target="_blank">
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(bVo.item1) gt 50}">
+                                                            <c:out value="${fn:substring(bVo.item1,0,50)}" />...
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:out value="${bVo.item1}" />
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </a>
+                                            </h1>
                                             <div class="detail">
-                                                <div class="category"><a href="${bVo.itemUrl2}">${bVo.item4}</a></div>
+                                                <div class="category">
+                                                    <c:choose>
+                                                        <c:when test="${fn:length(bVo.item4) gt 15}">
+                                                            <c:out value="${fn:substring(bVo.item4,0,15)}" />...
+                                                        </c:when>
+                                                        <c:otherwise>
+                                                            <c:out value="${bVo.item4}" />
+                                                        </c:otherwise>
+                                                    </c:choose>
+                                                </div>
                                                 <div class="time">${bVo.item5}</div>
                                             </div>
                                         </div>
@@ -241,7 +284,6 @@
                                 <span>뉴스 업데이트 중입니다..<br>잠시만 기다려주세요..<br>(서버 '수리중'일 수 있습니다.)</span>
                             </article>
                         </c:if>
-                        <button onclick="loadMoreArticles('bbc')">더보기</button>
                     </div>
                 </div>
             </div>

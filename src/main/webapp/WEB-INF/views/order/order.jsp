@@ -6,7 +6,12 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>dbOrder.jsp</title>
+  <title>order</title>
+  <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
+  <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
+  <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
+  <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
+  <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
   <jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
   <script>
     $(document).ready(function(){
@@ -19,8 +24,8 @@
       });
     });
 
-    // 결재하기
-    function order() {
+    // 결제하기
+    function payment() {
       var paymentCard = document.getElementById("paymentCard").value;
       var payMethodCard = document.getElementById("payMethodCard").value;
       var paymentBank = document.getElementById("paymentBank").value;
@@ -38,7 +43,7 @@
         alert("입금자명을 입력하세요.");
         return false;
       }
-      var ans = confirm("결재하시겠습니까?");
+      var ans = confirm("결제하시겠습니까?");
       if(ans) {
         if(paymentCard != "" && payMethodCard != "") {
           document.getElementById("payment").value = "C"+paymentCard;
@@ -48,8 +53,8 @@
           document.getElementById("payment").value = "B"+paymentBank;
           document.getElementById("payMethod").value = payMethodBank;
         }
-        myform.action = "${ctp}/dbShop/payment";
-        myform.submit();
+        document.myform.action = "${ctp}/order/payment";
+        document.myform.submit();
       }
     }
   </script>
@@ -62,9 +67,29 @@
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp"/>
 <p><br/></p>
 <div class="container">
-  <h2 class="text-center">주문 / 결제</h2>
-  <div class="text-center">(배송지 정보를 확인후 결제처리합니다.)</div>
-  <br/>
+    <!-- Page Preloder -->
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+        <!-- Breadcrumb Section Begin -->
+    <section class="breadcrumb-option">
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-12">
+                    <div class="breadcrumb__text">
+                        <h4>주문-결제</h4>
+                        <div class="breadcrumb__links">
+                            <a href="${ctp}/main">메인페이지</a>
+                            <a href="${ctp}/shop/productList">결제</a>
+                            <span>(배송지 정보를 확인 후 결제처리합니다.)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Breadcrumb Section End -->
+  <section class="shopping-cart spad">
   <table class="table-bordered text-center" style="margin:auto; width:90%">
     <tr class="table-dark text-dark">
       <th colspan="2">상 품</th>
@@ -75,16 +100,16 @@
     <c:set var="orderTotalPrice" value="0"/>
     <c:forEach var="vo" items="${sOrderVOS}">
       <tr align="center">
-        <td><img src="${ctp}/product/${vo.thumbImg}" width="150px"/></td>
+        <td><img src="${ctp}/product/${vo.productThumb}" width="150px"/></td>
         <td align="left">
           <p><br/>주문번호 : ${vo.orderIdx}</p>
           <p class="text-center"><br/>
             모델명 : <span style="color:orange;font-weight:bold;">${vo.productName}</span><br/>
-            &nbsp; <b><fmt:formatNumber value="${vo.mainPrice}"/>원</b>
+            &nbsp; <b><fmt:formatNumber value="${vo.productPrice}"/>원</b>
           </p><br/>
           <c:set var="optionNames" value="${fn:split(vo.optionName,',')}"/>
-          <c:set var="optionPrices" value="${fn:split(vo.optionPrice,',')}"/>
-          <c:set var="optionNums" value="${fn:split(vo.optionNum,',')}"/>
+          <%-- <c:set var="optionPrices" value="${fn:split(vo.addPrice,',')}"/> --%>
+          <c:set var="quantity" value="${fn:split(vo.quantity,',')}"/>
           <p>
             - 주문 옵션 내역 : 총 ${fn:length(optionNames)}개<br/>
             <c:forEach var="i" begin="1" end="${fn:length(optionNames)}">
@@ -102,9 +127,9 @@
   </table>
   <table style="margin:auto; width:90%"><tr><td>
   <div style="padding:8px; background-color:#eee;text-align:center;">
-    <b>총 주문(결재) 금액</b> : 상품가격(<fmt:formatNumber value="${orderTotalPrice}" pattern='#,###원'/>) +
-                    배송비(<fmt:formatNumber value="${sOrderVOS[0].baesong}" pattern='#,###원'/>) =
-                    총 <font size="5" color="orange"><b><fmt:formatNumber value="${orderTotalPrice + sOrderVOS[0].baesong}" pattern='#,###'/></b></font>원
+    <b>총 주문(결제) 금액</b> : 상품가격(<fmt:formatNumber value="${orderTotalPrice}" pattern='#,###원'/>) +
+                    배송비(<fmt:formatNumber value="${sOrderVOS[0].charge}" pattern='#,###원'/>) =
+                    총 <font size="5" color="orange"><b><fmt:formatNumber value="${orderTotalPrice + sOrderVOS[0].charge}" pattern='#,###'/></b></font>원
   </div>
   </td></tr></table>
   <p><br/></p>
@@ -112,24 +137,24 @@
     <table class="table table-bordered text-center">
       <tr>
         <th colspan="2">
-          <h3>배송지 정보 / 결재수단</h3>
+          <h3>배송지 정보 / 결제수단</h3>
         </th>
       </tr>
       <tr>
         <th width="40%">구매자이름</th>
-        <td><input type="text" name="buyer_name" value="${memberVO.name}" readonly class="form-control"/></td>
+        <td><input type="text" name="buyer_name" value="${userVO.name}" readonly class="form-control"/></td>
       </tr>
       <tr>
         <th>구매자메일주소(결제결과받는곳)</th>
-        <td><input type="text" name="buyer_email" value="${memberVO.email}" class="form-control"/></td>
+        <td><input type="text" name="buyer_email" value="${userVO.email}" class="form-control"/></td>
       </tr>
       <tr>
         <th>구매자전화번호</th>
-        <td><input type="text" name="buyer_tel" value="${memberVO.tel}" class="form-control"/></td>
+        <td><input type="text" name="buyer_tel" value="${userVO.tel}" class="form-control"/></td>
       </tr>
       <tr>
         <th>구매자주소</th>
-        <c:set var="addr" value="${fn:split(memberVO.address,'/')}"/>
+        <%-- <c:set var="addr" value="${fn:split(userVO.address,'/')}"/> --%>
         <td class="text-left">
           <input type="text" name="buyer_postcode" value="${addr[0]}"/><br/>
           <input type="text" name="buyer_addr" value="${addr[1]} ${addr[2]} ${addr[3]}" class="form-control"/>
@@ -155,15 +180,15 @@
 
     <!-- Nav tabs -->
     <ul class="nav nav-tabs" role="tablist">
-      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#card">카드결재</a></li>
-      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#bank">은행결재</a></li>
+      <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#card">카드결제</a></li>
+      <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#bank">은행결제</a></li>
       <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#telCheck">상담사연결</a></li>
     </ul>
 
     <!-- Tab panes -->
     <div class="tab-content">
       <div id="card" class="container tab-pane active"><br>
-        <h3>카드결재</h3>
+        <h3>카드결제</h3>
         <p>
           <select name="paymentCard" id="paymentCard">
             <option value="">카드선택</option>
@@ -180,7 +205,7 @@
         <p>카드번호 : <input type="text" name="payMethodCard" id="payMethodCard"/></p>
       </div>
       <div id="bank" class="container tab-pane fade"><br>
-        <h3>은행결재(무통장입금)</h3>
+        <h3>은행결제(무통장입금)</h3>
         <p>
           <select name="paymentBank" id="paymentBank">
             <option value="">은행선택</option>
@@ -200,22 +225,26 @@
     </div>
     <hr/>
     <div align="center">
-      <button type="button" class="btn btn-primary" onClick="order()">결제하기</button> &nbsp;
-      <button type="button" class="btn btn-info" onclick="location.href='${ctp}/dbShop/dbCartList';">장바구니보기</button> &nbsp;
-      <button type="button" class="btn btn-success" onClick="location.href='${ctp}/dbShop/dbProductList';">계속 쇼핑하기</button>
+      <input type="button" class="btn btn-primary" onClick="payment()" value="결제하기" /> &nbsp;
+      <button type="button" class="btn btn-info" onclick="location.href='${ctp}/shop/productCart';">장바구니보기</button> &nbsp;
+      <button type="button" class="btn btn-success" onClick="location.href='${ctp}/shop/productList';">계속 쇼핑하기</button>
     </div>
-		<input type="hidden" name="orderVos" value="${orderVos}"/>
+		<input type="hidden" name="sOrderVOS" value="${sOrderVOS}"/>
 	  <input type="hidden" name="orderIdx" value="${orderIdx}"/>
 	  <input type="hidden" name="orderTotalPrice" value="${orderTotalPrice}"/>
-	  <input type="hidden" name="mid" value="${sMid}"/>
+	  <input type="hidden" name="userId" value="${sUid}"/>
 	  <input type="hidden" name="payment" id="payment"/>
 	  <input type="hidden" name="payMethod" id="payMethod"/>
 	  
 	  <%-- <input type="hidden" name="name" value="${memberVO.name}"/> --%>
 	  <input type="hidden" name="name" value="${sOrderVOS[0].productName}"/>
   </form>
+  </section>
 </div>
 <p><br/></p>
+<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
+<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
+<script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp"/>
 </body>
 </html>

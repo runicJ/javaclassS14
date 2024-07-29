@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Home</title>
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
@@ -69,45 +69,52 @@
         .bad { color: red; }
 	</style>
 	<script>
-		function getAirQualityData() {
-	        var xhr = new XMLHttpRequest();
-	        var url = 'http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getUnityAirEnvrnIdexSnstiveAboveMsrstnList';
-	        var queryParams = '?' + encodeURIComponent('serviceKey') + '=' + 'otJChM%2F2%2FlhEU46DhF2TXCxo%2FN9BNwpNNkd7XGrlrOdggtMr%2FDciosXbEvJ4D4KWcS5sjYmneyYHiQSWh%2ByUMQ%3D%3D';
-	        queryParams += '&' + encodeURIComponent('returnType') + '=' + encodeURIComponent('json');
-	        queryParams += '&' + encodeURIComponent('numOfRows') + '=' + encodeURIComponent('1');
-	        queryParams += '&' + encodeURIComponent('pageNo') + '=' + encodeURIComponent('1');
-	        xhr.open('GET', url + queryParams);
-	        xhr.onreadystatechange = function () {
-	            if (this.readyState == 4) {
-	                if (this.status == 200) {
-	                    var response = JSON.parse(this.responseText);
-	                    var airQualityValue = response.response.body.items[0].pm10Value;
-	                    var airQualityLevel = '';
-	                    var icon = '';
-	
-	                    if (airQualityValue <= 30) {
-	                        airQualityLevel = 'Good';
-	                        icon = 'good_icon.png';
-	                    } else if (airQualityValue <= 80) {
-	                        airQualityLevel = 'Moderate';
-	                        icon = 'moderate_icon.png';
-	                    } else {
-	                        airQualityLevel = 'Bad';
-	                        icon = 'bad_icon.png';
-	                    }
-	
-	                    document.getElementById('airQualityIcon').src = icon;
-	                    document.getElementById('airQualityText').innerHTML = '현재 대기오염 수치: ' + airQualityValue;
-	                    document.getElementById('airQualityText').className = airQualityLevel.toLowerCase();
-	                } else {
-	                    alert('Error: ' + this.status);
-	                }
-	            }
-	        };
-	        xhr.send('');
-	    }
-	
 	    window.onload = function() {
+            var airVOSJson = '${airVOSJson}';
+            var airVOS = JSON.parse(airVOSJson);
+	        function getAirQualityData() {
+	            let str = '';
+	            for(let i=0; i<airVOS.length; i++) {
+					str += '측정일시 : ' + airVOS[i].dataTime + '<br/>';
+					str += '아황산가스 농도(단위: ppm) : ' + airVOS[i].so2Value + '<br/>';
+					str += '일산화탄소 농도(단위: ppm) : ' + airVOS[i].coValue + '<br/>';
+					str += '오존 농도(단위: ppm) : ' + airVOS[i].o3Value + '<br/>';
+					str += '이산화질소 농도(단위: ppm) : ' + airVOS[i].no2Value + '<br/>';
+					str += '미세먼지(PM10) 농도(단위: ug/m3) : ' + airVOS[i].pm10Value + '<br/>';
+					//str += '미세먼지(PM10) 24시간 예측이동농도(단위: ug/m3) : ' + airVOS[i].pm10Value24 + '<br/>';
+					str += '초미세먼지(PM2.5) 농도(단위: ug/m3) : ' + airVOS[i].pm25Value + '<br/>';
+					//str += '초미세먼지(PM2.5) 24시간 예측이동농도(단위: ug/m3) : ' + airVOS[i].pm25Value24 + '<br/>';
+					str += '통합대기환경수치 : ' + airVOS[i].khaiValue + '<br/>';
+					//str += '통합대기환경지수 : ' + airVOS[i].khaiGrade + '<br/>';
+					//str += '아황산가스 지수 : ' + airVOS[i].so2Grade + '<br/>';
+					//str += '일산화탄소 지수 : ' + airVOS[i].coGrade + '<br/>';
+					//str += '오존 지수 : ' + airVOS[i].o3Grade + '<br/>';
+					//str += '이산화질소 지수 : ' + airVOS[i].no2Grade + '<br/>';
+					//str += '미세먼지(PM10) 24시간 등급자료 : ' + airVOS[i].pm10Grade + '<br/>';
+					//str += '초미세먼지(PM2.5) 24시간 등급자료 : ' + airVOS[i].pm25Grade + '<br/>';
+					//str += '미세먼지(PM10) 1시간 등급자료 : ' + airVOS[i].pm10Grade1h + '<br/>';
+					//str += '초미세먼지(PM2.5) 1시간 등급자료 : ' + airVOS[i].pm25Grade1h + '<br/>';
+				}
+	            let airQualityLevel = '';
+	            let icon = '';
+	            if (airVOS[0].pm10Value <= 30) {
+	                airQualityLevel = 'good';
+	                icon = '${ctp}/images/happiness.png';
+	            } 
+	            else if (airVOS[0].pm10Value <= 80) {
+	                airQualityLevel = 'moderate';
+	                icon = '${ctp}/images/soso.png';
+	            } 
+	            else {
+	                airQualityLevel = 'bad';
+	                icon = '${ctp}/images/anger.png';
+	            }
+	
+	            document.getElementById('airQualityIcon').src = icon;
+	            document.getElementById('airQualityText').innerHTML = str;
+	            document.getElementById('airQualityText').className = airQualityLevel;
+	        }
+	
 	        getAirQualityData();
 	    };
 	</script>
@@ -213,7 +220,7 @@
 											<div class="detail">
 												<div class="category"><a href="${ctp}/#">[ 호흡기 알레르기 ]</a></div>
 											</div>
-											<h2><a href="single.html">${vo1.item2}</a></h2>
+											<h2><a href="${ctp}/news/allergic1">${vo1.item2}</a></h2>
 											<p>
 												<c:choose>
 												  <c:when test="${fn:length(vo1.item3) gt 80}">
@@ -249,7 +256,7 @@
 											<div class="detail">
 												<div class="category"><a href="category.html">[ 식품 알레르기 ]</a></div>
 											</div>
-											<h2><a href="single.html">${vo2.item2}</a></h2>
+											<h2><a href="${ctp}/news/allergic2">${vo2.item2}</a></h2>
 											<p>
 												<c:choose>
 												  <c:when test="${fn:length(vo2.item3) gt 80}">
@@ -289,7 +296,7 @@
 											<div class="detail">
 												<div class="category"><a href="category.html">[ 아토피 피부염 ]</a></div>
 											</div>
-											<h2><a href="single.html">${vo3.item2}</a></h2>
+											<h2><a href="${ctp}/news/allergic3">${vo3.item2}</a></h2>
 											<p>
 												<c:choose>
 												  <c:when test="${fn:length(vo3.item3) gt 80}">
@@ -325,7 +332,7 @@
 											<div class="detail">
 												<div class="category"><a href="category.html">[ 기타 알레르기 ]</a></div>
 											</div>
-											<h2><a href="single.html">${vo4.item2}</a></h2>
+											<h2><a href="${ctp}/news/allergic4">${vo4.item2}</a></h2>
 											<p>
 												<c:choose>
 												  <c:when test="${fn:length(vo4.item3) gt 80}">
@@ -370,8 +377,6 @@
 									<li><a href="#">Responsive</a></li>
 									<li><a href="#">AuteIrure</a></li>
 									<li><a href="#">Voluptate</a></li>
-									<li><a href="#">Veit</a></li>
-									<li><a href="#">Reprehenderit</a></li>
 								</ol>
 							</div>
 						</div>
@@ -435,7 +440,7 @@
 								<div class="featured-author-inner">
 									<div class="featured-author-cover">
 										<div class="badges">
-											<div class="badge-item"><i class="ion-star"></i> 귀한분</div>
+											<div class="badge-item"><i class="ion-star"></i> ${!empty sUid ? strLevel : "손님"}</div>
 										</div>
 										<div class="featured-author-center">
 											<figure class="featured-author-picture">
@@ -553,11 +558,13 @@
 					<aside>
 						<div class="aside-body">
 							<form class="newsletter">
-								<h1>날씨API</h1>
-								<p>한국환경공단_에어코리아_대기오염정보</p>
+								<h4>한국환경공단 대기오염정보</h4>
 				                <div id="airQualityInfo">
-				                    <img id="airQualityIcon" src="" alt="Air Quality Icon">
-				                    <p id="airQualityText">데이터 로딩 중...</p>
+				                    <img id="airQualityIcon" src="" alt="Air Quality Icon" style="width:200px;">
+					                <select>
+					                	<option></option>
+					                </select>
+				                    <p id="airQualityText">...</p>
 				                </div>
 							</form>
 						</div>

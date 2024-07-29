@@ -74,9 +74,6 @@
 				<div class="featured-author">
 					<div class="featured-author-inner">
 						<div class="featured-author-cover">
-							<div class="badges">
-								<div class="badge-item"><i class="ion-star"></i> 귀한분</div>
-							</div>
 							<div class="featured-author-center">
 								<p style="font-size:16px;">안녕하세요! <br>다시 만나 반갑습니다:)</p>
 								<figure class="featured-author-picture">
@@ -123,17 +120,16 @@
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
-										<a href="#">주문배송조회</a>
-										<a href="#">주문정보변경</a>
-										<a href="#">주문취소</a>
-										<a href="#">반품/환불</a>
+										<a href="${ctp}/user/myOrder">주문배송조회</a>
+										<a href="${ctp}/user/myOrderCancel">주문취소</a>
+										<a href="${ctp}/user/myOrderReturn">반품/환불</a>
 								  </div>
 								  <button class="dropdown-btn">등급별혜택
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
-										<a href="#">쿠폰 조회</a>
-										<a href="#">포인트 현황</a>
+										<a href="${ctp}/user/myCoupon">쿠폰 조회</a>
+										<a href="${ctp}/user/myPoint">포인트 현황</a>
 										<a href="#">회원혜택 안내</a>
 								  </div>
 								  <button class="dropdown-btn">회원활동 내역
@@ -151,7 +147,7 @@
 								  <div class="dropdown-container">
 										<a href="#">관심등록 제품</a>
 										<a href="#">게시글 북마크</a>
-										<a href="#">최근 내역</a>
+										<a href="#">최근 관심 내역</a>
 										<a href="#">재입고 알림 신청 내역</a>
 								  </div>
 								  <button class="dropdown-btn">회원정보

@@ -97,7 +97,6 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/api-client/google-api-client/1.32.1/google-api-client-1.32.1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/oauth-client/google-oauth-client/1.31.5/google-oauth-client-1.31.5.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/http-client/google-http-client-gson/1.39.2/google-http-client-gson-1.39.2.jar" enabled="true" runInBatchMode="false"/>
-    <factorypathentry kind="VARJAR" id="M2_REPO/com/google/code/gson/gson/2.8.6/gson-2.8.6.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/guava/guava/30.1.1-android/guava-30.1.1-android.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/guava/failureaccess/1.0.1/failureaccess-1.0.1.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/com/google/guava/listenablefuture/9999.0-empty-to-avoid-conflict-with-guava/listenablefuture-9999.0-empty-to-avoid-conflict-with-guava.jar" enabled="true" runInBatchMode="false"/>
@@ -125,4 +124,7 @@
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/tiles/tiles-request-api/1.0.7/tiles-request-api-1.0.7.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/tiles/tiles-template/3.0.8/tiles-template-3.0.8.jar" enabled="true" runInBatchMode="false"/>
     <factorypathentry kind="VARJAR" id="M2_REPO/org/apache/tiles/tiles-autotag-core-runtime/1.2/tiles-autotag-core-runtime-1.2.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/googlecode/json-simple/json-simple/1.1/json-simple-1.1.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/org/json/json/20240303/json-20240303.jar" enabled="true" runInBatchMode="false"/>
+    <factorypathentry kind="VARJAR" id="M2_REPO/com/google/code/gson/gson/2.8.8/gson-2.8.8.jar" enabled="true" runInBatchMode="false"/>
 </factorypath>

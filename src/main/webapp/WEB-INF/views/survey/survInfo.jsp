@@ -60,8 +60,6 @@
         let keyword = /*[[${pagination.keyword}]]*/ null;
 
         function resForm() {
-            let token = $("meta[name='_csrf']").attr("content");
-            let header = $("meta[name='_csrf_header']").attr("content");
 
             $.ajax({
                 type: 'post',
@@ -69,9 +67,6 @@
                 data: {
                     "memId": memId,
                     "survNo": survNo
-                },
-                beforeSend: function(xhr) {
-                    xhr.setRequestHeader(header, token);
                 },
                 success: function(cnt) {
                     if (cnt != 0) {

@@ -163,7 +163,8 @@
   </div>
   <div class="row">
     <div class="col-7">
-      <input type="text" name="user" value="${sNickName}" id="user" class="form-control m-0" readonly />
+    	<img src="${ctp}/user/${sUserImage}" alt="userImage" />
+		<input type="text" name="user" value="${sNickName}" id="user" class="form-control m-0" readonly />
     </div>
     <div class="col-5">
       <input type="button" value="연결" id="btnConnect" class="btn btn-success btn-sm m-0"/>

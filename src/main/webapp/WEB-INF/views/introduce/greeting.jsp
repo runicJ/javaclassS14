@@ -60,7 +60,7 @@
 			</div>
 			<p><br></p>
 			<div class="question">
-				이 사이트에 대해 궁금하신가요? <a href="#" class="btn btn-primary">저에게 질문하세요</a>
+				이 사이트에 대해 궁금하신가요? <a href="#" class="btn btn-primary">관리자에게 질문하세요</a>
 			</div>
 		</div>
 	</div>

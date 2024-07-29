@@ -1,22 +1,27 @@
 package com.spring.javaclassS14.interceptor;
 
+import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
+import com.spring.javaclassS14.service.IntroService;
 import com.spring.javaclassS14.service.ShopService;
+import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.ShopVO;
-
-import java.util.List;
 
 public class CommonDataInterceptor extends HandlerInterceptorAdapter {
 
     @Autowired
     private ShopService shopService;
+    
+    @Autowired
+    private IntroService introService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -38,6 +43,9 @@ public class CommonDataInterceptor extends HandlerInterceptorAdapter {
                 Integer cartCount = shopService.getUserCartCnt(userId);
                 modelAndView.addObject("cartCount", cartCount != null ? cartCount : 0);
             }
+    		
+            List<SaveMypageVO> topNewsVOS = introService.findTopNews(3); // 상위 3개의 기사 가져오기
+            modelAndView.addObject("topNewsVOS", topNewsVOS);
         }
     } 
 }

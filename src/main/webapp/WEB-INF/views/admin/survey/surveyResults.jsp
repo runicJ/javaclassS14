@@ -7,6 +7,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
+   	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <title>설문 결과</title>
     <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
     <style>

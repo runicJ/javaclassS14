@@ -7,6 +7,7 @@
   	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+   	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <title>설문조사지 수정하기</title>
    	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
     <style>

@@ -7,7 +7,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
+   	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <title>Admin Survey Management</title>
+    <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
     <style>
         h2 {
             margin: 20px 0;

@@ -22,18 +22,167 @@ import com.spring.javaclassS14.vo.CrawlingVO;
 @RequestMapping("/news")
 public class NewsController {
 	
-    private static final int MAX_ARTICLES = 100; // 최대 기사 수
+
+    private static final int MAX_ARTICLES = 79; // 최대 기사 수
 
     @RequestMapping(value = "/newsList", method = RequestMethod.GET)
-    public String newsListGet(HttpServletRequest request, Model model) {
+    public String newsListGet(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         List<CrawlingVO> vos = new ArrayList<>();
         List<CrawlingVO> nVos = new ArrayList<>();
         List<CrawlingVO> bVos = new ArrayList<>();
 
+        // Naver News
         try {
-            vos = getNaverNews(1, 0);
-            nVos = getNatureNews(1, 0);
-            bVos = getBBCNews(1, 0);
+            String baseUrl1 = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
+            for (int i = 1; i <= 10; i++) {
+                if (vos.size() >= MAX_ARTICLES) break;
+
+                String url = baseUrl1 + "&start=" + ((i - 1) * 10 + 1);
+                Document document = Jsoup.connect(url).get();
+                Elements newsElements = document.select("div.news_wrap.api_ani_send");
+
+                for (Element newsElement : newsElements) {
+                    if (vos.size() >= MAX_ARTICLES) break;
+
+                    CrawlingVO vo = new CrawlingVO();
+
+                    Element titleElement = newsElement.selectFirst("a.news_tit");
+                    if (titleElement != null) {
+                        vo.setItem1(titleElement.text());
+                        vo.setItemUrl1(titleElement.attr("href"));
+                    }
+
+                    Element imageElement = newsElement.selectFirst("a.dsc_thumb img");
+                    if (imageElement != null && imageElement.hasAttr("data-lazysrc")) {
+                        vo.setItem2(imageElement.attr("data-lazysrc"));
+                    } else {
+                        vo.setItem2("");
+                    }
+
+                    Element broadcastElement = newsElement.selectFirst("div.dsc_wrap");
+                    if (broadcastElement != null) {
+                        vo.setItem3(broadcastElement.text());
+                    }
+
+                    Element comElement = newsElement.selectFirst("a.info.press");
+                    if (comElement != null) {
+                        vo.setItem4(comElement.text());
+                        vo.setItemUrl2(titleElement.attr("href"));
+                    }
+
+                    Element infoElement = newsElement.selectFirst("span.info");
+                    if (infoElement != null) {
+                        vo.setItem5(infoElement.text());
+                    }
+
+                    vos.add(vo);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // Nature News
+        try {
+            String baseUrl2 = "https://www.nature.com/search?q=allergy&date_range=last_year&order=relevance";
+            for (int i = 1; i <= 10; i++) {
+                if (nVos.size() >= MAX_ARTICLES) break;
+
+                String url2 = baseUrl2 + "&page=" + i;
+                Document document2 = Jsoup.connect(url2).get();
+                Elements newsElements2 = document2.select("article");
+
+                for (Element newsElement : newsElements2) {
+                    if (nVos.size() >= MAX_ARTICLES) break;
+
+                    CrawlingVO nVo = new CrawlingVO();
+
+                    Element titleElement = newsElement.selectFirst("a.c-card__link.u-link-inherit");
+                    if (titleElement != null) {
+                        nVo.setItem1(titleElement.text());
+                        nVo.setItemUrl1(titleElement.attr("href"));
+                    }
+
+                    Element imageElement = newsElement.selectFirst("picture source");
+                    if (imageElement != null && imageElement.hasAttr("srcset")) {
+                        nVo.setItem2(imageElement.attr("srcset"));
+                    } else {
+                        nVo.setItem2("");
+                    }
+
+                    Element broadcastElement = newsElement.selectFirst("div.c-card__summary.u-mb-16.u-hide-sm-max");
+                    if (broadcastElement != null) {
+                        nVo.setItem3(broadcastElement.text());
+                    }
+
+                    Element comElement = newsElement.selectFirst("div.c-meta__item.c-meta__item--block-at-lg.u-text-bold");
+                    if (comElement != null) {
+                        nVo.setItem4(comElement.text());
+                    }
+
+                    Element infoElement = newsElement.selectFirst("time.c-meta__item.c-meta__item--block-at-lg");
+                    if (infoElement != null) {
+                        nVo.setItem5(infoElement.attr("datetime"));
+                    }
+
+                    nVos.add(nVo);
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+        // BBC News
+        try {
+            String baseUrl3 = "https://www.bbc.com/search?q=allergic";
+            for (int i = 1; i <= 10; i++) {
+                if (vos.size() >= MAX_ARTICLES) break;
+
+                String url3 = baseUrl3 + "&page=" + i;
+                Document document3 = Jsoup.connect(url3).get();
+                Elements newsElements = document3.select("[data-testid=liverpool-card]");
+
+                for (Element newsElement : newsElements) {
+                    if (bVos.size() >= MAX_ARTICLES) break;
+
+                    CrawlingVO bVo = new CrawlingVO();
+
+                    Element titleElement = newsElement.selectFirst("h2.sc-4fedabc7-3.bvDsJq");
+                    if (titleElement != null) {
+                        bVo.setItem1(titleElement.text());
+                    }
+
+                    Element imageElement = newsElement.selectFirst("img");
+                    if (imageElement != null && imageElement.hasAttr("srcset")) {
+                        String srcset = imageElement.attr("srcset");
+                        String[] urls = srcset.split(","); // 여러 해상도의 이미지 URL이 있을 때 ,로 구분
+                        if (urls.length > 0) {
+                            String highestResUrl = urls[urls.length - 1].trim().split(" ")[0]; // 가장 높은 해상도의 이미지 URL 선택
+                            bVo.setItem2(highestResUrl);
+                        } else {
+                            bVo.setItem2(imageElement.attr("src"));
+                        }
+                    } else {
+                        bVo.setItem2("");
+                    }
+
+                    Element broadcastElement = newsElement.selectFirst("p.sc-ae29827d-0.cNPpME");
+                    if (broadcastElement != null) {
+                        bVo.setItem3(broadcastElement.text());
+                    }
+
+                    Element comElement = newsElement.selectFirst("span.sc-4e537b1-2.eRsxHt");
+                    if (comElement != null) {
+                        bVo.setItem4(comElement.text());
+                    }
+
+                    Element infoElement = newsElement.selectFirst("span.sc-4e537b1-1.dkFuVs");
+                    if (infoElement != null) {
+                        bVo.setItem5(infoElement.text());
+                    }
+                    bVos.add(bVo);
+                }
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -45,155 +194,6 @@ public class NewsController {
         return "news/newsList";
     }
 
-    @RequestMapping(value = "/loadMore", method = RequestMethod.GET)
-    @ResponseBody
-    public List<CrawlingVO> loadMore(@RequestParam("source") String source, @RequestParam("page") int page, @RequestParam("loadedCount") int loadedCount) {
-        List<CrawlingVO> vos = new ArrayList<>();
-
-        if (loadedCount >= MAX_ARTICLES) {
-            return vos;
-        }
-
-        try {
-            if ("naver".equals(source)) {
-                vos = getNaverNews(page, loadedCount);
-            } else if ("nature".equals(source)) {
-                vos = getNatureNews(page, loadedCount);
-            } else if ("bbc".equals(source)) {
-                vos = getBBCNews(page, loadedCount);
-            }
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return vos;
-    }
-
-    private List<CrawlingVO> getNaverNews(int page, int loadedCount) throws Exception {
-        List<CrawlingVO> vos = new ArrayList<>();
-        String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
-        String url = baseUrl + "&start=" + ((page - 1) * 10 + 1);
-        Document document = Jsoup.connect(url).get();
-        Elements newsElements = document.select("div.news_wrap.api_ani_send");
-
-        for (Element newsElement : newsElements) {
-            if (vos.size() + loadedCount >= MAX_ARTICLES) break;
-
-            CrawlingVO vo = new CrawlingVO();
-
-            Element titleElement = newsElement.selectFirst("a.news_tit");
-            if (titleElement != null) {
-                vo.setItem1(titleElement.text());
-                vo.setItemUrl1(titleElement.attr("href"));
-            }
-
-            Element imageElement = newsElement.selectFirst("a.dsc_thumb img");
-            if (imageElement != null && imageElement.hasAttr("data-lazysrc")) {
-                vo.setItem2(imageElement.attr("data-lazysrc"));
-            } else {
-                vo.setItem2("");
-            }
-
-            Element broadcastElement = newsElement.selectFirst("div.dsc_wrap");
-            if (broadcastElement != null) {
-                vo.setItem3(broadcastElement.text());
-            }
-
-            Element comElement = newsElement.selectFirst("a.info.press");
-            if (comElement != null) {
-                vo.setItem4(comElement.text());
-                vo.setItemUrl2(titleElement.attr("href"));
-            }
-
-            Element infoElement = newsElement.selectFirst("span.info");
-            if (infoElement != null) {
-                vo.setItem5(infoElement.text());
-            }
-
-            vos.add(vo);
-        }
-        return vos;
-    }
-
-    private List<CrawlingVO> getNatureNews(int page, int loadedCount) throws Exception {
-        List<CrawlingVO> nVos = new ArrayList<>();
-        String baseUrl = "https://www.nature.com/search?q=allergy&date_range=last_year&order=relevance";
-        String url = baseUrl + "&page=" + page;
-        Document document = Jsoup.connect(url).get();
-        Elements newsElements = document.select("article");
-
-        for (Element newsElement : newsElements) {
-            if (nVos.size() + loadedCount >= MAX_ARTICLES) break;
-
-            CrawlingVO nVo = new CrawlingVO();
-
-            Element titleElement = newsElement.selectFirst("a.c-card__link.u-link-inherit");
-            if (titleElement != null) {
-                nVo.setItem1(titleElement.text());
-                nVo.setItemUrl1(titleElement.attr("href"));
-            }
-
-            Element imageElement = newsElement.selectFirst("picture source");
-            if (imageElement != null && imageElement.hasAttr("srcset")) {
-                nVo.setItem2(imageElement.attr("srcset"));
-            } else {
-                nVo.setItem2("");
-            }
-
-            Element broadcastElement = newsElement.selectFirst("div.c-card__summary.u-mb-16.u-hide-sm-max");
-            if (broadcastElement != null) {
-                nVo.setItem3(broadcastElement.text());
-            }
-
-            Element comElement = newsElement.selectFirst("div.c-meta__item.c-meta__item--block-at-lg.u-text-bold");
-            if (comElement != null) {
-                nVo.setItem4(comElement.text());
-            }
-
-            Element infoElement = newsElement.selectFirst("time.c-meta__item.c-meta__item--block-at-lg");
-            if (infoElement != null) {
-                nVo.setItem5(infoElement.attr("datetime"));
-            }
-
-            nVos.add(nVo);
-        }
-        return nVos;
-    }
-
-    private List<CrawlingVO> getBBCNews(int page, int loadedCount) throws Exception {
-        List<CrawlingVO> bVos = new ArrayList<>();
-        String baseUrl = "https://www.bbc.com/news/science_and_environment";
-        String url = baseUrl + "?page=" + page;
-        Document document = Jsoup.connect(url).get();
-        Elements newsElements = document.select("div.gs-c-promo");
-
-        for (Element newsElement : newsElements) {
-            if (bVos.size() + loadedCount >= MAX_ARTICLES) break;
-
-            CrawlingVO bVo = new CrawlingVO();
-
-            Element titleElement = newsElement.selectFirst("h3.gs-c-promo-heading__title");
-            if (titleElement != null) {
-                bVo.setItem1(titleElement.text());
-                Element linkElement = newsElement.selectFirst("a.gs-c-promo-heading");
-                bVo.setItemUrl1("https://www.bbc.com" + linkElement.attr("href"));
-            }
-
-            Element imageElement = newsElement.selectFirst("img");
-            if (imageElement != null) {
-                bVo.setItem2(imageElement.attr("src"));
-            } else {
-                bVo.setItem2("");
-            }
-
-            Element timeElement = newsElement.selectFirst("time");
-            if (timeElement != null) {
-                bVo.setItem5(timeElement.attr("datetime"));
-            }
-
-            bVos.add(bVo);
-        }
-        return bVos;
-    }
 	
 	@RequestMapping(value = "/allergic1", method = RequestMethod.GET)
 	public String allergic1Get(HttpServletRequest request, Model model) {

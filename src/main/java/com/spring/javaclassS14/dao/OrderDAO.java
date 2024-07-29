@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
 
@@ -17,5 +18,6 @@ public interface OrderDAO {
     public void setUserPointPlus(@Param("userId") int points, String userId);
     public List<OrderVO> getOrderDelivery(@Param("orderIdx") String orderIdx);
     public int getTotalDeleveryOrder(@Param("orderIdx") int orderIdx);
+    public List<CartItem> getCartItemsByCartIdx(@Param("cartIdx") int cartIdx);
     
 }

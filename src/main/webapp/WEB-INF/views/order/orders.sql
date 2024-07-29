@@ -55,21 +55,6 @@ CREATE TABLE order_cancel (
     FOREIGN KEY (userIdx) REFERENCES users(userIdx)
 );
 
-/* 주문 교환 테이블 */
-CREATE TABLE order_exchange (
-    exchangeIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    orderIdx INT NOT NULL,
-    userIdx INT NOT NULL,
-    productIdx INT NOT NULL,
-    exchangeReason TEXT,
-    exchangeDate DATETIME DEFAULT NOW() NOT NULL,
-    status ENUM('신청','승인','반려') DEFAULT '신청' NOT NULL,
-    responsibility ENUM('구매자','판매자') DEFAULT '구매자' NOT NULL,
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
-    FOREIGN KEY (userIdx) REFERENCES users(userIdx),
-    FOREIGN KEY (productIdx) REFERENCES products(productIdx)
-);
-
 /* 주문 반품 테이블 */
 CREATE TABLE order_return (
     returnIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

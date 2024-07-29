@@ -1,8 +1,7 @@
 package com.spring.javaclassS14.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
+import java.util.Enumeration;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -23,6 +22,7 @@ import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
+import com.spring.javaclassS14.vo.PaymentVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 @Controller
@@ -36,30 +36,43 @@ public class OrderController {
     @Autowired
     PageProcess pageProcess;
 
-    // 장바구니에서 '주문하기' 버튼을 클릭 시 처리
-    @RequestMapping(value="/CartList", method=RequestMethod.POST)
+    @RequestMapping(value="/productOrder", method=RequestMethod.POST)
     public String processOrderFromCart(HttpServletRequest request, HttpSession session, Model model,
-                                       @RequestParam(name="baesong", defaultValue="0") int baesong) {
-        String userId = (String) session.getAttribute("sMid");
-        
-        // 주문 고유번호 생성
-        OrderVO maxIdx = orderService.getOrderMaxIdx();
-        int idx = (maxIdx != null) ? maxIdx.getOrderIdx() + 1 : 1;
+                                       @RequestParam(name="charge", defaultValue="0") int charge) {
+        String userId = (String) session.getAttribute("sUid");
+        System.out.println("charge : " + charge);
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String orderIdx = sdf.format(new Date()) + idx;
+        if (userId == null) {
+            throw new NullPointerException("User ID is null");
+        }
 
-        // 선택된 항목들을 배열로 처리
-        String[] idxChecked = request.getParameterValues("idxChecked");
+        Enumeration<String> parameterNames = request.getParameterNames();
         List<OrderVO> orderVOS = new ArrayList<>();
 
-        for (String strIdx : idxChecked) {
-            CartVO cartVo = orderService.getCartIdx(Integer.parseInt(strIdx));
-            for (CartItem cartItem : cartVo.getItems()) {
-                OrderVO orderVo = createOrderVoFromCartItem(cartItem, orderIdx, userId, baesong);
-                orderVOS.add(orderVo);
+        while (parameterNames.hasMoreElements()) {
+            String paramName = parameterNames.nextElement();
+            System.out.println("paramName: " + paramName);
+            if (paramName.startsWith("isChecked_")) {
+                int cartIdx = Integer.parseInt(paramName.substring(10));
+                int isChecked = Integer.parseInt(request.getParameter(paramName));
+                System.out.println("cartIdx: " + cartIdx + ", isChecked: " + isChecked);
+
+                if (isChecked == 1) {
+                    List<CartItem> cartItems = orderService.getCartItemsByCartIdx(cartIdx);
+                    if (cartItems == null) {
+                        throw new NullPointerException("CartItems is null for cartIdx: " + cartIdx);
+                    } else {
+                        System.out.println("cartItems: " + cartItems.toString());
+                    }
+
+                    for (CartItem cartItem : cartItems) {
+                        OrderVO orderVo = createCartItem(cartItem, userId, charge);
+                        orderVOS.add(orderVo);
+                    }
+                }
             }
         }
+
         session.setAttribute("sOrderVOS", orderVOS);
 
         UserVO userVO = userService.getUserIdCheck(userId);
@@ -68,23 +81,31 @@ public class OrderController {
         return "order/order";
     }
 
-    private OrderVO createOrderVoFromCartItem(CartItem cartItem, String orderIdx, String userId, int baesong) {
+    private OrderVO createCartItem(CartItem cartItem, String userId, int charge) {
         OrderVO orderVO = new OrderVO();
         orderVO.setProductIdx(cartItem.getProductIdx());
         orderVO.setOrderProductIdx(cartItem.getOptionIdx());
         orderVO.setOrderQuantity(cartItem.getQuantity());
         orderVO.setPrice(cartItem.getProductPrice());
         orderVO.setOptionIdx(cartItem.getOptionIdx());
-        orderVO.setOrderIdx(Integer.parseInt(orderIdx));
         orderVO.setUserId(userId);
         orderVO.setTotalPrice(cartItem.getProductPrice() * cartItem.getQuantity());
+        orderVO.setProductThumb(cartItem.getProductThumb());
+        orderVO.setProductName(cartItem.getProductName());
+        orderVO.setProductPrice(cartItem.getProductPrice());
+        orderVO.setOptionGroupName(cartItem.getOptionGroupName());
+        orderVO.setOptionName(cartItem.getOptionName());
+        orderVO.setQuantity(cartItem.getQuantity());
+        orderVO.setCharge(charge);
         return orderVO;
     }
 
     // 결제시스템 호출 및 처리
     @RequestMapping(value="/payment", method=RequestMethod.POST)
-    public String processPayment(OrderVO orderVo, HttpSession session, Model model) {
-        model.addAttribute("orderVO", orderVo);
+    public String processPayment(OrderVO orderVo, PaymentVO paymentVO, HttpSession session, Model model) {
+        model.addAttribute("PaymentVO", paymentVO);
+
+        session.setAttribute("sPaymentVO", paymentVO);
         session.setAttribute("sOrderVO", orderVo);
         return "order/paymentOk";
     }

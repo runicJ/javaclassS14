@@ -60,7 +60,7 @@
                 <li class="sidebar-item">
                 	<a class="sidebar-link sidebar-link" href="authentication-login1.html" aria-expanded="false">
                  	<i data-feather="message-square" class="feather-icon"></i>
-                 	<span class="hide-menu"> 문의글 답변 관리</span>
+                 	<span class="hide-menu"> 문의글 관리</span>
                 	</a>
                 </li>
 
@@ -70,7 +70,7 @@
                     <li class="sidebar-item">
                     	<a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                      	<i data-feather="crosshair" class="feather-icon"></i>
-                     	<span class="hide-menu"> 지점/병원 관리</span>
+                     	<span class="hide-menu"> 기타 관리</span>
                     	</a>
                     <ul aria-expanded="false" class="collapse first-level base-level-line">
                         <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span class="hide-menu"> 병원 정보 관리</span></a>
@@ -86,10 +86,10 @@
                 
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                         aria-expanded="false"><i data-feather="box" class="feather-icon"></i><span
-                            class="hide-menu"> 공지/광고 관리 </span></a>
+                            class="hide-menu"> 광고 관리 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
                         <li class="sidebar-item"><a href="form-inputs.html" class="sidebar-link"><span
-                                    class="hide-menu"> 공지사항 관리
+                                    class="hide-menu"> 이벤트 관리
                                 </span></a>
                         </li>
                         <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span

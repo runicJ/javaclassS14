@@ -5,7 +5,7 @@
 <html>
 <head>
     <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <link rel="stylesheet" type="text/css" href="./css/survList.css">
+   	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <title>설문 리스트</title>
     <style>
         h2 {

@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import com.spring.javaclassS14.dao.OrderDAO;
+import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
 
@@ -19,7 +20,7 @@ public class OrderServiceImpl implements OrderService {
     public OrderVO getOrderMaxIdx() {
         return orderDAO.getOrderMaxIdx();
     }
-
+    
     @Override
     public CartVO getCartIdx(int cartIdx) {
         return orderDAO.getCartIdx(cartIdx);
@@ -67,4 +68,9 @@ public class OrderServiceImpl implements OrderService {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+    @Override
+    public List<CartItem> getCartItemsByCartIdx(int cartIdx) {
+        return orderDAO.getCartItemsByCartIdx(cartIdx);
+    }
 }

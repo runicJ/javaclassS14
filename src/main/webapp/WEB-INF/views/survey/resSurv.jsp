@@ -4,7 +4,6 @@
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       layout:decorate="~{layout/main_layout}">
     <head>
-        <link rel="stylesheet" type="text/css" href="./css/survForm.css">
         <script src="http://code.jquery.com/jquery-3.5.1.min.js"></script>
         <style>
             button {

@@ -24,17 +24,22 @@ CREATE TABLE ad (
 	adTitle VARCHAR(100) NOT NULL,
 	adContent TEXT,
 	adImage VARCHAR(255) NOT NULL,
-	startDate DATETIME DEFAULT NOW() NOT NULL,
-	endDate DATETIME NOT NULL,
-	createDate DATETIME DEFAULT NOW() NOT NULL
+	adApplyDate DATETIME DEFAULT NOW() NOT NULL,
+	startDate DATETIME DEFAULT NULL,
+	endDate DATETIME DEFAULT NULL,
+	createDate DATETIME DEFAULT NOW() NOT NULL,
+	adStatus enum('대기','게시','마감') default '대기'
 );
 
-/* 광고 게시 로그 */
-CREATE TABLE ad_log (
-	adLogIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	adIdx INT NOT NULL,
-	userIdx INT NOT NULL,
-	adDate DATETIME DEFAULT NOW()
+/* 광고 신청 */
+CREATE TABLE ad_apply (
+	adApplyIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	adApplyTitle VARCHAR(100) NOT NULL,
+	adApplyContent TEXT,
+	adApplyImage VARCHAR(255) NOT NULL,
+	adApplyDate DATETIME DEFAULT NOW() NOT NULL,
+	adApplyCompany VARCHAR(255) NOT NULL,
+	adApplyStatus enum('신청','승인','반려') default '신청'
 );
 
 /* 알람 */

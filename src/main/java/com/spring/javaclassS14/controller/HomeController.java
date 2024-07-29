@@ -14,6 +14,7 @@ import java.util.Locale;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -29,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.service.IntroService;
 import com.spring.javaclassS14.service.ShopService;
+import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.CrawlingVO;
 import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.ShopVO;
@@ -54,12 +56,6 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
-		
-        List<ShopVO> categoryTopVOS = shopService.getCategoryTop();
-        model.addAttribute("categoryTopVOS", categoryTopVOS);
-        
-		List<ShopVO> productTopMidVOS = shopService.getProductTopMidList();
-		model.addAttribute("productTopMidVOS", productTopMidVOS);
 		
 		return "home";
 	}
@@ -252,18 +248,21 @@ public class HomeController {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-		
-        List<SaveMypageVO> topNewsVOS = introService.findTopNews(3); // 상위 3개의 기사 가져오기
-        model.addAttribute("topNewsVOS", topNewsVOS);
 
         List<ShopVO> productVOS = shopService.getNewProduct();
         model.addAttribute("productVOS", productVOS);
 
-        List<ShopVO> categoryTopVOS = shopService.getCategoryTop();
-        model.addAttribute("categoryTopVOS", categoryTopVOS);
+        List<AirVO> airVOS = introService.getAirInfo();
         
-		List<ShopVO> productTopMidVOS = shopService.getProductTopMidList();
-		model.addAttribute("productTopMidVOS", productTopMidVOS);
+        ObjectMapper objectMapper = new ObjectMapper();
+        String airVOSJson = "";
+        try {
+            airVOSJson = objectMapper.writeValueAsString(airVOS);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        
+        model.addAttribute("airVOSJson", airVOSJson);
         
         return "main/main";
     }

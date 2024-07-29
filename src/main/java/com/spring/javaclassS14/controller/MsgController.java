@@ -144,6 +144,10 @@ public class MsgController {
 			model.addAttribute("msg", "장바구니가 비어있습니다.");
 			model.addAttribute("url", "/shop/productList");
 		}
+		else if(msgFlag.equals("paymentResultOk")) {
+			model.addAttribute("msg", "결제가 성공적으로 완료되었습니다.");
+			model.addAttribute("url", "/order/paymentResultOk");
+		}
 		
 	return "include/msg";
 	}

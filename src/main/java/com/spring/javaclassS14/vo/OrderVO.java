@@ -11,6 +11,14 @@ public class OrderVO {
     private int pointUse;
     private String orderStatus;
     private String orderDate;
+    
+    private String productThumb;
+    private String productName;
+    private int productPrice;
+    private String optionGroupName;
+    private String optionName;
+    private int quantity;
+    private int charge;
 
     // order_product
     private int orderProductIdx;
