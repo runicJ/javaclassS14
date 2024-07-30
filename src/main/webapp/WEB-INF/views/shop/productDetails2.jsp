@@ -7,332 +7,334 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>productDetails</title>
-    <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>productDetails</title>
+	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
-    <jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
-    <script>
-        'use strict';
-
-        let idxArray = new Array();
-
-        $(function() {
-            $(".selectOption").change(function() {
-                let selectOption = $(this).val();
-                let optionIdx = selectOption.substring(0, selectOption.indexOf(":"));
-                let optionName = selectOption.substring(selectOption.indexOf(":") + 1, selectOption.indexOf("_"));
-                let addPrice = parseInt(selectOption.substring(selectOption.indexOf("_") + 1));
-                let basePrice = parseInt(${productVO.productPrice});
-                let totalOptionPrice = basePrice + addPrice;
-                let commaPrice = numberWithCommas(totalOptionPrice);
-                let quantity = parseInt($("#numBoxMain").val());
-
-                if ($("#layer" + optionIdx).length == 0) {
-                    idxArray.push(optionIdx);
-                    let index = idxArray.length - 1;
-                    let str = '';
-                    str += '<div class="layer row" id="layer' + optionIdx + '"><div class="col">' + optionName + '</div>';
-                    str += '<input type="number" class="text-center numBox" id="numBox' + optionIdx + '" name="items[' + index + '].quantity" onchange="numChange(' + optionIdx + ')" value="' + quantity + '" min="1"/> &nbsp;';
-                    str += '<input type="text" id="imsiPrice' + optionIdx + '" class="price" value="' + commaPrice + '" readonly /><span> 원</span>';
-                    str += '<input type="hidden" id="price' + optionIdx + '" value="' + totalOptionPrice + '" data-add-price="' + addPrice + '"/> &nbsp;';
-                    str += '<input type="button" class="btn btn-outline-danger btn-sm" onclick="remove(' + optionIdx + ')" value="X"/>';
-                    str += '<input type="hidden" name="items[' + index + '].optionIdx" value="' + optionIdx + '"/>';
-                    str += '<input type="hidden" name="items[' + index + '].productIdx" value="${productVO.productIdx}"/>';
-                    str += '<input type="hidden" name="items[' + index + '].isSoldOut" value="false"/>';
-                    str += '</div>';
-                    $("#product1").append(str);
-                    onTotal();
-                } 
-                else {
-                    alert("이미 선택한 옵션입니다.");
-                }
-            });
-        });
-
-        function remove(optionIdx) {
-            $("div").remove("#layer" + optionIdx);
-
-            if ($(".price").length) onTotal();
-            else location.reload();
-        }
-
-        function onTotal() {
-            let total = 0;
-            for (let i = 0; i < idxArray.length; i++) {
-                if ($("#layer" + idxArray[i]).length != 0) {
-                    total += parseInt(document.getElementById("price" + idxArray[i]).value);
-                }
-            }
-            document.getElementById("totalPrice").value = numberWithCommas(total);
-        }
-
-        function numChange(optionIdx) {
-            let basePrice = parseInt(${productVO.productPrice});
-            let addPrice = parseInt($("#price" + optionIdx).data("addPrice"));
-            let quantity = parseInt(document.getElementById("numBox" + optionIdx).value);
-            let totalPrice = (basePrice + addPrice) * quantity;
-            document.getElementById("imsiPrice" + optionIdx).value = numberWithCommas(totalPrice);
-            document.getElementById("price" + optionIdx).value = totalPrice;
-            onTotal();
-        }
-
-        function cart() {
-            if (document.getElementById("totalPrice").value == 0) {
-                alert("옵션을 선택해주세요");
-                return false;
-            } 
-            else {
-                myform.action = "${ctp}/shop/addToCart";
-                myform.submit();
-            }
-        }
-
-        function numberWithCommas(x) {
-            return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
-        }
-
-        function likedToggle(productIdx) {
-            if (sUid == null || sUid == "") {
-                alert("로그인 이후에 가능한 메뉴입니다!");
-                return false;
-            }
-
-            $.ajax({
-                url: "${ctp}/shop/productLikedToggle",
-                type: "post",
-                data: { productIdx: productIdx },
-                success: function(res) {
-                    let icon = document.getElementById("liked-icon-" + productIdx);
-                    let wishCnt = document.getElementById("likedCnt");
-                    if (res.trim() == "true") {
-                        alert("해당 상품을 위시리스트에서 제거하였습니다.");
-                        icon.classList.remove('fa-solid', 'fa-heart');
-                        icon.classList.add('fa-regular', 'fa-heart');
-                        wishCnt.textContent = parseInt(wishCnt.textContent) - 1;
-                    } else {
-                        alert("해당 상품을 위시리스트에 추가하였습니다.");
-                        icon.classList.remove('fa-regular', 'fa-heart');
-                        icon.classList.add('fa-solid', 'fa-heart');
-                        icon.style.color = 'red';
-                        wishCnt.textContent = parseInt(wishCnt.textContent) + 1;
-                    }
-                },
-                error: function() {
-                    alert("전송 오류!");
-                }
-            });
-        }
-        
-        function reviewCheck() {
-            let star = starForm.star.value;
-            let reviewContent = $("#reviewContent").val();
-            
-            if (star == "") {
-                alert("별점을 부여해 주세요");
-                return false;
-            }
-            let query = {
-                productIdx : ${productVO.productIdx},
-                userId : '${sUid}',
-                nickName : '${sNickName}',
-                hostIp : '${pageContext.request.remoteAddr}',
-                reviewContent : reviewContent
-            }
-            
-            $.ajax({
-                url : "${ctp}/shop/productReviewInput",
-                type : "post",
-                data : query,
-                success:function(res) {
-                    if(res != "0") {
-                        alert("댓글이 입력되었습니다.");
-                        location.reload();
-                    }
-                    else alert("제품을 구매하신 분만 제품에 대한 댓글 입력이 가능합니다.");
-                },
-                error : function() {
-                    alert("전송 오류!");
-                }
-            });
-        }
-        
-        // 댓글 삭제하기
-        function reviewDelete(reviewIdx) {
-            let ans = confirm("선택한 댓글을 삭제하시겠습니까?");
-            if(!ans) return false;
-            
-            $.ajax({
-                url : "${ctp}/shop/productReviewDelete",
-                type : "post",
-                data : {reviewIdx : reviewIdx},
-                success:function(res) {
-                    if(res != "0") {
-                        alert("댓글이 삭제되었습니다.");
-                        location.reload();
-                    }
-                    else alert("삭제 실패~~");
-                },
-                error : function() {
-                    alert("전송 오류!");
-                }
-            });
-        }
-
-        // 처음에는 대댓글 '닫기'버튼은 보여주지 않는다.
-        $(function(){
-            $(".replyCloseBtn").hide();
-        });
-        
-        // 대댓글 입력버튼 클릭시 입력박스 보여주기
-        function replyShow(idx) {
-            $("#replyShowBtn" + idx).hide();
-            $("#replyCloseBtn" + idx).show();
-            $("#replyDemo" + idx).slideDown(100);
-        }
-        
-        // 대댓글 박스 감추기
-        function replyClose(idx) {
-            $("#replyShowBtn" + idx).show();
-            $("#replyCloseBtn" + idx).hide();
-            $("#replyDemo" + idx).slideUp(300);
-        }
-        
-        // 대댓글(부모댓글의 답변글)의 입력처리
-        function replyCheckRe(idx, re_step, re_order) {
-            let content = $("#contentRe" + idx).val();
-            if(content.trim() == "") {
-                alert("답변글을 입력하세요");
-                $("#contentRe" + idx).focus();
-                return false;
-            }
-            
-            let query = {
-                productIdx : ${productVO.productIdx},
-                re_step : re_step,
-                re_order : re_order,
-                userId : '${sUid}',
-                nickName : '${sNickName}',
-                hostIp : '${pageContext.request.remoteAddr}',
-                reviewContent : content
-            }
-            
-            $.ajax({
-                url : "${ctp}/shop/productReviewReInput",
-                type : "post",
-                data : query,
-                success:function(res) {
-                    if(res != "0") {
-                        alert("대댓글이 입력되었습니다.");
-                        location.reload();
-                    }
-                    else alert("대댓글 입력 실패~~");
-                },
-                error : function() {
-                    alert("전송오류!");
-                }
-            });
-        }
-
-        // 신고시 '기타'항목 선택시에 textarea 보여주기
-        function etcShow() {
-            $("#complaintTxt").show();
-        }
-
-        // 신고화면 선택후 신고사항 전송하기
-        function complaintCheck(reviewIdx) {
-            if (!$("input[type=radio][name=complaint]:checked").is(':checked')) {
-                alert("신고항목을 선택하세요");
-                return false;
-            }
-            if($("input[type=radio]:checked").val() == '기타' && $("#complaintTxt").val() == "") {
-                alert("기타 사유를 입력해 주세요.");
-                return false;
-            }
-            
-            let cpContent = modalForm.complaint.value;
-            if(cpContent == '기타') cpContent += '/' + $("#complaintTxt").val();
-            
-            //alert("신고내용 : " + cpContent);
-            let query = {
-                part : 'productReview',
-                partIdx: reviewIdx,
-                cpMid : '${sUid}',
-                cpContent : cpContent
-            }
-            
-            $.ajax({
-                url : "${ctp}/cs/complaintInput",
-                type : "post",
-                data : query,
-                success:function(res) {
-                    if(res != "0") {
-                        alert("신고 되었습니다.");
-                        location.reload();
-                    }
-                    else alert("신고 실패~~");
-                },
-                error : function() {
-                    alert("전송 오류!");
-                }
-            });
-        }
+  	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+  	<script>
+	  	'use strict';
+	
+	    let idxArray = new Array();
+	
+	    $(function() {
+	        $(".selectOption").change(function() {
+	            let selectOption = $(this).val();
+	            let optionIdx = selectOption.substring(0, selectOption.indexOf(":"));
+	            let optionName = selectOption.substring(selectOption.indexOf(":") + 1, selectOption.indexOf("_"));
+	            let addPrice = parseInt(selectOption.substring(selectOption.indexOf("_") + 1));
+	            let basePrice = parseInt(${productVO.productPrice});
+	            let totalOptionPrice = basePrice + addPrice;
+	            let commaPrice = numberWithCommas(totalOptionPrice);
+	            let quantity = parseInt($("#numBoxMain").val());
+	
+	            if ($("#layer" + optionIdx).length == 0) {
+	                idxArray.push(optionIdx);
+	                let index = idxArray.length - 1;
+	                let str = '';
+	                str += '<div class="layer row" id="layer' + optionIdx + '"><div class="col">' + optionName + '</div>';
+	                str += '<input type="number" class="text-center numBox" id="numBox' + optionIdx + '" name="items[' + index + '].quantity" onchange="numChange(' + optionIdx + ')" value="' + quantity + '" min="1"/> &nbsp;';
+	                str += '<input type="text" id="imsiPrice' + optionIdx + '" class="price" value="' + commaPrice + '" readonly /><span> 원</span>';
+	                str += '<input type="hidden" id="price' + optionIdx + '" value="' + totalOptionPrice + '" data-add-price="' + addPrice + '"/> &nbsp;';
+	                str += '<input type="button" class="btn btn-outline-danger btn-sm" onclick="remove(' + optionIdx + ')" value="X"/>';
+	                str += '<input type="hidden" name="items[' + index + '].optionIdx" value="' + optionIdx + '"/>';
+	                str += '<input type="hidden" name="items[' + index + '].productIdx" value="${productVO.productIdx}"/>';
+	                str += '<input type="hidden" name="items[' + index + '].isSoldOut" value="false"/>';
+	                str += '</div>';
+	                $("#product1").append(str);
+	                onTotal();
+	            } 
+	            else {
+	                alert("이미 선택한 옵션입니다.");
+	            }
+	        });
+	    });
+	
+	    function remove(optionIdx) {
+	        $("div").remove("#layer" + optionIdx);
+	
+	        if ($(".price").length) onTotal();
+	        else location.reload();
+	    }
+	
+	    function onTotal() {
+	        let total = 0;
+	        for (let i = 0; i < idxArray.length; i++) {
+	            if ($("#layer" + idxArray[i]).length != 0) {
+	                total += parseInt(document.getElementById("price" + idxArray[i]).value);
+	            }
+	        }
+	        document.getElementById("totalPrice").value = numberWithCommas(total);
+	    }
+	
+	    function numChange(optionIdx) {
+	        let basePrice = parseInt(${productVO.productPrice});
+	        let addPrice = parseInt($("#price" + optionIdx).data("addPrice"));
+	        let quantity = parseInt(document.getElementById("numBox" + optionIdx).value);
+	        let totalPrice = (basePrice + addPrice) * quantity;
+	        document.getElementById("imsiPrice" + optionIdx).value = numberWithCommas(totalPrice);
+	        document.getElementById("price" + optionIdx).value = totalPrice;
+	        onTotal();
+	    }
+	
+	    function cart() {
+	        if (document.getElementById("totalPrice").value == 0) {
+	            alert("옵션을 선택해주세요");
+	            return false;
+	        } 
+	        else {
+	            myform.action = "${ctp}/shop/addToCart";
+	            myform.submit();
+	        }
+	    }
+	
+	    function numberWithCommas(x) {
+	        return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+	    }
+	
+	    function likedToggle(productIdx) {
+	        if (sUid == null || sUid == "") {
+	            alert("로그인 이후에 가능한 메뉴입니다!");
+	            return false;
+	        }
+	
+	        $.ajax({
+	            url: "${ctp}/shop/productLikedToggle",
+	            type: "post",
+	            data: { productIdx: productIdx },
+	            success: function(res) {
+	                let icon = document.getElementById("liked-icon-" + productIdx);
+	                let wishCnt = document.getElementById("likedCnt");
+	                if (res.trim() == "true") {
+	                    alert("해당 상품을 위시리스트에서 제거하였습니다.");
+	                    icon.classList.remove('fa-solid', 'fa-heart');
+	                    icon.classList.add('fa-regular', 'fa-heart');
+	                    wishCnt.textContent = parseInt(wishCnt.textContent) - 1;
+	                } else {
+	                    alert("해당 상품을 위시리스트에 추가하였습니다.");
+	                    icon.classList.remove('fa-regular', 'fa-heart');
+	                    icon.classList.add('fa-solid', 'fa-heart');
+	                    icon.style.color = 'red';
+	                    wishCnt.textContent = parseInt(wishCnt.textContent) + 1;
+	                }
+	            },
+	            error: function() {
+	                alert("전송 오류!");
+	            }
+	        });
+	    }
+	    
+	    function reviewCheck() {
+	    	let star = starForm.star.value;
+	    	let reviewContent = $("#reviewContent").val();
+	    	
+	        if (star == "") {
+	            alert("별점을 부여해 주세요");
+	            return false;
+	        }
+	    	let query = {
+	    			productIdx : ${productVO.productIdx},
+	    			userId	: '${sUid}',
+	    			nickName : '${sNickName}',
+	    			hostIp : '${pageContext.request.remoteAddr}',
+	    			reviewContent : reviewContent
+	    	}
+	    	
+	    	$.ajax({
+	    		url  : "${ctp}/shop/productReviewInput",
+	    		type : "post",
+	    		data : query,
+	    		success:function(res) {
+	    			if(res != "0") {
+	    				alert("댓글이 입력되었습니다.");
+	    				location.reload();
+	    			}
+	                else alert("제품을 구매하신 분만 제품에 대한 댓글 입력이 가능합니다.");
+	    		},
+	    		error : function() {
+	    			alert("전송 오류!");
+	    		}
+	    	});
+	    }
+	    
+	    
+	    // 댓글 삭제하기
+	    function reviewDelete(reviewIdx) {
+	    	let ans = confirm("선택한 댓글을 삭제하시겠습니까?");
+	    	if(!ans) return false;
+	    	
+	    	$.ajax({
+	    		url  : "${ctp}/shop/productReviewDelete",
+	    		type : "post",
+	    		data : {reviewIdx : reviewIdx},
+	    		success:function(res) {
+	    			if(res != "0") {
+	    				alert("댓글이 삭제되었습니다.");
+	    				location.reload();
+	    			}
+	    			else alert("삭제 실패~~");
+	    		},
+	    		error : function() {
+	    			alert("전송 오류!");
+	    		}
+	    	});
+	    }
+	    
+	    
+	    // 처음에는 대댓글 '닫기'버튼은 보여주지 않는다.
+	    $(function(){
+	    	$(".replyCloseBtn").hide();
+	    });
+	    
+	    // 대댓글 입력버튼 클릭시 입력박스 보여주기
+	    function replyShow(idx) {
+	    	$("#replyShowBtn"+idx).hide();
+	    	$("#replyCloseBtn"+idx).show();
+	    	$("#replyDemo"+idx).slideDown(100);
+	    }
+	    
+	    // 대댓글 박스 감추기
+	    function replyClose(idx) {
+	    	$("#replyShowBtn"+idx).show();
+	    	$("#replyCloseBtn"+idx).hide();
+	    	$("#replyDemo"+idx).slideUp(300);
+	    }
+	    
+	    // 대댓글(부모댓글의 답변글)의 입력처리
+	    function replyCheckRe(idx, re_step, re_order) {
+	    	let content = $("#contentRe"+idx).val();
+	    	if(content.trim() == "") {
+	    		alert("답변글을 입력하세요");
+	    		$("#contentRe"+idx).focus();
+	    		return false;
+	    	}
+	    	
+	    	let query = {
+	    			productIdx : ${vo.productIdx},
+	    			re_step : re_step,
+	    			re_order : re_order,
+	    			userId      : '${sUid}',
+	    			nickName : '${sNickName}',
+	    			hostIp   : '${pageContext.request.remoteAddr}',
+	    			reviewContent  : reviewContent
+	    	}
+	    	
+	    	$.ajax({
+	    		url  : "${ctp}/shop/productReviewReInput",
+	    		type : "post",
+	    		data : query,
+	    		success:function(res) {
+	    			if(res != "0") {
+	    				alert("답변글이 입력되었습니다.");
+	    				location.reload();
+	    			}
+	    			else alert("답변글 입력 실패~~");
+	    		},
+	    		error : function() {
+	    			alert("전송오류!");
+	    		}
+	    	});
+	    }
+	    
+	    // 신고시 '기타'항목 선택시에 textarea 보여주기
+	    function etcShow() {
+	    	$("#complaintTxt").show();
+	    }
+	    
+	    // 신고화면 선택후 신고사항 전송하기
+	    function complaintCheck(reviewIdx) {
+	    	if (!$("input[type=radio][name=complaint]:checked").is(':checked')) {
+	    		alert("신고항목을 선택하세요");
+	    		return false;
+	    	}
+	    	if($("input[type=radio]:checked").val() == '기타' && $("#complaintTxt").val() == "") {
+	    		alert("기타 사유를 입력해 주세요.");
+	    		return false;
+	    	}
+	    	
+	    	let cpContent = modalForm.complaint.value;
+	    	if(cpContent == '기타') cpContent += '/' + $("#complaintTxt").val();
+	    	
+	    	//alert("신고내용 : " + cpContent);
+	    	let query = {
+	    			part   : 'productReview',
+	    			partIdx: reviewIdx,
+	    			cpMid  : '${sUid}',
+	    			cpContent : cpContent
+	    	}
+	    	
+	    	$.ajax({
+	    		url  : "${ctp}/cs/compliantInput",
+	    		type : "post",
+	    		data : query,
+	    		success:function(res) {
+	    			if(res != "0") {
+	    				alert("신고 되었습니다.");
+	    				location.reload();
+	    			}
+	    			else alert("신고 실패~~");
+	    		},
+	    		error : function() {
+	    			alert("전송 오류!");
+	    		}
+	   		});
+	    }
     </script>
     <style>
-        .layer {
-            border:0px;
-            width:100%;
-            padding:10px;
-            margin-left:1px;
-            background-color:#eee;
+       .layer  {
+          border:0px;
+          width:100%;
+          padding:10px;
+          margin-left:1px;
+          background-color:#eee;
         }
         .numBox {width:40px}
-        .price {
-            width:160px;
-            background-color:#eee;
-            text-align:right;
-            font-size:1.2em;
-            border:0px;
-            outline: none;
+        .price  {
+          width:160px;
+          background-color:#eee;
+          text-align:right;
+          font-size:1.2em;
+          border:0px;
+          outline: none;
         }
         .totalPrice {
-            text-align:right;
-            margin-right:10px;
-            color:#f63;
-            font-size:1.5em;
-            font-weight: bold;
-            border:0px;
-            outline: none;
+          text-align:right;
+          margin-right:10px;
+          color:#f63;
+          font-size:1.5em;
+          font-weight: bold;
+          border:0px;
+          outline: none;
         }
         
         /* 별점 스타일 설정하기 */
-        #starForm fieldset {
-            display: inline-block;
-            direction: rtl;
-            border:0;
-        }
-        #starForm input[type=radio] {
-            display: none;
-        }
-        #starForm label {
-            font-size: 1.6em;
-            color: transparent;
-            text-shadow: 0 0 0 #f0f0f0;
-        }
-        #starForm label:hover {
-            text-shadow: 0 0 0 rgba(250, 200, 0, 0.98);
-        }
-        #starForm label:hover ~ label {
-            text-shadow: 0 0 0 rgba(250, 200, 0, 0.98);
-        }
-        #starForm input[type=radio]:checked ~ label {
-            text-shadow: 0 0 0 rgba(250, 200, 0, 0.98);
-        }
+	    #starForm fieldset {
+		    display: inline-block;
+		    direction: rtl;
+		    border:0;
+	    }
+	    #starForm input[type=radio] {
+	      display: none;
+	    }
+	    #starForm label {
+	      font-size: 1.6em;
+	      color: transparent;
+	      text-shadow: 0 0 0 #f0f0f0;
+	    }
+	    #starForm label:hover {
+	      text-shadow: 0 0 0 rgba(250, 200, 0, 0.98);
+	    }
+	    #starForm label:hover ~ label {
+	      text-shadow: 0 0 0 rgba(250, 200, 0, 0.98);
+	    }
+	    #starForm input[type=radio]:checked ~ label {
+	      text-shadow: 0 0 0 rgba(250, 200, 0, 0.98);
+	    }
     </style>
 </head>
 <body>
@@ -380,11 +382,9 @@
                                 <i class="fa fa-star"></i>
                                 <i class="fa fa-star-o"></i>
                                 <c:forEach var="i" begin="1" end="${rVo.star}" varStatus="iSt">
-                                    <font color="gold"><i class="fas fa-star"></i></font>
-                                </c:forEach>
-                                <c:forEach var="i" begin="1" end="${5 - rVo.star}" varStatus="iSt">
-                                    <i class="fa fa-star"></i>
-                                </c:forEach>
+                        			<font color="gold"><i class="fas fa-star"></i></font>
+                   				</c:forEach>
+                   				 <c:forEach var="i" begin="1" end="${5 - rVo.star}" varStatus="iSt"><i class="fa fa-star"></i></c:forEach>
                                 <span>(후기글 ${reviewVOS[0].productReviewCnt}개)</span>
                             </div>
                             
@@ -398,7 +398,7 @@
                                     <h3>￦ <fmt:formatNumber value="${productVO.productPrice}" /><span>0</span></h3>
                                     <p>${productVO.productDetails}</p>
                                     <div class="product__details__cart__option">
-                                        <div class="quantity mb-2">
+										<div class="quantity mb-2">
                                             <div class="pro-qty">
                                                 <input type="number" name="quantity" min="1" value="1" id="numBoxMain">
                                             </div>
@@ -471,7 +471,7 @@
                                     <li><span>상품 브랜드 : </span> [ ${productVO.productBrand} ]</li>
                                 </ul>
                             </div>
-                        </div>
+                    	</div>
                     </div>
                 </div>
                 <div class="row">
@@ -479,7 +479,8 @@
                         <div class="product__details__tab">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item">
-                                    <a class="nav-link active" data-toggle="tab" href="#tabs-5" role="tab">제품 상세보기</a>
+                                    <a class="nav-link active" data-toggle="tab" href="#tabs-5"
+                                    role="tab">제품 상세보기</a>
                                 </li>
                                 <li class="nav-item">
                                     <a class="nav-link" data-toggle="tab" href="#tabs-6" role="tab">리뷰(${reviewVOS[0].productReviewCnt})</a>
@@ -501,70 +502,60 @@
                                 <div class="tab-pane" id="tabs-6" role="tabpanel">
                                     <div class="product__details__tab__content">
                                         <div class="product__details__tab__content__item">
-                                            <div class="card">
-                                                <div class="card-body">
-                                                    <h4 class="card-title text-center">구매 후기</h4>
-                                                    <div class="comment-widgets">
-                                                        <c:forEach var="reviewVO" items="${reviewVOS}">
-                                                            <div class="d-flex flex-row comment-row m-t-0">
-                                                                <div class="p-2"><img src="${ctp}/user/${reviewVO.userImage}" alt="user" width="50px" height="50px" class="rounded-circle"></div>
-                                                                <div class="comment-text w-100">
-                                                                    <div>
-                                                                        <h6 class="font-medium"><a>${reviewVO.nickName} <i class="fa-solid fa-angle-right"></i></a></h6>
-                                                                        <p class="float-right">
-                                                                            <c:forEach var="i" begin="1" end="${reviewVO.star}" varStatus="iSt">
-                                                                                <font color="gold"><i class="fas fa-star"></i></font>
-                                                                            </c:forEach>
-                                                                            <c:forEach var="i" begin="1" end="${5 - reviewVO.star}" varStatus="iSt">
-                                                                                <i class="fa fa-star"></i>
-                                                                            </c:forEach>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p class="text-muted float-left">
-	                                                                        <span>${fn:substring(reviewVO.reviewDate,0,10)}</span>&nbsp;&nbsp;
-	                                                                    <p> 
-	                                                                        <p><c:if test="${reviewVO.userId != sUid}">| <button type="button" class="badge badge-danger" onclick="complaintCheck('${reviewVO.reviewIdx}')">신고하기 <i class="fa-regular fa-flag"></i></button></c:if>
-                                                                    </div>
-                                                                    <p><span class="m-b-15 d-block">${fn:replace(reviewVO.reviewContent,newLine,'<br>')}</span></p>
-                                                                    <div class="comment-footer">
-                                                                        <c:if test="${reviewVO.userId == sUid}"><button type="button" class="badge badge-primary mr-2" onclick="reviewEdit('${reviewVO.reviewIdx}')">수정</button></c:if>
-                                                                        <c:if test="${reviewVO.userId == sUid || sUid == 'admin'}"><button type="button" class="badge badge-warning mr-2 mb-2" onclick="reviewDelete('${reviewVO.reviewIdx}')">삭제</button></c:if>
-                                                                        <i class="fa-solid fa-thumbs-up"></i>&nbsp;<span>0</span>
-                                                                        <p class="float-right"><button type="button" class="btn btn-primary btn-sm" onclick="replyShow(${reviewVO.reviewIdx})" id="replyShowBtn${reviewVO.reviewIdx}">답글달기</button></p>
-                                                                    </div>
-                                                                    <!-- 대댓글 입력창 -->
-                                                                    <div id="replyDemo${reviewVO.reviewIdx}" class="replyDemo" style="display:none;">
-                                                                        <textarea rows="2" id="contentRe${reviewVO.reviewIdx}" class="form-control mb-2" placeholder="답글을 입력하세요"></textarea>
-                                                                        <button type="button" class="btn btn-success btn-sm mr-2" onclick="replyCheckRe(${reviewVO.reviewIdx}, ${reviewVO.re_step}, ${reviewVO.re_order})">답글 등록</button>
-                                                                        <button type="button" class="btn btn-secondary btn-sm" onclick="replyClose(${reviewVO.reviewIdx})" id="replyCloseBtn${reviewVO.reviewIdx}">닫기</button>
-                                                                    </div>
-                                                                </div>
-                                                            </div>
-                                                        </c:forEach>
-                                                    </div>
-                                                </div>
-                                            </div>
-                                            <hr>
-                                            <div>
-                                                <form name="starForm" id="starForm" method="post">
-                                                    <fieldset style="border:0px;">
-                                                        <div class="text-left viewPoint m-0 b-0">
-                                                            <input type="radio" name="star" value="5" id="star1"><label for="star1"><i class="fas fa-star"></i></label>
-                                                            <input type="radio" name="star" value="4" id="star2"><label for="star2"><i class="fas fa-star"></i></label>
-                                                            <input type="radio" name="star" value="3" id="star3"><label for="star3"><i class="fas fa-star"></i></label>
-                                                            <input type="radio" name="star" value="2" id="star4"><label for="star4"><i class="fas fa-star"></i></label>
-                                                            <input type="radio" name="star" value="1" id="star5"><label for="star5"><i class="fas fa-star"></i></label>
-                                                        </div>
-                                                    </fieldset>
-                                                    <div class="m-0 p-0">
-                                                        <textarea rows="3" name="reviewContent" id="reviewContent" class="form-control mb-1" placeholder="별점 후기를 남겨주시면 100포인트를 지급합니다."></textarea>
-                                                    </div>
-                                                    <div>
-                                                        <input type="button" value="별점/리뷰등록" onclick="reviewCheck()" class="btn btn-primary btn-sm form-control mb-4"/>
-                                                    </div>
-                                                </form>
-                                            </div>
+	                                        <div class="card">
+					                            <div class="card-body">
+					                                <h4 class="card-title text-center">구매 후기</h4>
+						                            <div class="comment-widgets">
+						                            	<c:forEach var="reviewVO" items="${reviewVOS}">
+						                                <div class="d-flex flex-row comment-row m-t-0">
+						                                    <div class="p-2"><img src="${ctp}/user/${reviewVO.userImage}" alt="user" width="50px" height="50px" class="rounded-circle"></div>
+						                                    <div class="comment-text w-100">
+						                                    	<div>
+							                                        <h6 class="font-medium"><a>${reviewVO.nickName} <i class="fa-solid fa-angle-right"></i></a></h6>
+							                                        <p class="float-right">
+	                                                                    <c:forEach var="i" begin="1" end="${reviewVO.star}" varStatus="iSt">
+									                        			<font color="gold"><i class="fas fa-star"></i></font>
+									                   					</c:forEach>
+									                   				 	<c:forEach var="i" begin="1" end="${5 - reviewVO.star}" varStatus="iSt"><i class="fa fa-star"></i></c:forEach>
+								                   				 	</p>
+						                                        </div>
+					                                            <div>
+					                                            <p class="text-muted">${fn:substring(reviewVO.reviewDate,0,10)}</p> 
+						                                        <c:if test="${reviewVO.userId != sUid}"><button type="button" class="btn btn-danger btn-sm" onclick="compliantCheck('${reviewVO.reviewIdx}')">| 신고</button></c:if>
+						                                        </div>
+						                                        <span class="m-b-15 d-block">${fn:replace(reviewVO.reviewContent,newLine,'<br>')}</span>
+						                                        <div class="comment-footer">
+						                                            <c:if test="${reviewVO.userId == sUid}"><button type="button" class="badge badge-primary mr-2" onclick="reviewEdit('${reviewVO.reviewIdx}')">수정</button></c:if>
+						                                            <c:if test="${reviewVO.userId == sUid || sUid == 'admin'}"><button type="button" class="badge badge-warning mr-2" onclick="reviewDelete('${reviewVO.reviewIdx}')">삭제</button></c:if>
+						                                            <i class="fa-solid fa-thumbs-up"></i>&nbsp;<span>0</span>
+						                                            <p class="float-right"><button type="button" class="btn btn-primary btn-sm" onclick="replyShow(${reviewVO.reviewIdx})" id="replyShowBtn${replyVo.idx}">답글달기</button></p>
+						                                        </div>
+						                                    </div>
+						                                </div>
+						                                </c:forEach>
+						                            </div>
+					                            </div>
+				                            </div>
+				                            <hr>
+	                                    	<div>
+	                                    		<form name="starForm" id="starForm" method="post">
+												  <fieldset style="border:0px;">
+												    <div class="text-left viewPoint m-0 b-0">
+												      <input type="radio" name="star" value="5" id="star1"><label for="star1"><i class="fas fa-star"></i></label>
+												      <input type="radio" name="star" value="4" id="star2"><label for="star2"><i class="fas fa-star"></i></label>
+												      <input type="radio" name="star" value="3" id="star3"><label for="star3"><i class="fas fa-star"></i></label>
+												      <input type="radio" name="star" value="2" id="star4"><label for="star4"><i class="fas fa-star"></i></label>
+												      <input type="radio" name="star" value="1" id="star5"><label for="star5"><i class="fas fa-star"></i></label>
+												    </div>
+												  </fieldset>
+												  <div class="m-0 p-0">
+												    <textarea rows="3" name="reviewContent" id="reviewContent" class="form-control mb-1" placeholder="별점 후기를 남겨주시면 100포인트를 지급합니다."></textarea>
+												  </div>
+												  <div>
+												    <input type="button" value="별점/리뷰등록" onclick="reviewCheck()" class="btn btn-primary btn-sm form-control mb-4"/>
+												  </div>
+												</form>
+	                                    	</div>
                                         </div>
                                     </div>
                                 </div>
@@ -762,10 +753,10 @@
         </div>
     </section>
     <!-- Related Section End -->
-    
-    <a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
+	
+<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 </div>
-    <!-- 신고하기 폼 모달창 -->
+	<!-- 신고하기 폼 모달창 -->
   <div class="modal fade" id="myModal">
     <div class="modal-dialog modal-dialog-centered">
       <div class="modal-content">
@@ -773,7 +764,7 @@
         <!-- Modal Header -->
         <div class="modal-header">
           <h4 class="modal-title">현재 게시글을 신고합니다.</h4>
-          <button type="button" class="close" data-dismiss="modal">&times;"></button>
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
         </div>
         
         <!-- Modal body -->
@@ -782,7 +773,7 @@
           <hr/>
           <form name="modalForm">
             <div><input type="radio" name="complaint" id="complaint1" value="광고,홍보,영리목적"/> 광고,홍보,영리목적</div>
-            <div><input type="radio" name="complaint" id="complaint2" value="욕설,비방,차별,혐오"/> 욕설,비방,차별,혐오</div>
+            <div><input type="radio" name="complaint" id="complaint2" value="욕설,비방,차별,혐오"/> 설,비방,차별,혐오</div>
             <div><input type="radio" name="complaint" id="complaint3" value="불법정보"/> 불법정보</div>
             <div><input type="radio" name="complaint" id="complaint4" value="음란,청소년유해"/> 음란,청소년유해</div>
             <div><input type="radio" name="complaint" id="complaint5" value="개인정보노출,유포,거래"/> 개인정보노출,유포,거래</div>

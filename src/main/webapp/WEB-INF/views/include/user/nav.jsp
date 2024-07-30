@@ -78,7 +78,7 @@
 							</div>
 						</div>
 					</li>
-					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">제품판매<i class="ion-ios-arrow-right"></i></a>
+					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알러지프리 제품<i class="ion-ios-arrow-right"></i></a>
 						<div class="dropdown-menu megamenu">
 							<div class="megamenu-inner">
 								<div class="row">

@@ -17,6 +17,7 @@ import com.spring.javaclassS14.dao.ShopDAO;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 @Service
@@ -291,27 +292,28 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public OrderVO getOrderMaxIdx() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public CartVO getCartIdx(int parseInt) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setOrder(OrderVO vo) {
-		// TODO Auto-generated method stub
-		
+	public List<ShopVO> getAllReview(int productIdx) {
+        return shopDAO.getAllReview(productIdx);
 	}
 
 	@Override
 	public void setCartDeleteAll(int orderProductIdx) {
-		// TODO Auto-generated method stub
-		
+        shopDAO.setCartDeleteAll(orderProductIdx);
+	}
+
+	@Override
+	public ReviewVO getProductParentReviewCheck(int productIdx) {
+        return shopDAO.getProductParentReviewCheck(productIdx);
+	}
+
+	@Override
+	public int setProductReviewInput(ReviewVO reviewVO) {
+        return shopDAO.setProductReviewInput(reviewVO);
+	}
+
+	@Override
+	public void setReviewOrderUpdate(int productIdx, int re_order) {
+        shopDAO.setReviewOrderUpdate(productIdx, re_order);
 	}
 
 }

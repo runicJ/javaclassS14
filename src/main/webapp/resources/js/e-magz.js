@@ -598,7 +598,7 @@ $(function(){
 				style: 'position:relative'
 			}));
 			$this.css({
-				paddingRight: 60
+				paddingRight: 60,
 			});
 			$this.after($("<div/>", {
 				html: 'Show',

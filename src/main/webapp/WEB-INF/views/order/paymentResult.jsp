@@ -7,12 +7,12 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>paymentResult.jsp</title>
+  <title>paymentResult</title>
   <jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
   <script>
 	  function nWin(orderIdx) {
-	  	var url = "${ctp}/dbShop/dbOrderBaesong?orderIdx="+orderIdx;
-	  	window.open(url,"dbOrderBaesong","width=350px,height=400px");
+	  	var url = "${ctp}/order/orderDelivery?orderIdx="+orderIdx;
+	  	window.open(url,"orderDelivery","width=350px,height=400px");
 	  }
   </script>
 </head>
@@ -21,6 +21,46 @@
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp"/>
 <p><br></p>
 <div class="container">
+    <div class="col-lg-4 col-md-6">
+        <div class="checkout__order">
+            <h4 class="order__title">Your order</h4>
+            <div class="checkout__order__products">Product <span>Total</span></div>
+            <ul class="checkout__total__products">
+                <li>01. Vanilla salted caramel <span>$ 300.0</span></li>
+                <li>02. German chocolate <span>$ 170.0</span></li>
+                <li>03. Sweet autumn <span>$ 170.0</span></li>
+                <li>04. Cluten free mini dozen <span>$ 110.0</span></li>
+            </ul>
+            <ul class="checkout__total__all">
+                <li>Subtotal <span>$750.99</span></li>
+                <li>Total <span>$750.99</span></li>
+            </ul>
+            <div class="checkout__input__checkbox">
+                <label for="acc-or">
+                    Create an account?
+                    <input type="checkbox" id="acc-or">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <p>Lorem ipsum dolor sit amet, consectetur adip elit, sed do eiusmod tempor incididunt
+            ut labore et dolore magna aliqua.</p>
+            <div class="checkout__input__checkbox">
+                <label for="payment">
+                    Check Payment
+                    <input type="checkbox" id="payment">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <div class="checkout__input__checkbox">
+                <label for="paypal">
+                    Paypal
+                    <input type="checkbox" id="paypal">
+                    <span class="checkmark"></span>
+                </label>
+            </div>
+            <button type="submit" class="site-btn">PLACE ORDER</button>
+        </div>
+    </div>
   <h2>결제내역</h2>
   <hr/>
   <p>주문 물품명 : ${sPayMentVO.name}</p>
@@ -77,8 +117,8 @@
   </div>
   <hr/>
   <p class="text-center">
-    <a href="${ctp}/dbShop/dbProductList" class="btn btn-success">계속쇼핑하기</a> &nbsp;
-    <a href="${ctp}/dbShop/dbMyOrder" class="btn btn-primary">구매내역보기</a>
+    <a href="${ctp}/shop/productList" class="btn btn-success">제품 더보기</a> &nbsp;
+    <a href="${ctp}/user/userOrder" class="btn btn-primary">구매 내역 확인</a>
   </p>
   <hr/>
 </div>

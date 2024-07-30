@@ -480,21 +480,21 @@
 								    <input type="text" name="userId" class="form-control" value="${vo.userId}" readonly>
 								</div>
 								
-								<div class="input-group mb-3">
+								<div class="input-group mb-3" style="display:block;">
 									<div class="input-group-prepend">
 								      	<span class="input-group-text">현재 비밀번호</span>
 								    </div>
 									<input type="password" name="userPwd" id="userPwd" class="form-control" placeholder="정보 수정시 비밀번호를 입력하세요">
 								</div>
 								
-								<div class="input-group mb-3">
+								<div class="input-group mb-3" style="display:block;">
 									<div class="input-group-prepend">
 								      	<label class="fw input-group-text">변경할 비밀번호</label>
 								    </div>
 									<input type="password" name="pwdNew" id="pwdNew" class="form-control" placeholder="비밀번호 변경시 입력하세요">
 								</div>
 								
-								<div class="input-group mb-3">
+								<div class="input-group mb-3" style="display:block;">
 									<div class="input-group-prepend">
 								      	<span class="input-group-text">새 비밀번호 확인</span>
 								    </div>

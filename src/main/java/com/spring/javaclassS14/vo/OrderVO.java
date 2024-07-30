@@ -27,6 +27,7 @@ public class OrderVO {
     private int price;
     private int optionIdx;
 
+
     // 결제 및 배송 관련 필드 추가
     private String receiverName;
     private String receiverTel;

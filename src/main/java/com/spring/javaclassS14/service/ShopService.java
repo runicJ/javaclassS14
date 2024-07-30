@@ -7,6 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 public interface ShopService {
@@ -82,12 +83,14 @@ public interface ShopService {
 
 	public int getUserCartCnt(String userId);
 
-	public OrderVO getOrderMaxIdx();
-
-	public CartVO getCartIdx(int parseInt);
-
-	public void setOrder(OrderVO vo);
-
 	public void setCartDeleteAll(int orderProductIdx);
+
+	public List<ShopVO> getAllReview(int productIdx);
+
+	public ReviewVO getProductParentReviewCheck(int productIdx);
+
+	public int setProductReviewInput(ReviewVO reviewVO);
+
+	public void setReviewOrderUpdate(int productIdx, int re_order);
 
 }

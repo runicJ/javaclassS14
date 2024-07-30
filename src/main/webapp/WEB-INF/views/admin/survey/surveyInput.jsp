@@ -15,7 +15,7 @@
 			margin-bottom:30px;
 		}
 		table, th, td {
-			border: 2px solid #d4d2d2;
+			border: 2px solid #c1b6a3;
 			border-collapse: collapse;
 			padding: 10px;
 		}
@@ -59,7 +59,7 @@
 		}
 		.form-tbl-col {
 		    text-align: center;
-		    background-color: #EEEEEE;
+		    background-color: #efe7da;
 		    font-weight:bold;
 		}
 		.form-tbl textarea {
@@ -232,7 +232,7 @@
 							"survqustList": survqustList,
 						};
 							
-						console.log("param ==> " + JSON.stringify(param));
+						//console.log("param ==> " + JSON.stringify(param));
 						
 						let chkChangedRslt = chkChanged(oldParam) == true ? true : false;
 						
@@ -308,7 +308,7 @@
 						"survqustList": survqustList,
 					};
 						
-					console.log("param ==> " + JSON.stringify(param));
+					//console.log("param ==> " + JSON.stringify(param));
 					
 					$.ajax({
 						url: '${ctp}/admin/survey/updateSurv',
@@ -559,8 +559,8 @@
 			"survqustList": survqustList,
 		};
 							
-		console.log("oldParam => " + JSON.stringify(oldParam));
-		console.log("newParam => " + JSON.stringify(newParam));
+		//console.log("oldParam => " + JSON.stringify(oldParam));
+		//console.log("newParam => " + JSON.stringify(newParam));
 		return JSON.stringify(oldParam) !== JSON.stringify(newParam);
 	}
 	</script>
@@ -577,7 +577,7 @@
 		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <div class="page-wrapper">
         <div class="card p-5">
-			<h2>✏️ 설문 만들기</h2>
+			<h2><i class="fa-solid fa-pencil"></i> 설문 만들기</h2>
 			<div class="surv-container">
 				<!-- 설문 기본정보 START -->
 				<div class="form-table-title-continer">
@@ -627,15 +627,17 @@
 							<button id="addQuestRow">추가</button>
 						</caption>
 						<thead>
-							<th class="form-tbl-col"></th>
-							<th class="form-tbl-col">질문번호</th>
-							<th class="form-tbl-col">질문유형</th>
-							<th class="form-tbl-col">질문내용</th>
+							<tr>
+								<th class="form-tbl-col">삭제</th>
+								<th class="form-tbl-col">질문번호</th>
+								<th class="form-tbl-col">질문유형</th>
+								<th class="form-tbl-col">질문내용</th>
+							</tr>
 						</thead>
 						<tbody>
 							<tr class="item1">
 								<td style="text-align:center;">
-									<button id="delQuestRow" onclick="delQuest(this);">🗑️</button>
+									<button id="delQuestRow" onclick="delQuest(this);"><i class="fa-solid fa-trash-can"></i></button>
 								</td>
 								<td id="qustNo" class="questNo">질문1</td>
 								<td> 

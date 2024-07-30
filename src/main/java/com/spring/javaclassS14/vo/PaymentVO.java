@@ -4,6 +4,7 @@ import lombok.Data;
 
 @Data
 public class PaymentVO {
+
 	private String name;						// 주문 물품명
 	private int amount;							// 주문 금액
 	private String buyer_email;			// 주문자 이메일주소

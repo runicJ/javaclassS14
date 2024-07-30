@@ -15,9 +15,10 @@ public interface OrderDAO {
     public void setOrder(@Param("orderVO") OrderVO orderVO);
     public void setCartDeleteAll(@Param("orderProductIdx") int orderProductIdx);
     public void setDelivery(@Param("orderVO") OrderVO orderVO);
-    public void setUserPointPlus(@Param("userId") int points, String userId);
+    public void setUserPointPlus(@Param("point") int point, @Param("userId") String userId);
     public List<OrderVO> getOrderDelivery(@Param("orderIdx") String orderIdx);
     public int getTotalDeleveryOrder(@Param("orderIdx") int orderIdx);
     public List<CartItem> getCartItemsByCartIdx(@Param("cartIdx") int cartIdx);
+	public OrderVO getOrderCheck(@Param("userId") String userId, int productIdx);
     
 }

@@ -42,8 +42,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void setUserPointPlus(int points, String userId) {
-        orderDAO.setUserPointPlus(points, userId);
+    public void setUserPointPlus(int point, String userId) {
+        orderDAO.setUserPointPlus(point, userId);
     }
 
     @Override
@@ -73,4 +73,9 @@ public class OrderServiceImpl implements OrderService {
     public List<CartItem> getCartItemsByCartIdx(int cartIdx) {
         return orderDAO.getCartItemsByCartIdx(cartIdx);
     }
+
+	@Override
+	public OrderVO getOrderCheck(String userId, int productIdx) {
+        return orderDAO.getOrderCheck(userId, productIdx);
+	}
 }

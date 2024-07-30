@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 public interface ShopDAO {
@@ -92,5 +93,15 @@ public interface ShopDAO {
 	public int checkProductExists(@Param("productIdx") int productIdx);
 
 	public int getUserCartCnt(@Param("userId") String userId);
+
+	public List<ShopVO> getAllReview(@Param("productIdx") int productIdx);
+
+	public Object setCartDeleteAll(@Param("orderProductIdx") int orderProductIdx);
+
+	public ReviewVO getProductParentReviewCheck(@Param("productIdx") int productIdx);
+
+	public int setProductReviewInput(@Param("reviewVO") ReviewVO reviewVO);
+
+	public void setReviewOrderUpdate(@Param("productIdx") int productIdx, @Param("re_order") int re_order);
 
 }

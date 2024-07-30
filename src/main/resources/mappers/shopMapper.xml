@@ -174,6 +174,15 @@
         SELECT COUNT(*) FROM cart WHERE userId = #{userId}
     </select>
     
+    <select id="getAllReview" resultType="com.spring.javaclassS14.vo.ReviewVO">
+        SELECT *, u.userImage, (select count(*) from productReview where pr.productIdx = #{productIdx}) as productReviewCnt FROM productReview pr, users u WHERE pr.productIdx = #{productIdx} and pr.userId = u.userId;
+    </select>
+    
+	<select id="getProductParentReviewCheck" resultType="com.spring.javaclassS14.vo.ReviewVO">
+	  select * from productReview where productIdx = #{productIdx} order by idx desc limit 1;
+	</select>
+
+
 
 	<insert id="setCategoryTopInput">
 		insert into product_top values (default, #{productTopName}, default, default);
@@ -211,6 +220,11 @@
         </if>)
     </insert>
 
+	<insert id="setProductReviewInput">
+	  insert into productReview values (default,#{reviewVO.productIdx},#{reviewVO.userId},#{reviewVO.nickName},#{reviewVO.orderIdx},#{reviewVO.re_step},#{reviewVO.re_order},#{reviewVO.star},#{reviewVO.reviewContent},default);
+	</insert>
+
+
 
     <!-- 장바구니 항목 업데이트 -->
     <update id="updateCart">
@@ -218,6 +232,11 @@
         SET quantity = #{cartItem.quantity}, isSoldOut = #{cartItem.isSoldOutAsString}
         WHERE productIdx = #{cartItem.productIdx} AND optionIdx = #{cartItem.optionIdx} AND userId = #{userId}
     </update>
+    
+   	<update id="setReplyOrderUpdate">
+	  update productReview set re_order = re_order + 1 where productIdx = #{productIdx} and re_order > #{re_order};
+	</update>
+    
     
     
 	<delete id="setCategoryTopDelete">

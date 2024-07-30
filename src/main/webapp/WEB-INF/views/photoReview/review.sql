@@ -31,8 +31,24 @@ create table photoReply (
 drop table photoReply;
 desc photoReply;
 select * from photoReply;
-select pg.*,(select count(*) from photoReply2 where photoIdx = 9) as replyCnt from photoGallery2 pg where idx = 9;
+select pg.*,(select count(*) from photoReply where photoIdx = 9) as replyCnt from photoGallery pg where idx = 9;
 
-create table photoSingle2 (
+create table photoSingle (
   photo  varchar(50) not null
+);
+
+create table productReview (
+	reviewIdx int not null auto_increment primary key,
+	productIdx int not null,
+	userId varchar(20) not null,
+	nickName varchar(30) not null,
+	orderIdx  int not null,
+	re_step int not null,
+	re_order int not null,
+	star int default 0,
+	reviewContent text,
+	reviewDate datetime default now(),
+	foreign key(productIdx) references product(productIdx)
+	on update cascade
+	on delete restrict
 );

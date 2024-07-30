@@ -14,10 +14,13 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS14.pagination.PageProcess;
+import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 @Controller
@@ -30,6 +33,8 @@ public class ShopController {
     UserService userService;
     @Autowired
     PageProcess pageProcess;
+    @Autowired
+    OrderService orderService;
 
     @RequestMapping(value="/productList", method=RequestMethod.GET)
     public String productListGet(Model model,
@@ -56,10 +61,12 @@ public class ShopController {
         ShopVO productVO = shopService.getProduct(productIdx);            // 상품 1건의 정보를 불러온다.
         List<ShopVO> optionGroupVOS     = shopService.getOptionGroup(productIdx);
         List<ShopVO> optionVOS = shopService.getAllOption(productIdx);    // 해당 상품의 모든 옵션 정보를 가져온다.
-
+        List<ShopVO> reviewVOS = shopService.getAllReview(productIdx);
+        
         model.addAttribute("optionGroupVOS", optionGroupVOS);
         model.addAttribute("productVO", productVO);
         model.addAttribute("optionVOS", optionVOS);
+        model.addAttribute("reviewVOS", reviewVOS);
 
         return "shop/productDetails";
     }
@@ -131,5 +138,40 @@ public class ShopController {
         int result = shopService.setProductCartDelete(cartIdx);
         return String.valueOf(result);
     }
-
+    
+    // 상세페이지 제품리뷰
+    @ResponseBody
+    @RequestMapping(value="/productReviewInput", method=RequestMethod.POST)
+    public String productReviewInputPost(ReviewVO reviewVO) {
+    	ReviewVO reviewParentVO = shopService.getProductParentReviewCheck(reviewVO.getProductIdx());
+    	OrderVO orderCheckVO = orderService.getOrderCheck(reviewVO.getUserId(),reviewVO.getProductIdx());
+    	
+    	if(reviewParentVO == null) {
+    		reviewVO.setRe_order(1);
+    	}
+    	else {
+    		reviewVO.setRe_order(reviewParentVO.getRe_order() + 1);
+    	}
+    	reviewVO.setRe_step(0);
+    	reviewVO.setOrderIdx(orderCheckVO.getOrderIdx());
+    	
+    	int res = orderCheckVO == null ? 0 : shopService.setProductReviewInput(reviewVO);
+    	
+    	return res + "";
+    }
+    
+    // 대댓글 입력
+    @ResponseBody
+    @RequestMapping(value="/productReviewReInput", method=RequestMethod.POST)
+    public String productReviewReInputPost(ReviewVO reviewVO) {
+    	reviewVO.setRe_step(reviewVO.getRe_step()+1);
+    	
+    	shopService.setReviewOrderUpdate(reviewVO.getProductIdx(), reviewVO.getRe_order());
+    	
+    	reviewVO.setRe_order(reviewVO.getRe_order() + 1);
+    	
+    	int res = shopService.setProductReviewInput(reviewVO);
+    	
+    	return res + "";
+    }
 }

@@ -13,8 +13,8 @@
   <script>
     // 배송지 정보보기
     function nWin(orderIdx) {
-    	var url = "${ctp}/dbShop/dbOrderBaesong?orderIdx="+orderIdx;
-    	window.open(url,"dbOrderBaesong","width=400px,height=450px");
+    	var url = "${ctp}/shop/orderDelivery?orderIdx="+orderIdx;
+    	window.open(url,"orderDelivery","width=400px,height=450px");
     }
     
     // 날짜기간에 따른 조건검색

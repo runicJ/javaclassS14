@@ -40,7 +40,7 @@ public class OrderController {
     public String processOrderFromCart(HttpServletRequest request, HttpSession session, Model model,
                                        @RequestParam(name="charge", defaultValue="0") int charge) {
         String userId = (String) session.getAttribute("sUid");
-        System.out.println("charge : " + charge);
+        //System.out.println("charge : " + charge);
 
         if (userId == null) {
             throw new NullPointerException("User ID is null");
@@ -51,18 +51,18 @@ public class OrderController {
 
         while (parameterNames.hasMoreElements()) {
             String paramName = parameterNames.nextElement();
-            System.out.println("paramName: " + paramName);
+            //System.out.println("paramName: " + paramName);
             if (paramName.startsWith("isChecked_")) {
                 int cartIdx = Integer.parseInt(paramName.substring(10));
                 int isChecked = Integer.parseInt(request.getParameter(paramName));
-                System.out.println("cartIdx: " + cartIdx + ", isChecked: " + isChecked);
+                //System.out.println("cartIdx: " + cartIdx + ", isChecked: " + isChecked);
 
                 if (isChecked == 1) {
                     List<CartItem> cartItems = orderService.getCartItemsByCartIdx(cartIdx);
                     if (cartItems == null) {
                         throw new NullPointerException("CartItems is null for cartIdx: " + cartIdx);
                     } else {
-                        System.out.println("cartItems: " + cartItems.toString());
+                        //System.out.println("cartItems: " + cartItems.toString());
                     }
 
                     for (CartItem cartItem : cartItems) {
@@ -102,11 +102,12 @@ public class OrderController {
 
     // 결제시스템 호출 및 처리
     @RequestMapping(value="/payment", method=RequestMethod.POST)
-    public String processPayment(OrderVO orderVo, PaymentVO paymentVO, HttpSession session, Model model) {
-        model.addAttribute("PaymentVO", paymentVO);
-
+    public String processPayment(PaymentVO paymentVO, HttpSession session, Model model) {
+        model.addAttribute("paymentVO", paymentVO);
+        
+        System.out.println("paymentVO : " +paymentVO);
+        
         session.setAttribute("sPaymentVO", paymentVO);
-        session.setAttribute("sOrderVO", orderVo);
         return "order/paymentOk";
     }
 

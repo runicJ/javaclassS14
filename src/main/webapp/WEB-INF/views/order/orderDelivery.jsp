@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>dbOrderBaesong.jsp</title>
+  <title>orderDelivery</title>
   <jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
 </head>
 <body>
