@@ -1,5 +1,6 @@
 package com.spring.javaclassS14.service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -92,5 +93,7 @@ public interface ShopService {
 	public int setProductReviewInput(ReviewVO reviewVO);
 
 	public void setReviewOrderUpdate(int productIdx, int re_order);
+
+	public List<ShopVO> getRelatedProducts(List<String> tags);
 
 }

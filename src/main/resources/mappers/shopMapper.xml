@@ -118,6 +118,7 @@
         <result property="productPrice" column="productPrice"/>
         <result property="optionName" column="optionName"/> <!-- 추가 -->
     	<result property="optionGroupName" column="optionGroupName"/> <!-- 추가 -->
+    	<result property="productTags" column="productTags"/> <!-- 추가 -->
     </resultMap>
 
     <!-- CartVO의 ResultMap 정의 -->
@@ -141,7 +142,8 @@
 	        c.addedDate,
 	        p.productThumb,
 	        p.productName,
-	        p.productPrice
+	        p.productPrice,
+	        p.productTags
 	    FROM 
 	        cart c
 	    JOIN
@@ -180,6 +182,14 @@
     
 	<select id="getProductParentReviewCheck" resultType="com.spring.javaclassS14.vo.ReviewVO">
 	  select * from productReview where productIdx = #{productIdx} order by idx desc limit 1;
+	</select>
+    
+	<select id="getRelatedProducts" parameterType="map" resultType="com.spring.javaclassS14.vo.ShopVO">
+		select * from product where 
+		<foreach collection="tags" item="tag" separator=" OR ">
+			productTags like concat('%',#{tag},'%')
+		</foreach>
+		order by favoriteCount desc, createdDate desc limit 4;
 	</select>
 
 
@@ -233,7 +243,7 @@
         WHERE productIdx = #{cartItem.productIdx} AND optionIdx = #{cartItem.optionIdx} AND userId = #{userId}
     </update>
     
-   	<update id="setReplyOrderUpdate">
+   	<update id="setReviewOrderUpdate">
 	  update productReview set re_order = re_order + 1 where productIdx = #{productIdx} and re_order > #{re_order};
 	</update>
     

@@ -316,4 +316,9 @@ public class ShopServiceImpl implements ShopService {
         shopDAO.setReviewOrderUpdate(productIdx, re_order);
 	}
 
+	@Override
+	public List<ShopVO> getRelatedProducts(List<String> tags) {
+		return shopDAO.getRelatedProducts(tags);
+	}
+
 }

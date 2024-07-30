@@ -14,6 +14,7 @@ public class CartItem {
     private String productThumb; // 추가
     private String productName; // 추가
     private int productPrice;
+    private String productTags;
 
     public String getIsSoldOutAsString() {
         return isSoldOut ? "y" : "n";

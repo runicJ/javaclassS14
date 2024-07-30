@@ -104,4 +104,6 @@ public interface ShopDAO {
 
 	public void setReviewOrderUpdate(@Param("productIdx") int productIdx, @Param("re_order") int re_order);
 
+	public List<ShopVO> getRelatedProducts(@Param("tags") List<String> tags);
+
 }

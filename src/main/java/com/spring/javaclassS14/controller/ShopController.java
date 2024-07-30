@@ -1,7 +1,9 @@
 package com.spring.javaclassS14.controller;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import javax.servlet.http.HttpSession;
 
@@ -63,10 +65,20 @@ public class ShopController {
         List<ShopVO> optionVOS = shopService.getAllOption(productIdx);    // 해당 상품의 모든 옵션 정보를 가져온다.
         List<ShopVO> reviewVOS = shopService.getAllReview(productIdx);
         
+        Set<String> tags = new HashSet<String>();
+        String[] productTags = productVO.getProductTags().split("#");
+		for(String tag : productTags) {
+			if(!tag.trim().isEmpty()) {
+				tags.add("#" + tag.trim());
+			}
+		}
+		List<ShopVO> relatedVOS = shopService.getRelatedProducts(new ArrayList<>(tags));
+        
         model.addAttribute("optionGroupVOS", optionGroupVOS);
         model.addAttribute("productVO", productVO);
         model.addAttribute("optionVOS", optionVOS);
         model.addAttribute("reviewVOS", reviewVOS);
+        model.addAttribute("relatedVOS", relatedVOS);
 
         return "shop/productDetails";
     }
@@ -126,7 +138,23 @@ public class ShopController {
             return "redirect:/msg/cartEmpty";
         }
         
+        Set<String> tags = new HashSet<String>();  // HashSet은 중복 불허 중복된 태그를 하나로 합치기 위해 사용(List는 중복된 태그 허용/Map은 출현 빈도 계산까지)
+        for (CartVO cart : productCartVOS) {
+        	for(CartItem items : cart.getItems()) {
+        		if(items.getProductTags() != null) {
+        			String[] productTags = items.getProductTags().split("#");
+        			for(String tag : productTags) {
+        				if(!tag.trim().isEmpty()) {
+        					tags.add("#" + tag.trim());
+        				}
+        			}
+        		}
+        	}
+        }
+        List<ShopVO> relatedVOS = shopService.getRelatedProducts(new ArrayList<>(tags));
+
         model.addAttribute("productCartVOS", productCartVOS);
+        model.addAttribute("relatedVOS", relatedVOS);
         
         return "shop/productCart";
     }

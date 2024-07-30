@@ -141,7 +141,7 @@
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/users/userMain"><i class="icon ion-person"></i>내정보관리</a></li>
 							<li><a href="${ctp}/users/userLikedList"><i class="icon ion-heart"></i>관심목록</a></li>
-							<li><a href="${ctp}/users/userBookmarkList"><i class="icon ion-heart"></i>북마크목록</a></li>
+							<li><a href="${ctp}/users/userBookmarkList"><i class="icon ion-bookmark"></i>북마크목록</a></li>
 							<li><a href="${ctp}/users/userCommentList"><i class="icon ion-chatbox"></i>내가쓴게시글</a></li>
 							<li><a href="${ctp}/users/userUpdate"><i class="icon ion-settings"></i>회원정보수정</a></li>
 							<li class="divider"></li>
