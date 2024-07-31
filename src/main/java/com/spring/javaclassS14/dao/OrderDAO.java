@@ -20,5 +20,6 @@ public interface OrderDAO {
     public int getTotalDeleveryOrder(@Param("orderIdx") int orderIdx);
     public List<CartItem> getCartItemsByCartIdx(@Param("cartIdx") int cartIdx);
 	public OrderVO getOrderCheck(@Param("userId") String userId, int productIdx);
+	public List<OrderVO> getOrderList();
     
 }

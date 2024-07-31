@@ -108,32 +108,25 @@
 					<li class="dropdown magz-dropdown">
 						<a href="#">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/community/hospital/hospitalList">알레르기 전문병원</a></li>
-							<li><a href="${ctp}/community/hospital/hospitalReview">병원 후기</a></li>
-							<li><a href="${ctp}/community/chat/userChat">정보를 나눠요(유저채팅)</a></li>
+							<li><a href="${ctp}/community/hospitalList">알레르기 전문병원</a></li>
+							<li><a href="${ctp}/community/hospitalReview">병원 후기</a></li>
+							<li><a href="${ctp}/community/userChat">정보를 나눠요(유저채팅)</a></li>
 						</ul>
 					</li>
 					
 					<li class="dropdown magz-dropdown"><a href="#">고객센터<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/cs/notice">공지사항</a></li>
-							<li class="dropdown magz-dropdown"><a href="${ctp}/cs/faq">자주묻는질문</a></li>
-							<li class="dropdown magz-dropdown"><a href="#">1:1문의 <i class="ion-ios-arrow-right"></i></a>
-								<ul class="dropdown-menu">
-									<li><a href="${ctp}/cs/inquery/news">알레르기 정보문의</a></li>
-									<li><a href="${ctp}/cs/inquery/product">제품문의</a></li>
-									<li><a href="category.html">신고문의</a></li>
-									<li><a href="${ctp}/cs/ad/adApply">광고 입점 문의</a></li>
-								</ul>
-							</li>
+							<li><a href="${ctp}/cswork/notice/notice">공지사항</a></li>
+							<li class="dropdown magz-dropdown"><a href="${ctp}/cswork/notice/faqList">자주묻는질문</a></li>
+							<li class="dropdown magz-dropdown"><a href="${ctp}/cswork/qna/qnaApply">1:1문의</a></li>
 						</ul>
 					</li>
 					<li class="dropdown magz-dropdown">
 						<a href="#">이벤트<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/cs/event/eventList">이벤트 목록</a></li>
+							<li><a href="${ctp}/cswork/event/eventList">이벤트 목록</a></li>
 							<li><a href="${ctp}/photoGallery/photoGalleryList">포토 후기</a></li>
-							<li><a href="${ctp}/survey/surveyList">설문 조사 참여</a></li>
+							<li><a href="${ctp}/survey/surveyEventList">설문 조사 참여</a></li>
 						</ul>
 					</li>
 					<c:if test="${!empty sUid}">

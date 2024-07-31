@@ -292,7 +292,7 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<ShopVO> getAllReview(int productIdx) {
+	public List<ReviewVO> getAllReview(int productIdx) {
         return shopDAO.getAllReview(productIdx);
 	}
 
@@ -319,6 +319,11 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public List<ShopVO> getRelatedProducts(List<String> tags) {
 		return shopDAO.getRelatedProducts(tags);
+	}
+
+	@Override
+	public int setProductReviewDelete(int reviewIdx) {
+		return shopDAO.setProductReviewDelete(reviewIdx);
 	}
 
 }

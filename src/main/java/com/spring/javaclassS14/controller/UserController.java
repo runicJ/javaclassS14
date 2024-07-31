@@ -187,7 +187,7 @@ public class UserController {
 	        }
 			
 			String strLevel = "";
-			if(vo.getLevel() == 0) strLevel = "관리자(대가)";
+			if(vo.getLevel() == 0) strLevel = "관리자";
 			else if(vo.getLevel() == 0.5) strLevel = "귀한분";
 			else if(vo.getLevel() == 1) strLevel = "전문가";
 			else if(vo.getLevel() == 2) strLevel = "숙련자";

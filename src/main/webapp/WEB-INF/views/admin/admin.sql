@@ -31,15 +31,15 @@ CREATE TABLE ad (
 	adStatus enum('대기','게시','마감') default '대기'
 );
 
-/* 광고 신청 */
-CREATE TABLE ad_apply (
-	adApplyIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	adApplyTitle VARCHAR(100) NOT NULL,
-	adApplyContent TEXT,
-	adApplyImage VARCHAR(255) NOT NULL,
-	adApplyDate DATETIME DEFAULT NOW() NOT NULL,
-	adApplyCompany VARCHAR(255) NOT NULL,
-	adApplyStatus enum('신청','승인','반려') default '신청'
+CREATE TABLE event (
+    eventIdx INT AUTO_INCREMENT PRIMARY KEY,
+    eventTitle VARCHAR(100) NOT NULL,
+    eventContent TEXT NOT NULL,
+    eventImage VARCHAR(255) NULL,
+    startDate DATETIME DEFAULT NULL,
+    endDate DATETIME DEFAULT NULL,
+    createDate DATETIME DEFAULT NOW(),
+    eventStatus ENUM('y', 'n') DEFAULT 'y'
 );
 
 /* 알람 */

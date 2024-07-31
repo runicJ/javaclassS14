@@ -374,11 +374,6 @@
                         <div class="product__details__text">
                             <h4>${productVO.productName}</h4>
                             <div class="rating">
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star"></i>
-                                <i class="fa fa-star-o"></i>
                                 <c:forEach var="i" begin="1" end="${rVo.star}" varStatus="iSt">
                                     <font color="gold"><i class="fas fa-star"></i></font>
                                 </c:forEach>
@@ -506,40 +501,43 @@
                                                     <h4 class="card-title text-center">구매 후기</h4>
                                                     <div class="comment-widgets">
                                                         <c:forEach var="reviewVO" items="${reviewVOS}">
+                                                            <div class="comment-item" style="margin-left: ${reviewVO.re_step * 20}px;">
                                                             <div class="d-flex flex-row comment-row m-t-0">
                                                                 <div class="p-2"><img src="${ctp}/user/${reviewVO.userImage}" alt="user" width="50px" height="50px" class="rounded-circle"></div>
-                                                                <div class="comment-text w-100">
-                                                                    <div>
-                                                                        <h6 class="font-medium"><a>${reviewVO.nickName} <i class="fa-solid fa-angle-right"></i></a></h6>
-                                                                        <p class="float-right">
-                                                                            <c:forEach var="i" begin="1" end="${reviewVO.star}" varStatus="iSt">
-                                                                                <font color="gold"><i class="fas fa-star"></i></font>
-                                                                            </c:forEach>
-                                                                            <c:forEach var="i" begin="1" end="${5 - reviewVO.star}" varStatus="iSt">
-                                                                                <i class="fa fa-star"></i>
-                                                                            </c:forEach>
-                                                                        </p>
-                                                                    </div>
-                                                                    <div>
-                                                                        <p class="text-muted float-left">
-	                                                                        <span>${fn:substring(reviewVO.reviewDate,0,10)}</span>&nbsp;&nbsp;
-	                                                                    <p> 
-	                                                                        <p><c:if test="${reviewVO.userId != sUid}">| <button type="button" class="badge badge-danger" onclick="complaintCheck('${reviewVO.reviewIdx}')">신고하기 <i class="fa-regular fa-flag"></i></button></c:if>
-                                                                    </div>
-                                                                    <p><span class="m-b-15 d-block">${fn:replace(reviewVO.reviewContent,newLine,'<br>')}</span></p>
-                                                                    <div class="comment-footer">
-                                                                        <c:if test="${reviewVO.userId == sUid}"><button type="button" class="badge badge-primary mr-2" onclick="reviewEdit('${reviewVO.reviewIdx}')">수정</button></c:if>
-                                                                        <c:if test="${reviewVO.userId == sUid || sUid == 'admin'}"><button type="button" class="badge badge-warning mr-2 mb-2" onclick="reviewDelete('${reviewVO.reviewIdx}')">삭제</button></c:if>
-                                                                        <i class="fa-solid fa-thumbs-up"></i>&nbsp;<span>0</span>
-                                                                        <p class="float-right"><button type="button" class="btn btn-primary btn-sm" onclick="replyShow(${reviewVO.reviewIdx})" id="replyShowBtn${reviewVO.reviewIdx}">답글달기</button></p>
-                                                                    </div>
-                                                                    <!-- 대댓글 입력창 -->
-                                                                    <div id="replyDemo${reviewVO.reviewIdx}" class="replyDemo" style="display:none;">
-                                                                        <textarea rows="2" id="contentRe${reviewVO.reviewIdx}" class="form-control mb-2" placeholder="답글을 입력하세요"></textarea>
-                                                                        <button type="button" class="btn btn-success btn-sm mr-2" onclick="replyCheckRe(${reviewVO.reviewIdx}, ${reviewVO.re_step}, ${reviewVO.re_order})">답글 등록</button>
-                                                                        <button type="button" class="btn btn-secondary btn-sm" onclick="replyClose(${reviewVO.reviewIdx})" id="replyCloseBtn${reviewVO.reviewIdx}">닫기</button>
-                                                                    </div>
-                                                                </div>
+	                                                                <div class="comment-text w-100">
+	                                                                    <div>
+	                                                                        <h6 class="font-medium"><a>${reviewVO.nickName} <i class="fa-solid fa-angle-right"></i></a></h6>
+	                                                                        <c:if test="${reviewVO.re_step == 0}">
+	                                                                        <p class="float-right">
+	                                                                            <c:forEach var="i" begin="1" end="${reviewVO.star}" varStatus="iSt">
+	                                                                                <font color="gold"><i class="fas fa-star"></i></font>
+	                                                                            </c:forEach>
+	                                                                            <c:forEach var="i" begin="1" end="${5 - reviewVO.star}" varStatus="iSt">
+	                                                                                <i class="fa fa-star"></i>
+	                                                                            </c:forEach>
+	                                                                        </p>
+	                                                                        </c:if>
+	                                                                    </div>
+	                                                                    <div>
+	                                                                        <p class="text-muted float-left">
+		                                                                        <span>${fn:substring(reviewVO.reviewDate,0,10)}</span>&nbsp;&nbsp;
+		                                                                    <p> 
+		                                                                    <p><c:if test="${reviewVO.userId != sUid}">| <button type="button" class="badge badge-danger" onclick="complaintCheck('${reviewVO.reviewIdx}')">신고하기 <i class="fa-regular fa-flag"></i></button></c:if>
+	                                                                    </div>
+	                                                                    <p><span class="m-b-15 d-block">${fn:replace(reviewVO.reviewContent,newLine,'<br>')}</span></p>
+	                                                                    <div class="comment-footer">
+	                                                                        <c:if test="${reviewVO.userId == sUid || sUid == 'admin'}"><button type="button" class="badge badge-warning mr-2 mb-2" onclick="reviewDelete('${reviewVO.reviewIdx}')">삭제</button></c:if>
+	                                                                        <i class="fa-solid fa-thumbs-up"></i>&nbsp;<span>0</span>
+	                                                                        <p class="float-right"><button type="button" class="btn btn-primary btn-sm" onclick="replyShow(${reviewVO.reviewIdx})" id="replyShowBtn${reviewVO.reviewIdx}">답글달기</button></p>
+	                                                                    </div>
+	                                                                    <!-- 대댓글 입력창 -->
+	                                                                    <div id="replyDemo${reviewVO.reviewIdx}" class="replyDemo" style="display:none;">
+	                                                                        <textarea rows="2" id="contentRe${reviewVO.reviewIdx}" class="form-control mb-2" placeholder="답글을 입력하세요"></textarea>
+	                                                                        <button type="button" class="btn btn-success btn-sm mr-2" onclick="replyCheckRe(${reviewVO.reviewIdx}, ${reviewVO.re_step}, ${reviewVO.re_order})">답글 등록</button>
+	                                                                        <button type="button" class="btn btn-secondary btn-sm" onclick="replyClose(${reviewVO.reviewIdx})" id="replyCloseBtn${reviewVO.reviewIdx}">닫기</button>
+	                                                                    </div>
+	                                                                </div>
+	                                                            </div>
                                                             </div>
                                                         </c:forEach>
                                                     </div>
@@ -570,36 +568,73 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                     <div class="product__details__tab__content">
-                                        <p class="note">Nam tempus turpis at metus scelerisque placerat nulla deumantos
-                                            solicitud felis. Pellentesque diam dolor, elementum etos lobortis des mollis
-                                            ut risus. Sedcus faucibus an sullamcorper mattis drostique des commodo
-                                        pharetras loremos.</p>
-                                        <div class="product__details__tab__content__item">
-                                            <h5>Products Infomation</h5>
-                                            <p>A Pocket PC is a handheld computer, which features many of the same
-                                                capabilities as a modern PC. These handy little devices allow
-                                                individuals to retrieve and store e-mail messages, create a contact
-                                                file, coordinate appointments, surf the internet, exchange text messages
-                                                and more. Every product that is labeled as a Pocket PC must be
-                                                accompanied with specific software to operate the unit and must feature
-                                            a touchscreen and touchpad.</p>
-                                            <p>As is the case with any new technology product, the cost of a Pocket PC
-                                                was substantial during it’s early release. For approximately $700.00,
-                                                consumers could purchase one of top-of-the-line Pocket PCs in 2003.
-                                                These days, customers are finding that prices have become much more
-                                                reasonable now that the newness is wearing off. For approximately
-                                            $350.00, a new Pocket PC can now be purchased.</p>
-                                        </div>
-                                        <div class="product__details__tab__content__item">
-                                            <h5>Material used</h5>
-                                            <p>Polyester is deemed lower quality due to its none natural quality’s. Made
-                                                from synthetic materials, not natural like wool. Polyester suits become
-                                                creased easily and are known for not being breathable. Polyester suits
-                                                tend to have a shine to them compared to wool and cotton suits, this can
-                                                make the suit look cheap. The texture of velvet is luxurious and
-                                                breathable. Velvet is a great choice for dinner party jacket and can be
-                                            worn all year round.</p>
-                                        </div>
+                                    	<h4 class="text-center">상품 문의</h4>
+                                    	<p><br></p>
+                                          <table class="table table-hover m-0 p-0 text-center">
+									    <tr class="table-dark text-dark">
+									      <th>번호</th>
+									      <th>아이디</th>
+									      <th>문의내용</th>
+									      <th>신청일</th>
+									      <th>답변상태</th>
+									    </tr>
+									    <c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
+									    <c:forEach var="vo" items="${vos}" varStatus="st">
+										    <tr>
+										      <td>${curScrStartNo}</td>
+										      <td class="text-left">
+										        <a href="boardContent?idx=${vo.idx}&pag=${pageVO.pag}&pageSize=${pageVO.pageSize}">${vo.title}</a>
+										        <c:if test="${vo.hour_diff <= 24}"><img src="${ctp}/images/new.gif" /></c:if>  
+										        <c:if test="${vo.replyCnt != 0}">(${vo.replyCnt})</c:if>
+										      </td>
+										      <td>
+										        ${vo.nickName}
+										        <c:if test="${sLevel == 0}">
+										          <a href="#" onclick="modalCheck('${vo.idx}','${vo.hostIp}','${vo.mid}','${vo.nickName}')" data-toggle="modal" data-target="#myModal" class="badge badge-success">모달</a>
+										        </c:if>
+										      </td>
+										      <td>
+										        <!-- 1일(24시간) 이내는 시간만 표시(10:43), 이후는 날짜와 시간을 표시 : 2024-05-14 10:43 -->
+										        ${vo.date_diff == 0 ? fn:substring(vo.WDate,11,19) : fn:substring(vo.WDate,0,10)}
+										      </td>
+										      <td>${vo.readNum}(${vo.good})</td>
+										    </tr>
+										    <c:set var="curScrStartNo" value="${curScrStartNo - 1}" />
+										  </c:forEach>
+										  <tr><td colspan="5" class="m-0 p-0"></td></tr>
+									  </table>
+									  <br/>
+										<!-- 블록페이지 시작 -->
+										<div class="text-center">
+										  <ul class="pagination justify-content-center">
+											  <c:if test="${pageVO.pag > 1}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=1&pageSize=${pageVO.pageSize}">첫페이지</a></li></c:if>
+											  <c:if test="${pageVO.curBlock > 0}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}">이전블록</a></li></c:if>
+											  <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
+											    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link bg-secondary border-secondary" href="boardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+											    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${i}&pageSize=${pageVO.pageSize}">${i}</a></li></c:if>
+											  </c:forEach>
+											  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}">다음블록</a></li></c:if>
+											  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link text-secondary" href="boardList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
+										  </ul>
+										</div>
+										<!-- 블록페이지 끝 -->
+										<br/>
+										<!-- 검색기 시작 -->
+										<div class="container text-center">
+										  <form name="searchForm" method="post" action="boardSearch">
+										    <b>검색 : </b>
+										    <select name="search" id="search">
+										      <option value="title">글제목</option>
+										      <option value="nickName">글쓴이</option>
+										      <option value="content">글내용</option>
+										    </select>
+										    <input type="text" name="searchString" id="searchString" required />
+										    <input type="submit" value="검색" class="btn btn-secondary btn-sm"/>
+										    <input type="hidden" name="pag" value="${pageVO.pag}"/>
+										    <input type="hidden" name="pageSize" value="${pageVO.pageSize}"/>
+										  </form>
+										</div>
+										<!-- 검색기 끝 -->
                                     </div>
                                 </div>
                             </div>

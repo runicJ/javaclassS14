@@ -20,5 +20,6 @@ public interface OrderService {
 	public List<OrderVO> getMyOrderStatus(int startIndexNo, int pageSize, String mid, String startJumun, String endJumun, String conditionOrderStatus);
 	public List<CartItem> getCartItemsByCartIdx(int cartIdx);
 	public OrderVO getOrderCheck(String userId, int productIdx);
+	public List<OrderVO> getOrderList();
 	
 }

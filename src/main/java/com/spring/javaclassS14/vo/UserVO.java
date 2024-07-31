@@ -33,7 +33,7 @@ public class UserVO {
 	private String deleteReason;
 	
 	private int deleteDiff;
-	private String delStatus;
+	private String deleteStatus;
 	
 	private boolean deleteRequested;  // 탈퇴 요청 여부
 	private String deleteRequestDate;  // 탈퇴 요청 날짜

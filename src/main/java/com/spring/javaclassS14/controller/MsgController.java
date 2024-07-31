@@ -99,6 +99,10 @@ public class MsgController {
 			model.addAttribute("msg", "회원 등급을 확인하세요.");
 			model.addAttribute("url", "/users/userMain");
 		}
+		else if(msgFlag.equals("userAdminNo")) {
+			model.addAttribute("msg", "오직 관리자만 접근 가능한 페이지입니다. 계정을 확인해 주세요!");
+			model.addAttribute("url", "/users/userLogout");
+		}
 		else if(msgFlag.equals("productInputOk")) {
 			model.addAttribute("msg", "상품이 등록되었습니다.");
 			model.addAttribute("url", "/admin/shop/productList");

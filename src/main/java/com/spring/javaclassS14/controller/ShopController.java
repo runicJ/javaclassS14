@@ -63,7 +63,7 @@ public class ShopController {
         ShopVO productVO = shopService.getProduct(productIdx);            // 상품 1건의 정보를 불러온다.
         List<ShopVO> optionGroupVOS     = shopService.getOptionGroup(productIdx);
         List<ShopVO> optionVOS = shopService.getAllOption(productIdx);    // 해당 상품의 모든 옵션 정보를 가져온다.
-        List<ShopVO> reviewVOS = shopService.getAllReview(productIdx);
+        List<ReviewVO> reviewVOS = shopService.getAllReview(productIdx);
         
         Set<String> tags = new HashSet<String>();
         String[] productTags = productVO.getProductTags().split("#");
@@ -200,6 +200,14 @@ public class ShopController {
     	
     	int res = shopService.setProductReviewInput(reviewVO);
     	
+    	return res + "";
+    }
+    
+    // 장바구니에서 주문 취소한 상품을 장바구니에서 삭제
+    @ResponseBody
+    @RequestMapping(value="/productReviewDelete", method=RequestMethod.POST)
+    public String productReviewDeletePost(int reviewIdx) {
+    	int res = shopService.setProductReviewDelete(reviewIdx);
     	return res + "";
     }
 }

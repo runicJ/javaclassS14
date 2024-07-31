@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.javaclassS14.service.SurveyService;
-import com.spring.javaclassS14.vo.SearchVo;
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 
@@ -29,19 +28,46 @@ public class SurveyController {
     
     @Autowired
     SurveyService surveyService;
-/*
+
+    // 설문 리스트 접속
+    @RequestMapping(value = "/surveyEventList", method=RequestMethod.GET)
+    public ModelAndView surveyEventListGet(
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+            HttpServletRequest request) throws UnsupportedEncodingException {
+        ModelAndView mv = new ModelAndView();
+        
+        request.setCharacterEncoding("utf-8");
+        
+        int surveyCnt = surveyService.getSurveyCnt();
+        
+        mv.addObject("surveyCnt", surveyCnt);
+        
+        if(surveyCnt != 0) {
+            mv.addObject("survList", surveyService.getSurveyEventList());
+        } else {
+            mv.addObject("survList", null);
+        }
+        //mv.addObject("pagination", searchVo);
+        
+        mv.setViewName("survey/surveyEventList");
+        
+        return mv;
+    }
+    
     // 리스트 응답 폼 보여주기 View
     @GetMapping("/resForm")
     public String resForm(@RequestParam(value="survNo") Integer survNo, HttpServletRequest request, HttpSession session, Model model) {
-        SurveyVO surveyDto = surveyService.getSurvey(survNo);
+        SurveyVO surveyVO = surveyService.getSurvey(survNo);
         
         String userNick = (String) session.getAttribute("sNickName");  // Assuming the nickname is stored in the session
-        surveyDto.setNickName(userNick);
-        if(surveyDto.getSurvDesc() != null) {
-            surveyDto.setSurvDesc(surveyDto.getSurvDesc().replace("\n","<br>"));
+        surveyVO.setNickName(userNick);
+        if(surveyVO.getSurveyDesc() != null) {
+        	surveyVO.setSurveyDesc(surveyVO.getSurveyDesc().replace("\n","<br>"));
         }
         
-        model.addAttribute("surveyDto", surveyDto);
+        model.addAttribute("surveyVO", surveyVO);
         model.addAttribute("userId", session.getAttribute("sUid"));
         model.addAttribute("currentPage", request.getParameter("currentPage"));
         model.addAttribute("cntPerPage", request.getParameter("cntPerPage"));
@@ -61,80 +87,6 @@ public class SurveyController {
         return "redirect:/survey/surveyList";
     }
 
-    // 설문 리스트 접속
-    @RequestMapping(value = "/survList", method=RequestMethod.GET)
-    public ModelAndView survList(
-            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-            HttpServletRequest request) throws UnsupportedEncodingException {
-        ModelAndView mv = new ModelAndView();
-        
-        SearchVo searchVo = new SearchVo(currentPage, cntPerPage, pageSize);
-        
-        request.setCharacterEncoding("utf-8");
-        String keyword = request.getParameter("keyword");
-        
-        if(keyword != null) {
-            searchVo.setKeyword(keyword);
-            searchVo.setSrchTyp(request.getParameter("srchTyp"));
-        }
-        
-        int total = surveyService.getListCnt(searchVo);
-        
-        mv.addObject("total", total);
-        
-        searchVo.setTotalRecordCount(total);
-        
-        if(total != 0) {
-            mv.addObject("survList", surveyService.getSurvList(searchVo));
-        } else {
-            mv.addObject("survList", null);
-        }
-        mv.addObject("pagination", searchVo);
-        
-        mv.setViewName("survey/survList");
-        
-        return mv;
-    }
-    
-    // My Survey 접속
-    @RequestMapping(value = "/myList", method=RequestMethod.GET)
-    public ModelAndView myList(
-            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-            HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
-        ModelAndView mv = new ModelAndView();
-        
-        SearchVo searchVo = new SearchVo(currentPage, cntPerPage, pageSize);
-        
-        // Id 세팅
-        searchVo.setRegId((String) session.getAttribute("sUid"));
-        
-        request.setCharacterEncoding("utf-8");
-        
-        searchVo.setKeyword(request.getParameter("keyword"));
-        searchVo.setSrchTyp(request.getParameter("srchTyp"));
-        
-        int total = surveyService.getMyCnt(searchVo);
-        
-        mv.addObject("total", total);
-        
-        searchVo.setTotalRecordCount(total);
-        
-        if(total != 0) {
-            mv.addObject("survList", surveyService.getMyList(searchVo));
-        } else {
-            mv.addObject("survList", null);
-        }
-        mv.addObject("pagination", searchVo);
-        
-        mv.setViewName("survey/myList");
-        
-        return mv;
-    }
-    
     // 설문 결과 접속
     @RequestMapping("/survRslt")
     public ModelAndView survRslt(@RequestParam(value = "survNo") int survNo,
@@ -146,10 +98,7 @@ public class SurveyController {
         ModelAndView mv = new ModelAndView();
         mv.setViewName("survey/survRslt");
         
-        SearchVo searchVo = new SearchVo(currentPage, cntPerPage, pageSize);
-        searchVo.setKeyword(request.getParameter("keyword"));
-        searchVo.setSrchTyp(request.getParameter("srchTyp"));
-        mv.addObject("pagination", searchVo);
+        //mv.addObject("pagination", searchVo);
         
         SurveyVO surveyDto = surveyService.getSurvRslt(survNo);
         
@@ -166,7 +115,7 @@ public class SurveyController {
         int cnt = surveyService.resSurvYn(surveyDto);
         return cnt;
     }
-    
+    /*
     // 설문 정보 접속
     @RequestMapping(value = "/survInfo", method=RequestMethod.GET)
     public ModelAndView survInfo(
@@ -179,17 +128,14 @@ public class SurveyController {
         
         String nickName = (String) session.getAttribute("sNickName");
         
-        SearchVo searchVo = new SearchVo(currentPage, cntPerPage, pageSize);
-        searchVo.setKeyword(request.getParameter("keyword"));
-        searchVo.setSrchTyp(request.getParameter("srchTyp"));
-        mv.addObject("pagination", searchVo);
+        //mv.addObject("pagination", searchVo);
         
-        SurveyVO surveyDto = surveyService.getOneSurvey(nickName, survNo);
+        SurveyVO surveyVO = surveyService.getOneSurvey(nickName, survNo);
         
-        surveyDto.setSurvDesc(surveyDto.getSurvDesc().replace("\n", "<br>"));
+        surveyVO.setSurveyDesc(surveyVO.getSurveyDesc().replace("\n", "<br>"));
         
-        mv.addObject("survey", surveyDto);
-        mv.addObject("memId", session.getAttribute("sUid"));
+        mv.addObject("surveyVO", surveyVO);
+        mv.addObject("userId", session.getAttribute("sUid"));
         
         mv.setViewName("survey/survInfo");
         

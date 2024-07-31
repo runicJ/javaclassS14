@@ -28,11 +28,11 @@
                 	aria-expanded="false"><i data-feather="tag" class="feather-icon">
                 	</i><span class="hide-menu"> 주문 상세 관리</span></a>
       	            <ul aria-expanded="false" class="collapse first-level base-level-line">
-                        <li class="sidebar-item"><a href="${ctp}/order/orderList" class="sidebar-link">
+                        <li class="sidebar-item"><a href="${ctp}/admin/order/orderList" class="sidebar-link">
                         <span class="hide-menu"> 현재 주문 목록 </span></a></li>
-                        <li class="sidebar-item"><a href="${ctp}/order/orderCancelList" class="sidebar-link">
+                        <li class="sidebar-item"><a href="${ctp}/admin/order/orderCancelList" class="sidebar-link">
                         <span class="hide-menu"> 주문 취소 처리 </span></a></li>
-                        <li class="sidebar-item"><a href="${ctp}/order/orderReturnList" class="sidebar-link">
+                        <li class="sidebar-item"><a href="${ctp}/admin/order/orderReturnList" class="sidebar-link">
                         <span class="hide-menu"> 주문 반품 처리 </span></a></li>
                     </ul>
                 </li>
@@ -52,13 +52,21 @@
                    </ul>
                 </li>
                 <li class="sidebar-item">
-                	<a class="sidebar-link sidebar-link" href="docs/docs.html" aria-expanded="false">
+                	<a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                 		<i data-feather="edit-3" class="feather-icon"></i>
                 		<span class="hide-menu"> 게시글 관리</span>
                 	</a>
+                    <ul aria-expanded="false" class="collapse first-level base-level-line">
+                        <li class="sidebar-item">
+                        	<a href="${ctp}/admin/info/noticeInput" class="sidebar-link"><span class="hide-menu"> 공지사항 관리</span></a>
+                        </li>
+                        <li class="sidebar-item">
+                        	<a href="${ctp}/admin/info/eventInput" class="sidebar-link"><span class="hide-menu"> 이벤트 관리</span></a>
+                        </li>
+                    </ul>
                 </li>
                 <li class="sidebar-item">
-                	<a class="sidebar-link sidebar-link" href="authentication-login1.html" aria-expanded="false">
+                	<a class="sidebar-link sidebar-link" href="${ctp}/admin/info/qnaList" aria-expanded="false">
                  	<i data-feather="message-square" class="feather-icon"></i>
                  	<span class="hide-menu"> 문의글 관리</span>
                 	</a>
@@ -70,7 +78,7 @@
                     <li class="sidebar-item">
                     	<a class="sidebar-link has-arrow" href="javascript:void(0)" aria-expanded="false">
                      	<i data-feather="crosshair" class="feather-icon"></i>
-                     	<span class="hide-menu"> 기타 관리</span>
+                     	<span class="hide-menu"> 병원/지점 관리</span>
                     	</a>
                     <ul aria-expanded="false" class="collapse first-level base-level-line">
                         <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span class="hide-menu"> 병원 정보 관리</span></a>
@@ -88,12 +96,8 @@
                         aria-expanded="false"><i data-feather="box" class="feather-icon"></i><span
                             class="hide-menu"> 광고 관리 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                        <li class="sidebar-item"><a href="form-inputs.html" class="sidebar-link"><span
-                                    class="hide-menu"> 이벤트 관리
-                                </span></a>
-                        </li>
                         <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
-                                    class="hide-menu"> 광고게시 관리
+                                    class="hide-menu"> 광고신청목록
                                 </span></a>
                         </li>
                     </ul>

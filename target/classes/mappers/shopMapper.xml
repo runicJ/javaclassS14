@@ -177,7 +177,8 @@
     </select>
     
     <select id="getAllReview" resultType="com.spring.javaclassS14.vo.ReviewVO">
-        SELECT *, u.userImage, (select count(*) from productReview where pr.productIdx = #{productIdx}) as productReviewCnt FROM productReview pr, users u WHERE pr.productIdx = #{productIdx} and pr.userId = u.userId;
+        SELECT *, u.userImage, (select count(*) from productReview where pr.productIdx = #{productIdx}) as productReviewCnt 
+        FROM productReview pr, users u WHERE pr.productIdx = #{productIdx} and pr.userId = u.userId order by pr.re_order;
     </select>
     
 	<select id="getProductParentReviewCheck" resultType="com.spring.javaclassS14.vo.ReviewVO">
@@ -264,6 +265,10 @@
     <!-- 장바구니에서 특정 항목 삭제 -->
     <delete id="setProductCartDelete" parameterType="int">
         DELETE FROM cart WHERE cartIdx = #{cartIdx}
+    </delete>
+    
+    <delete id="setProductReviewDelete" parameterType="int">
+        DELETE FROM productReview WHERE reviewIdx = #{reviewIdx}
     </delete>
 	
 </mapper>

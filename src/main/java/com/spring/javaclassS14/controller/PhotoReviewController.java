@@ -17,15 +17,15 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
-import com.spring.javaclassS14.service.PhotoGalleryService;
-import com.spring.javaclassS14.vo.PhotoGalleryVO;
+import com.spring.javaclassS14.service.PhotoReviewService;
+import com.spring.javaclassS14.vo.PhotoReviewVO;
 
 @Controller
-@RequestMapping("/photoGallery")
+@RequestMapping("/photoReview")
 public class PhotoReviewController {
 	
 	@Autowired
-	PhotoGalleryService photoGalleryService;
+	PhotoReviewService photoReviewService;
 	
 	@Autowired
 	AllProvide allProvide;
@@ -34,8 +34,8 @@ public class PhotoReviewController {
 	PageProcess pageProcess;
 	
 	// 사진 여러장 보기 List
-	@RequestMapping(value = "/photoGalleryList", method = RequestMethod.GET)
-	public String photoGalleryListGet(Model model,
+	@RequestMapping(value = "/photoReviewList", method = RequestMethod.GET)
+	public String photoReviewListGet(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag, 
 			@RequestParam(name="pageSize", defaultValue = "12", required = false) int pageSize,
 			@RequestParam(name="part", defaultValue = "전체", required = false) String part,
@@ -50,18 +50,18 @@ public class PhotoReviewController {
 		else if(choice.equals("댓글순")) imsiChoice = "replyCnt";	
 		else imsiChoice = choice;
 		
-		//PageVO pageVo = pageProcess.totRecCnt(pag, pageSize, "photoGallery", part, choice);
-		List<PhotoGalleryVO> vos = photoGalleryService.getPhotoGalleryList(startIndexNo, pageSize, part, imsiChoice);
+		//PageVO pageVo = pageProcess.totRecCnt(pag, pageSize, "photoReview", part, choice);
+		List<PhotoReviewVO> vos = photoReviewService.getPhotoReviewList(startIndexNo, pageSize, part, imsiChoice);
 		model.addAttribute("vos", vos);
 		model.addAttribute("part", part);
 		model.addAttribute("choice", choice);
-		return "photoReview/photoGalleryList";
+		return "photoReview/photoReviewList";
 	}
 	
 	// 사진 여러장보기에서, 한화면 마지막으로 이동했을때 다음 페이지 스크롤하기
 	@ResponseBody
-	@RequestMapping(value = "/photoGalleryListPaging", method = RequestMethod.POST)
-	public ModelAndView photoGalleryPagingPost(Model model,
+	@RequestMapping(value = "/photoReviewListPaging", method = RequestMethod.POST)
+	public ModelAndView photoReviewPagingPost(Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag, 
 			@RequestParam(name="pageSize", defaultValue = "12", required = false) int pageSize,
 			@RequestParam(name="part", defaultValue = "전체", required = false) String part,
@@ -76,118 +76,118 @@ public class PhotoReviewController {
 		else if(choice.equals("댓글순")) imsiChoice = "replyCnt";	
 		else imsiChoice = choice;
 		
-		//PageVO pageVo = pageProcess.totRecCnt(pag, pageSize, "photoGallery", part, choice);
-		List<PhotoGalleryVO> vos = photoGalleryService.getPhotoGalleryList(startIndexNo, pageSize, part, imsiChoice);
+		//PageVO pageVo = pageProcess.totRecCnt(pag, pageSize, "photoReview", part, choice);
+		List<PhotoReviewVO> vos = photoReviewService.getPhotoReviewList(startIndexNo, pageSize, part, imsiChoice);
 		model.addAttribute("vos", vos);
 		model.addAttribute("part", part);
 		model.addAttribute("choice", choice);
 		
 		// ModelAndView에 담아서 return
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("photoReview/photoGalleryListPaging");
+		mv.setViewName("photoReview/photoReviewListPaging");
 		return mv;
 	}
 	
 	// 사진 한장씩 전체 보기(나중에 올린순으로 보기)
-	@RequestMapping(value = "/photoGallerySingle", method = RequestMethod.GET)
-	public String photoGallerySingleGet(Model modelModel, Model model,
+	@RequestMapping(value = "/photoReviewSingle", method = RequestMethod.GET)
+	public String photoReviewSingleGet(Model modelModel, Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag, 
 			@RequestParam(name="pageSize", defaultValue = "1", required = false) int pageSize
 		) {
 		int startIndexNo = (pag - 1) * pageSize;
-		List<PhotoGalleryVO> vos = photoGalleryService.setPhotoGallerySingle(startIndexNo, pageSize);
+		List<PhotoReviewVO> vos = photoReviewService.setPhotoReviewSingle(startIndexNo, pageSize);
 		model.addAttribute("vos", vos);
-		return "photoReview/photoGallerySingle";
+		return "photoReview/photoReviewSingle";
 	}
 	
 	// 사진 한장씩 전체 보기(나중에 올린순으로 보기) - 한화면 마지막으로 이동했을때 다음 페이지 스크롤하기
 	@ResponseBody
-	@RequestMapping(value = "/photoGallerySinglePaging", method = RequestMethod.POST)
-	public ModelAndView photoGallerySinglePagingPost(Model modelModel, Model model,
+	@RequestMapping(value = "/photoReviewSinglePaging", method = RequestMethod.POST)
+	public ModelAndView photoReviewSinglePagingPost(Model modelModel, Model model,
 			@RequestParam(name="pag", defaultValue = "1", required = false) int pag, 
 			@RequestParam(name="pageSize", defaultValue = "1", required = false) int pageSize
 			) {
 		int startIndexNo = (pag - 1) * pageSize;
-		List<PhotoGalleryVO> vos = photoGalleryService.setPhotoGallerySingle(startIndexNo, pageSize);
+		List<PhotoReviewVO> vos = photoReviewService.setPhotoReviewSingle(startIndexNo, pageSize);
 		model.addAttribute("vos", vos);
 		
 	  // ModelAndView에 담아서 return
 		ModelAndView mv = new ModelAndView();
-		mv.setViewName("photoReview/photoGallerySinglePaging");
+		mv.setViewName("photoReview/photoReviewSinglePaging");
 		return mv;
 	}
 	
 	// 포토갤러리 사진 등록하기 폼보기
-	@RequestMapping(value = "/photoGalleryInput", method = RequestMethod.GET)
-	public String photoGalleryInputGet() {
-		return "photoReview/photoGalleryInput";
+	@RequestMapping(value = "/photoReviewInput", method = RequestMethod.GET)
+	public String photoReviewInputGet() {
+		return "photoReview/photoReviewInput";
 	}
 	
 	// 포토갤러리 사진 등록처리
-	@RequestMapping(value = "/photoGalleryInput", method = RequestMethod.POST)
-	public String photoGalleryInputPost(PhotoGalleryVO vo, HttpServletRequest request) {
+	@RequestMapping(value = "/photoReviewInput", method = RequestMethod.POST)
+	public String photoReviewInputPost(PhotoReviewVO vo, HttpServletRequest request) {
 		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/");
-		int res = photoGalleryService.imgCheck(vo, realPath);
-		if(res != 0) return "redirect:/message/photoGalleryInputOk";
-		else return "redirect:/message/photoGalleryInputNo";
+		int res = photoReviewService.imgCheck(vo, realPath);
+		if(res != 0) return "redirect:/message/photoReviewInputOk";
+		else return "redirect:/message/photoReviewInputNo";
 	}
 	
 	// 개별항목 상세보기
 	@SuppressWarnings("unchecked")
-	@RequestMapping(value = "/photoGalleryContent", method = RequestMethod.GET)
-	public String photoGalleryContentGet(HttpSession session, int idx, Model model, HttpServletRequest request) {
+	@RequestMapping(value = "/photoReviewContent", method = RequestMethod.GET)
+	public String photoReviewContentGet(HttpSession session, int idx, Model model, HttpServletRequest request) {
 		// 게시글 조회수 1씩 증가시키기(중복방지)
 		ArrayList<String> contentReadNum = (ArrayList<String>) session.getAttribute("sContentIdx");
 		if(contentReadNum == null) contentReadNum = new ArrayList<String>();
-		String imsiContentReadNum = "photoGallery" + idx;
+		String imsiContentReadNum = "photoReview" + idx;
 		if(!contentReadNum.contains(imsiContentReadNum)) {
-			photoGalleryService.setPhotoGalleryReadNumPlus(idx);
+			photoReviewService.setPhotoReviewReadNumPlus(idx);
 			contentReadNum.add(imsiContentReadNum);
 		}
 		session.setAttribute("sContentIdx", contentReadNum);
 
 		// 조회자료 1건 담아서 내용보기로 보낼 준비
-		PhotoGalleryVO vo = photoGalleryService.getPhotoGalleryIdxSearch(idx);
+		PhotoReviewVO vo = photoReviewService.getPhotoReviewIdxSearch(idx);
 		model.addAttribute("vo", vo);
 		
 		// ckeditor의 사진정보만 뽑아서 넘겨주기(content화면에서 여러장의 사진을 보이고자 함)
-		List<String> photoList = photoGalleryService.getPhotoGalleryPhotoList(vo.getContent());
+		List<String> photoList = photoReviewService.getPhotoReviewPhotoList(vo.getContent());
 		//model.addAttribute("photoList", photoList);
 		request.setAttribute("photoList", photoList);
 		
 		// 댓글 처리
-		ArrayList<PhotoGalleryVO> replyVos = photoGalleryService.getPhotoGalleryReply(idx);
+		ArrayList<PhotoReviewVO> replyVos = photoReviewService.getPhotoReviewReply(idx);
 		model.addAttribute("replyVos", replyVos);
 		
-		return "photoReview/photoGalleryContent";
+		return "photoReview/photoReviewContent";
 	}
 
 	// 댓글달기
 	@ResponseBody
-	@RequestMapping(value = "/photoGalleryReplyInput", method = RequestMethod.POST)
-	public String photoGalleryReplyInputPost(PhotoGalleryVO vo) {
-		return photoGalleryService.setPhotoGalleryReplyInput(vo) + "";
+	@RequestMapping(value = "/photoReviewReplyInput", method = RequestMethod.POST)
+	public String photoReviewReplyInputPost(PhotoReviewVO vo) {
+		return photoReviewService.setPhotoReviewReplyInput(vo) + "";
 	}
 	
 	// 댓글 삭제
 	@ResponseBody
-	@RequestMapping(value = "/photoGalleryReplyDelete", method = RequestMethod.POST)
-	public String photoGalleryReplyDeletePost(int idx) {
-		return photoGalleryService.setPhotoGalleryReplyDelete(idx) + "";
+	@RequestMapping(value = "/photoReviewReplyDelete", method = RequestMethod.POST)
+	public String photoReviewReplyDeletePost(int idx) {
+		return photoReviewService.setPhotoReviewReplyDelete(idx) + "";
 	}
 	
 	// 좋아요수 증가
 	@SuppressWarnings("unchecked")
 	@ResponseBody
-	@RequestMapping(value = "/photoGalleryGoodCheck", method = RequestMethod.POST)
-	public String photoGalleryGoodCheckPost(HttpSession session, int idx) {
+	@RequestMapping(value = "/photoReviewGoodCheck", method = RequestMethod.POST)
+	public String photoReviewGoodCheckPost(HttpSession session, int idx) {
 		String res = "0";
 		// 좋아요 클릭수 1씩 증가시키기(중복방지)
 		ArrayList<String> contentReadNum = (ArrayList<String>) session.getAttribute("sContentGood");
 		if(contentReadNum == null) contentReadNum = new ArrayList<String>();
-		String imsiContentReadNum = "photoGallery" + idx;
+		String imsiContentReadNum = "photoReview" + idx;
 		if(!contentReadNum.contains(imsiContentReadNum)) {
-			photoGalleryService.setPhotoGalleryGoodPlus(idx);
+			photoReviewService.setPhotoReviewGoodPlus(idx);
 			contentReadNum.add(imsiContentReadNum);
 			res = "1";
 		}
@@ -196,11 +196,11 @@ public class PhotoReviewController {
 	}
 
 	// 내용 삭제하기
-	@RequestMapping(value = "/photoGalleryDelete", method = RequestMethod.GET)
-	public String photoGalleryDeleteGet(int idx) {
-		int res = photoGalleryService.setPhotoGalleryDelete(idx);
-	  if(res != 0) return "redirect:/message/photoGalleryDeleteOk";
-	  else return "redirect:/message/photoGalleryDeleteNo";
+	@RequestMapping(value = "/photoReviewDelete", method = RequestMethod.GET)
+	public String photoReviewDeleteGet(int idx) {
+		int res = photoReviewService.setPhotoReviewDelete(idx);
+	  if(res != 0) return "redirect:/message/photoReviewDeleteOk";
+	  else return "redirect:/message/photoReviewDeleteNo";
 	}
 
 	

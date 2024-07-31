@@ -4,9 +4,9 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.javaclassS14.dao.SurveyDAO;
-import com.spring.javaclassS14.vo.SearchVo;
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
 import com.spring.javaclassS14.vo.SurveyOptionVO;
 import com.spring.javaclassS14.vo.SurveyQuestionVO;
@@ -18,36 +18,45 @@ public class SurveyServiceImpl implements SurveyService {
     @Autowired
     SurveyDAO surveyDAO;
 
+    @Transactional
     @Override
-    public void insertSurv(SurveyVO surveyDto) {
+    public int setSurveyInput(SurveyVO surveyVO) {
         System.out.println("===insertSurv ServiceImpl START===");
-        surveyDAO.insertSurv(surveyDto);
-        List<SurveyQuestionVO> survqustList = surveyDto.getSurvqustList();
-
-        if (survqustList.isEmpty()) {
-            System.out.println("survqustList EMPTY!!");
-        } else {
-            System.out.println("survqustList NOT EMPTY!!");
-
-            for (SurveyQuestionVO question : survqustList) {
-                question.setSurvNo(surveyDto.getSurvNo());
-                surveyDAO.insertSurvqust(question);
-
-                List<SurveyOptionVO> options = question.getOptions();
-
-                if (options == null || options.isEmpty()) {
-                    System.out.println("options EMPTY!!");
-                } else {
-                    System.out.println("options NOT EMPTY!!");
-
-                    for (SurveyOptionVO option : options) {
-                        option.setQuestNo(question.getQuestNo());
-                        surveyDAO.insertQustopt(option);
-                    }
-                }
-            }
+        
+        int res = surveyDAO.setSurveyInput(surveyVO);
+        
+        if (res > 0) {
+	        List<SurveyQuestionVO> questList = surveyVO.getQuestList();
+	
+	        if (questList.isEmpty()) {
+	            System.out.println("questList EMPTY!!");
+	        } 
+	        else {
+	            System.out.println("questList NOT EMPTY!!");
+	
+	            for (SurveyQuestionVO question : questList) {
+	                question.setSurveyIdx(surveyVO.getSurveyIdx());
+	                surveyDAO.setQuestionInput(question);
+	
+	                List<SurveyOptionVO> options = question.getOptions();
+	
+	                if (options == null || options.isEmpty()) {
+	                    System.out.println("options EMPTY!!");
+	                } 
+	                else {
+	                    System.out.println("options NOT EMPTY!!");
+	
+	                    for (SurveyOptionVO option : options) {
+	                        option.setQuestIdx(question.getQuestIdx());
+	                        surveyDAO.setOptionInput(option);
+	                    }
+	                }
+	            }
+	        }
         }
         System.out.println("===insertSurv ServiceImpl END===");
+        
+        return res;
     }
 
     @Override
@@ -55,12 +64,12 @@ public class SurveyServiceImpl implements SurveyService {
         System.out.println("===getSurvey ServiceImpl START===");
         SurveyVO surveyDto = surveyDAO.getSurvey(survNo);
         List<SurveyQuestionVO> survqustList = surveyDAO.getSurvqustList(survNo);
-        surveyDto.setSurvqustList(survqustList);
+        surveyDto.setQuestList(survqustList);
 
         for (SurveyQuestionVO question : survqustList) {
-            List<SurveyOptionVO> options = surveyDAO.getQustoptList(question.getQuestNo());
+            List<SurveyOptionVO> options = surveyDAO.getQustoptList(question.getQuestIdx());
             question.setOptions(options);
-            List<SurveyAnswerVO> answers = surveyDAO.getAnswer(question.getQuestNo());
+            List<SurveyAnswerVO> answers = surveyDAO.getAnswer(question.getQuestIdx());
             question.setAnswerList(answers);
         }
         System.out.println("===getSurvey ServiceImpl END===");
@@ -87,17 +96,17 @@ public class SurveyServiceImpl implements SurveyService {
     public void insertNewSurv(SurveyVO surveyDto) {
         System.out.println("===insertNewSurv ServiceImpl START===");
         surveyDAO.updateNewSurv(surveyDto);
-        List<SurveyQuestionVO> survqustList = surveyDto.getSurvqustList();
+        List<SurveyQuestionVO> survqustList = surveyDto.getQuestList();
 
         for (SurveyQuestionVO question : survqustList) {
-            question.setSurvNo(surveyDto.getSurvNo());
+        	question.setSurveyIdx(surveyDto.getSurveyIdx());
             surveyDAO.insertNewSurvqust(question);
 
             List<SurveyOptionVO> options = question.getOptions();
 
             for (SurveyOptionVO option : options) {
-                option.setQuestNo(question.getQuestNo());
-                surveyDAO.insertQustopt(option);
+                option.setQuestIdx(question.getQuestIdx());
+                surveyDAO.setOptionInput(option);
             }
         }
         System.out.println("===insertNewSurv ServiceImpl END===");
@@ -119,37 +128,32 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public List<SurveyVO> getSurvList(SearchVo searchVo) {
-        return surveyDAO.getSurvList(searchVo);
+    public List<SurveyVO> getSurveyEventList() {
+        return surveyDAO.getSurveyEventList();
     }
 
     @Override
-    public int getListCnt(SearchVo searchVo) {
-        return surveyDAO.getListCnt(searchVo);
+    public int getSurveyCnt() {
+        return surveyDAO.getSurveyCnt();
     }
 
     @Override
-    public List<SurveyVO> getMyList(SearchVo searchVo) {
-        return surveyDAO.getMyList(searchVo);
-    }
-
-    @Override
-    public int getMyCnt(SearchVo searchVo) {
-        return surveyDAO.getMyCnt(searchVo);
+    public List<SurveyVO> getSurveyList(String userId) {
+        return surveyDAO.getSurveyList(userId);
     }
 
     @Override
     public SurveyVO getSurvRslt(int survNo) {
         SurveyVO surveyDto = surveyDAO.getOneSurv(survNo);
 
-        if (surveyDto.getSurvDesc() != null)
-            surveyDto.setSurvDesc(surveyDto.getSurvDesc().replace("\n", "<br>"));
+        if (surveyDto.getSurveyDesc() != null)
+            surveyDto.setSurveyDesc(surveyDto.getSurveyDesc().replace("\n", "<br>"));
 
         List<SurveyQuestionVO> survqust = surveyDAO.getSurvQust(survNo);
 
         for (SurveyQuestionVO question : survqust) {
             if ("long".equals(question.getQuestType())) {
-                List<SurveyAnswerVO> answer = surveyDAO.getLongAnswer(question.getQuestNo());
+                List<SurveyAnswerVO> answer = surveyDAO.getLongAnswer(question.getQuestIdx());
 
                 for (SurveyAnswerVO answ : answer) {
                     answ.setAnswLong(answ.getAnswLong().replace("\n", "<br>"));
@@ -157,11 +161,11 @@ public class SurveyServiceImpl implements SurveyService {
 
                 question.setAnswerList(answer);
             } else {
-                question.setAnswerList(surveyDAO.getAnswer(question.getQuestNo()));
+                question.setAnswerList(surveyDAO.getAnswer(question.getQuestIdx()));
             }
         }
 
-        surveyDto.setSurvqustList(survqust);
+        surveyDto.setQuestList(survqust);
         return surveyDto;
     }
 
@@ -171,5 +175,6 @@ public class SurveyServiceImpl implements SurveyService {
         surveyDto.setNickName(nickName);
         return surveyDto;
 	}
+
 
 }

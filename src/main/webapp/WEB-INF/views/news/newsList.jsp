@@ -19,92 +19,7 @@
         }
     </style>
     <script>
-    /*
-        'use strict';
 
-        let curPageNaver = 1;
-        let curPageNature = 1;
-        let curPageBBC = 1;
-        let loadedCountNaver = ${fn:length(vos)};
-        let loadedCountNature = ${fn:length(nVos)};
-        let loadedCountBBC = ${fn:length(bVos)};
-        const MAX_ARTICLES = 100;
-
-        function loadMoreArticles(source) {
-            let url = '';
-            let page = 1;
-            let loadedCount = 0;
-            switch (source) {
-                case 'naver':
-                    curPageNaver++;
-                    page = curPageNaver;
-                    loadedCount = loadedCountNaver;
-                    break;
-                case 'nature':
-                    curPageNature++;
-                    page = curPageNature;
-                    loadedCount = loadedCountNature;
-                    break;
-                case 'bbc':
-                    curPageBBC++;
-                    page = curPageBBC;
-                    loadedCount = loadedCountBBC;
-                    break;
-            }
-            url = `${ctp}/news/loadMore?source=${source}&page=${page}&loadedCount=${loadedCount}`;
-            $.ajax({
-                url: url,
-                type: "GET",
-                success: function(data) {
-                    appendArticles(source, data);
-                    switch (source) {
-                        case 'naver':
-                            loadedCountNaver += data.length;
-                            break;
-                        case 'nature':
-                            loadedCountNature += data.length;
-                            break;
-                        case 'bbc':
-                            loadedCountBBC += data.length;
-                            break;
-                    }
-                }
-            });
-        }
-
-        function appendArticles(source, articles) {
-            let containerSelector = '';
-            switch (source) {
-                case 'naver':
-                    containerSelector = '#naver-news';
-                    break;
-                case 'nature':
-                    containerSelector = '#nature-news';
-                    break;
-                case 'bbc':
-                    containerSelector = '#bbc-news';
-                    break;
-            }
-            let container = $(containerSelector);
-            articles.forEach(article => {
-                let articleHtml = '<article class="article-mini">' +
-                    '<div class="inner">' +
-                        '<figure>' +
-                            (article.item2 ? '<img src="' + article.item2 + '" alt="news image" style="object-fit:cover; width: 100%; height: auto;">' : '<img src="' + ctp + '/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">') +
-                        '</figure>' +
-                        '<div class="padding">' +
-                            '<h1><a href="' + article.itemUrl1 + '" target="_blank">' + article.item1 + '</a></h1>' +
-                            '<div class="detail">' +
-                                '<div class="category"><a href="' + article.itemUrl2 + '">' + article.item4 + '</a></div>' +
-                                '<div class="time">' + article.item5 + '</div>' +
-                            '</div>' +
-                        '</div>' +
-                    '</div>' +
-                '</article>';
-                container.append(articleHtml);
-            });
-        }
-    */
     </script>
 </head>
 <body>
@@ -229,10 +144,10 @@
                         </c:if>
                     </div>
                 </div>
-                <!-- BBC News Column -->
+                <!-- Google News Column -->
                 <div class="col-md-4 col-sm-4">
-                    <h1 class="title-col">BBC 뉴스</h1>
-                    <div id="bbc-news" class="body-col">
+                    <h1 class="title-col">Google 뉴스</h1>
+                    <div id="google-news" class="body-col">
                         <c:if test="${!empty bVos}">
                             <c:forEach var="bVo" items="${bVos}" varStatus="status">
                                 <article class="article-mini">

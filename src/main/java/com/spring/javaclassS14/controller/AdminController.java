@@ -1,10 +1,12 @@
 package com.spring.javaclassS14.controller;
 
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,14 +20,19 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.AdminService;
+import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.SurveyService;
 import com.spring.javaclassS14.service.UserService;
+import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.ShopVO;
+import com.spring.javaclassS14.vo.SurveyOptionVO;
+import com.spring.javaclassS14.vo.SurveyQuestionVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -48,11 +55,16 @@ public class AdminController {
 	@Autowired
 	SurveyService surveyService;
 	
+	@Autowired
+	OrderService orderService;
+	
 	// 관리자 페이지로 이동
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
 	public String adminMainGet(Model model) {
 		List<UserVO> wayVOS = adminService.getUserRegisterWay();
+		int deleteExUser = adminService.getdeleteExUser();
 		
+		model.addAttribute("deleteExUser", deleteExUser);
 		model.addAttribute("wayVOS", wayVOS);
 		return "admin/adminMain";
 	}
@@ -356,35 +368,66 @@ public class AdminController {
 		return res + "";
 	}
 	
+	
     // 설문 만들기 View (ADMIN과 MANAGER만 접근 가능)
     @RequestMapping(value="/survey/surveyInput", method = RequestMethod.GET)
-    public String regSurvForm(HttpSession session) {
+    public String surveyInputGet(HttpSession session) {
         String userId = (String) session.getAttribute("sUid");
         if (userId.equals("admin")) {
             return "admin/survey/surveyInput";
-        } else {
-            return "redirect:/accessDenied";
+        } 
+        else {
+            return "redirect:/msg/userAdminNo";
         }
     }
 
     // 설문 만들기 (ADMIN과 MANAGER만 접근 가능)
-    @RequestMapping(value="/survey/surveyInput", method=RequestMethod.POST)
     @ResponseBody
-    public String regSurv(@RequestBody SurveyVO surveyDto, HttpSession session) throws Exception {
+    @RequestMapping(value="/survey/surveyInput", method=RequestMethod.POST)
+    public String surveyInputPost(@RequestBody SurveyVO surveyVO, HttpSession session) {
         String userId = (String) session.getAttribute("sUid");
+        System.out.println("survey" + surveyVO);
+        System.out.println("surveyTitlesss" + surveyVO.getSurveyTitle());
         if (userId.equals("admin")) {
             System.out.println("===regSurv Controller START");
 
-            surveyDto.setUserId(userId);
-            System.out.println("surveyDto ==> " + surveyDto.toString());
-            surveyService.insertSurv(surveyDto);
+            surveyVO.setUserId(userId);
+            
+            System.out.println("surveyDto ==> " + surveyVO.toString());
+            
+            int res = surveyService.setSurveyInput(surveyVO);
 
             System.out.println("===regSurv Controller END===");
-            return "admin/survey/surveyInput";
-        } else {
-            return "redirect:/accessDenied";
+            return res + "";
+        } 
+        else {
+            return "redirect:/msg/userAdminNo";
         }
     }
+
+	// My Survey 접속
+    @RequestMapping(value = "/survey/surveyList", method=RequestMethod.GET)
+    public ModelAndView surveyListGet(
+            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+            HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
+        ModelAndView mv = new ModelAndView();
+        
+        // Id 세팅
+        String userId = (String) session.getAttribute("sUid");
+        
+        request.setCharacterEncoding("utf-8");
+
+        mv.addObject("survList", surveyService.getSurveyList(userId));
+
+        //mv.addObject("pagination", searchVo);
+        
+        mv.setViewName("admin/survey/surveyList");
+        
+        return mv;
+    }
+    
 /*
     // 설문 삭제하기 (ADMIN만 접근 가능)
     @RequestMapping(value="/survey/delSurv", method=RequestMethod.POST)
@@ -395,7 +438,7 @@ public class AdminController {
 
             surveyService.delOneSurvey(survNo);
 
-            return "redirect:/admin/survey/myList";
+            return "redirect:/admin/survey/surveyList";
         } else {
             return "redirect:/accessDenied";
         }
@@ -433,4 +476,30 @@ public class AdminController {
         }
     }
     */
+    
+    
+	@RequestMapping(value = "/info/eventInput", method = RequestMethod.GET)
+	public String eventInputGet() {
+		return "admin/info/eventInput";
+	}
+	
+	@RequestMapping(value = "/info/noticeInput", method = RequestMethod.GET)
+	public String noticeInputGet() {
+		return "admin/info/noticeInput";
+	}
+
+	@RequestMapping(value = "/info/qnaList", method = RequestMethod.GET)
+	public String qnaListGet() {
+		return "admin/info/qnaList";
+	}
+	
+	@RequestMapping(value = "/order/orderList", method = RequestMethod.GET)
+	public String orderListGet(Model model) {
+		List<OrderVO> orderVOS = orderService.getOrderList();
+		
+		model.addAttribute("orderVOS", orderVOS);
+		return "admin/order/orderList";
+	}
+	
+
 }

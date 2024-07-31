@@ -89,4 +89,9 @@ public class AdminServiceImpl implements AdminService {
             }
         }
     }
+
+	@Override
+	public int getdeleteExUser() {
+		return adminDAO.getdeleteExUser();
+	}
 }

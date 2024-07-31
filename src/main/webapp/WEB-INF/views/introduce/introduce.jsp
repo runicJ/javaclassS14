@@ -22,7 +22,7 @@
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <p><br></p>
 <div class="container">
-<section class="about-cont01  web-show">	
+<section class="about-cont01 web-show">	
 	<div class="cont-inner">
 		<h2>'괄호 안 쉼표' 소개</h2>
 		<div class="cont01-gallery">

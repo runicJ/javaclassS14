@@ -2,183 +2,132 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.SurveyDAO">
 
-    <!-- Insert Survey -->
-    <insert id="insertSurv">
-        INSERT INTO survey VALUES (default, #{surveyDto.survTitle}, #{surveyDto.survDesc}, #{surveyDto.useYn}, default, #{surveyDto.userId}, default, default);
-    </insert>
-
-    <!-- Insert Survey Question -->
-    <insert id="insertSurvqust" useGeneratedKeys="true" keyProperty="questNo">
-        INSERT INTO survQuest (survNo, questOrder, questContent, questType)
-        VALUES (default, #{survqustDto.questOrder}, #{survqustDto.questContent}, #{survqustDto.questType});
-    </insert>
-
-    <!-- Insert Survey Option -->
-    <insert id="insertQustopt" parameterType="com.spring.javaclassS14.vo.SurveyOptionVO" useGeneratedKeys="true" keyProperty="optNo">
-        INSERT INTO questOpt (questNo, optOrder, optContent)
-        VALUES (#{questNo}, #{optOrder}, #{optContent});
-    </insert>
-
     <select id="getSurvey" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
-        SELECT survNo, survTitle, survDesc, userId, useYn, delYn, createDate, modDate
+        SELECT surveyIdx, surveyTitle, surveyDesc, userId, useFlag, delFlag, createDate, modDate
         FROM Survey
-        WHERE survNo = #{survNo};
+        WHERE surveyIdx = #{surveyIdx};
     </select>
 
-    <select id="getSurvqustList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        SELECT questNo, survNo, questOrder, questContent, questType
-        FROM survQuest
-        WHERE survNo = #{survNo};
+    <select id="getSurveyqustList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
+        SELECT questIdx, surveyIdx, questOrder, questContent, questType
+        FROM surveyQuest
+        WHERE surveyIdx = #{surveyIdx};
     </select>
 
     <select id="getQustoptList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyOptionVO">
-        SELECT optNo, questNo, optOrder, optContent
-        FROM questOpt
-        WHERE questNo = #{questNo};
+        SELECT optNo, questIdx, optOrder, optContent
+        FROM surveytOption
+        WHERE questIdx = #{questIdx};
     </select>
+    
+    <select id="resSurveyFlag" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="int">
+        SELECT COUNT(*)
+        FROM (SELECT questIdx FROM surveyQuest WHERE surveyIdx = #{surveyIdx}) AS qust
+        INNER JOIN (SELECT questIdx FROM surveyAnswer WHERE userId = #{userId}) AS answ
+        ON qust.questIdx = answ.questIdx;
+    </select>
+    
+    
+    <!-- Insert Survey -->
+	<insert id="setSurveyInput" useGeneratedKeys="true" keyProperty="surveyIdx">
+        INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, #{surveyVO.useFlag}, default, #{surveyVO.userId}, default, default);
+    </insert>
 
-    <update id="delOneSurvey" parameterType="int">
-        UPDATE Survey SET delYn = 'Y', useYn = 'N' WHERE survNo = #{survNo};
-    </update>
+    <!-- Insert Survey Question -->
+    <insert id="setQuestionInput" useGeneratedKeys="true" keyProperty="questIdx">
+        INSERT INTO surveyQuest (surveyIdx, questOrder, questContent, questType)
+        VALUES (#{questionVO.surveyIdx}, #{questionVO.questOrder}, #{questionVO.questContent}, #{questionVO.questType});
+    </insert>
 
-    <delete id="delSurvqust" parameterType="int">
-        DELETE FROM survQuest WHERE survNo = #{survNo};
-    </delete>
-
-    <delete id="delQustopt" parameterType="int">
-        DELETE FROM questOpt WHERE questNo IN (SELECT questNo FROM survQuest WHERE survNo = #{survNo});
-    </delete>
-
-    <delete id="delAnswer" parameterType="int">
-        DELETE FROM answer WHERE questNo IN (SELECT questNo FROM survQuest WHERE survNo = #{survNo});
-    </delete>
-
-    <update id="updateNewSurv" parameterType="com.spring.javaclassS14.vo.SurveyVO">
-        UPDATE Survey 
-        SET survTitle = #{survTitle}, survDesc = #{survDesc}, userId = #{userId}, useYn = #{useYn}, delYn = #{delYn}, modDate = NOW()
-        WHERE survNo = #{survNo};
-    </update>
+    <!-- Insert Survey Option -->
+    <insert id="setOptionInput" useGeneratedKeys="true" keyProperty="optionIdx">
+        INSERT INTO surveytOption (questIdx, optOrder, optContent)
+        VALUES (#{optionVO.questIdx}, #{optionVO.optOrder}, #{optionVO.optContent});
+    </insert>
 
     <insert id="insertNewSurvqust" parameterType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        INSERT INTO survQuest (questNo, survNo, questOrder, questContent, questType)
-        VALUES (#{questNo}, #{survNo}, #{questOrder}, #{questContent}, #{questType});
+        INSERT INTO survQuest (questIdx, surveyIdx, questOrder, questContent, questType)
+        VALUES (#{questIdx}, #{surveyIdx}, #{questOrder}, #{questContent}, #{questType});
     </insert>
 
     <insert id="insertAnswer" parameterType="com.spring.javaclassS14.vo.SurveyAnswerVO">
-        INSERT INTO answer (ansNo, questNo, userId, ansContent, ansLong, ansDate)
-        VALUES (#{ansNo}, #{questNo}, #{userId}, #{ansContent}, #{ansLong}, NOW());
+        INSERT INTO surveyAnswer (answerNo, questIdx, userId, answerContent, answerLong, answerDate)
+        VALUES (#{answerNo}, #{questIdx}, #{userId}, #{answerContent}, #{answerLong}, NOW());
     </insert>
 
-    <select id="resSurvYn" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="int">
-        SELECT COUNT(*)
-        FROM (SELECT questNo FROM survQuest WHERE survNo = #{survNo}) AS qust
-        INNER JOIN (SELECT questNo FROM answer WHERE userId = #{userId}) AS answ
-        ON qust.questNo = answ.questNo;
+
+    <update id="delOneSurvey" parameterType="int">
+        UPDATE Survey SET delFlag = 'Y', useFlag = 'N' WHERE surveyIdx = #{surveyIdx};
+    </update>
+
+    <update id="updateNewSurv" parameterType="com.spring.javaclassS14.vo.SurveyVO">
+        UPDATE Survey 
+        SET surveyTitle = #{surveyTitle}, surveyDesc = #{surveyDesc}, userId = #{userId}, useFlag = #{useFlag}, delFlag = #{delFlag}, modDate = NOW()
+        WHERE surveyIdx = #{surveyIdx};
+    </update>
+
+
+    <delete id="delSurvqust" parameterType="int">
+        DELETE FROM surveyQuest WHERE surveyIdx = #{surveyIdx};
+    </delete>
+
+    <delete id="delQustopt" parameterType="int">
+        DELETE FROM surveytOption WHERE questIdx IN (SELECT questIdx FROM survQuest WHERE surveyIdx = #{surveyIdx});
+    </delete>
+
+    <delete id="delAnswer" parameterType="int">
+        DELETE FROM surveyAnswer WHERE questIdx IN (SELECT questIdx FROM survQuest WHERE surveyIdx = #{surveyIdx});
+    </delete>
+
+
+    <select id="getSurveyEventList" resultType="com.spring.javaclassS14.vo.SurveyVO">
+	    SELECT surveyIdx, surveyTitle, surveyDesc, createDate, modDate, useFlag
+	    FROM Survey
+	    WHERE userId = #{userId} AND delFlag = 'n'
+	    ORDER BY surveyIdx DESC;
     </select>
 
-    <sql id="search">
-        <if test="keyword != null and keyword != ''">
-            AND
-            <choose>
-                <when test="'all'.equals(srchTyp)">
-                    (
-                        s.survTitle LIKE CONCAT('%', #{keyword}, '%')
-                        OR m.nickName LIKE CONCAT('%', #{keyword}, '%')
-                        OR s.survNo LIKE #{keyword}
-                    )
-                </when>
-                <when test="'title'.equals(srchTyp)">
-                    s.survTitle LIKE CONCAT('%', #{keyword}, '%')
-                </when>
-                <when test="'regid'.equals(srchTyp)">
-                    m.nickName LIKE CONCAT('%', #{keyword}, '%')
-                </when>
-                <when test="'survNo'.equals(srchTyp)">
-                    s.survNo = #{keyword}
-                </when>
-            </choose>
-        </if>
-    </sql>
-
-    <sql id="mySearch">
-        <if test="keyword != null and keyword != ''">
-            AND survTitle LIKE CONCAT('%', #{keyword}, '%')
-        </if>
-        <choose>
-            <when test="'useY'.equals(srchTyp)">
-                AND useYn = 'y'
-            </when>
-            <when test="'useN'.equals(srchTyp)">
-                AND useYn = 'n'
-            </when>
-        </choose>
-    </sql>
-
-    <select id="getSurvList" parameterType="com.spring.javaclassS14.vo.SearchVo" resultType="com.spring.javaclassS14.vo.SurveyVO">
-        SELECT survNo, survTitle, createDate, modDate, nickName, rownum
-        FROM (
-            SELECT s.survNo, s.survTitle, s.userId, s.createDate, s.modDate, m.nickName, ROW_NUMBER() OVER (ORDER BY s.survNo DESC) AS rownum
-            FROM Survey s
-            LEFT JOIN users m ON s.userId = m.userId
-            WHERE useYn = 'y' AND delYn = 'n'
-            <include refid="search" />
-        ) A
-        <if test="firstRecordIndex != null and lastRecordIndex != null">
-            WHERE rownum BETWEEN #{firstRecordIndex} AND #{lastRecordIndex}
-        </if>
+    <select id="getSurveyCnt" resultType="int">
+        SELECT COUNT(*) FROM Survey WHERE useFlag = 'y' AND delFlag = 'n'
     </select>
 
-    <select id="getListCnt" parameterType="com.spring.javaclassS14.vo.SearchVo" resultType="int">
-        SELECT COUNT(s.survNo)
-        FROM Survey s
-        LEFT JOIN users m ON s.userId = m.userId
-        WHERE useYn = 'y' AND delYn = 'n'
-        <include refid="search" />
-    </select>
-
-    <select id="getMyList" parameterType="com.spring.javaclassS14.vo.SearchVo" resultType="com.spring.javaclassS14.vo.SurveyVO">
-        SELECT survNo, survTitle, createDate, modDate, useYn, rownum
-        FROM (
-            SELECT survNo, survTitle, useYn, createDate, modDate, ROW_NUMBER() OVER (ORDER BY survNo DESC) AS rownum
-            FROM Survey
-            WHERE userId = #{userId} AND delYn = 'n'
-            <include refid="mySearch" />
-        ) A
-        <if test="firstRecordIndex != null and lastRecordIndex != null">
-            WHERE rownum BETWEEN #{firstRecordIndex} AND #{lastRecordIndex}
-        </if>
-    </select>
+	<select id="getSurveyList" resultType="com.spring.javaclassS14.vo.SurveyVO">
+	    SELECT surveyIdx, surveyTitle, surveyDesc, createDate, modDate, useFlag
+	    FROM Survey
+	    WHERE userId = #{userId} AND delFlag = 'n'
+	    ORDER BY surveyIdx DESC;
+	</select>
 
     <select id="getOneSurv" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
-        SELECT survNo, survTitle, survDesc, userId, useYn, delYn, createDate, modDate
+        SELECT surveyIdx, surveyTitle, surveyDesc, userId, useFlag, delFlag, createDate, modDate
         FROM Survey
-        WHERE survNo = #{survNo};
+        WHERE surveyIdx = #{surveyIdx};
     </select>
 
     <select id="getSurvQust" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        SELECT questNo, questContent, questType, questOrder
+        SELECT questIdx, questContent, questType, questOrder
         FROM survQuest
-        WHERE survNo = #{survNo};
+        WHERE surveyIdx = #{surveyIdx};
     </select>
 
     <select id="getAnswer" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
-        SELECT COUNT(*) AS count, ansContent
-        FROM answer
-        WHERE questNo = #{questNo}
-        GROUP BY ansContent;
+        SELECT COUNT(*) AS count, answerContent
+        FROM surveyAnswer
+        WHERE questIdx = #{questIdx}
+        GROUP BY answerContent;
     </select>
 
     <select id="getLongAnswer" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
-        SELECT ansLong
-        FROM answer
-        WHERE questNo = #{questNo};
+        SELECT answerLong
+        FROM surveyAnswer
+        WHERE questIdx = #{questIdx};
     </select>
 
     <select id="getRegNick" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="String">
-        SELECT m.nickName
+        SELECT u.nickName
         FROM Survey s
-        LEFT JOIN users m ON s.userId = m.userId
-        WHERE s.userId = #{userId} AND s.survNo = #{survNo};
+        LEFT JOIN users u ON s.userId = u.userId
+        WHERE s.userId = #{userId} AND s.surveyIdx = #{surveyIdx};
     </select>
 
 </mapper>

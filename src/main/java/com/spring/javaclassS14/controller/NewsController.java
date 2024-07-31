@@ -23,7 +23,7 @@ import com.spring.javaclassS14.vo.CrawlingVO;
 public class NewsController {
 	
 
-    private static final int MAX_ARTICLES = 79; // 최대 기사 수
+    private static final int MAX_ARTICLES = 80; // 최대 기사 수
 
     @RequestMapping(value = "/newsList", method = RequestMethod.GET)
     public String newsListGet(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
@@ -134,49 +134,62 @@ public class NewsController {
 
         // BBC News
         try {
-            String baseUrl3 = "https://www.bbc.com/search?q=allergic";
+            String baseUrl3 = "https://news.google.com/search?q=allergy&hl=ko&gl=KR&ceid=KR:ko";
             for (int i = 1; i <= 10; i++) {
-                if (vos.size() >= MAX_ARTICLES) break;
+                if (bVos.size() >= MAX_ARTICLES) break;
 
-                String url3 = baseUrl3 + "&page=" + i;
+                String url3 = baseUrl3 + "&start=" + ((i - 1) * 10 + 1);
                 Document document3 = Jsoup.connect(url3).get();
-                Elements newsElements = document3.select("[data-testid=liverpool-card]");
+                //Elements newsElements = document3.select("c-wiz.PO9Zff.Ccj79.kUVvS");
+                Elements newsElements = document3.select("article");
 
                 for (Element newsElement : newsElements) {
                     if (bVos.size() >= MAX_ARTICLES) break;
 
                     CrawlingVO bVo = new CrawlingVO();
-
-                    Element titleElement = newsElement.selectFirst("h2.sc-4fedabc7-3.bvDsJq");
+                    /*
+                    Element titleElement = newsElement.selectFirst("a.JtKRv");
                     if (titleElement != null) {
                         bVo.setItem1(titleElement.text());
+                        bVo.setItemUrl1(titleElement.attr("href"));
                     }
 
-                    Element imageElement = newsElement.selectFirst("img");
+                    Element imageElement = newsElement.selectFirst("img.Quavad.vwBmvb");
                     if (imageElement != null && imageElement.hasAttr("srcset")) {
-                        String srcset = imageElement.attr("srcset");
-                        String[] urls = srcset.split(","); // 여러 해상도의 이미지 URL이 있을 때 ,로 구분
-                        if (urls.length > 0) {
-                            String highestResUrl = urls[urls.length - 1].trim().split(" ")[0]; // 가장 높은 해상도의 이미지 URL 선택
-                            bVo.setItem2(highestResUrl);
-                        } else {
-                            bVo.setItem2(imageElement.attr("src"));
-                        }
+                    	bVo.setItem2(imageElement.attr("srcset"));
                     } else {
-                        bVo.setItem2("");
+                    	bVo.setItem2("");
                     }
 
-                    Element broadcastElement = newsElement.selectFirst("p.sc-ae29827d-0.cNPpME");
-                    if (broadcastElement != null) {
-                        bVo.setItem3(broadcastElement.text());
-                    }
-
-                    Element comElement = newsElement.selectFirst("span.sc-4e537b1-2.eRsxHt");
+                    Element comElement = newsElement.selectFirst("div.vr1PYe");
                     if (comElement != null) {
                         bVo.setItem4(comElement.text());
                     }
 
-                    Element infoElement = newsElement.selectFirst("span.sc-4e537b1-1.dkFuVs");
+                    Element infoElement = newsElement.selectFirst("time.hvbAAd");
+                    if (infoElement != null) {
+                        bVo.setItem5(infoElement.text());
+                    }
+                    */
+                    Element titleElement = newsElement.selectFirst("h3 a");
+                    if (titleElement != null) {
+                        bVo.setItem1(titleElement.text());
+                        bVo.setItemUrl1("https://news.google.com" + titleElement.attr("href").substring(1));
+                    }
+
+                    Element imageElement = newsElement.selectFirst("figure img");
+                    if (imageElement != null) {
+                        bVo.setItem2(imageElement.attr("src"));
+                    } else {
+                        bVo.setItem2("");
+                    }
+
+                    Element comElement = newsElement.selectFirst("div.QmrVtf.RD0gLb span");
+                    if (comElement != null) {
+                        bVo.setItem4(comElement.text());
+                    }
+
+                    Element infoElement = newsElement.selectFirst("time");
                     if (infoElement != null) {
                         bVo.setItem5(infoElement.text());
                     }

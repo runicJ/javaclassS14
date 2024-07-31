@@ -218,7 +218,7 @@
                         <div class="d-flex align-items-center">
                             <nav aria-label="breadcrumb">
                                 <ol class="breadcrumb m-0 p-0">
-                                    <li class="breadcrumb-item"><a href="${ctp}/main"><i class="icon-home">메인페이지로</i></a>
+                                    <li class="breadcrumb-item"><a href="${ctp}/main"><i class="fa-solid fa-house-chimney-window"></i> 메인페이지로</a>
                                     </li>
                                 </ol>
                             </nav>
@@ -250,11 +250,10 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">회원 미처리 현황</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">탈퇴유예만료 회원</h6>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">236</h2>
-                                        <span
-                                            class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">+18.33%</span>
+                                        <h2 class="text-dark mb-1 font-weight-medium"><a href="${ctp}/admin/user/deleteUserList?deleteStatus='탈퇴유예만료'">${empty deleteExUser ? 0 : deleteExUser}명</a></h2>
+                                        <span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">+18.33%</span>
                                     </div>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">

@@ -94,7 +94,7 @@ public interface ShopDAO {
 
 	public int getUserCartCnt(@Param("userId") String userId);
 
-	public List<ShopVO> getAllReview(@Param("productIdx") int productIdx);
+	public List<ReviewVO> getAllReview(@Param("productIdx") int productIdx);
 
 	public Object setCartDeleteAll(@Param("orderProductIdx") int orderProductIdx);
 
@@ -105,5 +105,7 @@ public interface ShopDAO {
 	public void setReviewOrderUpdate(@Param("productIdx") int productIdx, @Param("re_order") int re_order);
 
 	public List<ShopVO> getRelatedProducts(@Param("tags") List<String> tags);
+
+	public int setProductReviewDelete(@Param("reviewIdx") int reviewIdx);
 
 }

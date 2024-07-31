@@ -2,14 +2,13 @@ package com.spring.javaclassS14.service;
 
 import java.util.List;
 
-import com.spring.javaclassS14.vo.SearchVo;
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 
 public interface SurveyService {
 	
 	// 설문 만들기
-	public void insertSurv(SurveyVO surveyDto);
+	public int setSurveyInput(SurveyVO surveyVO);
 	
 	// 설문 수정에서 기존정보 불러오기
 	public SurveyVO getSurvey(int survNo);
@@ -30,16 +29,16 @@ public interface SurveyService {
 	public int resSurvYn(SurveyVO surveyDto);
 	
 	// 설문 리스트 가져오기
-	public List<SurveyVO> getSurvList(SearchVo searchVo);
+	public List<SurveyVO> getSurveyEventList();
 	
 	// 설문 리스트 개수 가져오기
-	public int getListCnt(SearchVo searchVo);
+	public int getSurveyCnt();
 	
 	// 내 설문 리스트 가져오기
-	public List<SurveyVO> getMyList(SearchVo searchVo);
+	public List<SurveyVO> getSurveyList(String userId);
 	
 	// 내 설문 리스트 개수 가져오기
-	public int getMyCnt(SearchVo searchVo);
+	//public int getMyCnt(String userId);
 	
 	// 설문 결과 가져오기
 	public SurveyVO getSurvRslt(int survNo);

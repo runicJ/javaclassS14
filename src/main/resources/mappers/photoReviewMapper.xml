@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.PhotoReviewDAO">
+	<select id="getPhotoReviewList" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
+    select *,(select count(*) from photoReply where photoIdx = p.idx) as replyCnt from photoReview p <if test='part !="전체"'> where part = #{part}</if> order by ${choice} desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="getPhotoReviewIdxSearch" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
+	  <!-- select * from photoReview2 where idx = #{idx}; -->
+	  select pg.*,(select count(*) from photoReply where photoIdx = #{idx}) as replyCnt from photoReview pg where idx = #{idx};
+	</select>
+	
+	<select id="getPhotoReviewReply" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
+	  select *,idx as replyIdx from photoReply where photoIdx = #{idx} order by idx desc;
+	</select>
+	
+	<select id="getPhotoReviewIdxList" resultType="int">
+	  select idx from photoReview order by idx desc limit #{startIndexNo},#{pageSize};
+	</select>
+	
+	<select id="setPhotoReviewSingle" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
+	  select *,(select count(*) from photoReply where photoIdx = p.idx) as replyCnt from photoReview p where idx = #{idx} order by idx desc;
+	</select>
+	
+	
+	<insert id="photoReviewInput">
+	  insert into photoReview values (default,#{vo.mid},#{vo.part},#{vo.title},#{vo.content},#{vo.thumbnail},#{vo.photoCount},#{vo.hostIp},default,default,default);
+	</insert>
+	
+	<insert id="setPhotoReviewReplyInput">
+	  insert into photoReply values (default,#{vo.mid},#{vo.photoIdx},#{vo.content},default)
+	</insert>
+	
+	
+	<update id="setPhotoReviewReadNumPlus">
+	  update photoReview set readNum = readNum + 1 where idx = #{idx};
+	</update>
+	
+	<update id="setPhotoReviewGoodPlus">
+	  update photoReview set goodCount = goodCount + 1 where idx = #{idx};
+	</update>
+	
+	
+	<delete id="setPhotoReviewReplyDelete">
+	  delete from photoReply where idx = #{idx};
+	</delete>
+	
+	<delete id="setPhotoReviewDelete">
+	  delete from photoReply where photoIdx = #{idx};
+	  delete from photoReview where idx = #{idx};
+	</delete>
+	
+</mapper>

@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMethod;
 @RequestMapping("/community")
 public class CommunityController {
 	
-	@RequestMapping(value="/hospital/hospitalList",method=RequestMethod.GET)
+	@RequestMapping(value="/hospitalList",method=RequestMethod.GET)
 	public String greetingGet() {
-		return "community/hospital/hospitalList";
+		return "community/hospitalList";
 	}
 
 }

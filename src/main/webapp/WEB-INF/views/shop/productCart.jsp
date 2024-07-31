@@ -157,7 +157,7 @@
 						        </thead>
 						        <tbody>
 						            <c:forEach var="productCartVO" items="${productCartVOS}">
-						                <c:forEach var="CartVO" items="${productCartVO.items}">
+						                <c:forEach var="cartVO" items="${productCartVO.items}">
 						                    <tr>
 						                        <td class="quantity__item">
 						                            <input type="checkbox" name="idxChecked" value="${productCartVO.cartIdx}" id="idx${productCartVO.cartIdx}" onclick="onCheck()">
@@ -165,13 +165,13 @@
 						                        </td>
 						                        <td class="product__cart__item">
 						                            <div class="product__cart__item__pic mt-4">
-						                                <img src="${ctp}/product/${CartVO.productThumb}" alt="thumbnail" style="width:100px;height:auto;">
+						                                <img src="${ctp}/product/${cartVO.productThumb}" alt="thumbnail" style="width:100px;height:auto;">
 						                            </div>
 						                            <div class="product__cart__item__text">
-						                                <h5>${CartVO.productName}</h5>
+						                                <h5><a href="${ctp}/shop/productDetails?productIdx=${cartVO.productIdx}">${cartVO.productName}</a></h5>
 						                                <c:choose>
-						                                    <c:when test="${CartVO.optionGroupName != '기본'}">
-						                                        <h6>옵션: ${CartVO.optionGroupName} - ${CartVO.optionName}</h6>
+						                                    <c:when test="${cartVO.optionGroupName != '기본'}">
+						                                        <h6>옵션: ${cartVO.optionGroupName} - ${cartVO.optionName}</h6>
 						                                    </c:when>
 						                                    <c:otherwise>
 						                                        <h6>- 기본 옵션</h6>
@@ -183,11 +183,11 @@
 						                        <td class="quantity__item">
 						                            <div class="quantity">
 						                                <div class="pro-qty-2">
-						                                    <input type="number" value="${CartVO.quantity}">
+						                                    <input type="number" value="${cartVO.quantity}">
 						                                </div>
 						                            </div>
 						                        </td>
-						                        <td class="cart__price"><fmt:formatNumber value="${CartVO.productPrice}" /> 원</td>
+						                        <td class="cart__price"><fmt:formatNumber value="${cartVO.productPrice}" /> 원</td>
 						                        <td class="cart__close"><i class="fa fa-close" onclick="cartDelete(${productCartVO.cartIdx})"></i></td>
 						                    </tr>
 						                </c:forEach>

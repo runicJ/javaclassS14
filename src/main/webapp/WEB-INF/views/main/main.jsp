@@ -74,12 +74,12 @@
             var airVOS = JSON.parse(airVOSJson);
 	        function getAirQualityData() {
 	            let str = '';
-	            for(let i=0; i<airVOS.length; i++) {
-					str += '측정일시 : ' + airVOS[i].dataTime + '<br/>';
-					str += '아황산가스 농도(단위: ppm) : ' + airVOS[i].so2Value + '<br/>';
-					str += '일산화탄소 농도(단위: ppm) : ' + airVOS[i].coValue + '<br/>';
+	            for(let i=0; i<3; i++) {
+					str += '[측정일시] : ' + airVOS[i].dataTime + '<br/>';
+					//str += '아황산가스 농도(단위: ppm) : ' + airVOS[i].so2Value + '<br/>';
+					//str += '일산화탄소 농도(단위: ppm) : ' + airVOS[i].coValue + '<br/>';
 					str += '오존 농도(단위: ppm) : ' + airVOS[i].o3Value + '<br/>';
-					str += '이산화질소 농도(단위: ppm) : ' + airVOS[i].no2Value + '<br/>';
+					//str += '이산화질소 농도(단위: ppm) : ' + airVOS[i].no2Value + '<br/>';
 					str += '미세먼지(PM10) 농도(단위: ug/m3) : ' + airVOS[i].pm10Value + '<br/>';
 					//str += '미세먼지(PM10) 24시간 예측이동농도(단위: ug/m3) : ' + airVOS[i].pm10Value24 + '<br/>';
 					str += '초미세먼지(PM2.5) 농도(단위: ug/m3) : ' + airVOS[i].pm25Value + '<br/>';
@@ -116,6 +116,30 @@
 	        }
 	
 	        getAirQualityData();
+	        
+	        // 카운트다운 시작
+	        const countdown = () => {
+                const countDate = new Date("Aug 8, 2024 00:00:00").getTime();
+                const now = new Date().getTime();
+                const gap = countDate - now;
+
+                const second = 1000;
+                const minute = second * 60;
+                const hour = minute * 60;
+                const day = hour * 24;
+
+                const textDay = Math.floor(gap / day);
+                const textHour = Math.floor((gap % day) / hour);
+                const textMinute = Math.floor((gap % hour) / minute);
+                const textSecond = Math.floor((gap % minute) / second);
+
+                document.querySelector(".cd-item span[data-days]").innerText = textDay;
+                document.querySelector(".cd-item span[data-hours]").innerText = textHour;
+                document.querySelector(".cd-item span[data-minutes]").innerText = textMinute;
+                document.querySelector(".cd-item span[data-seconds]").innerText = textSecond;
+            };
+
+            setInterval(countdown, 1000);
 	    };
 	</script>
 </head>
@@ -411,6 +435,7 @@
                                 <i class="fa fa-star-o"></i>
                                 <i class="fa fa-star-o"></i>
                             </div>
+                        	<p>${fn:substring(productVO.productDetails,0,30)}...</p>
 							<p>${productVO.productTags}</p>
                         </div>
                     </div>
@@ -481,7 +506,7 @@
 											</div>
 										</div>
 										<div class="featured-author-footer">
-											<a href="${ctp}/community/chat/userChat">커뮤니티(유저 채팅방)</a>
+											<a href="${ctp}/community/userChat">커뮤니티(유저 채팅방)</a>
 										</div>
 									</div>
 								</div>
@@ -551,8 +576,13 @@
 								<h4>한국환경공단 대기오염정보</h4>
 				                <div id="airQualityInfo">
 				                    <img id="airQualityIcon" src="" alt="Air Quality Icon" style="width:200px;">
-					                <select>
-					                	<option></option>
+					                <select class="form-input-control float-right">
+					                	<option>강남구</option>
+					                	<option>동탄</option>
+					                	<option>영월읍</option>
+					                	<option>오송읍</option>
+					                	<option>남해읍</option>
+					                	<option>구례읍</option>
 					                </select>
 				                    <p id="airQualityText">...</p>
 				                </div>
@@ -737,30 +767,30 @@
                     <div class="categories__hot__deal">
                         <img src="${ctp}/images/product-sale.png" alt="">
                         <div class="hot__deal__sticker">
-                            <span>세일 가격</span>
-                            <h5>29880</h5>
+                            <span>할인 가격</span>
+                            <h5 style="font-weight:bold;">29880원</h5>
                         </div>
                     </div>
                 </div>
                 <div class="col-lg-4 offset-lg-1">
                     <div class="categories__deal__countdown">
-                        <span>BIG DEAL</span>
+                        <span>감사 이벤트</span>
                         <h2>신촌 입점 기념 세일</h2>
                         <div class="categories__deal__countdown__timer" id="countdown">
-                            <div class="cd-item">
-                                <span>3</span>
+              				<div class="cd-item">
+                                <span data-days>0</span>
                                 <p>일</p>
                             </div>
                             <div class="cd-item">
-                                <span>1</span>
+                                <span data-hours>0</span>
                                 <p>시간</p>
                             </div>
                             <div class="cd-item">
-                                <span>50</span>
+                                <span data-minutes>0</span>
                                 <p>분</p>
                             </div>
                             <div class="cd-item">
-                                <span>18</span>
+                                <span data-seconds>0</span>
                                 <p>초</p>
                             </div>
                         </div>

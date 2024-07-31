@@ -37,8 +37,8 @@
 				</div>
 				<div class="line"></div>
 				<p class="d-flex justify-content-between">
-					<a href="#" class="btn btn-magz white">광고 입점 신청 <i class="ion-ios-arrow-thin-right"></i></a>
-					<a href="#" class="btn btn-magz white">가맹점 신청 문의 <i class="ion-ios-arrow-thin-right"></i></a>
+					<a href="javascript:void(0)" class="btn btn-magz white" id="adApplyBtn">광고 입점 신청 <i class="ion-ios-arrow-thin-right"></i></a>
+					<a href="javascript:void(0)" class="btn btn-magz white" id="branchApplyBtn">가맹점 신청 문의 <i class="ion-ios-arrow-thin-right"></i></a>
 				</p>
 			</div>
 			<div class="col"></div>
@@ -74,7 +74,7 @@
 								</a>
 							</li>
 						</ul>
-						<a href="#" class="btn btn-magz white btn-block">1:1문의하기 <i class="ion-ios-arrow-thin-right"></i></a>
+						<a href="${ctp}/cswork/qna/qnaInput" class="btn btn-magz white btn-block">1:1문의하기 <i class="ion-ios-arrow-thin-right"></i></a>
 					</div>
 				</div>
 			</div>
@@ -110,6 +110,16 @@
         });
         $('.next').click(function(){
             $('#hot-news-carousel').carousel('next');
+        });
+        
+        // 광고 입점 신청 버튼 클릭 이벤트
+        $('#adApplyBtn').click(function(){
+            window.open('${ctp}/cswork/qna/adApply', 'adApplyWindow', 'width=600,height=600,scrollbars=yes');
+        });
+        
+        // 가맹점 신청 문의 버튼 클릭 이벤트
+        $('#branchApplyBtn').click(function(){
+            window.open('${ctp}/cswork/qna/branchApply', 'branchApplyWindow', 'width=600,height=600,scrollbars=yes');
         });
     });
     

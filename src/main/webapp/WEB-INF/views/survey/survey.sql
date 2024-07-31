@@ -1,11 +1,11 @@
-show tables;
+queshow tables;
 
 CREATE TABLE survey (	
-	survNo int auto_increment NOT NULL PRIMARY KEY,
-	survTitle VARCHAR(100) NOT NULL,
-	survDesc TEXT,
-	useYn CHAR(1) default 'y',
-	delYn CHAR(1) default 'n',
+	surveyIdx int auto_increment NOT NULL PRIMARY KEY,
+	surveyTitle VARCHAR(100) NOT NULL,
+	surveyDesc TEXT,
+	useFlag enum('y','n') default 'y',
+	delFlag enum('y','n') default 'n',
 	userId VARCHAR(20),
 	createDate datetime default now(),
 	modDate datetime default now(),
@@ -13,33 +13,33 @@ CREATE TABLE survey (
 );
 drop table survey;
 
-CREATE TABLE survQuest (	
-	questNo int auto_increment NOT NULL PRIMARY KEY,
-	survNo int,
+CREATE TABLE surveyQuest (	
+	questIdx int auto_increment NOT NULL PRIMARY KEY,
+	surveyIdx int,
 	questContent VARCHAR(200),
 	questType VARCHAR(10),
 	questOrder int,
-	FOREIGN KEY (survNo) REFERENCES survey(survNo) on delete cascade
+	FOREIGN KEY (surveyIdx) REFERENCES survey(surveyIdx) on delete cascade
 );
-drop table survQuest;
+drop table surveyQuest;
 
-CREATE TABLE questOpt (	
-	optNo int auto_increment NOT NULL PRIMARY KEY,
-	questNo int,
+CREATE TABLE surveytOption (	
+	optionIdx int auto_increment NOT NULL PRIMARY KEY,
+	questIdx int,
 	optContent VARCHAR(100) NOT NULL,
 	optOrder int,
-	FOREIGN KEY (questNo) REFERENCES survQuest(questNo) on delete cascade
+	FOREIGN KEY (questIdx) REFERENCES surveyQuest(questIdx) on delete cascade
 );
-drop table questOpt;
+drop table surveytOption;
 
-CREATE TABLE answer (	
-	ansNo int auto_increment NOT NULL PRIMARY KEY,
-	questNo int,
+CREATE TABLE surveyAnswer (	
+	answerIdx int auto_increment NOT NULL PRIMARY KEY,
+	questIdx int,
 	userId VARCHAR(20),
-	ansContent VARCHAR(100),
-	ansLong TEXT,
-	ansDate datetime default now(),
-	FOREIGN KEY (questNo) REFERENCES survQuest(questNo) on delete cascade,
+	answerContent VARCHAR(100),
+	answerLong TEXT,
+	answerDate datetime default now(),
+	FOREIGN KEY (questIdx) REFERENCES surveyQuest(questIdx) on delete cascade,
 	FOREIGN KEY (userId) REFERENCES users(userId) on delete set null
 );
-drop table answer;
+drop table surveyAnswer;

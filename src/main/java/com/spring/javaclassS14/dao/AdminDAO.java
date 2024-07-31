@@ -24,4 +24,6 @@ public interface AdminDAO {
 
 	public void deleteUser(@Param("userId") String userId);
 
+	public int getdeleteExUser();
+
 }

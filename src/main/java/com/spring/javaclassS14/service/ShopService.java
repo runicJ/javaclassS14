@@ -86,7 +86,7 @@ public interface ShopService {
 
 	public void setCartDeleteAll(int orderProductIdx);
 
-	public List<ShopVO> getAllReview(int productIdx);
+	public List<ReviewVO> getAllReview(int productIdx);
 
 	public ReviewVO getProductParentReviewCheck(int productIdx);
 
@@ -95,5 +95,7 @@ public interface ShopService {
 	public void setReviewOrderUpdate(int productIdx, int re_order);
 
 	public List<ShopVO> getRelatedProducts(List<String> tags);
+
+	public int setProductReviewDelete(int reveiwIdx);
 
 }
