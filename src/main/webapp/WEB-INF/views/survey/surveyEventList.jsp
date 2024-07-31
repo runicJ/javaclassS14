@@ -227,7 +227,7 @@
     </div>
 
     <div class="survey-detail hidden">
-        <h2>👀 설문 상세</h2>
+        <h2><i class="fa-solid fa-eye"></i> 설문 상세</h2>
         <br>
 
         <div class="table">
