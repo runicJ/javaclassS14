@@ -10,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
-import com.spring.javaclassS14.service.IntroService;
+import com.spring.javaclassS14.service.CsworkService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.vo.SaveMypageVO;
 import com.spring.javaclassS14.vo.ShopVO;
@@ -21,7 +21,7 @@ public class CommonDataInterceptor extends HandlerInterceptorAdapter {
     private ShopService shopService;
     
     @Autowired
-    private IntroService introService;
+    private CsworkService introService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {

@@ -16,6 +16,7 @@ import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.ShopDAO;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
@@ -324,6 +325,43 @@ public class ShopServiceImpl implements ShopService {
 	@Override
 	public int setProductReviewDelete(int reviewIdx) {
 		return shopDAO.setProductReviewDelete(reviewIdx);
+	}
+
+	@Override
+	public int imgCheckNoticeInput(MultipartFile file, CsworkVO csworkVO) {
+
+	    int res = 0;
+
+	    // ckeditor을 이용해서 담은 상품의 상세설명내역에 그림이 포함되어 있으면 그림을 'ckeditor'폴더에서 'notice'폴더로 복사작업처리 시켜준다.
+	    String content = csworkVO.getContent();
+	    //System.out.println("content : " + content);
+	    if(content.indexOf("src=\"/") == -1) return 0;    // content박스의 내용중 그림이 없으면 돌려보낸다.
+
+	    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+	    String uploadPath = request.getSession().getServletContext().getRealPath("/resources/data/");
+
+	    int position = 33;
+	    String nextImg = content.substring(content.indexOf("src=\"/") + position);
+	    boolean sw = true;
+
+	    while(sw) {
+	      String imgFile = nextImg.substring(0,nextImg.indexOf("\""));
+	      String copyFilePath = "";
+	      String oriFilePath = uploadPath + "ckeditor/" + imgFile;
+
+	      copyFilePath = uploadPath + "notice/" + imgFile;
+
+	      allProvide.fileCopyCheck(oriFilePath, copyFilePath);
+
+	      if(nextImg.indexOf("src=\"/") == -1) sw = false;
+	      else nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
+	    }
+	    
+	    csworkVO.setContent(csworkVO.getContent().replace("/data/ckeditor/", "/data/notice/"));
+	    
+	    res = shopDAO.setNoticeInput(csworkVO);	// vo안의 내용물을 모두 채운후 DB에 저장시킨다.
+	    return res;
+
 	}
 
 }

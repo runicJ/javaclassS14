@@ -16,9 +16,12 @@ public interface SurveyDAO {
 	
 	public void setOptionInput(@Param("optionVO") SurveyOptionVO optionVO);
 	
-	public SurveyVO getSurvey(@Param("survNo") int survNo);
-	public List<SurveyQuestionVO> getSurvqustList(@Param("survNo") int survNo);
-	public List<SurveyOptionVO> getQustoptList(@Param("questNo") int questNo);
+	public SurveyVO getSurveyForm(@Param("surveyIdx") int surveyIdx);
+	
+	public List<SurveyQuestionVO> getSurveyQuestList(@Param("surveyIdx") int surveyIdx);
+	
+	public List<SurveyOptionVO> getQuestOptList(@Param("questIdx") int questIdx);
+	
 	public void delOneSurvey(@Param("survNo") int survNo);
 	public void delSurvqust(@Param("survNo") int survNo);
 	public void delQustopt(@Param("questNo") int questNo);
@@ -38,7 +41,8 @@ public interface SurveyDAO {
     public List<SurveyAnswerVO> getAnswer(@Param("questNo") int questNo);
     
     // ResSurvDAO
-    public void insertAnswer(@Param("answer") SurveyAnswerVO answer);
+    public int setSurveyAnswerInput(@Param("answer") SurveyAnswerVO answer);
+    
     public int resSurvYn(@Param("surveyDto") SurveyVO surveyDto);
 
 	public List<SurveyVO> getsurveyEventList();

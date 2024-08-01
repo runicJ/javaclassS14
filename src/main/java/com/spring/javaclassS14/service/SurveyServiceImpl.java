@@ -59,21 +59,20 @@ public class SurveyServiceImpl implements SurveyService {
         return res;
     }
 
+    // 설문조사 폼 열기
     @Override
-    public SurveyVO getSurvey(int survNo) {
+    public SurveyVO getSurveyForm(int surveyIdx) {
         System.out.println("===getSurvey ServiceImpl START===");
-        SurveyVO surveyDto = surveyDAO.getSurvey(survNo);
-        List<SurveyQuestionVO> survqustList = surveyDAO.getSurvqustList(survNo);
-        surveyDto.setQuestList(survqustList);
+        SurveyVO surveyVO = surveyDAO.getSurveyForm(surveyIdx);
+        List<SurveyQuestionVO> surveyQuestVOS = surveyDAO.getSurveyQuestList(surveyIdx);
+        surveyVO.setQuestList(surveyQuestVOS);
 
-        for (SurveyQuestionVO question : survqustList) {
-            List<SurveyOptionVO> options = surveyDAO.getQustoptList(question.getQuestIdx());
-            question.setOptions(options);
-            List<SurveyAnswerVO> answers = surveyDAO.getAnswer(question.getQuestIdx());
-            question.setAnswerList(answers);
+        for (SurveyQuestionVO SurveyQuestionVO : surveyQuestVOS) {
+            List<SurveyOptionVO> options = surveyDAO.getQuestOptList(SurveyQuestionVO.getQuestIdx());
+            SurveyQuestionVO.setOptions(options);
         }
         System.out.println("===getSurvey ServiceImpl END===");
-        return surveyDto;
+        return surveyVO;
     }
 
     @Override
@@ -113,13 +112,15 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public void insertAnswer(List<SurveyAnswerVO> answerList) {
+    public int setSurveyAnswerInput(List<SurveyAnswerVO> answerList) {
         System.out.println("서비스에서 list" + answerList);
-
+        int res = 0;
+        
         for (SurveyAnswerVO answer : answerList) {
             System.out.println("서비스에서 하나씩" + answer);
-            surveyDAO.insertAnswer(answer);
+            res = surveyDAO.setSurveyAnswerInput(answer);
         }
+		return res;
     }
 
     @Override

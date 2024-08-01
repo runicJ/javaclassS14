@@ -1,19 +1,26 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
-	<title>eventDetails</title>
+	<title>noticeDetails</title>
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
+    <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/jquery-ui.min.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <p><br></p>
+<section class="page">
 <div class="container">
     <!-- Blog Details Hero Begin -->
     <section class="blog-hero spad">
@@ -21,10 +28,10 @@
             <div class="row d-flex justify-content-center">
                 <div class="col-lg-9 text-center">
                     <div class="blog__hero__text">
-                        <h2>Are you one of the thousands of Iphone owners who has no idea</h2>
+                        <h2>${noticeVO.noticeTitle}</h2>
                         <ul>
                             <li>By Deercreative</li>
-                            <li>February 21, 2019</li>
+                            <li>${fn:substring(noticeVO.createDate,0,10)}</li>
                             <li>8 Comments</li>
                         </ul>
                     </div>
@@ -46,7 +53,7 @@
                 <div class="col-lg-8">
                     <div class="blog__details__content">
                         <div class="blog__details__share">
-                            <span>share</span>
+                            <span>공유하기</span>
                             <ul>
                                 <li><a href="#"><i class="fa fa-facebook"></i></a></li>
                                 <li><a href="#" class="twitter"><i class="fa fa-twitter"></i></a></li>
@@ -55,15 +62,7 @@
                             </ul>
                         </div>
                         <div class="blog__details__text">
-                            <p>Hydroderm is the highly desired anti-aging cream on the block. This serum restricts the
-                                occurrence of early aging sings on the skin and keeps the skin younger, tighter and
-                                healthier. It reduces the wrinkles and loosening of skin. This cream nourishes the skin
-                                and brings back the glow that had lost in the run of hectic years.</p>
-                            <p>The most essential ingredient that makes hydroderm so effective is Vyo-Serum, which is a
-                                product of natural selected proteins. This concentrate works actively in bringing about
-                                the natural youthful glow of the skin. It tightens the skin along with its moisturizing
-                                effect on the skin. The other important ingredient, making hydroderm so effective is
-                                “marine collagen” which along with Vyo-Serum helps revitalize the skin.</p>
+                            ${noticeVO.content}
                         </div>
                         <div class="blog__details__quote">
                             <i class="fa fa-quote-left"></i>
@@ -144,6 +143,7 @@
     </section>
     <!-- Blog Details Section End -->
 </div>
+</section>
 <p><br></p>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>

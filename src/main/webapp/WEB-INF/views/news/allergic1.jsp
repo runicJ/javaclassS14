@@ -48,6 +48,16 @@
   			});
   			
   		}
+  		
+  		//현재 url 변수로 가져오기
+  		let nowUrl = window.location.href;
+
+  		function copyUrl(){ 
+  		  //nowUrl 변수에 담긴 주소를
+  		  	navigator.clipboard.writeText(nowUrl).then(res=>{
+  			  alert("이 글의 URL이 클립보드에 복사되었습니다.");
+  			})
+  		}
   	</script>
 </head>
 <body>
@@ -189,6 +199,7 @@
 									</c:if> --%>
 								</a>
 								<a type="button" class="btn btn-light rounded-circle border border-2 border-end" id="kakaotalk-sharing-btn" href="javascript:shareMessage()"><i class="fa-solid fa-share-nodes"></i></a>
+								<button type="button" class="copy-btn" onclick="copyUrl()">링크 복사</button>
 							</p>
 							<footer>
 								<div class="row">

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.CsworkDAO">
+	
+    <select id="getBranchList" resultType="com.spring.javaclassS14.vo.BranchVO">
+		select * from branch_store order by branchStoreIdx;
+    </select>
+    
+    <select id="getBranchSearch" resultType="com.spring.javaclassS14.vo.BranchVO">
+       select * from branch_store where branchName = #{branchName};
+    </select>
+    
+    <select id="getBranchSearch2" resultType="com.spring.javaclassS14.vo.BranchVO">
+       select * from branch_store where latitude = #{latitude} and longitude = #{longitude};
+    </select>
+    
+    <select id="findTopNews" resultType="com.spring.javaclassS14.vo.SaveMypageVO">
+       select partUrl, count(partUrl) as urlCnt from bookmark GROUP BY partUrl ORDER BY urlCnt desc limit #{limit};
+    </select>
+    
+    <select id="getNoticeList" resultType="com.spring.javaclassS14.vo.CsworkVO">
+       select * from notice where noticeStatus = 'y' order by noticeIdx;
+    </select>
+    
+    <select id="getNoticeInfo" resultType="com.spring.javaclassS14.vo.CsworkVO">
+       select * from notice where noticeIdx = #{noticeIdx} and noticeStatus = 'y';
+    </select>
+    
+</mapper>

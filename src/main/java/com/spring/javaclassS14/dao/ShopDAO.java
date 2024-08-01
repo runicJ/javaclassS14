@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -107,5 +108,7 @@ public interface ShopDAO {
 	public List<ShopVO> getRelatedProducts(@Param("tags") List<String> tags);
 
 	public int setProductReviewDelete(@Param("reviewIdx") int reviewIdx);
+
+	public int setNoticeInput(@Param("csworkVO") CsworkVO csworkVO);
 
 }

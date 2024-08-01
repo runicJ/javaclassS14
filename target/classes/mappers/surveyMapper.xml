@@ -2,22 +2,16 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.SurveyDAO">
 
-    <select id="getSurvey" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
-        SELECT surveyIdx, surveyTitle, surveyDesc, userId, useFlag, delFlag, createDate, modDate
-        FROM Survey
-        WHERE surveyIdx = #{surveyIdx};
+    <select id="getSurveyForm" resultType="com.spring.javaclassS14.vo.SurveyVO">
+        SELECT * FROM survey WHERE surveyIdx = #{surveyIdx};
     </select>
 
-    <select id="getSurveyqustList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        SELECT questIdx, surveyIdx, questOrder, questContent, questType
-        FROM surveyQuest
-        WHERE surveyIdx = #{surveyIdx};
+    <select id="getSurveyQuestList" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
+        SELECT * FROM surveyQuest WHERE surveyIdx = #{surveyIdx};
     </select>
 
-    <select id="getQustoptList" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyOptionVO">
-        SELECT optNo, questIdx, optOrder, optContent
-        FROM surveytOption
-        WHERE questIdx = #{questIdx};
+    <select id="getQuestOptList" resultType="com.spring.javaclassS14.vo.SurveyOptionVO">
+        SELECT * FROM surveytOption WHERE questIdx = #{questIdx};
     </select>
     
     <select id="resSurveyFlag" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="int">
@@ -50,7 +44,7 @@
         VALUES (#{questIdx}, #{surveyIdx}, #{questOrder}, #{questContent}, #{questType});
     </insert>
 
-    <insert id="insertAnswer" parameterType="com.spring.javaclassS14.vo.SurveyAnswerVO">
+    <insert id="surveyAnswerInput" parameterType="int">
         INSERT INTO surveyAnswer (answerNo, questIdx, userId, answerContent, answerLong, answerDate)
         VALUES (#{answerNo}, #{questIdx}, #{userId}, #{answerContent}, #{answerLong}, NOW());
     </insert>
@@ -81,10 +75,7 @@
 
 
     <select id="getSurveyEventList" resultType="com.spring.javaclassS14.vo.SurveyVO">
-	    SELECT surveyIdx, surveyTitle, surveyDesc, createDate, modDate, useFlag
-	    FROM Survey
-	    WHERE userId = #{userId} AND delFlag = 'n'
-	    ORDER BY surveyIdx DESC;
+	    SELECT * FROM survey WHERE delFlag = 'n' ORDER BY surveyIdx DESC;
     </select>
 
     <select id="getSurveyCnt" resultType="int">

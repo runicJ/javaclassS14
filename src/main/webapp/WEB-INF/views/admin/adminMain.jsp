@@ -170,7 +170,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="${ctp}/user/noImage.jpg" alt="user" class="rounded-circle"
+                                <img src="${ctp}/user/noImage.png" alt="user" class="rounded-circle"
                                     width="40">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>안녕하세요,</span> <span
                                         class="text-dark">${sNickName} 님</span> <i data-feather="chevron-down"

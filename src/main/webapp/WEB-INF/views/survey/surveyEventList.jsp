@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -8,6 +9,10 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>surveyEventList</title>
     <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
+    <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
+    <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
     <jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
     <style>
         h2 {
@@ -70,10 +75,6 @@
         }
     </style>
     <script>
-        function changeSelectBox(currentPage, pageSize) {
-            const selectValue = $("#cntSelectBox").val();
-            movePage(currentPage, selectValue, pageSize);
-        }
 
         function movePage(currentPage, cntPerPage, pageSize) {
             const srchTyp = $('#srchTyp').val();
@@ -90,23 +91,6 @@
             }
 
             location.href = url;
-        }
-
-        function searchKw() {
-            const srchTyp = $('#srchTyp').val();
-            const keyword = $('#keyword').val().trim();
-            const selectValue = $("#cntSelectBox").val();
-
-            let url = "/survList";
-            url += "?srchTyp=" + srchTyp;
-            url += "&keyword=" + keyword;
-            url += "&cntPerPage=" + selectValue;
-
-            location.href = url;
-        }
-
-        function searchReset() {
-            location.href = "/survList";
         }
 
         function goSurvInfo(survNo) {
@@ -141,9 +125,9 @@
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 	<section class="page">
-<div class="container">
+	<div class="container">
     <div class="survey-list">
-        <h2>📃 설문 리스트</h2>
+        <h2><i class="fa-brands fa-pagelines"></i> 설문 리스트</h2>
         <br>
         <form id="searchForm">
             <div id="search_list">
@@ -154,51 +138,12 @@
                     <option value="surveyIndex">설문 번호</option>
                 </select>
                 <input type="text" id="keyword" name="keyword" placeholder="검색어를 입력하세요" style="width: 300px; border:2px solid #6C757D">
-                <button type="button" id="srchBtn" onclick="searchKw();">검색 🔍</button>
-                <button type="button" id="reset" onclick="searchReset();">초기화 ♻️</button>
+                <button type="button" id="srchBtn" onclick="searchKw();">검색</button>
+                <button type="button" id="reset" onclick="searchReset();">초기화</button>
             </div>
         </form>
 
         <span style="font-weight:bold;">총 설문 수: <c:out value="${surveyCnt}" /></span>
-        <div class="right">
-            <select id="cntSelectBox" name="cntSelectBox" onchange="changeSelectBox(${pagination.currentPage}, ${pagination.pageSize});">
-                <option value="10">10개씩</option>
-                <option value="20">20개씩</option>
-                <option value="30">30개씩</option>
-            </select>
-        </div>
-
-        <div class="table">
-            <table>
-                <thead>
-                    <tr>
-                        <th>설문 번호</th>
-                        <th>설문 제목</th>
-                        <th>등록자</th>
-                        <th>등록 날짜</th>
-                        <th>최종 수정 날짜</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    <c:if test="${not empty survList}">
-                        <c:forEach var="surv" items="${survList}">
-                            <tr>
-                                <td class="survno"><c:out value="${surv.survNo}" /></td>
-                                <td class="survtitle"><a href="#" onclick="goSurvInfo(${surv.survNo});"><c:out value="${surv.survTitle}" /></a></td>
-                                <td class="memNick"><c:out value="${surv.memNick}" /></td>
-                                <td class="regdate"><c:out value="${surv.regDate}" /></td>
-                                <td class="moddate"><c:out value="${surv.modDate}" /></td>
-                            </tr>
-                        </c:forEach>
-                    </c:if>
-                    <c:if test="${empty survList}">
-                        <tr>
-                            <td colspan="5" style="text-align:center;">조회된 설문이 없습니다.</td>
-                        </tr>
-                    </c:if>
-                </tbody>
-            </table>
-        </div>
 
         <c:if test="${not empty survList}">
             <div class="paginate">
@@ -261,8 +206,32 @@
             <button onclick="goList()">목록 보기</button>
         </div>
     </div>
-</div>
+    </div>
 	</section>
+	<section class="blog spad">
+        <div class="container">
+            <div class="row">
+        	    <c:if test="${not empty surveyVOS}">
+                <c:forEach var="surveyVO" items="${surveyVOS}">
+	                <div class="col-lg-4 col-md-6 col-sm-6">
+	                    <div class="blog__item">
+	                        <div class="blog__item__pic set-bg" data-setbg="${ctp}/survey/${empty surveyVO.surveyThumb ? 'noImage.png' : surveyVO.surveyThumb}"></div>
+	                        <div class="blog__item__text">
+	                            <span><i class="fa-regular fa-calendar-check"></i> ${fn:substring(surveyVO.createDate,0,10)}</span>
+	                            <h5>${surveyVO.surveyTitle}</h5>
+	                            <p>${surveyVO.surveyDesc}</p>
+	                            <a href="${ctp}/survey/surveyAnswer?surveyIdx=${surveyVO.surveyIdx}">설문 참여하기</a>
+	                        </div>
+	                    </div>
+	                </div>
+                </c:forEach>
+                </c:if>
+                <c:if test="${empty surveyVOS}">
+                    <div><p style="text-align:center;">조회된 설문이 없습니다.</p></div>
+                </c:if>
+            </div>
+        </div>
+    </section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>
 </html>

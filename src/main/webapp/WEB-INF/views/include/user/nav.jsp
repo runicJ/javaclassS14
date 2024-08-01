@@ -24,9 +24,9 @@
 					<li class="dropdown magz-dropdown">
 						<a href="${ctp}/">소개합니다<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/introduce/greeting">인사말</a></li>
-							<li><a href="${ctp}/introduce/introduce">홈페이지소개</a></li>
-							<li><a href="${ctp}/introduce/branch/branchMap">지점위치</a></li>
+							<li><a href="${ctp}/cswork/greeting">인사말</a></li>
+							<li><a href="${ctp}/cswork/introduce">홈페이지소개</a></li>
+							<li><a href="${ctp}/cswork/branchMap">지점위치</a></li>
 						</ul>
 					</li>
 					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <span class="badge">인기</span></a>
@@ -116,16 +116,15 @@
 					
 					<li class="dropdown magz-dropdown"><a href="#">고객센터<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/cswork/notice/notice">공지사항</a></li>
-							<li class="dropdown magz-dropdown"><a href="${ctp}/cswork/notice/faqList">자주묻는질문</a></li>
-							<li class="dropdown magz-dropdown"><a href="${ctp}/cswork/qna/qnaApply">1:1문의</a></li>
+							<li><a href="${ctp}/cswork/notice/noticeList">공지사항</a></li>
+							<li><a href="${ctp}/cswork/notice/faqList">자주묻는질문</a></li>
+							<li><a href="${ctp}/cswork/qna/qnaApply">1:1문의</a></li>
 						</ul>
 					</li>
 					<li class="dropdown magz-dropdown">
 						<a href="#">이벤트<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
-							<li><a href="${ctp}/cswork/event/eventList">이벤트 목록</a></li>
-							<li><a href="${ctp}/photoGallery/photoGalleryList">포토 후기</a></li>
+							<li><a href="${ctp}/photoReview/photoReviewList">포토 후기</a></li>
 							<li><a href="${ctp}/survey/surveyEventList">설문 조사 참여</a></li>
 						</ul>
 					</li>

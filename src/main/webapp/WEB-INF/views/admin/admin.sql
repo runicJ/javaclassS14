@@ -31,16 +31,15 @@ CREATE TABLE ad (
 	adStatus enum('대기','게시','마감') default '대기'
 );
 
-CREATE TABLE event (
-    eventIdx INT AUTO_INCREMENT PRIMARY KEY,
-    eventTitle VARCHAR(100) NOT NULL,
-    eventContent TEXT NOT NULL,
-    eventImage VARCHAR(255) NULL,
-    startDate DATETIME DEFAULT NULL,
-    endDate DATETIME DEFAULT NULL,
+CREATE TABLE notice (
+    noticeIdx INT AUTO_INCREMENT PRIMARY KEY,
+    noticeTitle VARCHAR(100) NOT NULL,
+    content TEXT NOT NULL,
     createDate DATETIME DEFAULT NOW(),
-    eventStatus ENUM('y', 'n') DEFAULT 'y'
+    noticeStatus ENUM('y', 'n') DEFAULT 'y'
 );
+
+drop table notice;
 
 /* 알람 */
 CREATE TABLE alarm (

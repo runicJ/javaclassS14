@@ -459,7 +459,7 @@
 										</div>
 										<div class="featured-author-center">
 											<figure class="featured-author-picture">
-												<img src="${ctp}/user/${!empty sUid ? sImage : 'noImage.jpg'}" alt="userImage">
+												<img src="${ctp}/user/${!empty sUid ? sImage : 'noImage.png'}" alt="userImage">
 											</figure>
 											<div class="featured-author-info">
 												<h2 class="name">${!empty sUid ? sNickName : '입문자'}</h2>
@@ -871,7 +871,7 @@
 					<div class="inner">
 						<figure>
 							<a href="single.html">
-								<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+								<img src="${ctp}/user/noImage.png" alt="Sample Article">
 							</a>
 						</figure>
 						<div class="padding">

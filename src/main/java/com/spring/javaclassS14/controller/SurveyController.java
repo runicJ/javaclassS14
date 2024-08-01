@@ -45,9 +45,10 @@ public class SurveyController {
         mv.addObject("surveyCnt", surveyCnt);
         
         if(surveyCnt != 0) {
-            mv.addObject("survList", surveyService.getSurveyEventList());
-        } else {
-            mv.addObject("survList", null);
+            mv.addObject("surveyVOS", surveyService.getSurveyEventList());
+        } 
+        else {
+            mv.addObject("surveyVOS", null);
         }
         //mv.addObject("pagination", searchVo);
         
@@ -57,34 +58,29 @@ public class SurveyController {
     }
     
     // 리스트 응답 폼 보여주기 View
-    @GetMapping("/resForm")
-    public String resForm(@RequestParam(value="survNo") Integer survNo, HttpServletRequest request, HttpSession session, Model model) {
-        SurveyVO surveyVO = surveyService.getSurvey(survNo);
+    @GetMapping("/surveyAnswer")
+    public String resForm(int surveyIdx, HttpServletRequest request, HttpSession session, Model model) {
+        SurveyVO surveyVO = surveyService.getSurveyForm(surveyIdx);
         
-        String userNick = (String) session.getAttribute("sNickName");  // Assuming the nickname is stored in the session
-        surveyVO.setNickName(userNick);
+        String userId = (String) session.getAttribute("userId");
+        surveyVO.setUserId(userId);
         if(surveyVO.getSurveyDesc() != null) {
         	surveyVO.setSurveyDesc(surveyVO.getSurveyDesc().replace("\n","<br>"));
         }
         
+        //System.out.println("surveyVO" + surveyVO);
         model.addAttribute("surveyVO", surveyVO);
-        model.addAttribute("userId", session.getAttribute("sUid"));
-        model.addAttribute("currentPage", request.getParameter("currentPage"));
-        model.addAttribute("cntPerPage", request.getParameter("cntPerPage"));
-        model.addAttribute("pageSize", request.getParameter("pageSize"));
-        model.addAttribute("srchTyp", request.getParameter("srchTyp"));
-        model.addAttribute("keyword", request.getParameter("keyword"));
-        
-        return "survey/resSurv";
+
+        return "survey/surveyAnswer";
     }
 
     // 응답하기 
-    @PostMapping("/resSurv")
+    @PostMapping("/surveyAnswer")
     @ResponseBody
     public String resSurv(@RequestBody List<SurveyAnswerVO> answerList) {    
         System.out.println(answerList);
-        surveyService.insertAnswer(answerList);
-        return "redirect:/survey/surveyList";
+        int res = surveyService.setSurveyAnswerInput(answerList);
+        return res != 0 ? "redirect:/msg/surveyAnswerOk" : "redirect:/msg/surveyAnswerNo";
     }
 
     // 설문 결과 접속

@@ -28,7 +28,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.javaclassS14.service.IntroService;
+import com.spring.javaclassS14.service.CsworkService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.CrawlingVO;
@@ -85,7 +85,7 @@ public class HomeController {
 	}
 	
 	@Autowired
-	IntroService introService;
+	CsworkService introService;
 	
 	@Autowired
 	ShopService shopService;

@@ -234,6 +234,10 @@
 	<insert id="setProductReviewInput">
 	  insert into productReview values (default,#{reviewVO.productIdx},#{reviewVO.userId},#{reviewVO.nickName},#{reviewVO.orderIdx},#{reviewVO.re_step},#{reviewVO.re_order},#{reviewVO.star},#{reviewVO.reviewContent},default);
 	</insert>
+	
+	<insert id="setNoticeInput">
+    	insert into notice values (default,#{csworkVO.noticeTitle},#{csworkVO.content},default,#{csworkVO.noticeStatus});
+ 	</insert>
 
 
 

@@ -10,8 +10,7 @@ public interface SurveyService {
 	// 설문 만들기
 	public int setSurveyInput(SurveyVO surveyVO);
 	
-	// 설문 수정에서 기존정보 불러오기
-	public SurveyVO getSurvey(int survNo);
+	public SurveyVO getSurveyForm(int surveyIdx);
 	
 	// 설문 삭제하기
 	public void delOneSurvey(int survNo);
@@ -23,7 +22,7 @@ public interface SurveyService {
 	public void insertNewSurv(SurveyVO surveyDto);
 	
 	// 응답하기
-	public void insertAnswer(List<SurveyAnswerVO> answerList);
+	public int setSurveyAnswerInput(List<SurveyAnswerVO> answerList);
 	
 	// 접속 회원 설문 응답 여부 확인
 	public int resSurvYn(SurveyVO surveyDto);

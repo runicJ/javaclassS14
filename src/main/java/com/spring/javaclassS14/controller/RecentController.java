@@ -13,7 +13,7 @@ import com.spring.javaclassS14.service.RecentService;
 
 @Controller
 @RequestMapping("/recent")
-public class recentController {
+public class RecentController {
 
     @Autowired
     private RecentService recentService;

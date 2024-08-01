@@ -171,20 +171,20 @@ public class NewsController {
                         bVo.setItem5(infoElement.text());
                     }
                     */
-                    Element titleElement = newsElement.selectFirst("h3 a");
+                    Element titleElement = newsElement.selectFirst("h3 a.JtKRv");
                     if (titleElement != null) {
                         bVo.setItem1(titleElement.text());
                         bVo.setItemUrl1("https://news.google.com" + titleElement.attr("href").substring(1));
                     }
 
-                    Element imageElement = newsElement.selectFirst("figure img");
+                    Element imageElement = newsElement.selectFirst("figure img.Quavad.vwBmvb");
                     if (imageElement != null) {
                         bVo.setItem2(imageElement.attr("src"));
                     } else {
                         bVo.setItem2("");
                     }
 
-                    Element comElement = newsElement.selectFirst("div.QmrVtf.RD0gLb span");
+                    Element comElement = newsElement.selectFirst("div.vr1PYe span");
                     if (comElement != null) {
                         bVo.setItem4(comElement.text());
                     }

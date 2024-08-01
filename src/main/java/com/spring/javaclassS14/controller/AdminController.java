@@ -28,6 +28,7 @@ import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.SurveyService;
 import com.spring.javaclassS14.service.UserService;
+import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.ShopVO;
@@ -477,17 +478,21 @@ public class AdminController {
     }
     */
     
-    
-	@RequestMapping(value = "/info/eventInput", method = RequestMethod.GET)
-	public String eventInputGet() {
-		return "admin/info/eventInput";
-	}
-	
-	@RequestMapping(value = "/info/noticeInput", method = RequestMethod.GET)
+	@RequestMapping(value = "/info/noticeInput", method=RequestMethod.GET)
 	public String noticeInputGet() {
 		return "admin/info/noticeInput";
 	}
 
+	// 공지 등록 처리하기
+	@RequestMapping(value = "/info/noticeInput", method=RequestMethod.POST)
+	public String noticeInputPost(MultipartFile file, CsworkVO csworkVO) {
+		// 이미지파일 업로드 시에 ckeditor폴더에서 'dbShop/product'폴더로 복사처리 처리된 내용을 DB에 저장하기
+		int res = shopService.imgCheckNoticeInput(file, csworkVO);
+		//System.out.println("res : " + res);
+		if(res != 0) return "redirect:/msg/noticeInputOk";
+		return "redirect:/msg/noticeInputNo";
+	}
+	
 	@RequestMapping(value = "/info/qnaList", method = RequestMethod.GET)
 	public String qnaListGet() {
 		return "admin/info/qnaList";

@@ -6,7 +6,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
-	<title>faq.jsp</title>
+	<title>faqList</title>
 	<link rel="icon" type="image/png" href="images/favicon-mark.png">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 </head>

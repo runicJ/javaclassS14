@@ -60,9 +60,6 @@
                         <li class="sidebar-item">
                         	<a href="${ctp}/admin/info/noticeInput" class="sidebar-link"><span class="hide-menu"> 공지사항 관리</span></a>
                         </li>
-                        <li class="sidebar-item">
-                        	<a href="${ctp}/admin/info/eventInput" class="sidebar-link"><span class="hide-menu"> 이벤트 관리</span></a>
-                        </li>
                     </ul>
                 </li>
                 <li class="sidebar-item">

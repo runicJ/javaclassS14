@@ -17,16 +17,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
 
-import com.spring.javaclassS14.dao.IntroDAO;
+import com.spring.javaclassS14.dao.CsworkDAO;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.BranchVO;
+import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.SaveMypageVO;
 
 @Service
-public class IntroServiceImpl implements IntroService {
+public class CsworkServiceImpl implements CsworkService {
 
 	@Autowired
-	IntroDAO introDAO;
+	CsworkDAO introDAO;
 
 	@Override
 	public List<BranchVO> getBranchList() {
@@ -127,5 +128,25 @@ public class IntroServiceImpl implements IntroService {
 		} catch (IOException e) {e.printStackTrace();} catch (ParseException e) {e.printStackTrace();}
 		return airVOS;
     }
+
+	@Override
+	public List<CsworkVO> getNoticeList() {
+        return introDAO.getNoticeList();
+	}
+
+	@Override
+	public CsworkVO getNoticeInfo(int noticeIdx) {
+        return introDAO.getNoticeInfo(noticeIdx);
+	}
+
+	@Override
+	public BranchVO getBranchSearch(String branchName) {
+        return introDAO.getBranchSearch(branchName);
+	}
+
+	@Override
+	public BranchVO getBranchSearch2(double latitude, double longitude) {
+        return introDAO.getBranchSearch2(latitude, longitude);
+	}
 	
 }

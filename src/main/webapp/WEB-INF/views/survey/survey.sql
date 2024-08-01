@@ -4,6 +4,7 @@ CREATE TABLE survey (
 	surveyIdx int auto_increment NOT NULL PRIMARY KEY,
 	surveyTitle VARCHAR(100) NOT NULL,
 	surveyDesc TEXT,
+	surveyThumb varchar(255) default 'noImage.jpg',
 	useFlag enum('y','n') default 'y',
 	delFlag enum('y','n') default 'n',
 	userId VARCHAR(20),

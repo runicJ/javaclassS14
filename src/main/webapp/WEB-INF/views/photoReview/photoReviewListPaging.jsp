@@ -4,8 +4,8 @@
 	  <c:forEach var="vo" items="${vos}" varStatus="st">
 	    <div class="card mb-5" style="width:220px;">
 		    <div class="card-body m-0 p-2 text-center">
-		      <a href="photoGalleryContent?idx=${vo.idx}">
-		        <img src="${ctp}/photoGallery/${vo.thumbnail}" width="200px" height="150px" title="${vo.title}" class="m-0" />
+		      <a href="photoReviewContent?idx=${vo.idx}">
+		        <img src="${ctp}/photoReview/${vo.thumbnail}" width="200px" height="150px" title="${vo.title}" class="m-0" />
 		      </a>
 		    </div> 
 		    <div class="card-footer">

@@ -4185,8 +4185,8 @@ blockquote {
 }
 
 .page .line {
-    margin-top: 60px;
-    margin-bottom: 40px;
+    margin-top: 50px;
+    margin-bottom: 20px;
 }
 
 .page .page-description {
@@ -4552,12 +4552,12 @@ blockquote {
     overflow: hidden;
     border-radius: 50%;
     border: 2px solid #fff;
-    object-fit: fill;
 }
 
 .featured-author .featured-author-cover .featured-author-picture img {
     width: 100%;
-	object-fit: fill;
+    height: -webkit-fill-available;
+	object-fit: cover;
 }
 
 .featured-author .featured-author-cover .featured-author-info .name {

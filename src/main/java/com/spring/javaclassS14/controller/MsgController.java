@@ -152,6 +152,22 @@ public class MsgController {
 			model.addAttribute("msg", "결제가 성공적으로 완료되었습니다.");
 			model.addAttribute("url", "/order/paymentResultOk");
 		}
+		else if(msgFlag.equals("noticeInputOk")) {
+			model.addAttribute("msg", "공지사항이 등록되었습니다.");
+			model.addAttribute("url", "/admin/adminMain");
+		}
+		else if(msgFlag.equals("noticeInputNo")) {
+			model.addAttribute("msg", "공지 등록 실패!");
+			model.addAttribute("url", "/admin/info/noticeInput");
+		}
+		else if(msgFlag.equals("surveyAnswerOk")) {
+			model.addAttribute("msg", "설문응답이 완료되었습니다. 이벤트에 응모하시려면 댓글을 남겨주세요!");
+			model.addAttribute("url", "/survey/surveyList");
+		}
+		else if(msgFlag.equals("surveyAnswerNo")) {
+			model.addAttribute("msg", "설문응답 등록 실패했습니다. 다시 시도해 주세요..");
+			model.addAttribute("url", "/survey/surveyList");
+		}
 		
 	return "include/msg";
 	}
