@@ -7,7 +7,7 @@ CREATE TABLE orders_p (
     totalPrice INT NOT NULL,
     couponIdx INT DEFAULT NULL,
     pointUse INT DEFAULT 0 NOT NULL,
-    orderStatus ENUM('주문', '완료', '취소') DEFAULT '주문' NOT NULL,
+    orderStatus ENUM('주문', '배송', '완료', '취소') DEFAULT '주문' NOT NULL,
     orderDate DATETIME DEFAULT NOW() NOT NULL,
     FOREIGN KEY (userId) REFERENCES users(userId),
     FOREIGN KEY (couponIdx) REFERENCES coupon(couponIdx)

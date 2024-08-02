@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS14.service.CsworkService;
 import com.spring.javaclassS14.service.ShopService;
@@ -105,5 +106,31 @@ public class CsworkController {
 	@RequestMapping(value="/qna/qnaApply", method=RequestMethod.GET)
 	public String qnaApplyGet() {
 		return "cswork/qna/qnaApply";
+	}
+	
+	@RequestMapping(value="/qna/qnaInput", method=RequestMethod.POST)
+	public String qnaInputPost(CsworkVO qnaVO) {
+		int res = csworkService.setQnaInput(qnaVO);
+		
+		return res + "";
+	}
+	
+	@RequestMapping(value="/faq/faqList", method=RequestMethod.GET)
+	public String qnaInputGet(Model model) {
+		List<CsworkVO> faqVOS = csworkService.getFaqList();
+		List<CsworkVO> faqTop10VOS = csworkService.getFaqTopList();
+		
+		model.addAttribute("faqVOS",faqVOS);
+		model.addAttribute("faqTop10VOS",faqTop10VOS);
+		return "cswork/qna/faqList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/faq/faqList", method=RequestMethod.POST)
+	public String qnaInputPost(Model model, @RequestParam String category, @RequestParam String keyword) {
+		List<CsworkVO> faqVOS = csworkService.getFaqSearchList(category, keyword);
+		
+		model.addAttribute("faqVOS",faqVOS);
+		return "cswork/qna/faqList";
 	}
 }

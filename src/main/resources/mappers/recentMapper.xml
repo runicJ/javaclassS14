@@ -14,8 +14,8 @@
         INSERT INTO bookmark (userId, partUrl, category)
         VALUES (#{userId}, #{partUrl}, #{category})
     </insert>
-    <insert id="saveFavoriteProduct">
-        INSERT INTO favorite_product (userId, productIdx)
+    <insert id="saveLikedProduct">
+        INSERT INTO liked_product (userId, productIdx)
         VALUES (#{userId}, #{productIdx})
     </insert>
     <select id="getRecentProductViews" resultType="map">
@@ -28,7 +28,7 @@
         SELECT * FROM bookmark WHERE userId = #{userId} AND category = #{category} ORDER BY addDate DESC
     </select>
     <select id="getFavoriteProducts" resultType="map">
-        SELECT * FROM favorite_product WHERE userId = #{userId} ORDER BY addDate DESC
+        SELECT * FROM liked_product WHERE userId = #{userId} ORDER BY addDate DESC
     </select>
 
 </mapper>

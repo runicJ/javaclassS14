@@ -27,21 +27,21 @@ import com.spring.javaclassS14.vo.SaveMypageVO;
 public class CsworkServiceImpl implements CsworkService {
 
 	@Autowired
-	CsworkDAO introDAO;
+	CsworkDAO csworkDAO;
 
 	@Override
 	public List<BranchVO> getBranchList() {
-		return introDAO.getBranchList();
+		return csworkDAO.getBranchList();
 	}
 
 	@Override
 	public List<SaveMypageVO> findTopNews(int limit) {
-        return introDAO.findTopNews(limit);
+        return csworkDAO.findTopNews(limit);
 	}
 
 	@Override
 	public List<String> getMenuOptions() {
-        return introDAO.getMenuOptions();
+        return csworkDAO.getMenuOptions();
 	}
 
 	@Override
@@ -131,22 +131,47 @@ public class CsworkServiceImpl implements CsworkService {
 
 	@Override
 	public List<CsworkVO> getNoticeList() {
-        return introDAO.getNoticeList();
+        return csworkDAO.getNoticeList();
 	}
 
 	@Override
 	public CsworkVO getNoticeInfo(int noticeIdx) {
-        return introDAO.getNoticeInfo(noticeIdx);
+        return csworkDAO.getNoticeInfo(noticeIdx);
 	}
 
 	@Override
 	public BranchVO getBranchSearch(String branchName) {
-        return introDAO.getBranchSearch(branchName);
+        return csworkDAO.getBranchSearch(branchName);
 	}
 
 	@Override
 	public BranchVO getBranchSearch2(double latitude, double longitude) {
-        return introDAO.getBranchSearch2(latitude, longitude);
+        return csworkDAO.getBranchSearch2(latitude, longitude);
+	}
+
+	@Override
+	public int setQnaInput(CsworkVO qnaVO) {
+        return csworkDAO.setQnaInput(qnaVO);
+	}
+
+	@Override
+	public int setFaqInput(CsworkVO csworkVO) {
+        return csworkDAO.setFaqInput(csworkVO);
+	}
+
+	@Override
+	public List<CsworkVO> getFaqList() {
+        return csworkDAO.getFaqList();
+	}
+
+	@Override
+	public List<CsworkVO> getFaqTopList() {
+        return csworkDAO.getFaqTopList();
+	}
+
+	@Override
+	public List<CsworkVO> getFaqSearchList(String category, String keyword) {
+        return csworkDAO.getFaqSearchList(category, keyword);
 	}
 	
 }

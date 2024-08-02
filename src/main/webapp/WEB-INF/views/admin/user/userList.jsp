@@ -46,7 +46,7 @@
   		        $('#userForm').submit();
   		    }
   		}
-  		    
+  		
 		function userInfo(userId) {
   		    $.ajax({
   		        url: '${ctp}/admin/user/userInfo',
@@ -68,10 +68,10 @@
 		    });
 		    
             $('#userCheckBox').on('click', function() {
-                $('.userCheckBox').prop('checked', this.checked);
+                $("input[name='userCheckBox']").prop('checked', this.checked);
             });
 
-            $('.userCheckBox').on('change', function() {
+            $("input[name='userCheckBox']").on('change', function() {
                 if (!this.checked) {
                     $('#userCheckBox').prop('checked', false);
                 }
@@ -91,20 +91,21 @@
 		
 		function allAction(action) {
             let selectedUsers = [];
-            $('.userCheckBox:checked').each(function() {
+            $("input[name='userCheckBox']:checked").each(function() {
                 selectedUsers.push($(this).val());
             });
 
-            if (selectedUsers.length === 0) {
+            if (selectedUsers.length == 0) {
                 alert("선택된 사용자가 없습니다.");
                 return;
             }
 
-            if (confirm("정말로 선택된 사용자들에게 '" + action + "' 작업을 수행하시겠습니까?")) {
+            if (confirm("정말로 선택된 회원들의 '" + action + "' 처리 작업을 수행하시겠습니까?")) {
                 $.ajax({
                     url: '${ctp}/admin/user/allAction',
                     type: 'POST',
-                    data: { action: action, users: selectedUsers },
+                    data: { action: action,
+                    		users: selectedUsers },
                     traditional: true,
                     success: function(response) {
                         alert(response.message);
@@ -184,9 +185,9 @@
 	                                            <i data-feather="more-vertical"></i>
 	                                        </button>
 	                                        <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dd1">
-	                                            <a class="dropdown-item" href="allAction('normal)">일괄 정상</a>
-	                                            <a class="dropdown-item" href="allAction('stop')">일괄 정지</a>
-	                                            <a class="dropdown-item" href="allAction('delete')">일괄 삭제</a>
+	                                            <a class="dropdown-item" href="javascript:allAction('정상')">일괄 정상처리</a>
+	                                            <a class="dropdown-item" href="javascript:allAction('정지')">일괄 정지처리</a>
+	                                            <a class="dropdown-item" href="javascript:allAction('삭제')">일괄 삭제처리</a>
 	                                        </div>
 	                                    </div>
 	                                </div>
@@ -196,7 +197,7 @@
                                         <thead>
                                             <tr class="border-0">
                                                 <th class="border-0 font-14 font-weight-medium text-muted">
-				                                    <input class="form-check-input" type="checkbox" id="userCheckBox" name="userCheckBox" value="option">
+				                                    <input class="form-check-input" type="checkbox" onclick="allCheck()" id="userCheckBox" name="userCheckBox" value="option">
 				                                    <label class="form-check-label" for="userCheckBox">선택</label>
 												</th>
                                                 <th class="border-0 font-14 font-weight-medium text-muted">등급</th>
@@ -209,13 +210,14 @@
                                             </tr>
                                         </thead>
 										<tbody id="userTableBody">
+											<c:set var="curScrStartNo" value="${pageVO.curScrStartNo-1}" />
                                         	<c:forEach var="vo" items="${vos}" varStatus="st">
                                         	<c:if test="${vo.userId != 'admin'}">
                                             <tr>
                                                 <td class="border-top-0 text-dark px-2 py-4">
                                                 	<div class="form-check form-check-inline">
-					                                    <input class="form-check-input" type="checkbox" id="userCheckBox${st.count}" name="userCheckBox" value="option1">
-					                                    <label class="form-check-label" for="userCheckBox${st.count}">${st.count}</label>
+					                                    <input class="form-check-input" type="checkbox" id="userCheckBox${curScrStartNo}" name="userCheckBox" value="${vo.userId}">
+					                                    <label class="form-check-label" for="userCheckBox${curScrStartNo}">${curScrStartNo}</label>
 					                                </div>
                                                 </td>
                                                 <td class="border-top-0 text-center px-2 py-4">
@@ -254,6 +256,9 @@
 	                                                    <c:if test="${vo.userStatus == 'off'}">
                                                         	<a class="btn btn-danger rounded-circle btn-circle font-12 popover-item" href="javascript:void(0)">탈퇴</a>
                                                         </c:if>
+	                                                    <c:if test="${vo.userStatus == 'stop'}">
+                                                        	<a class="btn btn-warning rounded-circle btn-circle font-12 popover-item" href="javascript:void(0)">정지</a>
+                                                        </c:if>
                                                         <!-- <a class="btn btn-cyan rounded-circle btn-circle font-12 popover-item" href="javascript:void(0)">문의</a> -->
                                                     </div>
                                                 </td>
@@ -262,6 +267,7 @@
                                                 </td>
                                             </tr>
                                             </c:if>
+                                            <c:set var="curScrStartNo" value="${curScrStartNo - 1}" />
                                             </c:forEach>
                                         </tbody>
                                     </table>
@@ -272,19 +278,19 @@
 	                        <nav aria-label="...">
 		                         <ul class="pagination justify-content-center">
 		                             <c:if test="${pageVO.pag > 1}"><li class="page-item">
-		                             	<a class="page-link" href="${ctp}/admin/userList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
+		                             	<a class="page-link" href="${ctp}/admin/user/userList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
 		                             </li></c:if>
 		                             <c:if test="${pageVO.curBlock > 0}"><li class="page-item">
-		                             	<a class="page-link" href="${ctp}/admin/userList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
+		                             	<a class="page-link" href="${ctp}/admin/user/userList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
 		                             </li></c:if>
 		                             
 		                             <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
-									    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
-									    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+									    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/admin/user/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+									    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/admin/user/userList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
 									  </c:forEach>
 			                             
-									  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
-									  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/admin/userList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
+									  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/admin/user/userList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
+									  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/admin/user/ userList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
 		                         </ul>
 	                      	</nav>
                      	</div>

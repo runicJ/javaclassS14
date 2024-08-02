@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			allProvide.writeFile(fName, sFileName, "user");
 			
-			if(!userImage.equals("noImage.jpg")) allProvide.deleteFile(userImage, "user");
+			if(!userImage.equals("noImage.png")) allProvide.deleteFile(userImage, "user");
 		} catch (Exception e) {
 			e.printStackTrace();
 		}

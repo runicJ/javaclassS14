@@ -24,7 +24,7 @@
     
     <!-- Insert Survey -->
 	<insert id="setSurveyInput" useGeneratedKeys="true" keyProperty="surveyIdx">
-        INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, #{surveyVO.useFlag}, default, #{surveyVO.userId}, default, default);
+        INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, #{surveyVO.surveyThumb}, #{surveyVO.useFlag}, default, #{surveyVO.userId}, default, default);
     </insert>
 
     <!-- Insert Survey Question -->

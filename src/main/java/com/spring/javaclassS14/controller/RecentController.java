@@ -18,22 +18,22 @@ public class RecentController {
     @Autowired
     private RecentService recentService;
 
-    @PostMapping("/saveBookmark")
     @ResponseBody
-    public String saveBookmark(@RequestParam int userId, @RequestParam String partUrl, @RequestParam String category) {
-        recentService.saveBookmark(userId, partUrl, category);
-        return "success";
+    @PostMapping("/saveBookmark")
+    public String saveBookmark(@RequestParam String userId, @RequestParam String partUrl, @RequestParam String category) {
+        int res = recentService.saveBookmark(userId, partUrl, category);
+        return res + "";
     }
 
-    @PostMapping("/saveFavoriteProduct")
     @ResponseBody
-    public String saveFavoriteProduct(@RequestParam int userId, @RequestParam int productIdx) {
-        recentService.saveFavoriteProduct(userId, productIdx);
-        return "success";
+    @PostMapping("/saveLikedProduct")
+    public String saveLikedProductPost(@RequestParam String userId, @RequestParam int productIdx) {
+        int res = recentService.saveLikedProduct(userId, productIdx);
+        return res + "";
     }
 
     @GetMapping("/dashboard")
-    public String getUserDashboard(Model model, @RequestParam int userId) {
+    public String getUserDashboard(Model model, @RequestParam String userId) {
         model.addAttribute("recentProductViews", recentService.getRecentProductViews(userId));
         model.addAttribute("recentSearches", recentService.getRecentSearches(userId));
         model.addAttribute("bookmarks", recentService.getBookmarks(userId, "research")); // 예시로 연구 북마크만 조회

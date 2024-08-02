@@ -38,7 +38,7 @@ CREATE TABLE product (
     productBrand VARCHAR(50) NOT NULL,
     productCountry VARCHAR(50) NOT NULL,
     asInfo VARCHAR(50) DEFAULT NULL,
-    productThumb VARCHAR(255) DEFAULT 'noImage.jpg' NOT NULL,
+    productThumb VARCHAR(255) DEFAULT 'noImage.png' NOT NULL,
     shipAddress VARCHAR(255) NOT NULL,
     returnFee INT DEFAULT 0 NOT NULL,
     productTags VARCHAR(255) NOT NULL,

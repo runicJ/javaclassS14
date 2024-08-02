@@ -25,4 +25,14 @@ public interface CsworkDAO {
 
 	public BranchVO getBranchSearch2(@Param("latitude") double latitude, @Param("longitude") double longitude);
 
+	public int setQnaInput(@Param("csworkVO") CsworkVO qnaVO);
+
+	public int setFaqInput(@Param("csworkVO") CsworkVO csworkVO);
+
+	public List<CsworkVO> getFaqList();
+
+	public List<CsworkVO> getFaqTopList();
+
+	public List<CsworkVO> getFaqSearchList(@Param("faqCategory") String category, @Param("keyword") String keyword);
+
 }

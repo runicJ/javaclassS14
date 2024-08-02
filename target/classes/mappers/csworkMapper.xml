@@ -26,4 +26,31 @@
        select * from notice where noticeIdx = #{noticeIdx} and noticeStatus = 'y';
     </select>
     
+    <select id="getFaqList" resultType="com.spring.javaclassS14.vo.CsworkVO">
+       select *, (select count(*) from faq group by faqCategory) as faqCategoryCnt from faq order by faqIdx, faqCategory;
+    </select>
+    <!--
+    <select id="getFaqTopList" resultType="com.spring.javaclassS14.vo.CsworkVO">
+       select * from faq where faqCategory = '회원/가입' or productTags like concat('%',#{tag},'%') order by faqIdx;
+    </select>
+    -->
+        
+    <select id="getFaqSearchList" resultType="com.spring.javaclassS14.vo.CsworkVO">
+       select *, (select count(*) from faq where faqCategory=#{faqCategory} and faqContent like concat('%',#{keywork},'%')) as faqSearchCnt from faq order by faqIdx, faqCategory;
+    </select>
+    
+    
+    <insert id="setQnaInput">
+    	<if test="${sUid.isEmpty}">
+       insert into qna values(default, #{qnaVO.userId}, #{qnaVO.qnaTitle}, #{qnaVO.qnaContent}, default, default, default, default, #{qnaVO.qnaCategory}, #{qnaVO.email});
+       </if>
+       <if test="${!sUid.isEmpty}">
+       insert into qna values(default, #{qnaVO.userId}, #{qnaVO.qnaTitle}, #{qnaVO.qnaContent}, default, default, default, default, #{qnaVO.qnaCategory}, default);
+       </if>
+    </insert>
+    
+    <insert id="setFaqInput">
+    	insert into faq values(default, #{faqVO.faqCategory}, #{faqVO.faqTitle}, #{faqVO.Content}, default, #{faqVO.faqStatus})
+    </insert>
+    
 </mapper>

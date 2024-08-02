@@ -256,7 +256,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="${ctp}/users/saveBookmark" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic1">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -420,9 +420,9 @@
                         <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="object-fit:cover;">
                             <c:if test="${productVO.createDiff > -7}"><span class="label">New</span></c:if>
                             <ul class="product__hover">
-	                            <li><a href="#"><i class="fa-solid fa-heart"></i><span>관심등록</span></a></li>
-	                            <li><a href="#"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
-	                            <li><a href="#"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
+	                            <li><a href="${ctp}/recent/saveLikedProduct"><i class="fa-solid fa-heart"></i><span>관심등록</span></a></li>
+	                            <li><a href="${ctp}/"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
+	                            <li><a href="${ctp}/"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">

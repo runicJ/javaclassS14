@@ -75,15 +75,16 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void allAction(String action, List<String> users) {
+    	System.out.println("action ; " + action);
         for (String userId : users) {
             switch (action) {
-                case "normal":
+                case "정상":
                     adminDAO.updateUserStatus(userId, "on");
                     break;
-                case "stop":
+                case "정지":
                     adminDAO.updateUserStatus(userId, "stop");
                     break;
-                case "delete":
+                case "삭제":
                     adminDAO.deleteUser(userId);
                     break;
             }

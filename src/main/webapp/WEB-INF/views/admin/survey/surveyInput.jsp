@@ -192,6 +192,28 @@
 
 		$("#regSurvBtn").click(function() {
 			let chkValidate = chkFields() == true ? true : false;
+			
+			let file = myform.file.value;	
+			let ext = file.substring(file.lastIndexOf(".")+1);
+			let uExt = ext.toUpperCase();
+			
+			if(file == "") {
+				alert("상품 메인 이미지를 등록하세요");
+				return false;
+			}
+			else if(uExt != "JPG" && uExt != "GIF" && uExt != "PNG" && uExt != "JPEG") {
+				alert("업로드 가능한 파일이 아닙니다.");
+				return false;
+			}
+			else if(document.getElementById("file").value != "") {
+				var maxSize = 1024 * 1024 * 10;  // 10MByte까지 허용
+				var fileSize = document.getElementById("file").files[0].size;
+				if(fileSize > maxSize) {
+					alert("첨부파일의 크기는 10MB 이내로 등록하세요");
+					return false;
+				}
+			}
+			
 			if (chkValidate) {
 				if (!isSubmitted && changed) {
 					isSubmitted = true;
@@ -233,7 +255,8 @@
 						surveyDesc: $("#survDesc").val(),
 						useFlag: $("#useFlag").val(),        
 						createDate: $("#regDate").text(),
-						questList: survQustList
+						questList: survQustList,
+						file : file
 					}
 					
 					$.ajax({
@@ -603,6 +626,17 @@
 									<option value="y">예</option>
 									<option value="n">아니오</option>
 								</select>
+							</td>
+						</tr>
+						<tr>
+							<td>
+								<label><i class="fa-solid fa-tag"></i> 설문지 대표이미지</label>
+							</td>
+							<td>
+	                            <div class="custom-file">
+	                                <input type="file" class="custom-file-input" name="file" id="file" required>
+	                                <label class="custom-file-label" for="validatedCustomFile">설문지 썸네일 선택</label>
+	                            </div>
 							</td>
 						</tr>
 					</table>

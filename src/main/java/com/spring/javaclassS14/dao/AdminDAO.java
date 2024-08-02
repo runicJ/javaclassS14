@@ -20,7 +20,7 @@ public interface AdminDAO {
 
 	public List<UserVO> getUserList(Map<String, Object> paramMap);
 
-	public void updateUserStatus(@Param("userId") String userId, @Param("flag") String flag);
+	public void updateUserStatus(@Param("userId") String userId, @Param("userStatus") String userStatus);
 
 	public void deleteUser(@Param("userId") String userId);
 

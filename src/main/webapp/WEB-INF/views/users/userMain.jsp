@@ -22,12 +22,28 @@
 							<article class="article col-md-12">
 								<div class="inner">
 									<div class="padding">
-										<h2><a href="single.html">최근 주문내역</a></h2>
-										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
+										<h2><a href="${ctp}/user/userOrderList">최근 주문내역</a></h2>
+										<table class="table table-hover">
+											<tr>
+												<th>주문번호</th>
+												<th>상품</th>
+												<th>가격</th>
+												<th>주문일</th>
+												<th>주문상태</th>
+											</tr>
+											<c:forEach var="orderVO" items="${orderVOS}">
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											</c:forEach>
+										</table>
 										<footer>
-											<a class="btn btn-primary more" href="single.html">
-												<div>더보기</div>
-												<div><i class="ion-ios-arrow-thin-right"></i></div>
+											<a class="btn btn-primary more" href="${ctp}/user/userOrderList">
+												<span>더보기</span>
 											</a>
 										</footer>
 									</div>
@@ -38,12 +54,27 @@
 							<article class="article col-md-12">
 								<div class="inner">
 									<div class="padding">
-										<h2><a href="single.html">찜한상품</a></h2>
-										<p>Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui dui.</p>
+										<h2><a href="${ctp}/user/userLikedproduct">관심 제품</a></h2>
+										<table class="table table-hover">
+											<tr>
+												<th>상품명</th>
+												<th>가격</th>
+												<th>등록일</th>
+												<th>품절여부</th>
+											</tr>
+											<c:forEach var="likedVO" items="${likedVOS}">
+											<tr>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+												<td></td>
+											</tr>
+											</c:forEach>
+										</table>
 										<footer>
-											<a class="btn btn-primary more" href="single.html">
-												<div>더보기</div>
-												<div><i class="ion-ios-arrow-thin-right"></i></div>
+											<a class="btn btn-primary more" href="${ctp}/user/userLikedproduct">
+												<span>더보기</span>
 											</a>
 										</footer>
 									</div>
@@ -54,7 +85,7 @@
 							<article class="article col-md-12">
 								<div class="inner">
 									<div class="padding">
-										<h2><a href="single.html">북마크 게시글</a></h2>
+										<h2><a href="single.html">최근 관심 내역</a></h2>
 										<p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam.</p>
 										<footer>
 											<a class="btn btn-primary more" href="single.html">
@@ -72,7 +103,7 @@
 								<article class="article col-md-6">
 									<div class="inner">
 										<div class="padding">
-											<h2><a href="single.html">작성한 후기글</a></h2>
+											<h2><a href="single.html">최근 활동</a></h2>
 											<p>Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui dui.</p>
 											<footer>
 												<a class="btn btn-primary more" href="single.html">
@@ -86,7 +117,7 @@
 								<article class="article col-md-6">
 								<div class="inner">
 										<div class="padding">
-											<h2><a href="single.html">작성한 게시글</a></h2>
+											<h2><a href="single.html">문의 내역</a></h2>
 											<p>Maecenas accumsan tortor ut velit pharetra mollis. Proin eu nisl et arcu iaculis placerat sollicitudin ut est. In fringilla dui dui.</p>
 											<footer>
 												<a class="btn btn-primary more" href="single.html">

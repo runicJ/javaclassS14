@@ -10,7 +10,7 @@ CREATE TABLE users (
     gender ENUM('n','m','f') DEFAULT 'n' NOT NULL,
     email VARCHAR(60) NOT NULL,
     tel VARCHAR(20) NOT NULL,
-    userImage VARCHAR(255) DEFAULT 'noImage.jpg' NOT NULL,
+    userImage VARCHAR(255) DEFAULT 'noImage.png' NOT NULL,
     registerWay VARCHAR(50) DEFAULT '미선택',
     point INT DEFAULT 1000 NOT NULL,
     policyFlag ENUM('y','n') DEFAULT 'y' NOT NULL,
@@ -81,6 +81,8 @@ CREATE TABLE liked_product (
 	FOREIGN KEY (userId) REFERENCES users(userId),
 	FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );
+
+desc liked_product;
 
 /* 게시글 북마크 */
 CREATE TABLE bookmark (

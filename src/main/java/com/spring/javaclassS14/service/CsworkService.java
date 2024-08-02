@@ -25,4 +25,14 @@ public interface CsworkService {
 
 	public BranchVO getBranchSearch2(double latitude, double longitude);
 
+	public int setQnaInput(CsworkVO qnaVO);
+
+	public int setFaqInput(CsworkVO csworkVO);
+
+	public List<CsworkVO> getFaqList();
+
+	public List<CsworkVO> getFaqTopList();
+
+	public List<CsworkVO> getFaqSearchList(String category, String keyword);
+
 }

@@ -33,7 +33,7 @@
     <script>
         'use strict';
 
-        function response() {
+        function submit() {
             let userId = $("#userId").val();
             let questList = ${surveyVO.questList}; // JSON.stringify로 변환 필요
             questList = JSON.parse('${surveyVO.questList}');
@@ -43,9 +43,7 @@
             questList.forEach(qust => {
                 let answerObj = {
                     qustNo: qust.qustNo,
-                    userId: userId,
-                    answCont: "",
-                    answLong: ""
+                    userId: userI
                 };
 
                 if (qust.questType === "long") {
@@ -85,9 +83,8 @@
                     alert('등록 완료');
                     location.href = url;
                 },
-                error: e => {
-                    alert("등록 실패!!");
-                    console.log(e);
+				error: function() {
+                	alert("전송오류!");
                 }
             });
         }
@@ -198,8 +195,8 @@
             <!-- 설문지 질문 END -->
         </div>
         <br/>
-        <button onclick="response()">제출하기</button>
-        <button onclick="backList()">목록 보기</button>
+        <button onclick="submit()">제출하기</button>
+        <a href="${ctp}/survey/surveyEventList">목록 보기</a>
         </div>
     </section>
     <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />

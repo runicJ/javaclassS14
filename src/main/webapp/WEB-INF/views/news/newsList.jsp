@@ -44,7 +44,7 @@
                                                     <img src="${vo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+                                                    <img src="${ctp}/images/noImage.png" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
                                                 </c:otherwise>
                                             </c:choose>
                                         </figure>
@@ -101,7 +101,7 @@
                                                     <img src="${nVo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+                                                    <img src="${ctp}/images/noImage.png" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
                                                 </c:otherwise>
                                             </c:choose>
                                         </figure>
@@ -158,7 +158,7 @@
                                                     <img src="${bVo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
                                                 </c:when>
                                                 <c:otherwise>
-                                                    <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+                                                    <img src="${ctp}/images/noImage.png" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
                                                 </c:otherwise>
                                             </c:choose>
                                         </figure>

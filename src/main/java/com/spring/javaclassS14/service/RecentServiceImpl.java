@@ -14,42 +14,42 @@ public class RecentServiceImpl implements RecentService {
     private RecentDAO recentDAO;
 
     @Override
-    public void saveRecentProductView(int userId, int productIdx) {
+    public void saveRecentProductView(String userId, int productIdx) {
         recentDAO.saveRecentProductView(userId, productIdx);
     }
 
     @Override
-    public void saveRecentSearch(int userId, String searchTerm) {
+    public void saveRecentSearch(String userId, String searchTerm) {
         recentDAO.saveRecentSearch(userId, searchTerm);
     }
 
     @Override
-    public void saveBookmark(int userId, String partUrl, String category) {
-        recentDAO.saveBookmark(userId, partUrl, category);
+    public int saveBookmark(String userId, String partUrl, String category) {
+        return recentDAO.saveBookmark(userId, partUrl, category);
     }
 
     @Override
-    public void saveFavoriteProduct(int userId, int productIdx) {
-        recentDAO.saveFavoriteProduct(userId, productIdx);
+    public int saveLikedProduct(String userId, int productIdx) {
+    	return recentDAO.saveLikedProduct(userId, productIdx);
     }
 
     @Override
-    public List<Map<String, Object>> getRecentProductViews(int userId) {
+    public List<Map<String, Object>> getRecentProductViews(String userId) {
         return recentDAO.getRecentProductViews(userId);
     }
 
     @Override
-    public List<Map<String, Object>> getRecentSearches(int userId) {
+    public List<Map<String, Object>> getRecentSearches(String userId) {
         return recentDAO.getRecentSearches(userId);
     }
 
     @Override
-    public List<Map<String, Object>> getBookmarks(int userId, String category) {
+    public List<Map<String, Object>> getBookmarks(String userId, String category) {
         return recentDAO.getBookmarks(userId, category);
     }
 
     @Override
-    public List<Map<String, Object>> getFavoriteProducts(int userId) {
+    public List<Map<String, Object>> getFavoriteProducts(String userId) {
         return recentDAO.getFavoriteProducts(userId);
     }
 }

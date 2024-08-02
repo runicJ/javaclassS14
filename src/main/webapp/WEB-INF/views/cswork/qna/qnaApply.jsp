@@ -9,6 +9,67 @@
 	<title>qnaApply</title>
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
   	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+  	
+  	<script>
+  		'useStrict';
+  		
+  	    function etcShow() {
+  	    	$("#complaintTxt").show();
+  	    }
+  	    
+  	    // 신고화면 선택후 신고사항 전송하기
+  	    function fCheck() {
+  	    	if(${sUid.isEmpty}) {
+	  	    	if (!$("name").val().isEmpty()) {
+	  	    		alert("신청하시는 분의 성함을 입력하세요");
+	  	    		return false;
+	  	    	}
+	  	    	if (!$("email").val().isEmpty()) {
+	  	    		alert("비회원이실 경우 이메일 입력은 필수사항입니다!");
+	  	    		return false;
+	  	    	}
+  	    	}
+  	    	if($("select[type=option]").val() == '기타' && $("#complaintTxt").val() == "") {
+  	    		alert("기타 사유를 입력해 주세요.");
+  	    		return false;
+  	    	}
+  	    	if($("select[type=option]:selected").val() == '기타' && $("#complaintTxt").val() == "") {
+  	    		alert("기타 사유를 입력해 주세요.");
+  	    		return false;
+  	    	}
+  	    	if($("qnaContent").val().isEmpty()) {
+  	    		alert("문의 내용을 입력해주세요!");
+  	    		return false;
+  	    	}
+  	    	
+  	    	let qnaCategory = modalForm.qnaCategory.value;
+  	    	if(qnaCategory == '기타') qnaCategory += '/' + $("#complaintTxt").val();
+  	    	
+  	    	//alert("신고내용 : " + cpContent);
+  	    	let query = {
+  	    			userId   : name,
+  	    			email   : email,
+  	    			qnaCategory: qnaCategory,
+  	    			qnaContent : qnaContent
+  	    	}
+  	    	
+  	    	$.ajax({
+  	    		url  : "${ctp}/csWork/qna/qnaInput",
+  	    		type : "post",
+  	    		data : query,
+  	    		success:function(res) {
+  	    			if(res != "0") {
+  	    				alert("문의 내용이 접수 되었습니다.");
+  	    				location.reload();
+  	    			}
+  	    			else alert("신고 실패~~");
+  	    		},
+  	    		error : function() {
+  	    			alert("전송 오류!");
+  	    		}
+  	   		});
+  	    }
+  	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
@@ -38,33 +99,39 @@
 								</p>
 							</div>
 							<div class="col-md-6 col-sm-6">
-								<form class="row contact" id="contact-form">
+								<form class="qnaForm" id="contact-form">
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>신청자<br>(비회원은 성함을 기입해주세요) <span class="required"></span></label>
-											<input type="text" class="form-control" name="name" value="${!empty sUid ? sUid : ''}" required>
+											<input type="text" class="form-control" id="name" name="name" value="${!empty sUid ? sUid : ''}" required>
 										</div>
 									</div>
 									<div class="col-md-6">
 										<div class="form-group">
 											<label>이메일<br>(비회원은 이메일 필수사항입니다.) <c:if test="${empty sUid}"><span class="required"></span></c:if></label>
-											<input type="text" class="form-control" name="email" required>
+											<input type="text" class="form-control" id="email" name="email" required>
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>문의유형 </label>
-											<input type="text" class="form-control" name="subject" placeholder="예) 알레르기 정보, 상품, 신고 등">
+											<select name="qnaCategory">
+												<option>알레르기 정보</option>
+												<option>상품 관련</option>
+												<option>불편 신고</option>
+												<option onFocus="etcShow()">기타</option>
+											</select>
+											<div id="etc"><textarea rows="2" id="complaintTxt" class="form-control" style="display:none"></textarea></div>											
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
 											<label>문의내용 <span class="required"></span></label>
-											<textarea class="form-control" name="message" required></textarea>
+											<textarea class="form-control" id="qnaContent" name="qnaContent" required></textarea>
 										</div>
 									</div>
 									<div class="col-md-12 mt-3 text-center">
-										<button class="btn btn-primary mr-2">문의 신청하기</button>
+										<button class="btn btn-primary mr-2" onclick="qnaCheck()">문의 신청하기</button>
 										<button class="btn btn-warning">카카오톡 문의하기</button>
 									</div>
 								</form>

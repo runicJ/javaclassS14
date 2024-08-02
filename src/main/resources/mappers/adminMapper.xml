@@ -84,11 +84,12 @@
     </if>
 </update>
 
-<update id="updateUserStatus">
-    UPDATE users SET userStatus = #{flag} WHERE userId = #{userId}
-</update>
-
-<delete id="deleteUser">
-    DELETE FROM users WHERE userId = #{userId}
-</delete>
+	<update id="updateUserStatus">
+	    UPDATE users SET userStatus = #{userStatus} WHERE userId = #{userId}
+	</update>
+	
+	<update id="deleteUser">
+	    update users set level=99, userStatus='off' where userId=#{userId};
+	    insert into delete_users (userId, deleteReason, deleteDate) values (#{userId}, '관리자', NOW());
+	</update>
 </mapper>

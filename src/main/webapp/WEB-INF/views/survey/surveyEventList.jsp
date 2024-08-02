@@ -215,7 +215,7 @@
                 <c:forEach var="surveyVO" items="${surveyVOS}">
 	                <div class="col-lg-4 col-md-6 col-sm-6">
 	                    <div class="blog__item">
-	                        <div class="blog__item__pic set-bg" data-setbg="${ctp}/survey/${empty surveyVO.surveyThumb ? 'noImage.png' : surveyVO.surveyThumb}"></div>
+	                        <div class="blog__item__pic set-bg" data-setbg="${ctp}/survey/${surveyVO.surveyThumb}"></div>
 	                        <div class="blog__item__text">
 	                            <span><i class="fa-regular fa-calendar-check"></i> ${fn:substring(surveyVO.createDate,0,10)}</span>
 	                            <h5>${surveyVO.surveyTitle}</h5>

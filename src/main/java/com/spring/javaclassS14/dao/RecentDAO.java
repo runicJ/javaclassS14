@@ -5,20 +5,20 @@ import java.util.Map;
 
 public interface RecentDAO {
 
-	public void saveRecentProductView(int userId, int productIdx);
+	public void saveRecentProductView(String userId, int productIdx);
 
-	public void saveRecentSearch(int userId, String searchTerm);
+	public void saveRecentSearch(String userId, String searchTerm);
 
-	public void saveBookmark(int userId, String partUrl, String category);
+	public int saveBookmark(String userId, String partUrl, String category);
 
-	public void saveFavoriteProduct(int userId, int productIdx);
+	public int saveLikedProduct(String userId, int productIdx);
 
-	public List<Map<String, Object>> getRecentProductViews(int userId);
+	public List<Map<String, Object>> getRecentProductViews(String userId);
 
-	public List<Map<String, Object>> getRecentSearches(int userId);
+	public List<Map<String, Object>> getRecentSearches(String userId);
 
-	public List<Map<String, Object>> getBookmarks(int userId, String category);
+	public List<Map<String, Object>> getBookmarks(String userId, String category);
 
-	public List<Map<String, Object>> getFavoriteProducts(int userId);
+	public List<Map<String, Object>> getFavoriteProducts(String userId);
 
 }

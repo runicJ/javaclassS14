@@ -28,7 +28,7 @@
 	<resources mapping="/ckeditor/**" location="/resources/ckeditor/" />
 	<resources mapping="/product/**" location="/resources/data/shop/product/" />
 	<resources mapping="/notice/**" location="/resources/data/notice/" />
-	<resources mapping="/notice/**" location="/resources/data/survey/" />
+	<resources mapping="/survey/**" location="/resources/data/survey/" />
 
 	<!-- Resolves views selected for rendering by @Controllers to .jsp resources in the /WEB-INF/views directory -->
 	<beans:bean class="org.springframework.web.servlet.view.InternalResourceViewResolver">
@@ -48,7 +48,7 @@
 		<beans:property name="defaultEncoding" value="UTF-8" />
 	</beans:bean>
 	
-		<!-- PDF처리...? -->
+	<!-- PDF처리...? -->
 	<!-- <beans:bean id="pdf" class="com.spring.javaclassS.common.PdfDownView" /> -->
 	<!-- 
 	<beans:bean id="beanNameViewResolver"	class="org.springframework.web.servlet.view.BeanNameViewResolver">

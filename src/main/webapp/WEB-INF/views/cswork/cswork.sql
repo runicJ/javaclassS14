@@ -29,6 +29,17 @@ create table qna (
 	foreign key (userId) references users(userId)
 );
 
+desc qna;
+
+create table faq (
+	faqIdx int not null auto_increment primary key,
+	faqCategory varchar(30) not null,
+	faqTitle varchar(100) not null,
+	faqContent text not null,
+	faqDate datetime default now(),
+	faqStatus enum('y','n') default 'y'
+);
+
 /* 광고 신청 */
 CREATE TABLE ad_apply (
 	adApplyIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,

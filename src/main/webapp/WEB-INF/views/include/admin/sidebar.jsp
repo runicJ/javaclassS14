@@ -26,14 +26,12 @@
                 </li>
                 <li class="sidebar-item"><a class="sidebar-link has-arrow" href="javascript:void(0)" 
                 	aria-expanded="false"><i data-feather="tag" class="feather-icon">
-                	</i><span class="hide-menu"> 주문 상세 관리</span></a>
+                	</i><span class="hide-menu"> 주문 관리</span></a>
       	            <ul aria-expanded="false" class="collapse first-level base-level-line">
                         <li class="sidebar-item"><a href="${ctp}/admin/order/orderList" class="sidebar-link">
-                        <span class="hide-menu"> 현재 주문 목록 </span></a></li>
+                        <span class="hide-menu"> 주문 상세 목록 </span></a></li>
                         <li class="sidebar-item"><a href="${ctp}/admin/order/orderCancelList" class="sidebar-link">
-                        <span class="hide-menu"> 주문 취소 처리 </span></a></li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/order/orderReturnList" class="sidebar-link">
-                        <span class="hide-menu"> 주문 반품 처리 </span></a></li>
+                        <span class="hide-menu"> 주문 상세 출력 관리 </span></a></li>
                     </ul>
                 </li>
                 

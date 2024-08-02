@@ -24,6 +24,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.AdminService;
+import com.spring.javaclassS14.service.CsworkService;
 import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.SurveyService;
@@ -59,6 +60,9 @@ public class AdminController {
 	@Autowired
 	OrderService orderService;
 	
+	@Autowired
+	CsworkService csworkService;
+	
 	// 관리자 페이지로 이동
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
 	public String adminMainGet(Model model) {
@@ -77,7 +81,6 @@ public class AdminController {
 				            @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
 				            @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
 	                        Model model) {
-		System.out.println();
 	    PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "user", sortOption, keyword);
 	    List<UserVO> vos = adminService.getUserList(pageVO.getStartIndexNo(), pageSize, keyword, sortOption);
 
@@ -145,7 +148,14 @@ public class AdminController {
         }
         return response;
     }
-    
+    /*
+    @RequestMapping(value="/user/userStop", method=RequestMethod.POST)
+    public String userStopPost() {
+    	int res = adminService.setUserStop();
+    	
+    	return res != 0 ? "redirect:/msg/userStopOk" : "redirect:/msg/userStopNo";
+    }
+    */
 	// 제품 카테고리 관리 페이지 이동
 	@RequestMapping(value="/shop/productCategory", method=RequestMethod.GET)
 	public String productCategoryGet(Model model) {
@@ -498,12 +508,24 @@ public class AdminController {
 		return "admin/info/qnaList";
 	}
 	
+	@RequestMapping(value = "/info/faqInput", method = RequestMethod.GET)
+	public String faqInputGet() {
+		return "admin/info/faqInput";
+	}
+	
+	@RequestMapping(value = "/info/faqInput", method = RequestMethod.POST)
+	public String faqInputPost(CsworkVO csworkVO) {
+		int res = csworkService.setFaqInput(csworkVO);
+		
+		return res != 0 ? "redirect:/msg/faqInputOk" : "redirect:/msg/faqInputNo";
+	}
+	
 	@RequestMapping(value = "/order/orderList", method = RequestMethod.GET)
 	public String orderListGet(Model model) {
 		List<OrderVO> orderVOS = orderService.getOrderList();
 		
 		model.addAttribute("orderVOS", orderVOS);
-		return "admin/order/orderList";
+		return "admin/shop/orderList";
 	}
 	
 
