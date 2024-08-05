@@ -82,6 +82,31 @@ margin-top: 20px;
 			
 			location.href = "photoGalleryList?sort="+sort;
 		}
+		
+	    function toggleLiked(productIdx, element) {
+	        $.ajax({
+	            url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
+	            type: 'POST',
+	            data: { productIdx: productIdx },
+	            success: function(response) {
+	                if (response.success) {
+	                    // 관심등록 상태에 따라 하트 색상 변경
+	                    if (response.isInterested) {
+	                        $(element).find('i').css('color', 'red');  // 하트 아이콘을 빨간색으로 변경
+	                        alert("관심등록 되었습니다.");
+	                    } else {
+	                        $(element).find('i').css('color', ''); // 기본 색상으로 되돌림
+	                        alert("관심등록이 취소되었습니다.");
+	                    }
+	                } else {
+	                    alert("처리 중 오류가 발생했습니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                alert("관심등록 처리 중 오류가 발생했습니다.");
+	            }
+	        });
+	    }
 	</script>
 </head>
 <body>
@@ -266,7 +291,13 @@ margin-top: 20px;
                                 <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}">
                                     <!-- <span class="label">Sale</span> -->
                                     <ul class="product__hover">
-                                        <li><a href="#"><i class="fa-solid fa-heart"></i><span>관심등록</span></a></li>
+			                            <li>
+					                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
+					                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
+					                            <i class="fa-solid fa-heart"></i>
+					                            <span>관심등록</span>
+					                        </a>
+					                    </li>
                                         <li><a href="#"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
                                         <li><a href="#"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
                                     </ul>

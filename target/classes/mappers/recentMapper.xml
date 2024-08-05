@@ -40,9 +40,10 @@
 
     <!-- 좋아요 저장 -->
     <insert id="saveLikedProduct">
-        INSERT INTO liked_product (userId, productIdx)
-        VALUES (#{userId}, #{productIdx})
+        INSERT INTO liked_product
+        VALUES (default, #{userId}, #{productIdx}, default)
     </insert>
+
 
     <!-- 좋아요 토글 -->
     <update id="toggleLike">
@@ -74,14 +75,25 @@
         ORDER BY searchDate DESC 
         LIMIT #{limit}
     </select>
-
-    <!-- 최근 본 상품 조회 -->
-    <select id="getRecentProduct" resultType="map">
-        SELECT viewIdx, userId, productIdx, viewDate 
-        FROM recent_view_product 
-        WHERE userId = #{userId} 
-        ORDER BY viewDate DESC 
-        LIMIT #{limit}
+    
+    <select id="getRecentViewProduct" resultType="map">
+        SELECT p.* 
+        FROM recent_view_product v
+        JOIN product p ON v.productIdx = p.productIdx
+        WHERE v.userId = #{userId}
+        ORDER BY v.viewIdx DESC
+        LIMIT 3
     </select>
 
+    <select id="isProductInterested" resultType="int">
+        SELECT COUNT(*) FROM liked_product WHERE userId = #{userId} AND productIdx = #{productIdx}
+    </select>
+
+    <insert id="addProductInterest">
+        INSERT INTO liked_product VALUES (default, #{userId}, #{productIdx}, default)
+    </insert>
+
+    <delete id="removeProductInterest">
+        DELETE FROM liked_product WHERE userId = #{userId} AND productIdx = #{productIdx}
+    </delete>
 </mapper>

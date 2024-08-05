@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -7,10 +8,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-   	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
+    <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <title>설문 결과</title>
     <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
     <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
         h2, h3 {
             margin: 20px 0;
         }
@@ -53,8 +57,104 @@
             color: white;
         }
     </style>
+</head>
+<body>
+    <h2>📋 설문 결과</h2>
+    <div class="body">
+        <table id="survInfo">
+            <tr>
+                <th>설문 제목</th>
+                <td colspan="5" class="survtitle">${survey.survTitle}</td>
+            </tr>
+            <tr>
+                <th>등록 날짜</th>
+                <td class="regdate">${survey.regDate}</td>
+                <th>수정 날짜</th>
+                <td class="moddate">${survey.modDate}</td>
+                <th>사용 여부</th>
+                <td class="useYn">
+                    <c:choose>
+                        <c:when test="${survey.useYn == 'Y'}">사용중</c:when>
+                        <c:otherwise>사용 안함</c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+            <tr>
+                <th colspan="6">설문 설명</th>
+            </tr>
+            <tr>
+                <td colspan="6">
+                    <c:choose>
+                        <c:when test="${survey.survDesc != null}">
+                            <div class="survdesc">${survey.survDesc}</div>
+                        </c:when>
+                        <c:otherwise class="descNull">[설문 설명 없음]</c:otherwise>
+                    </c:choose>
+                </td>
+            </tr>
+        </table>
+        <div style="float:right;">
+            <button id="list" onclick="goList(${pagination.currentPage}, ${pagination.cntPerPage}, ${pagination.pageSize}, '${pagination.srchTyp}', '${pagination.keyword}')">목록 보기</button>
+        </div>
+        <br>
+        <h3>📊 응답 결과</h3>
+        <table id="rslt">
+            <c:forEach var="qust" items="${survey.survqustList}">
+                <tr>
+                    <th>${qust.qustCont}</th>
+                </tr>
+                <c:choose>
+                    <c:when test="${qust.qustType == 'long'}">
+                        <tr>
+                            <td>응답 ${fn:length(qust.answerList)}개</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="answLong">
+                                    <c:forEach var="answ" items="${qust.answerList}">
+                                        <p>${answ.answLong}</p>
+                                    </c:forEach>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:when>
+                    <c:when test="${qust.qustType == 'short'}">
+                        <tr>
+                            <td>응답 <span id="${qust.qustNo}total"></span>개</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <div class="answShort">
+                                    <c:forEach var="answ" items="${qust.answerList}">
+                                        <p>
+                                            ${answ.answCont} (${answ.count})
+                                        </p>
+                                    </c:forEach>
+                                </div>
+                            </td>
+                        </tr>
+                    </c:when>
+                    <c:otherwise>
+                        <tr>
+                            <td>응답 <span id="${qust.qustNo}total"></span>개</td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <canvas id="${qust.qustNo}" class="canvas"></canvas>
+                            </td>
+                        </tr>
+                    </c:otherwise>
+                </c:choose>
+            </c:forEach>
+        </table>
+    </div>
+    
+    <!-- JavaScript to handle Chart.js integration -->
     <script type="text/javascript">
-        $(document).ready(function() {
+        document.addEventListener('DOMContentLoaded', function () {
+            // Assuming 'qustList' is populated in a format compatible with JavaScript
+            const qustList = ${fn:escapeXml(qustListJson)};
+
             qustList.forEach(qust => {
                 const total = qust.answerList.reduce((acc, answ) => acc + answ.count, 0);
                 if (qust.qustType !== 'long') {
@@ -120,93 +220,5 @@
             location.href = url;
         }
     </script>
-</head>
-<body>
-    <h2>📋 설문 결과</h2>
-    <div class="body">
-        <table id="survInfo">
-            <tr>
-                <th>설문 제목</th>
-                <td colspan="5" class="survtitle" th:text="${survey.survTitle}"></td>
-            </tr>
-            <tr>
-                <th>등록 날짜</th>
-                <td class="regdate" th:text="${#dates.format(survey.regDate, 'yyyy-MM-dd HH:mm')}"></td>
-                <th>수정 날짜</th>
-                <td class="moddate" th:text="${#dates.format(survey.modDate, 'yyyy-MM-dd HH:mm')}"></td>
-                <th>사용 여부</th>
-                <td class="uesYn">
-                    <span th:if="${#strings.equals(survey.useYn, 'Y')}">사용중</span>
-                    <span th:unless="${#strings.equals(survey.useYn, 'Y')}">사용 안함</span>
-                </td>
-            </tr>
-            <tr>
-                <th colspan="6">설문 설명</th>
-            </tr>
-            <tr>
-                <td colspan="6" th:if="${survey.survDesc != null}">
-                    <div class="survdesc">
-                        <span th:utext="${survey.survDesc}"></span>
-                    </div>
-                </td>
-                <td colspan="6" class="descNull" th:unless="${survey.survDesc != null}">[설문 설명 없음]</td>
-            </tr>
-        </table>
-        <div style="float:right;">
-            <button id="list" th:onclick="goList(${pagination.currentPage}, ${pagination.cntPerPage}, ${pagination.pageSize}, ${pagination.srchTyp}, ${pagination.keyword})">목록 보기</button>
-        </div>
-        <br>
-        <h3>📊 응답 결과</h3>
-        <table id="rslt">
-            <c:forEach var="qust" items="${survey.survqustList}">
-                <tr>
-                    <th th:text="${qust.qustCont}"></th>
-                </tr>
-                <c:choose>
-                    <c:when test="${qust.qustType == 'long'}">
-                        <tr>
-                            <td>응답 <span th:text="${#lists.size(qust.answerList)}"></span>개</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="answLong">
-                                    <c:forEach var="answ" items="${qust.answerList}">
-                                        <p th:utext="${answ?.answLong}"></p>
-                                    </c:forEach>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:when>
-                    <c:when test="${qust.qustType == 'short'}">
-                        <tr>
-                            <td>응답 <span id="${qust.qustNo}total"></span>개</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="answShort">
-                                    <c:forEach var="answ" items="${qust.answerList}">
-                                        <p>
-                                            <span th:text="${answ?.answCont}"></span>
-                                            <span class="count" th:text="${answ.count}"></span>
-                                        </p>
-                                    </c:forEach>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:when>
-                    <c:otherwise>
-                        <tr>
-                            <td>응답 <span id="${qust.qustNo}total"></span>개</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <canvas id="${qust.qustNo}" class="canvas"></canvas>
-                            </td>
-                        </tr>
-                    </c:otherwise>
-                </c:choose>
-            </c:forEach>
-        </table>
-    </div>
 </body>
 </html>

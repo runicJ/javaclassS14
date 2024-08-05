@@ -101,4 +101,11 @@ public interface ShopService {
 
 	public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice);
 
+	public boolean canRecordProductView(String userId, int productIdx);
+
+	public void recordProductView(String userId, int productIdx);
+
+	public List<String> getTags();
+	public String getTagsAsText();
+
 }

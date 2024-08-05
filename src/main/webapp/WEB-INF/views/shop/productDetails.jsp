@@ -282,6 +282,31 @@
                 }
             });
         }
+        
+	    function toggleLiked(productIdx, element) {
+	        $.ajax({
+	            url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
+	            type: 'POST',
+	            data: { productIdx: productIdx },
+	            success: function(response) {
+	                if (response.success) {
+	                    // 관심등록 상태에 따라 하트 색상 변경
+	                    if (response.isInterested) {
+	                        $(element).find('i').css('color', 'red');  // 하트 아이콘을 빨간색으로 변경
+	                        alert("관심등록 되었습니다.");
+	                    } else {
+	                        $(element).find('i').css('color', ''); // 기본 색상으로 되돌림
+	                        alert("관심등록이 취소되었습니다.");
+	                    }
+	                } else {
+	                    alert("처리 중 오류가 발생했습니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                alert("관심등록 처리 중 오류가 발생했습니다.");
+	            }
+	        });
+	    }
     </script>
     <style>
         .layer {
@@ -384,7 +409,11 @@
                             </div>
                             
                             <div class="product__details__btns__option">
-                                <a href="#"><i class="fa-brands fa-gratipay"></i> 관심상품</a>
+		                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
+		                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
+		                            <i class="fa-solid fa-heart"></i>
+		                            <span>관심등록</span>
+		                        </a>
                                 <a href="#"><i class="fa-solid fa-square-share-nodes"></i> 공유하기</a>
                             </div>
                             
@@ -398,6 +427,7 @@
                                                 <input type="number" name="quantity" min="1" value="1" id="numBoxMain">
                                             </div>
                                         </div>
+                                        <!--
                                         <a type="button" onclick="likedToggle(${productVO.productIdx})" class="btn btn-inline-light">
                                             <c:if test="${productVO.isLiked != 0}">
                                                 <i id="liked-icon-${productVO.productIdx}" class="fa-solid fa-heart" style="color:red;"></i>
@@ -407,6 +437,7 @@
                                             </c:if>
                                             <span>명 관심등록</span>
                                         </a>
+                                        -->
                                     </div>
                                     <div class="product__details__option">
                                         <c:if test="${empty optionGroupVOS}">

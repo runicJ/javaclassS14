@@ -25,35 +25,23 @@ public class CommunityController {
     @RequestMapping(value = "/hospitalList", method = RequestMethod.GET)
     public String hospitalListGet(Model model,
                                   @RequestParam(value = "key", required = false) String key,
-                                  @RequestParam(value = "keyword", required = false) String keyword,
-                                  @RequestParam(value = "minWaitingTime", required = false, defaultValue = "0") int minWaitingTime, // 기본값 설정
-                                  @RequestParam(value = "maxWaitingTime", required = false, defaultValue = "100") int maxWaitingTime) { // 기본값 설정
+                                  @RequestParam(value = "keyword", required = false) String keyword) {
         List<CommunityVO> hospitals;
         if (key != null && keyword != null) {
-            hospitals = communityService.searchHospitals(key, keyword, minWaitingTime, maxWaitingTime);
-        } else {
-            hospitals = communityService.getAllHospitals(minWaitingTime, maxWaitingTime);
+            hospitals = communityService.searchHospitals(key, keyword);
+        } 
+        else {
+            hospitals = communityService.getAllHospitals();
         }
         model.addAttribute("hospitals", hospitals);
         return "community/hospitalList";
     }
 
     // 병원 리뷰 작성 페이지로 이동하는 메서드
-    @RequestMapping(value = "/hospitalComment", method = RequestMethod.GET)
+    @RequestMapping(value = "/hospitalCommentInput", method = RequestMethod.GET)
     public String hospitalCommentGet(@RequestParam("hospitalIdx") int hospitalIdx, Model model) {
         CommunityVO hospital = communityService.getHospitalById(hospitalIdx);
         model.addAttribute("hospital", hospital);
-        return "community/hospitalComment";
-    }
-
-    // 병원 리뷰를 작성하는 메서드
-    @RequestMapping(value = "/hospitalComment", method = RequestMethod.POST)
-    public String hospitalCommentPost(HttpSession session, CommunityVO cVO) {
-        String userId = (String) session.getAttribute("sUid");
-        if (userId != null) {
-            cVO.setUserId(userId);
-            communityService.setHospitalComment(cVO); // 후기 저장
-        }
-        return "redirect:/community/hospitalList"; // 리뷰 작성 후 병원 목록으로 리다이렉트
+        return "community/hospitalCommentInput";
     }
 }

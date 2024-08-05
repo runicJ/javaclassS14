@@ -10,9 +10,11 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Locale;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import org.codehaus.jackson.map.ObjectMapper;
 import org.jsoup.Jsoup;
@@ -28,10 +30,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS14.common.WordCloudGenerator;
 import com.spring.javaclassS14.service.CsworkService;
+import com.spring.javaclassS14.service.RecentService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.CrawlingVO;
+import com.spring.javaclassS14.vo.CsworkVO;
+import com.spring.javaclassS14.vo.RecentVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -90,8 +96,14 @@ public class HomeController {
 	@Autowired
 	ShopService shopService;
 	
+	@Autowired
+	RecentService recentService;
+	
+	@Autowired
+	CsworkService csworkService;
+	
     @RequestMapping(value = "/main", method = RequestMethod.GET)
-    public String mainPost(HttpServletRequest request, Model model) {
+    public String mainPost(HttpServletRequest request, Model model, HttpSession session) {
         List<CrawlingVO> vos = new ArrayList<>();
         try {
             String baseUrl = "https://search.naver.com/search.naver?where=news&ie=utf8&sm=nws_hty&query=알레르기";
@@ -267,6 +279,32 @@ public class HomeController {
         List<AirVO> airStationVOS = introService.getAirStation();
         
         model.addAttribute("airStationVOS", airStationVOS);
+        
+        String userId = (String) session.getAttribute("sUid");
+        List<Map<String, Object>> recentProducts = recentService.getRecentViewProduct(userId);
+        
+        model.addAttribute("recentProducts",recentProducts);
+        
+        List<CsworkVO> noticeVOS = csworkService.getNoticeList();
+        
+        model.addAttribute("noticeVOS",noticeVOS);
+        
+        // Generate word cloud
+        String tagsAsText = shopService.getTagsAsText();
+        WordCloudGenerator wordCloudGenerator = new WordCloudGenerator();
+        try {
+            // 서버의 리소스 폴더에 저장
+            String outputDirectory = request.getSession().getServletContext().getRealPath("/resources/data/wordcloud/");
+            File directory = new File(outputDirectory);
+            if (!directory.exists()) {
+                directory.mkdirs(); // 디렉토리가 없으면 생성
+            }
+            String wordCloudOutputPath = outputDirectory + "wordcloud.png";
+            wordCloudGenerator.generateWordCloud(tagsAsText, wordCloudOutputPath); // String을 전달
+            model.addAttribute("wordCloudImage", "data/wordcloud/wordcloud.png");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
         
         return "main/main";
     }

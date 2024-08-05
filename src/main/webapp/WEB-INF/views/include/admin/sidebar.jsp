@@ -81,7 +81,7 @@
                         <li class="sidebar-item"> <a class="has-arrow sidebar-link" href="javascript:void(0)" aria-expanded="false"><span class="hide-menu">지점 관리</span></a>
                             <ul aria-expanded="false" class="collapse second-level base-level-line">
                                 <li class="sidebar-item"><a href="${ctp}/admin/info/branchInput" class="sidebar-link"><span class="hide-menu">지점 등록</span></a></li>
-                                <li class="sidebar-item"><a href="javascript:void(0)" class="sidebar-link"><span class="hide-menu">지점 발주 관리</span></a></li>
+                                <li class="sidebar-item"><a href="${ctp}/admin/info/branchPurchase" class="sidebar-link"><span class="hide-menu">지점 발주 관리</span></a></li>
                             </ul>
                         </li>
                     </ul>

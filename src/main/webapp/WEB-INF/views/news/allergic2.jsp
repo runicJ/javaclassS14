@@ -119,23 +119,6 @@
 								<button type="button" class="btn btn-light rounded-circle border border-2 border-end mr-2"><i class="fa-solid fa-bookmark"></i></button>
 								<button type="button" class="btn btn-light rounded-circle border border-2 border-end"><i class="fa-solid fa-share-nodes"></i></button>
 							</p>
-							<footer>
-								<div class="row">
-								<div class="col">
-									<ul class="tags">
-										<li><a href="#">Free Themes</a></li>
-										<li><a href="#">Bootstrap 3</a></li>
-										<li><a href="#">Responsive Web Design</a></li>
-										<li><a href="#">HTML5</a></li>
-										<li><a href="#">CSS3</a></li>
-										<li><a href="#">Web Design</a></li>
-									</ul>
-								</div>
-								<div class="col">
-									<a href="#" class="love"><i class="ion-android-favorite-outline"></i> <div>1220</div></a>
-								</div>
-								</div>
-							</footer>
 						</article>
 						<div class="line"><div>You May Also Like</div></div>
 						<div class="row">
@@ -171,115 +154,6 @@
 									</div>
 								</div>
 							</article>
-						</div>
-						<div class="line thin"></div>
-						<div class="comments">
-							<h2 class="title">3 Responses <a href="#">Write a Response</a></h2>
-							<div class="comment-list">
-								<div class="item">
-									<div class="user">                                
-										<figure>
-											<img src="images/img01.jpg">
-										</figure>
-										<div class="details">
-											<h5 class="name">Mark Otto</h5>
-											<div class="time">24 Hours</div>
-											<div class="description">
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore <a href="#">magna</a> aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-											</div>
-											<footer>
-												<a href="#">Reply</a>
-											</footer>
-										</div>
-									</div>
-								</div>
-								<div class="item">
-									<div class="user">                                
-										<figure>
-											<img src="images/img01.jpg">
-										</figure>
-										<div class="details">
-											<h5 class="name">Mark Otto</h5>
-											<div class="time">24 Hours</div>
-											<div class="description">
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore <a href="#">magna</a> aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-											</div>
-											<footer>
-												<a href="#">Reply</a>
-											</footer>
-										</div>
-									</div>
-									<div class="reply-list">
-										<div class="item">
-											<div class="user">                                
-												<figure>
-													<img src="images/img01.jpg">
-												</figure>
-												<div class="details">
-													<h5 class="name">Mark Otto</h5>
-													<div class="time">24 Hours</div>
-													<div class="description">
-														Quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo
-														consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse
-														cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non
-														proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
-													</div>
-													<footer>
-														<a href="#">Reply</a>
-													</footer>
-												</div>
-											</div>
-										</div>
-									</div>
-								</div>
-								<div class="item">
-									<div class="user">                                
-										<figure>
-											<img src="images/img01.jpg">
-										</figure>
-										<div class="details">
-											<h5 class="name">Mark Otto</h5>
-											<div class="time">24 Hours</div>
-											<div class="description">
-												Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod
-												tempor incididunt ut labore et dolore <a href="#">magna</a> aliqua. Ut enim ad minim veniam,
-												quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo.
-											</div>
-											<footer>
-												<a href="#">Reply</a>
-											</footer>
-										</div>
-									</div>
-								</div>
-							</div>
-							<form class="row">
-								<div class="col-md-12">
-									<h3 class="title">Leave Your Response</h3>
-								</div>
-								<div class="form-group col-md-4">
-									<label for="name">Name <span class="required"></span></label>
-									<input type="text" id="name" name="" class="form-control">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="email">Email <span class="required"></span></label>
-									<input type="email" id="email" name="" class="form-control">
-								</div>
-								<div class="form-group col-md-4">
-									<label for="website">Website</label>
-									<input type="url" id="website" name="" class="form-control">
-								</div>
-								<div class="form-group col-md-12">
-									<label for="message">Response <span class="required"></span></label>
-									<textarea class="form-control" name="message" placeholder="Write your response ..."></textarea>
-								</div>
-								<div class="form-group col-md-12">
-									<button class="btn btn-primary">Send Response</button>
-								</div>
-							</form>
 						</div>
 					</div>
 				</div>

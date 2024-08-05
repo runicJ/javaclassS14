@@ -65,7 +65,18 @@ public class RecentServiceImpl implements RecentService {
 	}
 
 	@Override
-	public List<Map<String, Object>> getRecentProduct(String userId, int limit) {
-        return recentDAO.getRecentProduct(userId, limit);
-	}
+    public List<Map<String, Object>> getRecentViewProduct(String userId) {
+        return recentDAO.getRecentViewProduct(userId);
+    }
+
+    public boolean toggleProductInterest(String userId, int productIdx) {
+        int isInterested = recentDAO.isProductInterested(userId, productIdx);
+        if (isInterested != 0) {
+            recentDAO.removeProductInterest(userId, productIdx);
+            return false;
+        } else {
+            recentDAO.addProductInterest(userId, productIdx);
+            return true;
+        }
+    }
 }

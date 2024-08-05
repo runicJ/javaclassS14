@@ -24,6 +24,7 @@
    	    <mapping path="/community/**"/>
    	    <mapping path="/survey/**"/>
    	    <mapping path="/review/**"/>
+   	    <mapping path="/photoReview/**"/>
    	    <mapping path="/recent/**"/>
 	    <!-- <mapping path="/shop/addToCart"/> -->
 	    <exclude-mapping path="/users/userLogin"/>

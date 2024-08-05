@@ -10,19 +10,6 @@
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 	    <style>
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #f4f4f9;
-            margin: 0;
-            padding: 0;
-        }
-        .container {
-            max-width: 600px;
-            margin: 50px auto;
-            background: #fff;
-            padding: 20px;
-            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-        }
         h2 {
             text-align: center;
             margin-bottom: 20px;

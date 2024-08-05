@@ -544,5 +544,9 @@ public class AdminController {
 		return res != 0 ? "redirect:/msg/branchInputOk" : "redirect:/msg/branchInputNo";
 	}
 	
+	@RequestMapping(value = "/info/branchPurchase", method = RequestMethod.GET)
+	public String branchPurchaseGet() {
+		return "admin/info/branchPurchase";
+	}
 
 }

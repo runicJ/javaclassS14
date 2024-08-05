@@ -4,17 +4,22 @@ import com.spring.javaclassS14.vo.RecentVO;
 import java.util.List;
 import java.util.Map;
 
+import org.apache.ibatis.annotations.Param;
+
 public interface RecentDAO {
-    void insertRecentView(String userId, int productIdx);
-    void insertRecentSearch(String userId, String searchTerm);
-    List<RecentVO> selectRecentViews(String userId, int limit);
-    List<RecentVO> selectRecentSearches(String userId, int limit);
+    public void insertRecentView(@Param("userId") String userId, @Param("productIdx") int productIdx);
+    public void insertRecentSearch(@Param("userId") String userId, @Param("searchTerm") String searchTerm);
+    public List<RecentVO> selectRecentViews(@Param("userId") String userId, @Param("limit") int limit);
+    public List<RecentVO> selectRecentSearches(@Param("userId") String userId, @Param("limit") int limit);
     // 기존 기능도 포함
-    int saveBookmark(String userId, String partUrl, String category);
-    int saveLikedProduct(String userId, int productIdx);
-    boolean toggleLike(String userId, int productIdx);
-    List<RecentVO> getBookmarks(String userId, String category);
-    List<RecentVO> getFavoriteProducts(String userId);
-	List<Map<String, Object>> getRecentSearch(String userId, int limit);
-	List<Map<String, Object>> getRecentProduct(String userId, int limit);
+    public int saveBookmark(@Param("userId") String userId, String partUrl, @Param("category") String category);
+    public int saveLikedProduct(@Param("userId") String userId, @Param("productIdx") int productIdx);
+    public boolean toggleLike(@Param("userId") String userId, @Param("productIdx") int productIdx);
+    public List<RecentVO> getBookmarks(@Param("userId") String userId, @Param("category") String category);
+    public List<RecentVO> getFavoriteProducts(@Param("userId") String userId);
+    public List<Map<String, Object>> getRecentSearch(@Param("userId") String userId, @Param("limit") int limit);
+    public List<Map<String, Object>> getRecentViewProduct(@Param("userId") String userId);
+	public int isProductInterested(@Param("userId") String userId, @Param("productIdx") int productIdx);
+	public void removeProductInterest(@Param("userId") String userId, @Param("productIdx") int productIdx);
+	public void addProductInterest(@Param("userId") String userId, @Param("productIdx") int productIdx);
 }

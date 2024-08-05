@@ -10,6 +10,7 @@ public class CsworkVO {
 	private String content;
 	private String createDate;
 	private String noticeStatus;
+	private String noticeThumb;
 
 	// 문의하기
 	private int qnaIdx;

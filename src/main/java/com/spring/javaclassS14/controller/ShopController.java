@@ -63,29 +63,14 @@ public class ShopController {
     @RequestMapping(value="/productDetails", method=RequestMethod.GET)
     public String productDetailsGet(HttpSession session, Model model, int productIdx) {
         ShopVO productVO = shopService.getProduct(productIdx);            // 상품 1건의 정보를 불러온다.
-        List<ShopVO> optionGroupVOS     = shopService.getOptionGroup(productIdx);
+        List<ShopVO> optionGroupVOS = shopService.getOptionGroup(productIdx);
         List<ShopVO> optionVOS = shopService.getAllOption(productIdx);    // 해당 상품의 모든 옵션 정보를 가져온다.
         List<ReviewVO> reviewVOS = shopService.getAllReview(productIdx);
         
         String userId = (String) session.getAttribute("sUid");
-        
-        List<Integer> recentProduct = (List<Integer>) session.getAttribute("recentProduct");
-        
-        // 리스트가 없으면 새로 생성합니다.
-        if (recentProduct == null) {
-            recentProduct = new ArrayList<>();
+        if (userId != null && canRecordProductView(userId, productIdx)) {
+            shopService.recordProductView(userId, productIdx);
         }
-
-        // 최근 본 상품 목록에 현재 상품을 추가합니다.
-        if (!recentProduct.contains(productIdx)) {
-            if (recentProduct.size() >= 5) {
-                recentProduct.remove(0); // 리스트가 5개를 초과하면 가장 오래된 항목을 제거합니다.
-            }
-            recentProduct.add(productIdx);
-        }
-
-        // 업데이트된 리스트를 세션에 저장합니다.
-        session.setAttribute("recentProduct", recentProduct);
         
         Set<String> tags = new HashSet<String>();
         String[] productTags = productVO.getProductTags().split("#");
@@ -103,6 +88,10 @@ public class ShopController {
         model.addAttribute("relatedVOS", relatedVOS);
 
         return "shop/productDetails";
+    }
+    
+    private boolean canRecordProductView(String userId, int productIdx) {
+        return shopService.canRecordProductView(userId, productIdx);
     }
 
     // 장바구니 담기 - 상품 상세정보보기창에서 '장바구니'버튼을 클릭시에 처리하는곳

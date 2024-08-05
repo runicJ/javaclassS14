@@ -280,7 +280,20 @@
 		order by favoriteCount desc, createdDate desc limit 4;
 	</select>
 
+    <select id="countProductViewsByUserAndDate" resultType="int">
+        SELECT COUNT(*) FROM recent_view_product
+        WHERE userId = #{userId} AND DATE(viewDate) = #{date}
+    </select>
 
+    <select id="getAllTags" resultType="string">
+        SELECT productTags FROM product
+    </select>
+
+
+    <insert id="recordProductView">
+        INSERT INTO recent_view_product
+        VALUES (default, #{userId}, #{productIdx}, default);
+    </insert>
 
 	<insert id="setCategoryTopInput">
 		insert into product_top values (default, #{productTopName}, default, default);

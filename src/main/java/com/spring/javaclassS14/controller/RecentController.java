@@ -1,13 +1,22 @@
 package com.spring.javaclassS14.controller;
 
-import com.spring.javaclassS14.service.RecentService;
-import com.spring.javaclassS14.vo.RecentVO;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.List;
+import com.spring.javaclassS14.service.RecentService;
+import com.spring.javaclassS14.vo.RecentVO;
 
 @Controller
 @RequestMapping("/recent")
@@ -24,20 +33,23 @@ public class RecentController {
         return res + "";
     }
 
-    // 좋아요 저장
-    @ResponseBody
     @PostMapping("/saveLikedProduct")
-    public String saveLikedProduct(@RequestParam String userId, @RequestParam int productIdx) {
-        int res = recentService.saveLikedProduct(userId, productIdx);
-        return res + "";
-    }
-
-    // 좋아요 토글
     @ResponseBody
-    @PostMapping("/toggleLike")
-    public String toggleLike(@RequestParam String userId, @RequestParam int productIdx) {
-        boolean isLiked = recentService.toggleLike(userId, productIdx);
-        return isLiked ? "liked" : "unliked";
+    public Map<String, Object> saveInterestProduct(@RequestParam int productIdx, HttpSession session) {
+        String userId = (String) session.getAttribute("sUid");
+        
+        boolean isInterested = false;
+        boolean success = false;
+
+        if (userId != null) {
+            isInterested = recentService.toggleProductInterest(userId, productIdx);
+            success = true;
+        }
+
+        Map<String, Object> result = new HashMap<>();
+        result.put("success", success);
+        result.put("isInterested", isInterested);
+        return result;
     }
 
     // 최근 본 상품 저장

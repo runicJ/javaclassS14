@@ -10,41 +10,68 @@
     <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
     <style>
-        .region-card {
-            display: inline-block;
-            width: 200px;
-            height: 100px;
-            margin: 10px;
-            background-color: #f8f9fa;
-            border: 1px solid #ddd;
-            border-radius: 8px;
+        h2, h3 {
             text-align: center;
-            line-height: 100px;
-            font-size: 18px;
-            font-weight: bold;
-            cursor: pointer;
-            transition: background-color 0.3s;
-        }
-        .region-card:hover {
-            background-color: #e2e6ea;
+            color: #333;
+            margin-bottom: 20px;
         }
         .search-bar {
             display: flex;
             justify-content: center;
-            margin: 20px 0;
+            margin-bottom: 30px;
         }
-        .search-bar input, .search-bar button {
-            height: 40px;
+        .search-bar select, .search-bar input, .search-bar button {
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
             margin-right: 5px;
         }
-        .waiting-time-slider {
-            width: 300px;
-            margin: 20px auto;
+        .search-bar button {
+            background-color: #007bff;
+            color: white;
+            border: none;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .search-bar button:hover {
+            background-color: #0056b3;
+        }
+        .hospital-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+            list-style: none;
+            padding: 0;
+        }
+        .hospital-card {
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            transition: transform 0.2s, box-shadow 0.2s;
+            overflow: hidden;
+        }
+        .hospital-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+        }
+        .hospital-card-content {
+            padding: 15px;
+        }
+        .hospital-card a {
+            text-decoration: none;
+            color: #333;
+            font-weight: bold;
+        }
+        .hospital-card a:hover {
+            color: #007bff;
+        }
+        .hospital-details {
+            margin-top: 5px;
+            font-size: 14px;
+            color: #666;
         }
     </style>
-    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
-    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
-    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
@@ -63,46 +90,23 @@
             <button type="submit">검색</button>
         </form>
     </div>
-    <h3>대기시간 필터</h3>
-    <div class="waiting-time-slider">
-        <label for="waiting-time">대기시간: <span id="waiting-time-display">0 - 60</span> 분</label>
-        <div id="waiting-time-slider"></div>
-    </div>
-    <button onclick="applyWaitingTimeFilter()">필터 적용</button>
     <h3>병원 목록</h3>
-    <ul>
+    <ul class="hospital-list">
         <c:forEach var="hospital" items="${hospitals}">
-            <li>
-                <a href="${ctp}/community/hospitalComment?hospitalIdx=${hospital.hospitalIdx}">
-                    ${hospital.hospitalName} - ${hospital.hospitalCategory} - ${hospital.hospitalRegion}
-                </a>
+            <li class="hospital-card">
+                <div class="hospital-card-content">
+                    <a href="${ctp}/community/hospitalCommentInput?hospitalIdx=${hospital.hospitalIdx}">
+                        ${hospital.hospitalName}
+                    </a>
+                    <div class="hospital-details">
+                        ${hospital.hospitalCategory} | ${hospital.hospitalRegion}
+                    </div>
+                </div>
             </li>
         </c:forEach>
     </ul>
 </div>
 </section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
-
-<script>
-$(document).ready(function() {
-    $("#waiting-time-slider").slider({
-        range: true,
-        min: 0,
-        max: 60,
-        values: [0, 60],
-        slide: function(event, ui) {
-            $("#waiting-time-display").text(ui.values[0] + " - " + ui.values[1]);
-        }
-    });
-});
-
-function applyWaitingTimeFilter() {
-    let waitingTime = $("#waiting-time-slider").slider("values");
-    let minTime = waitingTime[0];
-    let maxTime = waitingTime[1];
-    // 대기시간 필터 적용 후, 서버로 전송하거나 화면을 갱신하는 로직 구현
-    location.href = '${ctp}/community/hospitalList?minWaitingTime=' + minTime + '&maxWaitingTime=' + maxTime;
-}
-</script>
 </body>
 </html>

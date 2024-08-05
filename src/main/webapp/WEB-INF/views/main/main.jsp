@@ -67,6 +67,13 @@
         .good { color: green; }
         .moderate { color: orange; }
         .bad { color: red; }
+        
+        #wordcloud {
+            width: 100%;
+            height: 400px;
+            border: 1px solid #ddd;
+            margin-top: 20px;
+        }
 	</style>
 	<script>
 	    window.onload = function() {
@@ -75,7 +82,7 @@
 	        function getAirQualityData() {
 	            let str = '';
 	            for(let i=0; i<3; i++) {
-					str += '[측정일시] : ' + airVOS[i].dataTime + '<br/>';
+					str += '<br>[측정일시] : ' + airVOS[i].dataTime + '<br/>';
 					//str += '아황산가스 농도(단위: ppm) : ' + airVOS[i].so2Value + '<br/>';
 					//str += '일산화탄소 농도(단위: ppm) : ' + airVOS[i].coValue + '<br/>';
 					str += '오존 농도(단위: ppm) : ' + airVOS[i].o3Value + '<br/>';
@@ -197,6 +204,54 @@
 	            }
 	        });
 	    }
+	    
+        // 워드클라우드 데이터
+        const wordData = [
+            ['알레르기', 50],
+            ['천식', 30],
+            ['꽃가루', 20],
+            ['비염', 40],
+            ['음식 알레르기', 15],
+            ['피부', 25],
+            ['아토피', 35],
+            ['두드러기', 10]
+            // 데이터를 추가적으로 삽입 가능
+        ];
+
+        WordCloud(document.getElementById('wordcloud'), {
+            list: wordData,
+            gridSize: Math.round(16 * $('#wordcloud').width() / 1024),
+            weightFactor: 2,
+            fontFamily: 'Times, serif',
+            color: 'random-dark',
+            rotateRatio: 0.5,
+            backgroundColor: '#f0f0f0'
+        });
+	    
+	    function toggleLiked(productIdx, element) {
+	        $.ajax({
+	            url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
+	            type: 'POST',
+	            data: { productIdx: productIdx },
+	            success: function(response) {
+	                if (response.success) {
+	                    // 관심등록 상태에 따라 하트 색상 변경
+	                    if (response.isInterested) {
+	                        $(element).find('i').css('color', 'red');  // 하트 아이콘을 빨간색으로 변경
+	                        alert("관심등록 되었습니다.");
+	                    } else {
+	                        $(element).find('i').css('color', ''); // 기본 색상으로 되돌림
+	                        alert("관심등록이 취소되었습니다.");
+	                    }
+	                } else {
+	                    alert("처리 중 오류가 발생했습니다.");
+	                }
+	            },
+	            error: function(xhr, status, error) {
+	                alert("관심등록 처리 중 오류가 발생했습니다.");
+	            }
+	        });
+	    }
 	</script>
 </head>
 
@@ -228,58 +283,21 @@
 						</div>
 					</div>
 					<div class="owl-carousel owl-theme slide" id="featured">
+						<c:forEach var="noticeVO" items="${noticeVOS}">
 						<div class="item">
 							<article class="featured">
 								<div class="overlay"></div>
 								<figure>
-									<img src="${ctp}/images/banner1.png" alt="Sample Article">
+                    				<img src="${ctp}/notice/${noticeVO.noticeThumb}" alt="Notice Thumb" />
 								</figure>
 								<div class="details">
 									<div class="category"><a href="#">공지사항</a></div>
-									<h1><a href="#">회원가입 시 적립금/할인쿠폰 혜택을 드려요!</a></h1>
-									<div class="time">2024.7.13.</div>
+									<h1><a href="${ctp}/cswork/notice/noticeDetails?noticeIdx=${noticeVO.noticeIdx}">${noticeVO.noticeTitle}</a></h1>
+									<div class="time">${fn:substring(noticeVO.createDate,0,10)}</div>
 								</div>
 							</article>
 						</div>
-						<div class="item">
-							<article class="featured">
-								<div class="overlay"></div>
-								<figure>
-									<img src="${ctp}/images/banner2.png" alt="Sample Article">
-								</figure>
-								<div class="details">
-									<div class="category"><a href="${ctp}/event/eventList">이벤트</a></div>
-									<h1><a href="${ctp}/survey/surveyList">설문조사 이벤트</a></h1>
-									<div class="time">D-100</div>
-								</div>
-							</article>
-						</div>
-						<div class="item">
-							<article class="featured">
-								<div class="overlay"></div>
-								<figure>
-									<img src="${ctp}/images/banner3.png" alt="Sample Article">
-								</figure>
-								<div class="details">
-									<div class="category"><a href="${ctp}/event/eventList">이벤트</a></div>
-									<h1><a href="${ctp}/review/photoReview/photoGalleryList">포토리뷰 이벤트</a></h1>
-									<div class="time">D-200</div>
-								</div>
-							</article>
-						</div>
-						<div class="item">
-							<article class="featured">
-								<div class="overlay"></div>
-								<figure>
-									<img src="${ctp}/images/banner4.png" alt="Sample Article">
-								</figure>
-								<div class="details">
-									<div class="category"><a href="#">공지사항</a></div>
-									<h1><a href="single.html">카톡 친구 추가시 쿠폰 지급</a></h1>
-									<div class="time">2024.7.13.</div>
-								</div>
-							</article>
-						</div>
+						</c:forEach>
 					</div>		
 					<div class="line">
 						<div>대표적인 알레르기 정보</div>
@@ -448,6 +466,7 @@
 						</a>
 					</div>
 					<div class="line transparent little"></div>
+					<!--
 					<div class="row">
 						<div class="col-md-6 col-sm-6 trending-tags">
 							<h1 class="title-col">검색 순위</h1>
@@ -468,8 +487,10 @@
 							<h1 class="title-col">
 								워드클라우드(인기단어)
 							</h1>
+							<img src="${ctp}/wordcloud/${wordCloudImage}" alt="Word Cloud Image" />
 						</div>
 					</div>
+					  -->
 					<div class="line top">
 						<div>신제품 목록</div>
 					</div>
@@ -480,7 +501,13 @@
                         <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="object-fit:cover;">
                             <c:if test="${productVO.createDiff > -7}"><span class="label">New</span></c:if>
                             <ul class="product__hover">
-	                            <li><a href="${ctp}/recent/saveLikedProduct"><i class="fa-solid fa-heart"></i><span>관심등록</span></a></li>
+	                            <li>
+			                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
+			                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
+			                            <i class="fa-solid fa-heart"></i>
+			                            <span>관심등록</span>
+			                        </a>
+			                    </li>
 	                            <li><a href="${ctp}/"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
 	                            <li><a href="${ctp}/"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
                             </ul>
@@ -550,6 +577,7 @@
 												</a>
 											</div>
 										</div>
+										<!--
 										<div class="featured-author-quote">
 											"Eur costrict mobsa undivani krusvuw blos andugus pu aklosah"
 										</div>
@@ -557,14 +585,15 @@
 											<h2 class="block-title">Photos</h2>
 											<div class="block-body">
 												<ul class="item-list-round" data-magnific="gallery">
-													<li><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
-													<li><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"><div class="more">+2</div></a></li>
-													<li class="hidden"><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
-													<li class="hidden"><a href="${ctp}/images/noImage.jpg" style="background-image: url('${ctp}/images/noImage.jpg');"></a></li>
+													<li><a href="${ctp}/images/noImage.png" style="background-image: url('${ctp}/images/noImage.png');"></a></li>
+													<li><a href="${ctp}/images/noImage.png" style="background-image: url('${ctp}/images/noImage.png');"></a></li>
+													<li><a href="${ctp}/images/noImage.png" style="background-image: url('${ctp}/images/noImage.png');"><div class="more">+2</div></a></li>
+													<li class="hidden"><a href="${ctp}/images/noImage.png" style="background-image: url('${ctp}/images/noImage.png');"></a></li>
+													<li class="hidden"><a href="${ctp}/images/noImage.png" style="background-image: url('${ctp}/images/noImage.png');"></a></li>
 												</ul>
 											</div>
 										</div>
+										  -->
 										<div class="featured-author-footer">
 											<a href="${ctp}/community/userChat">커뮤니티(유저 채팅방)</a>
 										</div>
@@ -601,7 +630,7 @@
 					                                        <img src="${vo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
 					                                    </c:when>
 					                                    <c:otherwise>
-					                                        <img src="${ctp}/images/noImage.jpg" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+					                                        <img src="${ctp}/images/noImage.png" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
 					                                    </c:otherwise>
 					                                </c:choose>
 					                            </figure>
@@ -654,19 +683,22 @@
 									<i class="ion-android-star-outline"></i> 맞춤 정보 [베타]
 								</a>
 							</li>
+							<!--
 							<li>
 								<a href="#comments" aria-controls="comments" role="tab" data-toggle="tab">
 									<i class="ion-ios-chatboxes-outline"></i> 인기 게시글
 								</a>
 							</li>
+							  -->
 						</ul>
 						<div class="tab-content">
 							<div class="tab-pane active" id="recomended">
+								<!--
 								<article class="article-fw">
 									<div class="inner">
 										<figure>
 											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
+												<img src="${ctp}/user/noImage.png" alt="Sample Article">
 											</a>
 										</figure>
 										<div class="details">
@@ -682,54 +714,35 @@
 									</div>
 								</article>
 								<div class="line"></div>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Lifestyle</a></div>
-												<div class="time">December 22, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Fusce ullamcorper elit at felis cursus suscipit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Travel</a></div>
-												<div class="time">December 21, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
-								<article class="article-mini">
-									<div class="inner">
-										<figure>
-											<a href="single.html">
-												<img src="${ctp}/user/noImage.jpg" alt="Sample Article">
-											</a>
-										</figure>
-										<div class="padding">
-											<h1><a href="single.html">Duis aute irure dolor in reprehenderit in voluptate velit</a></h1>
-											<div class="detail">
-												<div class="category"><a href="category.html">Healthy</a></div>
-												<div class="time">December 20, 2016</div>
-											</div>
-										</div>
-									</div>
-								</article>
+								  -->
+								<h5>최근 본 제품</h5>
+								<c:forEach var="recentProduct" items="${recentProducts}">
+								    <article class="article-mini">
+								        <div class="inner">
+								            <figure>
+								                <a href="${ctp}/shop/productDetails?productIdx=${recentProduct.productIdx}">
+								                    <img src="${ctp}/product/${recentProduct.productThumb}" alt="${recentProduct.productName}">
+								                </a>
+								            </figure>
+								            <div class="padding">
+								                <h1>
+								                    <a href="${ctp}/shop/productDetails?productIdx=${recentProduct.productIdx}">
+								                        ${recentProduct.productName}
+								                    </a>
+								                </h1>
+								                <div class="detail">
+								                    <div class="tag">${recentProduct.productTags}</div>
+								                </div>
+								            </div>
+								        </div>
+								    </article>
+								</c:forEach>
+								<c:if test="${empty recentProducts}">
+									<p>최근 본 상품이 존재하지 않습니다</p>
+								</c:if>
+								<c:if test="${sUid}">
+									<p>로그인 이후에 확인 가능합니다</p>
+								</c:if>
 							</div>
 							<div class="tab-pane comments" id="comments">
 								<div class="comment-list sm">

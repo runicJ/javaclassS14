@@ -15,13 +15,13 @@ public class CommunityServiceImpl implements CommunityService {
     CommunityDAO communityDAO;
 
     @Override
-    public List<CommunityVO> searchHospitals(String key, String keyword, int minWaitingTime, int maxWaitingTime) {
-        return communityDAO.searchHospitals(key, keyword, minWaitingTime, maxWaitingTime);
+    public List<CommunityVO> searchHospitals(String key, String keyword) {
+        return communityDAO.searchHospitals(key, keyword);
     }
 
     @Override
-    public List<CommunityVO> getAllHospitals(int minWaitingTime, int maxWaitingTime) {
-        return communityDAO.getAllHospitals(minWaitingTime, maxWaitingTime);
+    public List<CommunityVO> getAllHospitals() {
+        return communityDAO.getAllHospitals();
     }
 
     @Override

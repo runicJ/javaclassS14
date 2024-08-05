@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.service;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 
 import javax.servlet.http.HttpServletRequest;
@@ -17,7 +18,6 @@ import com.spring.javaclassS14.dao.ShopDAO;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.CsworkVO;
-import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -369,4 +369,26 @@ public class ShopServiceImpl implements ShopService {
 	    return shopDAO.getProductList(part, sort, productPrice, minPrice, maxPrice);
 	}
 
+	@Override
+    public boolean canRecordProductView(String userId, int productIdx) {
+        int count = shopDAO.countProductViewsByUserAndDate(userId, new Date());
+        return count < 10;  // 하루 조회 횟수 10번 제한
+    }
+
+
+	@Override
+	public void recordProductView(String userId, int productIdx) {
+	   shopDAO.recordProductView(userId, productIdx);
+	}
+
+    @Override
+    public List<String> getTags() {
+        return shopDAO.getAllTags();
+    }
+
+    @Override
+    public String getTagsAsText() {
+        List<String> tags = getTags();
+        return String.join("#", tags);
+    }
 }
