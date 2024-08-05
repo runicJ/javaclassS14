@@ -1,56 +1,82 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.CsworkDAO">
-	
+    
+    <!-- 지점 목록 가져오기 -->
     <select id="getBranchList" resultType="com.spring.javaclassS14.vo.BranchVO">
-		select * from branch_store order by branchStoreIdx;
+        SELECT * FROM branch_store ORDER BY branchStoreIdx;
     </select>
     
+    <!-- 지점 이름으로 검색 -->
     <select id="getBranchSearch" resultType="com.spring.javaclassS14.vo.BranchVO">
-       select * from branch_store where branchName = #{branchName};
+        SELECT * FROM branch_store WHERE branchName = #{branchName};
     </select>
     
-    <select id="getBranchSearch2" resultType="com.spring.javaclassS14.vo.BranchVO">
-       select * from branch_store where latitude = #{latitude} and longitude = #{longitude};
+    <!-- 인기 뉴스 찾기 -->
+    <select id="findTopNews" resultType="com.spring.javaclassS14.vo.SaveInterestVO">
+        SELECT partUrl, COUNT(partUrl) AS urlCnt 
+        FROM bookmark 
+        GROUP BY partUrl 
+        ORDER BY urlCnt DESC 
+        LIMIT #{limit};
     </select>
     
-    <select id="findTopNews" resultType="com.spring.javaclassS14.vo.SaveMypageVO">
-       select partUrl, count(partUrl) as urlCnt from bookmark GROUP BY partUrl ORDER BY urlCnt desc limit #{limit};
-    </select>
-    
+    <!-- 공지사항 목록 가져오기 -->
     <select id="getNoticeList" resultType="com.spring.javaclassS14.vo.CsworkVO">
-       select * from notice where noticeStatus = 'y' order by noticeIdx;
+        SELECT * FROM notice WHERE noticeStatus = 'y' ORDER BY noticeIdx;
     </select>
     
+    <!-- 공지사항 정보 가져오기 -->
     <select id="getNoticeInfo" resultType="com.spring.javaclassS14.vo.CsworkVO">
-       select * from notice where noticeIdx = #{noticeIdx} and noticeStatus = 'y';
+        SELECT * FROM notice WHERE noticeIdx = #{noticeIdx} AND noticeStatus = 'y';
     </select>
     
+    <!-- FAQ 목록 가져오기 -->
     <select id="getFaqList" resultType="com.spring.javaclassS14.vo.CsworkVO">
-       select *, (select count(*) from faq group by faqCategory) as faqCategoryCnt from faq order by faqIdx, faqCategory;
+        SELECT *, (SELECT COUNT(*) FROM faq GROUP BY faqCategory) AS faqCategoryCnt 
+        FROM faq ORDER BY faqIdx, faqCategory;
     </select>
-    <!--
-    <select id="getFaqTopList" resultType="com.spring.javaclassS14.vo.CsworkVO">
-       select * from faq where faqCategory = '회원/가입' or productTags like concat('%',#{tag},'%') order by faqIdx;
-    </select>
-    -->
-        
+    
+    <!-- FAQ 검색 목록 가져오기 -->
     <select id="getFaqSearchList" resultType="com.spring.javaclassS14.vo.CsworkVO">
-       select *, (select count(*) from faq where faqCategory=#{faqCategory} and faqContent like concat('%',#{keywork},'%')) as faqSearchCnt from faq order by faqIdx, faqCategory;
+        SELECT *, 
+               (SELECT COUNT(*) 
+                FROM faq 
+                WHERE faqCategory=#{faqCategory} 
+                AND faqContent LIKE CONCAT('%',#{keyword},'%')) AS faqSearchCnt 
+        FROM faq 
+        ORDER BY faqIdx, faqCategory;
     </select>
     
+    <select id="getAirStation" resultType="com.spring.javaclassS14.vo.AirVO">
+	    (SELECT * FROM station_list WHERE stationAddress LIKE '%서울%' LIMIT 1)
+	    UNION
+	    (SELECT * FROM station_list WHERE stationAddress LIKE '%청주%' LIMIT 1)
+	    UNION
+	    (SELECT * FROM station_list WHERE stationAddress NOT LIKE '%서울%' AND stationAddress NOT LIKE '%청주%' ORDER BY RAND() LIMIT 4)
+	    order by stationIdx
+	</select>
     
-    <insert id="setQnaInput">
-    	<if test="${sUid.isEmpty}">
-       insert into qna values(default, #{qnaVO.userId}, #{qnaVO.qnaTitle}, #{qnaVO.qnaContent}, default, default, default, default, #{qnaVO.qnaCategory}, #{qnaVO.email});
-       </if>
-       <if test="${!sUid.isEmpty}">
-       insert into qna values(default, #{qnaVO.userId}, #{qnaVO.qnaTitle}, #{qnaVO.qnaContent}, default, default, default, default, #{qnaVO.qnaCategory}, default);
-       </if>
+    
+    <!-- QnA 입력 -->
+    <insert id="insertQnaForGuest">
+		INSERT INTO qna 
+		VALUES(DEFAULT, #{qnaVO.userId}, #{qnaVO.qnaTitle}, #{qnaVO.qnaContent}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{qnaVO.qnaCategory}, #{qnaVO.email});
+    </insert>
+    <insert id="insertQnaForMember">
+        INSERT INTO qna 
+        VALUES(DEFAULT, #{qnaVO.userId}, #{qnaVO.qnaTitle}, #{qnaVO.qnaContent}, DEFAULT, DEFAULT, DEFAULT, DEFAULT, #{qnaVO.qnaCategory}, DEFAULT);
     </insert>
     
+    <!-- FAQ 입력 -->
     <insert id="setFaqInput">
-    	insert into faq values(default, #{faqVO.faqCategory}, #{faqVO.faqTitle}, #{faqVO.Content}, default, #{faqVO.faqStatus})
+        INSERT INTO faq 
+        VALUES(DEFAULT, #{faqVO.faqCategory}, #{faqVO.faqTitle}, #{faqVO.Content}, DEFAULT, #{faqVO.faqStatus});
     </insert>
     
+    <!-- 지점 입력 -->
+    <insert id="setBranchInput">
+        INSERT INTO branch_store VALUES (default, #{branchVO.branchName}, #{branchVO.branchTel}, #{branchVO.branchLocation}, #{branchVO.latitude}, #{branchVO.longitude}, #{branchVO.createDate}, #{branchVO.qrCode});
+    </insert>
+
 </mapper>

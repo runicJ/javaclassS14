@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.CommunityDAO">
+
+    <!-- 병원 검색 -->
+    <select id="searchHospitals" resultType="com.spring.javaclassS14.vo.CommunityVO">
+        SELECT h.hospitalIdx, h.hospitalName, h.hospitalCategory, h.hospitalRegion
+        FROM hospital_info h
+        <where>
+            <choose>
+                <when test="key == 'hospitalName'">
+                    h.hospitalName LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="key == 'hospitalCategory'">
+                    h.hospitalCategory LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <when test="key == 'hospitalRegion'">
+                    h.hospitalRegion LIKE CONCAT('%', #{keyword}, '%')
+                </when>
+                <!-- 다른 검색 조건 추가 가능 -->
+            </choose>
+            <if test="minWaitingTime != null and maxWaitingTime != null">
+                AND h.hospitalIdx IN (
+                    SELECT c.hospitalIdx 
+                    FROM hospital_comment c
+                    WHERE c.waitingTime BETWEEN #{minWaitingTime} AND #{maxWaitingTime}
+                )
+            </if>
+        </where>
+    </select>
+
+    <!-- 모든 병원 가져오기 -->
+    <select id="getAllHospitals" resultType="com.spring.javaclassS14.vo.CommunityVO">
+        SELECT h.hospitalIdx, h.hospitalName, h.hospitalCategory, h.hospitalRegion
+        FROM hospital_info h
+        <if test="minWaitingTime != null and maxWaitingTime != null">
+            WHERE h.hospitalIdx IN (
+                SELECT c.hospitalIdx 
+                FROM hospital_comment c
+                WHERE c.waitingTime BETWEEN #{minWaitingTime} AND #{maxWaitingTime}
+            )
+        </if>
+    </select>
+
+    <!-- 병원 ID로 병원 가져오기 -->
+    <select id="getHospitalById" parameterType="int" resultType="com.spring.javaclassS14.vo.CommunityVO">
+        SELECT hospitalIdx, hospitalName, hospitalCategory, hospitalRegion 
+        FROM hospital_info 
+        WHERE hospitalIdx = #{hospitalIdx}
+    </select>
+
+    <!-- 병원 댓글 삽입 -->
+    <insert id="insertHospitalComment" parameterType="com.spring.javaclassS14.vo.CommunityVO">
+        INSERT INTO hospital_comment 
+        (hospitalIdx, userId, hospitalCommentTitle, hospitalComment, starRating, waitingTime)
+        VALUES (#{hospitalIdx}, #{userId}, #{hospitalCommentTitle}, #{hospitalComment}, #{starRating}, #{waitingTime})
+    </insert>
+    
+</mapper>

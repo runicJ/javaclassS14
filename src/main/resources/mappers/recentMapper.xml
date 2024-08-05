@@ -2,33 +2,86 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.RecentDAO">
 
-    <insert id="saveRecentProductView">
-        INSERT INTO recent_view_product (userId, productIdx)
-        VALUES (#{userId}, #{productIdx})
+    <!-- 최근 본 상품 삽입 -->
+    <insert id="insertRecentView">
+        INSERT INTO recent_view_product (userId, productIdx, viewDate)
+        VALUES (#{userId}, #{productIdx}, NOW())
     </insert>
-    <insert id="saveRecentSearch">
-        INSERT INTO recent_search (userId, search_term)
-        VALUES (#{userId}, #{searchTerm})
+
+    <!-- 최근 검색어 삽입 -->
+    <insert id="insertRecentSearch">
+        INSERT INTO recent_search (userId, search_term, searchDate)
+        VALUES (#{userId}, #{searchTerm}, NOW())
     </insert>
+
+    <!-- 특정 사용자의 최근 본 상품 조회 -->
+    <select id="selectRecentViews" resultType="com.spring.javaclassS14.vo.RecentVO">
+        SELECT viewIdx, userId, productIdx, viewDate 
+        FROM recent_view_product 
+        WHERE userId = #{userId} 
+        ORDER BY viewDate DESC 
+        LIMIT #{limit}
+    </select>
+
+    <!-- 특정 사용자의 최근 검색어 조회 -->
+    <select id="selectRecentSearches" resultType="com.spring.javaclassS14.vo.RecentVO">
+        SELECT searchIdx, userId, search_term as searchTerm, searchDate 
+        FROM recent_search 
+        WHERE userId = #{userId} 
+        ORDER BY searchDate DESC 
+        LIMIT #{limit}
+    </select>
+
+    <!-- 북마크 저장 -->
     <insert id="saveBookmark">
         INSERT INTO bookmark (userId, partUrl, category)
         VALUES (#{userId}, #{partUrl}, #{category})
     </insert>
+
+    <!-- 좋아요 저장 -->
     <insert id="saveLikedProduct">
         INSERT INTO liked_product (userId, productIdx)
         VALUES (#{userId}, #{productIdx})
     </insert>
-    <select id="getRecentProductViews" resultType="map">
-        SELECT * FROM recent_view_product WHERE userId = #{userId} ORDER BY viewDate DESC LIMIT 10
-    </select>
-    <select id="getRecentSearches" resultType="map">
-        SELECT * FROM recent_search WHERE userId = #{userId} ORDER BY searchDate DESC LIMIT 10
-    </select>
-    <select id="getBookmarks" resultType="map">
+
+    <!-- 좋아요 토글 -->
+    <update id="toggleLike">
+        <choose>
+            <when test="isLiked == true">
+                DELETE FROM liked_product WHERE userId = #{userId} AND productIdx = #{productIdx}
+            </when>
+            <otherwise>
+                INSERT INTO liked_product (userId, productIdx) VALUES (#{userId}, #{productIdx})
+            </otherwise>
+        </choose>
+    </update>
+
+    <!-- 북마크 조회 -->
+    <select id="getBookmarks" resultType="com.spring.javaclassS14.vo.RecentVO">
         SELECT * FROM bookmark WHERE userId = #{userId} AND category = #{category} ORDER BY addDate DESC
     </select>
-    <select id="getFavoriteProducts" resultType="map">
+
+    <!-- 좋아요한 제품 조회 -->
+    <select id="getFavoriteProducts" resultType="com.spring.javaclassS14.vo.RecentVO">
         SELECT * FROM liked_product WHERE userId = #{userId} ORDER BY addDate DESC
+    </select>
+
+    <!-- 최근 검색어 조회 -->
+    <select id="getRecentSearch" resultType="map">
+        SELECT searchIdx, userId, search_term, searchDate 
+        FROM recent_search 
+        WHERE userId = #{userId} 
+        ORDER BY searchDate DESC 
+        LIMIT #{limit}
+    </select>
+
+    <!-- 최근 본 상품 조회 -->
+    <select id="getRecentProduct" resultType="map">
+        SELECT viewIdx, userId, productIdx, viewDate 
+        FROM recent_view_product 
+        WHERE userId = #{userId} 
+        ORDER BY viewDate DESC 
+        LIMIT #{limit}
     </select>
 
 </mapper>

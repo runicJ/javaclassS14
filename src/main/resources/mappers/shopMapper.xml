@@ -30,24 +30,111 @@
 		select * from product order by productIdx desc limit 1;
   	</select>
 	
-  	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
-	  <if test='part == "전체"'>
-	  	<if test='sort == "전체"'>
-	  		select *, (select count(*) from product) as productCnt from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
-	  	</if>
- 	  	<if test='sort != "전체"'>
-	  		select *, (select count(*) from product) as productCnt from product <if test='productPrice != 0'>where <![CDATA[productPrice < #{productPrice}]]></if> order by #{sort};
- 	  	</if>
-	  </if>
- 	  <if test='part != "전체"'>
-	  	<if test='sort == "전체"'>
- 	  		select *, (select count(*) from product where productMidIdx=#{part}) as productCnt from product where productMidIdx=#{part} <if test='productPrice != 0'>and <![CDATA[productPrice < #{productPrice}]]></if> order by productIdx desc;
- 	  	</if>
- 	  	<if test='sort != "전체"'>
- 	  		select *, (select count(*) from product where productMidIdx=#{part}) as productCnt from product where productMidIdx=#{part} <if test='productPrice != 0'>and <![CDATA[productPrice < #{productPrice}]]></if> order by sort;
- 	  	</if>
- 	  </if>
-  	</select>
+	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
+	    <!-- 전체 카테고리인 경우 -->
+	    <if test='part == "전체"'>
+	        <!-- 전체 정렬 -->
+	        <if test='sort == "전체"'>
+	            SELECT *, 
+	                   (SELECT COUNT(*) FROM product) AS productCnt 
+	            FROM product 
+	            <where>
+	                <!-- 가격 필터링 추가 -->
+	                <if test='productPrice != 0'>
+	                    <![CDATA[productPrice < #{productPrice}]]>
+	                </if>
+	                <!-- 가격 범위 필터링 추가 -->
+	                <if test='minPrice != 0 or maxPrice != 0'>
+	                    <![CDATA[
+	                        productPrice BETWEEN #{minPrice} AND #{maxPrice}
+	                    ]]>
+	                </if>
+	            </where>
+	            ORDER BY productIdx DESC;
+	        </if>
+	        <!-- 특정 정렬 옵션 -->
+	        <if test='sort != "전체"'>
+	            SELECT *, 
+	                   (SELECT COUNT(*) FROM product) AS productCnt 
+	            FROM product 
+	            <where>
+	                <!-- 가격 필터링 추가 -->
+	                <if test='productPrice != 0'>
+	                    <![CDATA[productPrice < #{productPrice}]]>
+	                </if>
+	                <!-- 가격 범위 필터링 추가 -->
+	                <if test='minPrice != 0 or maxPrice != 0'>
+	                    <![CDATA[
+	                        productPrice BETWEEN #{minPrice} AND #{maxPrice}
+	                    ]]>
+	                </if>
+	            </where>
+	            <choose>
+	                <when test='sort == "likedCnt"'>
+	                    ORDER BY likedCnt DESC
+	                </when>
+	                <when test='sort == "productPrice"'>
+	                    ORDER BY productPrice
+	                </when>
+	                <when test='sort == "productPrice desc"'>
+	                    ORDER BY productPrice DESC
+	                </when>
+	                <otherwise>
+	                    ORDER BY productIdx DESC
+	                </otherwise>
+	            </choose>
+	        </if>
+	    </if>
+	    <!-- 특정 카테고리인 경우 -->
+	    <if test='part != "전체"'>
+	        <!-- 전체 정렬 -->
+	        <if test='sort == "전체"'>
+	            SELECT *, 
+	                   (SELECT COUNT(*) FROM product WHERE productMidIdx=#{part}) AS productCnt 
+	            FROM product 
+	            WHERE productMidIdx=#{part}
+	            <if test='productPrice != 0'>
+	                AND <![CDATA[productPrice < #{productPrice}]]>
+	            </if>
+	            <if test='minPrice != 0 or maxPrice != 0'>
+	                AND <![CDATA[
+	                    productPrice BETWEEN #{minPrice} AND #{maxPrice}
+	                ]]>
+	            </if>
+	            ORDER BY productIdx DESC;
+	        </if>
+	        <!-- 특정 정렬 옵션 -->
+	        <if test='sort != "전체"'>
+	            SELECT *, 
+	                   (SELECT COUNT(*) FROM product WHERE productMidIdx=#{part}) AS productCnt 
+	            FROM product 
+	            WHERE productMidIdx=#{part}
+	            <if test='productPrice != 0'>
+	                AND <![CDATA[productPrice < #{productPrice}]]>
+	            </if>
+	            <if test='minPrice != 0 or maxPrice != 0'>
+	                AND <![CDATA[
+	                    productPrice BETWEEN #{minPrice} AND #{maxPrice}
+	                ]]>
+	            </if>
+	            <choose>
+	                <when test='sort == "likedCnt"'>
+	                    ORDER BY likedCnt DESC
+	                </when>
+	                <when test='sort == "productPrice"'>
+	                    ORDER BY productPrice
+	                </when>
+	                <when test='sort == "productPrice desc"'>
+	                    ORDER BY productPrice DESC
+	                </when>
+	                <otherwise>
+	                    ORDER BY productIdx DESC
+	                </otherwise>
+	            </choose>
+	        </if>
+	    </if>
+	</select>
+
  		
   	<select id="getProductNameOne" resultType="com.spring.javaclassS14.vo.ShopVO">
 		select * from product where productName=#{productName};

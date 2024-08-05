@@ -48,7 +48,7 @@
          
          let tel = tel1 + "-" + tel2 + "-" + tel3;
     	
-        //let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
+        let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
 		let regName = /^[가-힣a-zA-Z]+$/;
 	    let regNickName = /^[a-zA-Z0-9가-힣]+$/;
 	    let regTel = /^010-\d{3,4}-\d{4}$/;
@@ -72,11 +72,11 @@
             return false;
     	}
     	
-/* 		if(!regPwd.test(pwdNewCheck)) {
+ 		if(pwdNew != "" && !regPwd.test(pwdNew)) {
 	        alert("비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.");
 	        myform.userPwd.focus();
 	        return false;
-      	} */
+      	}
     	
 		if(name == "") {
 			alert("이름을 입력하세요");
@@ -142,11 +142,11 @@
     		return false;
     	}
  
-/*         if (emailCheckSw == 0) {
+        if (emailCheckSw == 0) {
             alert("이메일 중복체크 버튼을 눌러주세요");
             document.getElementById("emailCheckSw").focus();
             return false;
-        } */
+        }
 
 		myform.email.value = email;
 		myform.tel.value = tel;
@@ -183,7 +183,7 @@
 	    	});
     	}
     }
-	/*    
+	    
      function emailCheck() {
 		let email1 = myform.email1.value;
 		let email2 = myform.email2.value;
@@ -278,7 +278,7 @@
     	clearInterval(timerInterval);
         emailCheck(); // 이메일 인증 코드 재발급 요청
     }
-    */
+    
     
     document.addEventListener("DOMContentLoaded", function() {
         document.getElementById('nameUpdateBtn').addEventListener('click', function() {
@@ -289,7 +289,7 @@
           $("#nickUpdateInput").show();
         });
         
-        /*
+        
         $(document).ready(function() {
             $('#email1').on('input', function() {
                 $('#emailCheckBtn').prop('disabled', false);
@@ -299,7 +299,7 @@
                 $('#emailCheckBtn').prop('disabled', false);
             });
         });
-        */
+        
         document.getElementById('email1').addEventListener('input', function() {
             document.getElementById('emailCheckBtn').disabled = false;
         });

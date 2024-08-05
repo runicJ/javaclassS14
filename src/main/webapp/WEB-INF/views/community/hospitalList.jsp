@@ -4,207 +4,105 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="UTF-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>Insert</title>
-  	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>병원 목록</title>
+    <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
+    <jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+    <style>
+        .region-card {
+            display: inline-block;
+            width: 200px;
+            height: 100px;
+            margin: 10px;
+            background-color: #f8f9fa;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            text-align: center;
+            line-height: 100px;
+            font-size: 18px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .region-card:hover {
+            background-color: #e2e6ea;
+        }
+        .search-bar {
+            display: flex;
+            justify-content: center;
+            margin: 20px 0;
+        }
+        .search-bar input, .search-bar button {
+            height: 40px;
+            margin-right: 5px;
+        }
+        .waiting-time-slider {
+            width: 300px;
+            margin: 20px auto;
+        }
+    </style>
+    <link rel="stylesheet" href="//code.jquery.com/ui/1.12.1/themes/base/jquery-ui.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <section class="page">
 <div class="container">
-<article class="sub-contents layer1300">
-		<div class="sch-form hos-sch-form">
-    		<form name="search_frm" id="search_frm" method="get" action="hospital_list.php">
-    			<fieldset>
-    				<legend class="hide">병원검색</legend>
-    				<div class="bg-box bg-white">
-    					<div class="form-group">
-    						<label for="">병원검색</label>
-    						<select name="key" id="key" class="form-control">
-    							<option value="hosp_name">병원명</option>
-    							<option value="chief_name">담당의</option>
-    							<option value="position">전공과</option>
-    							<option value="addr">주소 (시군구)</option>
-    						</select>
-    						<input type="text" name="keyword" id="keyword" class="form-control" placeholder="검색어를 입력해주세요.">
-    					</div>
-            		</div>
-            		
-            		<div class="btn-wrap text-center">
-            			<button type="button" onclick="if_search();" class="btn btn-type3 color-type4">검색</button>
-            		</div>
-    			</fieldset>
-    		</form>
-		</div>
-		
-		<div class="result-wrap">
-			<ul class="result-list">
-								<li>
-					<a href="hospital_list.php?sido=서울특별시">
-						<span class="num">166</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							서울특별시						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=부산광역시">
-						<span class="num">29</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							부산광역시						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=대구광역시">
-						<span class="num">25</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							대구광역시						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=울산광역시">
-						<span class="num">4</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							울산광역시						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=인천광역시">
-						<span class="num">21</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							인천광역시						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=광주광역시">
-						<span class="num">9</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							광주광역시						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=대전광역시">
-						<span class="num">12</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							대전광역시						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=경기도">
-						<span class="num">72</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							경기도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=강원도">
-						<span class="num">10</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							강원도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=충청북도">
-						<span class="num">8</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							충청북도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=충청남도">
-						<span class="num">6</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							충청남도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=경상북도">
-						<span class="num">4</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							경상북도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=경상남도">
-						<span class="num">8</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							경상남도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=전라북도">
-						<span class="num">6</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							전라북도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=전라남도">
-						<span class="num">1</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							전라남도						</strong>
-					</a>
-				</li>
-								<li>
-					<a href="hospital_list.php?sido=제주도">
-						<span class="num">5</span>
-						<strong>
-							<span>알레르기 전문병원</span>
-							제주도						</strong>
-					</a>
-				</li>
-							</ul>
-		</div>
-	</article>
-	<form name="searchForm" method="get">
-		<fieldset>
-			<div class="bg-box bg-white">
-				<div class="form-group">
-					<label>병원검색</label>
-					<select name="searchKey" class="form-control">
-						<option>전체</option>
-						<option>지역</option>
-						<option>병원명</option>
-					</select>
-					<input type="text" id="keyword" class="form-control" placeholder="검색어를 입력하세요">
-				</div>
-			</div>
-			<div class="text-center">
-				<input type="button" class="btn btn-dark text-light" onclick="searchHospital();">
-			</div>
-		</fieldset>
-	</form>
-	<div class="demo">
-		<ul name="regionList">
-			<li><a href="#"><span class="num">0</span><strong><span>알레르기 전문병원</span>서울특별시</strong></a></li>
-			<li><a href="#"><span class="num">0</span><strong><span>알레르기 전문병원</span>경기도</strong></a></li>
-			<li><a href="#"><span class="num">0</span><strong><span>알레르기 전문병원</span>강원도</strong></a></li>
-			<li><a href="#"><span class="num">0</span><strong><span>알레르기 전문병원</span>충청도</strong></a></li>
-			<li><a href="#"><span class="num">0</span><strong><span>알레르기 전문병원</span>경상도</strong></a></li>
-			<li><a href="#"><span class="num">0</span><strong><span>알레르기 전문병원</span>전라도</strong></a></li>
-			<li><a href="#"><span class="num">0</span><strong><span>알레르기 전문병원</span>제주도</strong></a></li>
-		</ul>
-	</div>
-	<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
+    <h2>병원 검색</h2>
+    <div class="search-bar">
+        <form action="${ctp}/community/hospitalList" method="get">
+            <select name="key">
+                <option value="hospitalName">병원명</option>
+                <option value="hospitalCategory">전문분야</option>
+                <option value="hospitalRegion">지역</option>
+            </select>
+            <input type="text" name="keyword" placeholder="검색어를 입력하세요">
+            <button type="submit">검색</button>
+        </form>
+    </div>
+    <h3>대기시간 필터</h3>
+    <div class="waiting-time-slider">
+        <label for="waiting-time">대기시간: <span id="waiting-time-display">0 - 60</span> 분</label>
+        <div id="waiting-time-slider"></div>
+    </div>
+    <button onclick="applyWaitingTimeFilter()">필터 적용</button>
+    <h3>병원 목록</h3>
+    <ul>
+        <c:forEach var="hospital" items="${hospitals}">
+            <li>
+                <a href="${ctp}/community/hospitalComment?hospitalIdx=${hospital.hospitalIdx}">
+                    ${hospital.hospitalName} - ${hospital.hospitalCategory} - ${hospital.hospitalRegion}
+                </a>
+            </li>
+        </c:forEach>
+    </ul>
 </div>
 </section>
-<p><br/></p>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
+
+<script>
+$(document).ready(function() {
+    $("#waiting-time-slider").slider({
+        range: true,
+        min: 0,
+        max: 60,
+        values: [0, 60],
+        slide: function(event, ui) {
+            $("#waiting-time-display").text(ui.values[0] + " - " + ui.values[1]);
+        }
+    });
+});
+
+function applyWaitingTimeFilter() {
+    let waitingTime = $("#waiting-time-slider").slider("values");
+    let minTime = waitingTime[0];
+    let maxTime = waitingTime[1];
+    // 대기시간 필터 적용 후, 서버로 전송하거나 화면을 갱신하는 로직 구현
+    location.href = '${ctp}/community/hospitalList?minWaitingTime=' + minTime + '&maxWaitingTime=' + maxTime;
+}
+</script>
 </body>
 </html>

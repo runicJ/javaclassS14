@@ -37,7 +37,7 @@
        	let tel = tel1 + "-" + tel2 + "-" + tel3;
     	
 		let regUid = /^[a-zA-Z0-9_-]{4,20}$/;
-        //let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
+        let regPwd = /^(?=.*[a-zA-Z])(?=.*\d)(?=.*[@$!%*#?&^])[A-Za-z\d@$!%*#?&^]{4,30}$/;
 		let regName = /^[가-힣a-zA-Z]+$/;
 	    let regNickName = /^[a-zA-Z0-9가-힣]+$/;
 	    let regTel = /^010-\d{3,4}-\d{4}$/;
@@ -60,11 +60,11 @@
 			return false;
 		}
 
-/* 		if(!regPwd.test(userPwd)) {
+ 		if(!regPwd.test(userPwd)) {
 	        alert("비밀번호는 4~30자리의 영문 대/소문자, 숫자, 특수문자를 최소 하나씩 포함하여 작성해주세요.");
 	        myform.userPwd.focus();
 	        return false;
-      	} */
+      	}
 		
     	if(pwdCheck == "" || pwdCheck != userPwd) {
     		alert("입력하신 비밀번호와 일치하지 않습니다. 비밀번호를 확인해 주세요.");
@@ -140,12 +140,12 @@
     		document.getElementById("nickNameBtn").focus();
     		return false;
     	}
-/* 
+ 
         if (emailCheckSw == 0) {
             alert("이메일 중복체크 버튼을 눌러주세요");
             document.getElementById("emailCheckSw").focus();
             return false;
-        } */
+        }
 
 		myform.email.value = email;
 		myform.tel.value = tel;
@@ -214,7 +214,7 @@
 	    	});
     	}
     }
-	/*    
+   
      function emailCheck() {
 		let email1 = myform.email1.value;
 		let email2 = myform.email2.value;
@@ -309,7 +309,7 @@
     	clearInterval(timerInterval);
         emailCheck(); // 이메일 인증 코드 재발급 요청
     }
-    */
+
     window.onload = function(){
     	document.getElementById('userId').addEventListener('click',function(){
     		uidCheckSw = 0;
@@ -319,7 +319,7 @@
     		nickCheckSw = 0;
     		$("#nickNameBtn").removeAttr("disabled");
     	});
-    	/*
+
       	document.getElementById('email1').addEventListener('click',function(){
     		emailCheckSw = 0;
         	clearInterval(timerInterval);
@@ -332,8 +332,8 @@
             document.getElementById("confirmCodeSection").style.display = 'none';
     		$("#emailCheckBtn").removeAttr("disabled");
     	});
-      	*/
-      	//document.getElementById('file').addEventListener('change', previewImage);
+      	
+      	document.getElementById('file').addEventListener('change', previewImage);
     }
     
     function previewImage() {

@@ -31,8 +31,8 @@
 		});
 		
 		function userFindPw() {
-	    	let userId = $("#userId").val().trim();
-	    	let email = $("#email").val().trim();
+	    	let userId = $("#userId").val();
+	    	let email = $("#email").val();
 	    	
 	    	if(userId == "" || email == "") {
 	    		alert("회원님의 아이디와 이메일 주소를 입력하세요");
@@ -41,8 +41,8 @@
 	    	}
 	    	
 	    	$.ajax({
-	    		url  : "${ctp}/users/userTempPwd",
-	    		type : "post",
+	    		url  : "${ctp}/users/userFindPw",
+	    		type: "post",
 	    		data : {
 	    			userId : userId,
 	    			email : email
@@ -59,9 +59,9 @@
 	    			}
 	  				location.reload();
 	    		},
-	    		error : function() {
-	    			alert("전송오류!!")
-	    		}
+	    	    error : function() {
+	    	        alert("전송오류!");
+	    	    }
 	    	});
 	    }
 	</script>
@@ -83,7 +83,6 @@
 							<input type="email" name="email" id="email" class="form-control">
 						</div>
 						<div class="text-center">
-							<!-- <button type="button" class="btn btn-info mt-3 mr-2" onclick="userFindPw()">임시 비밀번호 발급</button> -->
 							<!-- <a type="button" tabindex="0" class="btn btn-info mt-3 mr-2" onclick="userFindPw()">임시 비밀번호 발급</a> -->  <!-- submit으로 하면 {res : 0} 형식으로 넘어오고, 모달은 a태그 사용해야함 -->
 							<input type="button" class="btn btn-info mt-3 mr-2" value="임시 비밀번호 발급" onclick="userFindPw();">
 							<button class="btn btn-danger mt-3" onclick="window.close();">취소</button>

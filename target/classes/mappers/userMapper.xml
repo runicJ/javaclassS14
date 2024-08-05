@@ -10,8 +10,12 @@
 		select * from users where nickName=#{nickName};
 	</select>
 	
-	<select id="getUserEmailCheck" resultType="com.spring.javaclassS14.vo.UserVO">
-		select * from users where email=#{email};
+	<select id="getUserEmailCheck" resultType="int">
+		select count(*) from users where email=#{email};
+	</select>
+	
+	<select id="getUserCheck" resultType="com.spring.javaclassS14.vo.UserVO">
+		select * from users where name=#{name} and email=#{email};
 	</select>
 
 	<select id="getUserNickNameEmailCheck" resultType="com.spring.javaclassS14.vo.UserVO">
@@ -76,7 +80,7 @@
 		select count(*) as recentLog from user_log where userId=#{userId} and loginTime > DATE_SUB(NOW(), INTERVAL 1 HOUR);
 	</select>
 	
-	<select id="getBookmarkList" resultType="com.spring.javaclassS14.vo.SaveMypageVO">
+	<select id="getBookmarkList" resultType="com.spring.javaclassS14.vo.SaveInterestVO">
 		select * from bookmark where userId=#{userId};
 	</select>
 	

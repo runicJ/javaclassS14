@@ -23,13 +23,13 @@ create table qna (
 	qnaContent text not null,
 	qnaDate datetime default now(),
 	qnaAnswerFlag enum('y','n') default 'n',
-	qnaAnswerContent text,
+	qnaAnswerContent text default null,
 	qnaAnswerDate datetime default null,
 	qnaCategory varchar(30) not null,
-	foreign key (userId) references users(userId)
+	email varchar(30) default null
 );
 
-desc qna;
+drop table qna;
 
 create table faq (
 	faqIdx int not null auto_increment primary key,
@@ -63,6 +63,7 @@ create table branch_store (
 );
 
 desc branch_store;
+drop table branch_store;
 
 insert into branch_store values(default, '괄호 안 쉼표 신촌점', '02-1111-1111', '서울특별시 서대문구 창천동 4-55', 37.55776266190928, 126.94006436689432 , default, null);
 

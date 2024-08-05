@@ -90,7 +90,6 @@
 						</div>
 						<div class="text-center">
 							<input type="button" class="btn btn-info mt-3 mr-2" value="아이디 검색" onclick="userFindId()">
-							<!-- <button type="submit" class="btn btn-info mt-3 mr-2">아이디 검색</button> -->
 							<button class="btn btn-danger mt-3" onclick="window.close();">취소</button>
 						</div>
 					</form>

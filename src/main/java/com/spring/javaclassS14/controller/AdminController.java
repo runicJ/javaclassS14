@@ -29,6 +29,7 @@ import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.SurveyService;
 import com.spring.javaclassS14.service.UserService;
+import com.spring.javaclassS14.vo.BranchVO;
 import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
@@ -526,6 +527,21 @@ public class AdminController {
 		
 		model.addAttribute("orderVOS", orderVOS);
 		return "admin/shop/orderList";
+	}
+	
+	@RequestMapping(value = "/info/branchInput", method = RequestMethod.GET)
+	public String branchInputGet() {
+		
+		return "admin/info/branchInput";
+	}
+	
+	@RequestMapping(value = "/info/branchInput", method = RequestMethod.POST)
+	public String branchInputGet(HttpServletRequest request, BranchVO branchVO, Model model) {
+		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/qrCode/");
+		
+        int res = csworkService.setBranchInput(realPath, branchVO);
+
+		return res != 0 ? "redirect:/msg/branchInputOk" : "redirect:/msg/branchInputNo";
 	}
 	
 

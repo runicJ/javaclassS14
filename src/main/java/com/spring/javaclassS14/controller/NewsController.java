@@ -14,7 +14,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS14.vo.CrawlingVO;
 
@@ -29,7 +28,7 @@ public class NewsController {
     public String newsListGet(@RequestParam(value = "page", defaultValue = "1") int page, Model model) {
         List<CrawlingVO> vos = new ArrayList<>();
         List<CrawlingVO> nVos = new ArrayList<>();
-        List<CrawlingVO> bVos = new ArrayList<>();
+        List<CrawlingVO> dVos = new ArrayList<>();
 
         // Naver News
         try {
@@ -100,7 +99,7 @@ public class NewsController {
                     Element titleElement = newsElement.selectFirst("a.c-card__link.u-link-inherit");
                     if (titleElement != null) {
                         nVo.setItem1(titleElement.text());
-                        nVo.setItemUrl1(titleElement.attr("href"));
+                        nVo.setItemUrl1("https://www.nature.com" + titleElement.attr("href"));
                     }
 
                     Element imageElement = newsElement.selectFirst("picture source");
@@ -132,77 +131,56 @@ public class NewsController {
             e.printStackTrace();
         }
 
-        // BBC News
         try {
-            String baseUrl3 = "https://news.google.com/search?q=allergy&hl=ko&gl=KR&ceid=KR:ko";
-            for (int i = 1; i <= 10; i++) {
-                if (bVos.size() >= MAX_ARTICLES) break;
+            String baseUrl3 = "https://news.google.com/search?q=allergy";
+            Document document = Jsoup.connect(baseUrl3).get();
+            Elements newsElements = document.select("article");
 
-                String url3 = baseUrl3 + "&start=" + ((i - 1) * 10 + 1);
-                Document document3 = Jsoup.connect(url3).get();
-                //Elements newsElements = document3.select("c-wiz.PO9Zff.Ccj79.kUVvS");
-                Elements newsElements = document3.select("article");
+            for (Element newsElement : newsElements) {
+                if (dVos.size() >= MAX_ARTICLES) break; // 갯수 제한 적용
+                CrawlingVO vo = new CrawlingVO();
 
-                for (Element newsElement : newsElements) {
-                    if (bVos.size() >= MAX_ARTICLES) break;
-
-                    CrawlingVO bVo = new CrawlingVO();
-                    /*
-                    Element titleElement = newsElement.selectFirst("a.JtKRv");
-                    if (titleElement != null) {
-                        bVo.setItem1(titleElement.text());
-                        bVo.setItemUrl1(titleElement.attr("href"));
-                    }
-
-                    Element imageElement = newsElement.selectFirst("img.Quavad.vwBmvb");
-                    if (imageElement != null && imageElement.hasAttr("srcset")) {
-                    	bVo.setItem2(imageElement.attr("srcset"));
-                    } else {
-                    	bVo.setItem2("");
-                    }
-
-                    Element comElement = newsElement.selectFirst("div.vr1PYe");
-                    if (comElement != null) {
-                        bVo.setItem4(comElement.text());
-                    }
-
-                    Element infoElement = newsElement.selectFirst("time.hvbAAd");
-                    if (infoElement != null) {
-                        bVo.setItem5(infoElement.text());
-                    }
-                    */
-                    Element titleElement = newsElement.selectFirst("h3 a.JtKRv");
-                    if (titleElement != null) {
-                        bVo.setItem1(titleElement.text());
-                        bVo.setItemUrl1("https://news.google.com" + titleElement.attr("href").substring(1));
-                    }
-
-                    Element imageElement = newsElement.selectFirst("figure img.Quavad.vwBmvb");
-                    if (imageElement != null) {
-                        bVo.setItem2(imageElement.attr("src"));
-                    } else {
-                        bVo.setItem2("");
-                    }
-
-                    Element comElement = newsElement.selectFirst("div.vr1PYe span");
-                    if (comElement != null) {
-                        bVo.setItem4(comElement.text());
-                    }
-
-                    Element infoElement = newsElement.selectFirst("time");
-                    if (infoElement != null) {
-                        bVo.setItem5(infoElement.text());
-                    }
-                    bVos.add(bVo);
+                // 제목과 URL 가져오기
+                Element titleElement = newsElement.selectFirst("a.JtKRv");
+                if (titleElement != null) {
+                    vo.setItem1(titleElement.text());
+                    vo.setItemUrl1("https://news.google.com" + titleElement.attr("href").substring(1));
                 }
+
+                // 이미지 가져오기
+                Element imageElement = newsElement.selectFirst("img.Quavad.vwBmvb");
+                if (imageElement != null) {
+                    String imageUrl = imageElement.attr("alt src");
+                    if (imageUrl.startsWith("/api/attachments")) {
+                        imageUrl = "https://news.google.com" + imageUrl;
+                    }
+                    vo.setItem2(imageUrl);
+                } 
+                else {
+                    vo.setItem2("${ctp}/images/google-icon.png");
+                }
+
+                // 출처 가져오기
+                Element sourceElement = newsElement.selectFirst("div.oovtQ");
+                if (sourceElement != null) {
+                    vo.setItem4(sourceElement.text());
+                }
+
+                // 발행 시간 가져오기
+                Element timeElement = newsElement.selectFirst("time.hvbAAd");
+                if (timeElement != null) {
+                    vo.setItem5(timeElement.attr("datetime").substring(0,10));
+                }
+
+                dVos.add(vo);
             }
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        
         model.addAttribute("vos", vos);
         model.addAttribute("nVos", nVos);
-        model.addAttribute("bVos", bVos);
+        model.addAttribute("dVos", dVos);
 
         return "news/newsList";
     }

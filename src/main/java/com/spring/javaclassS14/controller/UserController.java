@@ -27,7 +27,7 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
-import com.spring.javaclassS14.vo.SaveMypageVO;
+import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 @Controller
@@ -69,9 +69,9 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value="/emailCheck", method=RequestMethod.GET)
 	public String emailCheckGet(String email, HttpSession session) throws MessagingException {
-	    UserVO vo = userService.getUserEmailCheck(email);
-//	    if(vo != null) return "1";
-//	    else {
+	    int res = userService.getUserEmailCheck(email);
+	    if(res != 0) return "1";
+	    else {
 	        // 이메일 인증 코드 생성 및 세션에 저장
 	        UUID uuid = UUID.randomUUID();
 	        String emailKey = uuid.toString().substring(0, 6);
@@ -80,7 +80,7 @@ public class UserController {
 	        // 이메일로 인증 코드 전송
 	        allProvide.mailSend(email, "이메일 인증 코드", "인증 코드: " + emailKey);
 	        return "0";
-//	    }
+	    }
 	}
 	
 	// 이메일 인증코드 확인하기
@@ -130,7 +130,11 @@ public class UserController {
 	public String userRegisterPost(UserVO vo, MultipartFile fName, HttpSession session) {
 		if(userService.getUserIdCheck(vo.getUserId()) != null) return "redirect:/msg/uidCheckNo";
 		if(userService.getUserNickCheck(vo.getNickName()) != null) return "redirect:/msg/nickCheckNo";
-		//if(userService.getUserEmailCheck(vo.getEmail()) != null) return "redirect:/msg/emailCheckNo";
+
+		int emailRes = userService.getUserEmailCheck(vo.getEmail());
+	    if (emailRes != 0) {
+	        return "redirect:/msg/emailCheckNo";
+	    }
 
 		vo.setUserPwd(passwordEncoder.encode(vo.getUserPwd()));
 		
@@ -309,11 +313,10 @@ public class UserController {
     // 아이디 찾기
     @ResponseBody
     @RequestMapping(value="/userFindId", method=RequestMethod.POST)
-    //@RequestMapping(value="/userFindId")
     public Map<String, String> userFindIdPost(String name, String email) {
         Map<String, String> resMap = new HashMap<>();
-        UserVO vo = userService.getUserEmailCheck(email);
-        if(vo != null && vo.getName().equals(name)) {
+        UserVO vo = userService.getUserCheck(name, email);
+        if(vo != null) {
             resMap.put("res", "1");
             resMap.put("userId", vo.getUserId());
             resMap.put("createDate", vo.getCreateDate().toString().substring(0,10));
@@ -332,12 +335,12 @@ public class UserController {
 	
 	// 이메일로 임시 비밀번호 발급
 	@ResponseBody
-	@RequestMapping(value = "/userTempPwd", method = RequestMethod.POST)
-	public String userTempPwdPost(String userId, String email, HttpSession session) throws MessagingException {
+	@RequestMapping(value = "/userFindPw", method = RequestMethod.POST)
+	public String userTempPwdPost(@RequestParam String userId, @RequestParam String email, HttpSession session) throws MessagingException {
 		UserVO vo = userService.getUserIdCheck(userId);
 		if(vo != null && vo.getEmail().equals(email)) {
 			// 정보 확인 후 정보가 맞으면 임시 비밀번호를 발급 받아서 메일로 전송 처리한다.
-			UUID uuid = UUID.randomUUID();  // 다른방법 6월 23일에 (월요일)
+			UUID uuid = UUID.randomUUID();
 			String tempPwd = uuid.toString().substring(0,8);
 			
 			userService.setUserPwdUpdate(userId, passwordEncoder.encode(tempPwd));
@@ -473,7 +476,7 @@ public class UserController {
 	@RequestMapping(value="/userBookmarkList", method=RequestMethod.GET)
 	public String userBookmarkListGet(HttpSession session, Model model) {
 	    String userId = (String) session.getAttribute("sUid");
-		SaveMypageVO vo = userService.getBookmarkList(userId);
+		SaveInterestVO vo = userService.getBookmarkList(userId);
 		model.addAttribute("vo", vo);
 		return "users/userBookmarkList";
 	}

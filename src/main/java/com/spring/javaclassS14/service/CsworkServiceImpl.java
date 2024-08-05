@@ -1,6 +1,8 @@
 package com.spring.javaclassS14.service;
 
+import java.awt.image.BufferedImage;
 import java.io.BufferedReader;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.UnsupportedEncodingException;
@@ -8,8 +10,12 @@ import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.net.URLEncoder;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
+
+import javax.imageio.ImageIO;
 
 import org.json.JSONArray;
 import org.json.JSONObject;
@@ -17,17 +23,27 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.expression.ParseException;
 import org.springframework.stereotype.Service;
 
+import com.google.zxing.BarcodeFormat;
+import com.google.zxing.WriterException;
+import com.google.zxing.client.j2se.MatrixToImageConfig;
+import com.google.zxing.client.j2se.MatrixToImageWriter;
+import com.google.zxing.common.BitMatrix;
+import com.google.zxing.qrcode.QRCodeWriter;
+import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.CsworkDAO;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.BranchVO;
 import com.spring.javaclassS14.vo.CsworkVO;
-import com.spring.javaclassS14.vo.SaveMypageVO;
+import com.spring.javaclassS14.vo.SaveInterestVO;
 
 @Service
 public class CsworkServiceImpl implements CsworkService {
 
 	@Autowired
 	CsworkDAO csworkDAO;
+	
+	@Autowired
+	AllProvide allProvide;
 
 	@Override
 	public List<BranchVO> getBranchList() {
@@ -35,7 +51,7 @@ public class CsworkServiceImpl implements CsworkService {
 	}
 
 	@Override
-	public List<SaveMypageVO> findTopNews(int limit) {
+	public List<SaveInterestVO> findTopNews(int limit) {
         return csworkDAO.findTopNews(limit);
 	}
 
@@ -145,13 +161,13 @@ public class CsworkServiceImpl implements CsworkService {
 	}
 
 	@Override
-	public BranchVO getBranchSearch2(double latitude, double longitude) {
-        return csworkDAO.getBranchSearch2(latitude, longitude);
-	}
-
-	@Override
-	public int setQnaInput(CsworkVO qnaVO) {
-        return csworkDAO.setQnaInput(qnaVO);
+	public int setQnaInput(CsworkVO qnaVO, String sUid) {
+	    if (sUid == null || sUid.isEmpty()) {
+	        return csworkDAO.insertQnaForGuest(qnaVO);  // 비회원용 SQL 호출
+	    } else {
+	        qnaVO.setUserId(sUid);
+	        return csworkDAO.insertQnaForMember(qnaVO);  // 회원용 SQL 호출
+	    }
 	}
 
 	@Override
@@ -173,5 +189,109 @@ public class CsworkServiceImpl implements CsworkService {
 	public List<CsworkVO> getFaqSearchList(String category, String keyword) {
         return csworkDAO.getFaqSearchList(category, keyword);
 	}
-	
+
+    @Override
+    public int setBranchInput(String realPath, BranchVO vo) {
+    	String qrCodeName = allProvide.newNameCreate(2);
+		String qrCodeImage = "";
+		
+		try {
+	        if (vo.getCreateDate() == null) {
+	            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+	            vo.setCreateDate(sdf.format(new Date()));
+	        }
+	        
+			// QRCode 안의 한글 인코딩
+			qrCodeName += vo.getBranchName() + "_" + vo.getCreateDate();
+			qrCodeImage = "지점명 : " + vo.getBranchName() + "\n";
+			qrCodeImage += "연락처 : " + vo.getBranchTel() + "\n";
+			qrCodeImage += "상세주소 : " + vo.getBranchLocation() + "\n";
+			qrCodeImage += "위도 : " + vo.getLatitude() + "\n";
+			qrCodeImage += "경도 : " + vo.getLongitude() + "\n";
+			qrCodeImage += "생성일 : " + vo.getCreateDate().substring(0,10);
+			qrCodeImage = new String(qrCodeImage.getBytes("UTF-8"), "ISO-8859-1");
+			
+			// qr 코드 만들기
+			QRCodeWriter qrCodeWriter = new QRCodeWriter();
+			BitMatrix bitMatrix = qrCodeWriter.encode(qrCodeImage, BarcodeFormat.QR_CODE, 200, 200); // 점의 밀도 형식  // 바코드 만드는 형식과 똑같이 만듦(구글에서 제공 BarcodeFormat)  // 크기(폭, 높이)
+			
+			//MatrixToImageConfig matrixToImageConfig = new MatrixToImageConfig();  // 기본컬러(글자색:검정,배경색:흰색) => 색을 바꾸려면 여기서 바꾸면 됨 // 점을 그림으로 바꾸는 class
+			int qrCodeColor = 0xFF000000;
+			int qrCodeBackColor = 0xFFFFFFFF;
+			
+			MatrixToImageConfig matrixToImageConfig = new MatrixToImageConfig(qrCodeColor, qrCodeBackColor);
+			BufferedImage buffredImage = MatrixToImageWriter.toBufferedImage(bitMatrix, matrixToImageConfig);  // 랜더링 처리한 qr코드 이미지를 실제 그림으로 꺼냄 // 이미지로 만들어 주겠다 // buffer 이용하는 것이 안정적이라 함
+			
+			// 랜더링된 QR코드 이미지를 실제 그림파일로 만들어낸다.
+			ImageIO.write(buffredImage, "png", new File(realPath + qrCodeName + ".png") );
+			
+			// QR코드 생성후, 생성된 정보를 DB에 저장시켜준다.
+			vo.setQrCode(qrCodeName);
+		} catch (IOException e) {
+			e.printStackTrace();
+		} catch (WriterException e) {
+			e.printStackTrace();
+		}
+		
+		return csworkDAO.setBranchInput(vo);
+    }
+
+	@Override
+	public List<AirVO> getAirStation() {
+        return csworkDAO.getAirStation();
+	}
+
+	@Override
+	public List<AirVO> getAirQuality(String stationName) {
+	    List<AirVO> airVOS = new ArrayList<AirVO>();
+	    StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B552584/ArpltnInforInqireSvc/getMsrstnAcctoRltmMesureDnsty");
+	    try {
+	        urlBuilder.append("?" + URLEncoder.encode("serviceKey", "UTF-8") + "=otJChM%2F2%2FlhEU46DhF2TXCxo%2FN9BNwpNNkd7XGrlrOdggtMr%2FDciosXbEvJ4D4KWcS5sjYmneyYHiQSWh%2ByUMQ%3D%3D");
+	        urlBuilder.append("&" + URLEncoder.encode("returnType", "UTF-8") + "=" + URLEncoder.encode("json", "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("numOfRows", "UTF-8") + "=" + URLEncoder.encode("10", "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("pageNo", "UTF-8") + "=" + URLEncoder.encode("1", "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("stationName", "UTF-8") + "=" + URLEncoder.encode(stationName, "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("dataTerm", "UTF-8") + "=" + URLEncoder.encode("DAILY", "UTF-8"));
+	        urlBuilder.append("&" + URLEncoder.encode("ver", "UTF-8") + "=" + URLEncoder.encode("1.0", "UTF-8"));
+
+	        URL url = new URL(urlBuilder.toString());
+	        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+	        conn.setRequestMethod("GET");
+	        conn.setRequestProperty("Content-type", "application/json");
+
+	        BufferedReader rd;
+	        if (conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
+	            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
+	        } else {
+	            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+	        }
+
+	        StringBuilder sb = new StringBuilder();
+	        String line;
+	        while ((line = rd.readLine()) != null) {
+	            sb.append(line);
+	        }
+	        rd.close();
+	        conn.disconnect();
+
+	        String str = sb.substring(sb.indexOf("["));
+	        JSONArray jsonArray = new JSONArray(str);
+	        for (int i = 0; i < jsonArray.length(); i++) {
+	            JSONObject jsonObject = jsonArray.getJSONObject(i);
+	            AirVO airVO = new AirVO();
+	            airVO.setDataTime(jsonObject.getString("dataTime"));
+	            airVO.setSo2Value(jsonObject.getString("so2Value"));
+	            airVO.setCoValue(jsonObject.getString("coValue"));
+	            airVO.setO3Value(jsonObject.getString("o3Value"));
+	            airVO.setNo2Value(jsonObject.getString("no2Value"));
+	            airVO.setPm10Value(jsonObject.getString("pm10Value"));
+	            airVO.setPm25Value(jsonObject.getString("pm25Value"));
+	            airVO.setKhaiValue(jsonObject.getString("khaiValue"));
+	            airVOS.add(airVO);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
+	    return airVOS;
+	}
 }

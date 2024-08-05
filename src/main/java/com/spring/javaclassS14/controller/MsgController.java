@@ -168,6 +168,22 @@ public class MsgController {
 			model.addAttribute("msg", "설문응답 등록 실패했습니다. 다시 시도해 주세요..");
 			model.addAttribute("url", "/survey/surveyList");
 		}
+		else if(msgFlag.equals("branchInputOk")) {
+			model.addAttribute("msg", "지점등록이 완료되었습니다!");
+			model.addAttribute("url", "/cswork/branchMap");
+		}
+		else if(msgFlag.equals("branchInputNo")) {
+			model.addAttribute("msg", "지점 등록 실패!");
+			model.addAttribute("url", "/admin/info/branchInput");
+		}
+		else if(msgFlag.equals("qnaInputOk")) {
+			model.addAttribute("msg", "문의사항이 접수되었습니다.");
+			model.addAttribute("url", "/main");
+		}
+		else if(msgFlag.equals("qnaInputNo")) {
+			model.addAttribute("msg", "문의 접수에 실패하였습니다 다시 시도해주세요.");
+			model.addAttribute("url", "/cswork/qna/qnaApply");
+		}
 		
 	return "include/msg";
 	}

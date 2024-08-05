@@ -141,6 +141,62 @@
 
             setInterval(countdown, 1000);
 	    };
+	    
+	    function toggleBookmark(productId) {
+	        $.ajax({
+	            url: '${ctp}/bookmark/toggle',
+	            type: 'POST',
+	            data: { productIdx: productId },
+	            success: function(response) {
+	                // 성공적으로 처리된 경우 UI를 업데이트합니다.
+	                alert(response.message);
+	            },
+	            error: function(xhr, status, error) {
+	                alert("북마크 처리 중 오류가 발생했습니다.");
+	            }
+	        });
+	    }
+	    
+	    function updateAirQuality() {
+	        let stationName = $('#station').val();
+	        
+	        $.ajax({
+	            url: '${ctp}/cswork/getAirQuality',
+	            type: 'POST',
+	            data: { stationName: stationName },
+	            success: function(response) {
+	                const airVOS = response;
+	                let str = '';
+	                for(let i = 0; i < 3; i++) {
+	                    str += '<br>[측정일시] : ' + airVOS[i].dataTime + '<br/>';
+	                    str += '오존 농도(단위: ppm) : ' + airVOS[i].o3Value + '<br/>';
+	                    str += '미세먼지(PM10) 농도(단위: ug/m3) : ' + airVOS[i].pm10Value + '<br/>';
+	                    str += '초미세먼지(PM2.5) 농도(단위: ug/m3) : ' + airVOS[i].pm25Value + '<br/>';
+	                    str += '통합대기환경수치 : ' + airVOS[i].khaiValue + '<br/>';
+	                }
+
+	                let airQualityLevel = '';
+	                let icon = '';
+	                if (airVOS[0].pm10Value <= 30) {
+	                    airQualityLevel = 'good';
+	                    icon = '${ctp}/images/happiness.png';
+	                } else if (airVOS[0].pm10Value <= 80) {
+	                    airQualityLevel = 'moderate';
+	                    icon = '${ctp}/images/soso.png';
+	                } else {
+	                    airQualityLevel = 'bad';
+	                    icon = '${ctp}/images/anger.png';
+	                }
+
+	                document.getElementById('airQualityIcon').src = icon;
+	                document.getElementById('airQualityText').innerHTML = str;
+	                document.getElementById('airQualityText').className = airQualityLevel;
+	            },
+	            error: function() {
+	                alert("Failed to retrieve air quality data.");
+	            }
+	        });
+	    }
 	</script>
 </head>
 
@@ -180,7 +236,7 @@
 								</figure>
 								<div class="details">
 									<div class="category"><a href="#">공지사항</a></div>
-									<h1><a href="#">첫가입, 첫구매 시 적립금/쿠폰 지급</a></h1>
+									<h1><a href="#">회원가입 시 적립금/할인쿠폰 혜택을 드려요!</a></h1>
 									<div class="time">2024.7.13.</div>
 								</div>
 							</article>
@@ -256,7 +312,8 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="${ctp}/users/saveBookmark" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
+												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic1">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -292,7 +349,8 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
+												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic2">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -332,7 +390,8 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
+												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic3">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -368,7 +427,8 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="${ctp}/users/saveBookmarkToggle" class="bookmark"><i class="fa-solid fa-bookmark"></i><div>0</div></a>
+												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
+												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic4">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -575,15 +635,13 @@
 							<form class="newsletter">
 								<h4>한국환경공단 대기오염정보</h4>
 				                <div id="airQualityInfo">
-				                    <img id="airQualityIcon" src="" alt="Air Quality Icon" style="width:200px;">
-					                <select class="form-input-control float-right">
-					                	<option>강남구</option>
-					                	<option>동탄</option>
-					                	<option>영월읍</option>
-					                	<option>오송읍</option>
-					                	<option>남해읍</option>
-					                	<option>구례읍</option>
+					                <select class="form-input-control float-right" id="station" onchange="updateAirQuality()" style="font-size:20px;">
+					                	<option value="종로구" selected>기본값 : 종로구<option>
+				                    <c:forEach var="airStationVO" items="${airStationVOS}">
+					                	<option value="${airStationVO.stationName}">${airStationVO.stationRegion} : ${airStationVO.stationName}</option>
+					                </c:forEach>
 					                </select>
+				                    <img id="airQualityIcon" src="" alt="Air Quality Icon" style="width:200px;">
 				                    <p id="airQualityText">...</p>
 				                </div>
 							</form>
@@ -730,9 +788,9 @@
 						</h1>
 						<div class="aside-body">
 							<ul class="video-list" data-youtube='"carousel":true, "nav": "#video-list-nav"'>
+								<li><a data-youtube-id="X_dopDAdFms" data-action="magnific"></a></li>
 								<li><a data-youtube-id="S_vzMufytlY" data-action="magnific"></a></li>
-								<li><a data-youtube-id="9cVJr3eQfXc" data-action="magnific"></a></li>
-								<li><a data-youtube-id="DnGdoEa1tPg" data-action="magnific"></a></li>
+								<li><a data-youtube-id="rsQ0566tNdY" data-action="magnific"></a></li>
 							</ul>
 						</div>
 					</aside>

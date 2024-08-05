@@ -10,7 +10,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.UserDAO;
-import com.spring.javaclassS14.vo.SaveMypageVO;
+import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 @Service
@@ -33,8 +33,8 @@ public class UserServiceImpl implements UserService {
 	}
 	
 	@Override
-	public UserVO getUserEmailCheck(String email) {
-		return userDAO.getUserEmailCheck(email);
+	public UserVO getUserCheck(String name, String email) {
+		return userDAO.getUserCheck(name, email);
 	}
 
 	@Override
@@ -129,7 +129,7 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public SaveMypageVO getBookmarkList(String userId) {
+	public SaveInterestVO getBookmarkList(String userId) {
 		return userDAO.getBookmarkList(userId);
 	}
 
@@ -142,5 +142,10 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark) {
 		userDAO.saveBookmarkToggle(userId, partUrl, bookmark);
+	}
+
+	@Override
+	public int getUserEmailCheck(String email) {
+		return userDAO.getUserEmailCheck(email);
 	}
 }

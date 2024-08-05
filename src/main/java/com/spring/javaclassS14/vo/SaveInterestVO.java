@@ -3,7 +3,7 @@ package com.spring.javaclassS14.vo;
 import lombok.Data;
 
 @Data
-public class SaveMypageVO {
+public class SaveInterestVO {
 	// 북마크
 	private int bookmarkIdx;
 	private String userId;

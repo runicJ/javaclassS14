@@ -32,7 +32,7 @@ import com.spring.javaclassS14.service.CsworkService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.CrawlingVO;
-import com.spring.javaclassS14.vo.SaveMypageVO;
+import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 /**
@@ -264,13 +264,17 @@ public class HomeController {
         
         model.addAttribute("airVOSJson", airVOSJson);
         
+        List<AirVO> airStationVOS = introService.getAirStation();
+        
+        model.addAttribute("airStationVOS", airStationVOS);
+        
         return "main/main";
     }
     
 	// 유저 채팅창 띄우기
-	@RequestMapping(value = "/community/chat/userChat", method = RequestMethod.GET)
+	@RequestMapping(value = "/community/userChat", method = RequestMethod.GET)
 		public String userChatGet() {
-	    return "community/chat/userChat";
+	    return "community/userChat";
 	}
 	
 	// 검색하기

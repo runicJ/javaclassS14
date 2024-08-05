@@ -1,6 +1,5 @@
 package com.spring.javaclassS14.service;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import org.springframework.web.multipart.MultipartFile;
@@ -8,7 +7,6 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.CsworkVO;
-import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -100,5 +98,7 @@ public interface ShopService {
 	public int setProductReviewDelete(int reveiwIdx);
 
 	public int imgCheckNoticeInput(MultipartFile file, CsworkVO csworkVO);
+
+	public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice);
 
 }

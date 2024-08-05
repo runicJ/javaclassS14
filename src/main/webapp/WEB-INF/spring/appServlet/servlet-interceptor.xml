@@ -20,15 +20,26 @@
 		<interceptor>
 	    <mapping path="/users/**"/>
 	    <mapping path="/shop/**" />
+	    <mapping path="/cart/**" />
    	    <mapping path="/community/**"/>
+   	    <mapping path="/survey/**"/>
+   	    <mapping path="/review/**"/>
+   	    <mapping path="/recent/**"/>
 	    <!-- <mapping path="/shop/addToCart"/> -->
 	    <exclude-mapping path="/users/userLogin"/>
-	    <exclude-mapping path="/users/userResister"/>
+	    <exclude-mapping path="/users/userPolicy"/>
+	    <exclude-mapping path="/users/userRegister"/>
+	    <exclude-mapping path="/users/uidCheck"/>
+	    <exclude-mapping path="/users/nickCheck"/>
+	    <exclude-mapping path="/users/emailCheck"/>
 	    <exclude-mapping path="/users/userFindId"/>
 	    <exclude-mapping path="/users/userFindPw"/>
 	    <exclude-mapping path="/users/userLogout"/>
 	    <exclude-mapping path="/users/kakaoLogin"/>
 	    <exclude-mapping path="/users/kakaoLogout"/>
+	    <exclude-mapping path="/survey/surveyList"/>
+	    <exclude-mapping path="/shop/productList"/>
+	    <exclude-mapping path="/shop/productDetails"/>
 	    <beans:ref bean="level3Interceptor" />
 		</interceptor>
 	  	<!-- 2 -->
@@ -36,15 +47,11 @@
 	    <mapping path="/community/**"/>
 	    <mapping path="/review/photoReview"/>
 		<!-- 비회원 처리 인터셉트가 추가로 필요함(비회원 못막음) -->
-	    <exclude-mapping path="/board/boardList"/>
 	    <beans:ref bean="level2Interceptor" />
 		</interceptor>
  	 	<!-- 1 -->
 		<interceptor>
 		<mapping path="/pds/**" />
-		<!-- 여긴 지금 준회원 이하는 제한이 안됨(준회원은 정회원에서 제한해야함) -->
-	  	<exclude-mapping path="/pds/pdsList"/>
-	  	<exclude-mapping path="/pds/pdsDownload"/>
 	  	<beans:ref bean="level1Interceptor" />
 		</interceptor>
 	  	<!-- 지점장 -->

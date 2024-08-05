@@ -2,6 +2,8 @@ package com.spring.javaclassS14.controller;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -13,6 +15,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS14.service.CsworkService;
 import com.spring.javaclassS14.service.ShopService;
+import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.BranchVO;
 import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.ShopVO;
@@ -42,14 +45,13 @@ public class CsworkController {
 	// 지점 소개
 	@RequestMapping(value="/branchMap",method=RequestMethod.GET)
 	public String branchMapGet(Model model,
-			@RequestParam(name="branchName", defaultValue = "", required = false) String branchName) {
+			@RequestParam(name="branchName", defaultValue = "괄호안쉼표 청주점", required = false) String branchName) {
 		BranchVO vo = new BranchVO();
 		List<BranchVO> branchVOS = csworkService.getBranchList();
 		
 		if(branchName.equals("")) {
-			vo.setLatitude(36.6224322807634);
-			vo.setLongitude(127.332285985453);
-			vo = csworkService.getBranchSearch2(vo.getLatitude(),vo.getLongitude());
+			vo.setLatitude(36.6283272);
+			vo.setLongitude(127.4913407);
 		}
 		else {
 			vo = csworkService.getBranchSearch(branchName);
@@ -109,14 +111,16 @@ public class CsworkController {
 	}
 	
 	@RequestMapping(value="/qna/qnaInput", method=RequestMethod.POST)
-	public String qnaInputPost(CsworkVO qnaVO) {
-		int res = csworkService.setQnaInput(qnaVO);
+	public String qnaInputPost(CsworkVO qnaVO, HttpSession session) {
+		String sUid = (String) session.getAttribute("sUid");
 		
-		return res + "";
+		int res = csworkService.setQnaInput(qnaVO, sUid);
+		
+		return res != 0 ? "redirect:/msg/qnaInputOk" : "redirect:/msg/qnaInputNo";
 	}
 	
 	@RequestMapping(value="/faq/faqList", method=RequestMethod.GET)
-	public String qnaInputGet(Model model) {
+	public String faqInputGet(Model model) {
 		List<CsworkVO> faqVOS = csworkService.getFaqList();
 		List<CsworkVO> faqTop10VOS = csworkService.getFaqTopList();
 		
@@ -127,10 +131,17 @@ public class CsworkController {
 	
 	@ResponseBody
 	@RequestMapping(value="/faq/faqList", method=RequestMethod.POST)
-	public String qnaInputPost(Model model, @RequestParam String category, @RequestParam String keyword) {
+	public String faqInputPost(Model model, @RequestParam String category, @RequestParam String keyword) {
 		List<CsworkVO> faqVOS = csworkService.getFaqSearchList(category, keyword);
 		
 		model.addAttribute("faqVOS",faqVOS);
 		return "cswork/qna/faqList";
+	}
+	
+	@ResponseBody
+	@RequestMapping(value="/getAirQuality", method=RequestMethod.POST)
+	public List<AirVO> getAirQuality(@RequestParam String stationName) {
+		
+	    return csworkService.getAirQuality(stationName);
 	}
 }

@@ -5,13 +5,13 @@ import java.util.List;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.BranchVO;
 import com.spring.javaclassS14.vo.CsworkVO;
-import com.spring.javaclassS14.vo.SaveMypageVO;
+import com.spring.javaclassS14.vo.SaveInterestVO;
 
 public interface CsworkService {
 
 	public List<BranchVO> getBranchList();
 
-	public List<SaveMypageVO> findTopNews(int limit);
+	public List<SaveInterestVO> findTopNews(int limit);
 
 	public List<String> getMenuOptions();
 
@@ -23,9 +23,7 @@ public interface CsworkService {
 
 	public BranchVO getBranchSearch(String branchName);
 
-	public BranchVO getBranchSearch2(double latitude, double longitude);
-
-	public int setQnaInput(CsworkVO qnaVO);
+	public int setQnaInput(CsworkVO qnaVO, String sUid);
 
 	public int setFaqInput(CsworkVO csworkVO);
 
@@ -34,5 +32,11 @@ public interface CsworkService {
 	public List<CsworkVO> getFaqTopList();
 
 	public List<CsworkVO> getFaqSearchList(String category, String keyword);
+
+	public int setBranchInput(String realPath, BranchVO branchVO);
+
+	public List<AirVO> getAirStation();
+
+	public List<AirVO> getAirQuality(String stationName);
 
 }

@@ -182,6 +182,11 @@ margin-top: 20px;
 		                                        <input type="text" id="maxamount">
 		                                    </div>
 		                                </div>
+		                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
+									        <input type="hidden" name="minPrice" id="hiddenMinPrice" value="">
+									        <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="">
+									        <button type="submit" class="btn btn-primary">필터 적용</button>
+									    </form>
 		                            </div>
 		                        </div>
 		                        </div>
@@ -356,14 +361,17 @@ maxamount = $("#maxamount"),
 minPrice = rangeSlider.data('min'),
 maxPrice = rangeSlider.data('max');
 rangeSlider.slider({
-range: true,
-min: minPrice,
-max: maxPrice,
-values: [minPrice, maxPrice],
-slide: function (event, ui) {
-    minamount.val('￦' + ui.values[0]);
-    maxamount.val('￦' + ui.values[1]);
-}
+    range: true,
+    min: minPrice,
+    max: maxPrice,
+    values: [minPrice, maxPrice],
+    slide: function (event, ui) {
+        minamount.val('￦' + ui.values[0]);
+        maxamount.val('￦' + ui.values[1]);
+        // 숨겨진 입력 필드 업데이트
+        $("#hiddenMinPrice").val(ui.values[0]);
+        $("#hiddenMaxPrice").val(ui.values[1]);
+    }
 });
 minamount.val('￦' + rangeSlider.slider("values", 0));
 maxamount.val('￦' + rangeSlider.slider("values", 1));

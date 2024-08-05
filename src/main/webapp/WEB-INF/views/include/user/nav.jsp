@@ -29,54 +29,15 @@
 							<li><a href="${ctp}/cswork/branchMap">지점위치</a></li>
 						</ul>
 					</li>
-					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <span class="badge">인기</span></a>
-						<div class="dropdown-menu megamenu">
-							<div class="megamenu-inner">
-								<div class="row">
-									<div class="col-md-3">
-										<div class="row">
-											<div class="col-md-12">
-												<h2 class="megamenu-title">알레르기 목록</h2>
-											</div>
-										</div>
-										<ul class="vertical-menu">
-											<li><a href="${ctp}/news/newsList"><i class="ion-ios-circle-outline"></i> 뉴스정보</a></li>
-											<li><a href="${ctp}/news/allergic1"><i class="ion-ios-circle-outline"></i> 호흡기 알레르기</a></li>
-											<li><a href="${ctp}/news/allergic3"><i class="ion-ios-circle-outline"></i> 아토피 피부염</a></li>
-											<li><a href="${ctp}/news/allergic2"><i class="ion-ios-circle-outline"></i> 식품 알레르기</a></li>
-											<li><a href="${ctp}/news/allergic4"><i class="ion-ios-circle-outline"></i> 기타 알레르기</a></li>
-										</ul>
-									</div>
-									<div class="col-md-9">
-										<div class="row">
-											<div class="col-md-12">
-												<h2 class="megamenu-title">인기있는 추천 기사</h2>
-											</div>
-										</div>
-										<div class="row">
-											<c:forEach var="topNewsVO" items="${topNewsVOS}">
-											<article class="article col-md-4 mini">
-												<div class="inner">
-													<figure>
-                                                        <a href="${topNewsVO['partUrl']}">
-                                                            <img src="${ctp}/images/default-thumbnail.jpg" alt="Bookmarked Article">
-                                                        </a>
-                                                    </figure>
-													<div class="padding">
-                                                        <div class="detail">
-                                                            <div class="time">Bookmark</div>
-                                                            <div class="category"><a href="${bookmark['partUrl']}">Category</a></div>
-                                                        </div>
-                                                        <h2><a href="${bookmark['partUrl']}">${bookmark['partUrl']}</a></h2>
-                                                    </div>
-												</div>
-											</article>
-											</c:forEach>
-										</div>
-									</div>
-								</div>								
-							</div>
-						</div>
+					<li class="dropdown magz-dropdown">
+						<a href="#">알레르기 정보<i class="ion-ios-arrow-right"></i> <span class="badge">인기</span></a>
+						<ul class="dropdown-menu">
+							<li><a href="${ctp}/news/newsList"><i class="ion-ios-circle-outline"></i> 뉴스정보</a></li>
+							<li><a href="${ctp}/news/allergic1"><i class="ion-ios-circle-outline"></i> 호흡기 알레르기</a></li>
+							<li><a href="${ctp}/news/allergic3"><i class="ion-ios-circle-outline"></i> 아토피 피부염</a></li>
+							<li><a href="${ctp}/news/allergic2"><i class="ion-ios-circle-outline"></i> 식품 알레르기</a></li>
+							<li><a href="${ctp}/news/allergic4"><i class="ion-ios-circle-outline"></i> 기타 알레르기</a></li>
+						</ul>
 					</li>
 					<li class="dropdown magz-dropdown magz-dropdown-megamenu"><a href="#">알러지프리 제품<i class="ion-ios-arrow-right"></i></a>
 						<div class="dropdown-menu megamenu">
@@ -109,7 +70,7 @@
 						<a href="#">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/community/hospitalList">알레르기 전문병원</a></li>
-							<li><a href="${ctp}/community/hospitalReview">병원 후기</a></li>
+							<li><a href="${ctp}/community/hospitalComment">병원 후기</a></li>
 							<li><a href="${ctp}/community/userChat">정보를 나눠요(유저채팅)</a></li>
 						</ul>
 					</li>

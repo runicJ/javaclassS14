@@ -5,7 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
-import com.spring.javaclassS14.vo.SaveMypageVO;
+import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 public interface UserDAO {
@@ -14,7 +14,7 @@ public interface UserDAO {
 
 	public UserVO getUserNickCheck(@Param("nickName") String nickName);
 
-	public UserVO getUserEmailCheck(@Param("email") String email);
+	public UserVO getUserCheck(@Param("name") String name, @Param("email") String email);
 
 	public int setUserRegisterOk(@Param("vo") UserVO vo);
 
@@ -42,7 +42,7 @@ public interface UserDAO {
 
 	public int setUserUpdate(@Param("vo") UserVO vo);
 
-	public SaveMypageVO getBookmarkList(@Param("userId") String userId);
+	public SaveInterestVO getBookmarkList(@Param("userId") String userId);
 
 	public int checkUserBookmark(@Param("userId") String userId, @Param("partUrl") String partUrl);
 
@@ -51,6 +51,8 @@ public interface UserDAO {
 	public int totRecCntKeyword(@Param("keyword") String keyword);
 
 	public int totRecCntOption(Map<String, Object> paramMap);
+
+	public int getUserEmailCheck(String email);
 	
 //	public int setUserDelete(@Param("userId") String userId);
 //	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);

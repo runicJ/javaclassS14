@@ -16,7 +16,7 @@
 						<p class="brand-description">
 							괄호 안에서 살아가는 우리에게 <br>쉼표가 되어드리고 싶습니다.
 						</p>
-						<a href="${ctp}/introduce/greeting" class="btn btn-magz white">우리를 소개합니다 <i class="ion-ios-arrow-thin-right"></i></a>
+						<a href="${ctp}/cswork/greeting" class="btn btn-magz white">우리를 소개합니다 <i class="ion-ios-arrow-thin-right"></i></a>
 					</div>
 				</div>
 			</div>
@@ -50,31 +50,26 @@
 						<p><i class="fa-solid fa-paperclip"></i> 그린컴퓨터 아트학원 청주점</p>
 						<ul class="social trp">
 							<li>
-								<a href="#" class="facebook">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-facebook"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="youtube">
+								<a href="https://youtube.com/@pause-in-parentheses?si=CldyX5-JGB8EAJOr" class="youtube">
 									<svg><rect width="0" height="0"/></svg>
 									<i class="ion-social-youtube-outline"></i>
 								</a>
 							</li>
 							<li>
-								<a href="#" class="googleplus">
-									<svg><rect width="0" height="0"/></svg>
-									<i class="ion-social-googleplus"></i>
-								</a>
-							</li>
-							<li>
-								<a href="#" class="instagram">
+								<a href="https://www.instagram.com/" class="instagram">
 									<svg><rect width="0" height="0"/></svg>
 									<i class="ion-social-instagram-outline"></i>
 								</a>
 							</li>
+							<li>
+								<a href="https://www.facebook.com/?locale=ko_KR" class="facebook">
+									<svg><rect width="0" height="0"/></svg>
+									<i class="ion-social-facebook"></i>
+								</a>
+							</li>
+						    <li><div id="kakao-talk-channel-add-button" style="height:40px;widht:auto;"></div></li>
 						</ul>
-						<a href="${ctp}/cswork/qna/qnaInput" class="btn btn-magz white btn-block">1:1문의하기 <i class="ion-ios-arrow-thin-right"></i></a>
+						<a href="${ctp}/cswork/qna/qnaApply" class="btn btn-magz white btn-block">1:1문의하기 <i class="ion-ios-arrow-thin-right"></i></a>
 					</div>
 				</div>
 			</div>
@@ -134,4 +129,17 @@
     	$('html, body').animate({scrollTop:0, behavior: "smooth"},400);
     	return false;
     });
+    
 </script>
+    <script src="https://t1.kakaocdn.net/kakao_js_sdk/2.7.2/kakao.min.js" integrity="sha384-TiCUE00h649CAMonG018J2ujOgDKW/kVWlChEuu4jK2vxfAAD0eZxzCKakxg55G4" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+      // 사용할 앱의 JavaScript 키를 설정해 주세요.
+      Kakao.init('3fe3ad77eb298aac7a938386f756b9b1');
+      // 채널 추가하기 버튼을 생성합니다.
+      Kakao.Channel.createAddChannelButton({
+        container: '#kakao-talk-channel-add-button',
+        channelPublicId: '_YjzgG',
+        size: 'large',
+        supportMultipleDensities: true,
+      });
+    </script>

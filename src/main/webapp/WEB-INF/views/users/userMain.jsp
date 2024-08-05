@@ -42,7 +42,7 @@
 											</c:forEach>
 										</table>
 										<footer>
-											<a class="btn btn-primary more" href="${ctp}/user/userOrderList">
+											<a class="btn btn-primary more" href="${ctp}/users/userOrderList">
 												<span>더보기</span>
 											</a>
 										</footer>
@@ -54,7 +54,7 @@
 							<article class="article col-md-12">
 								<div class="inner">
 									<div class="padding">
-										<h2><a href="${ctp}/user/userLikedproduct">관심 제품</a></h2>
+										<h2><a href="${ctp}/users/userLikedproduct">관심 제품</a></h2>
 										<table class="table table-hover">
 											<tr>
 												<th>상품명</th>
@@ -73,7 +73,7 @@
 											</c:forEach>
 										</table>
 										<footer>
-											<a class="btn btn-primary more" href="${ctp}/user/userLikedproduct">
+											<a class="btn btn-primary more" href="${ctp}/users/userLikedproduct">
 												<span>더보기</span>
 											</a>
 										</footer>

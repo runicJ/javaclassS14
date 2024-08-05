@@ -23,4 +23,11 @@ public class AirVO {
 	private String pm25Grade;  //	초미세먼지(PM2.5) 24시간 등급자료
 	private String pm10Grade1h;  //	미세먼지(PM10) 1시간 등급자료
 	private String pm25Grade1h;  //	초미세먼지(PM2.5) 1시간 등급자료
+	
+	private int stationIdx;
+	private String stationRegion;
+	private String stationName;
+	private String stationAddress;
+	private String stationAgency;
+	private int stationYear;
 }
