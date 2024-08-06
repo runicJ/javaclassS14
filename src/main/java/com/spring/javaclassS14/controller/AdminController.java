@@ -254,10 +254,18 @@ public class AdminController {
 			@RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
 			@RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice,
             @RequestParam(name="minPrice", defaultValue = "0", required = false) int minPrice,
-            @RequestParam(name="maxPrice", defaultValue = "10000000", required = false) int maxPrice) {
+            @RequestParam(name="maxPrice", defaultValue = "10000000", required = false) int maxPrice,
+            @RequestParam(name="starRating", defaultValue = "0", required = false) int starRating,
+            @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
+            @RequestParam(name = "pageSize", defaultValue = "9", required = false) int pageSize) {
 		model.addAttribute("part", part);
+        model.addAttribute("sort", sort);
 
-		List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice, minPrice, maxPrice);	// 전체 상품리스트 가져오기
+        // 페이지네이션 처리
+        PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "product", sort, ""); // section을 "product"로 설정
+        model.addAttribute("pageVO", pageVO);
+        
+        List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice, minPrice, maxPrice, starRating, pageVO.getStartIndexNo(), pageSize);
 		model.addAttribute("productVOS", productVOS);
 		model.addAttribute("productPrice", productPrice);
 		
@@ -509,7 +517,10 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/info/qnaList", method = RequestMethod.GET)
-	public String qnaListGet() {
+	public String qnaListGet(Model model) {
+		List<CsworkVO> qnaVOS = csworkService.getQnaList();
+		
+		model.addAttribute("qnaVOS",qnaVOS);
 		return "admin/info/qnaList";
 	}
 	
@@ -530,7 +541,7 @@ public class AdminController {
 		List<OrderVO> orderVOS = orderService.getOrderList();
 		
 		model.addAttribute("orderVOS", orderVOS);
-		return "admin/shop/orderList";
+		return "admin/order/orderList";
 	}
 	
 	@RequestMapping(value = "/info/branchInput", method = RequestMethod.GET)
@@ -584,5 +595,19 @@ public class AdminController {
 		
 		return "1";
 	}
+	
+    @PostMapping("/sendQnaResponse")
+    @ResponseBody
+    public Map<String, Object> sendQnaResponse(@RequestParam int qnaIdx, @RequestParam String qnaAnswerContent) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            csworkService.sendQnaResponse(qnaIdx, qnaAnswerContent);
+            response.put("success", true);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", e.getMessage());
+        }
+        return response;
+    }
 
 }

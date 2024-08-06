@@ -48,4 +48,6 @@ public class ShopVO {
 	private int productCnt;
 	
 	private int isLiked;
+	private double averageStar;
+	private double averageRating;
 }

@@ -360,8 +360,8 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice) {
-	    return shopDAO.getProductList(part, sort, productPrice, minPrice, maxPrice);
+    public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice, int averageRating, int startIndexNo, int pageSize) {
+	    return shopDAO.getProductList(part, sort, productPrice, minPrice, maxPrice, averageRating, startIndexNo, pageSize);
 	}
 
 	@Override
@@ -386,4 +386,10 @@ public class ShopServiceImpl implements ShopService {
         List<String> tags = getTags();
         return String.join("#", tags);
     }
+
+	@Override
+	public List<String> getTopTags() {
+        return shopDAO.getTopTags();
+
+	}
 }

@@ -297,15 +297,13 @@ public class HomeController {
         
         model.addAttribute("noticeVOS",noticeVOS);
         
-        // Generate word cloud
         String tagsAsText = shopService.getTagsAsText();
         WordCloudGenerator wordCloudGenerator = new WordCloudGenerator();
         try {
-            // 서버의 리소스 폴더에 저장
             String outputDirectory = request.getSession().getServletContext().getRealPath("/resources/data/wordcloud/");
             File directory = new File(outputDirectory);
             if (!directory.exists()) {
-                directory.mkdirs(); // 디렉토리가 없으면 생성
+                directory.mkdirs();
             }
             String wordCloudOutputPath = outputDirectory + "wordcloud.png";
             wordCloudGenerator.generateWordCloud(tagsAsText, wordCloudOutputPath); // String을 전달

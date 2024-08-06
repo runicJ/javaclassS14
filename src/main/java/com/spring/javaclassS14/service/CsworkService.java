@@ -39,4 +39,8 @@ public interface CsworkService {
 
 	public List<AirVO> getAirQuality(String stationName);
 
+	public List<CsworkVO> getQnaList();
+
+	public void sendQnaResponse(int qnaIdx, String qnaAnswerContent) throws Exception;
+
 }

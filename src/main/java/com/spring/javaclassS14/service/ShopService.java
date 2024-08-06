@@ -97,7 +97,7 @@ public interface ShopService {
 
 	public int imgCheckNoticeInput(MultipartFile file, CsworkVO csworkVO);
 
-	public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice);
+	public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice, int averageRating, int startIndexNo, int pageSize);
 
 	public boolean canRecordProductView(String userId, int productIdx);
 
@@ -105,5 +105,7 @@ public interface ShopService {
 
 	public List<String> getTags();
 	public String getTagsAsText();
+
+	public List<String> getTopTags();
 
 }

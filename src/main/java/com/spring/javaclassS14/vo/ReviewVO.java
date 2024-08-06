@@ -18,4 +18,5 @@ public class ReviewVO {
 	
 	private String userImage;
 	private int productReviewCnt;
+	private double averageStar;
 }

@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -83,30 +84,44 @@ margin-top: 20px;
 			location.href = "photoGalleryList?sort="+sort;
 		}
 		
-	    function toggleLiked(productIdx, element) {
-	        $.ajax({
-	            url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
-	            type: 'POST',
-	            data: { productIdx: productIdx },
-	            success: function(response) {
-	                if (response.success) {
-	                    // 관심등록 상태에 따라 하트 색상 변경
-	                    if (response.isInterested) {
-	                        $(element).find('i').css('color', 'red');  // 하트 아이콘을 빨간색으로 변경
-	                        alert("관심등록 되었습니다.");
-	                    } else {
-	                        $(element).find('i').css('color', ''); // 기본 색상으로 되돌림
-	                        alert("관심등록이 취소되었습니다.");
-	                    }
-	                } else {
-	                    alert("처리 중 오류가 발생했습니다.");
-	                }
-	            },
-	            error: function(xhr, status, error) {
-	                alert("관심등록 처리 중 오류가 발생했습니다.");
-	            }
-	        });
-	    }
+		function toggleLiked(productIdx, element) {
+		    $.ajax({
+		        url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
+		        type: 'POST',
+		        data: { productIdx: productIdx },
+		        success: function(response) {
+		            if (!response.success) {
+		                alert(response.message);  // Display login required message
+		                return;
+		            }
+
+		            // Change heart icon color based on interest state
+		            if (response.isInterested) {
+		                $(element).find('i').css('color', 'red');  // Change heart icon to red
+		            } else {
+		                $(element).find('i').css('color', '');  // Revert to default color
+		            }
+		            alert(response.message);
+		        },
+		        error: function(xhr, status, error) {
+		            alert("관심등록 처리 중 오류가 발생했습니다.");
+		        }
+		    });
+		}
+	    
+		function applyFilter() {
+		    let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
+		    
+		    let sort = document.getElementById("sort").value;
+
+		    let minPrice = $("#hiddenMinPrice").val();
+		    let maxPrice = $("#hiddenMaxPrice").val();
+
+		    let url = `${ctp}/shop/productList?averageRating=${averageRating}&sort=${sort}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+
+		    window.location.href = url;
+		}
+
 	</script>
 </head>
 <body>
@@ -172,93 +187,70 @@ margin-top: 20px;
                                 </div>
                                 </c:forEach>
                                 <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseThree">가격</a>
-                                    </div>
-                                    <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__price">
-                                                <ul>
-                                                    <li><a href="${ctp}/shop/productList">가격 전체</a></li>
-                                                    <li><a href="${ctp}/shop/productList?productPrice=100000">~10만원</a></li>
-                                                    <li><a href="${ctp}/shop/productList?productPrice=300000">~30만원</a></li>
-                                                    <li><a href="${ctp}/shop/productList?productPrice=600000">~60만원</a></li>
-                                                    <li><a href="${ctp}/shop/productList?productPrice=1000000">~100만원</a></li>
-                                                </ul>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
+								    <div class="card-heading">
+								        <a data-toggle="collapse" data-target="#collapseFour">별점</a>
+								    </div>
+								    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
+								        <div class="card-body">
+											<div class="shop__sidebar__size">
+											    <label for="all">별점 전체
+											        <input type="radio" name="averageRating" value="0" ${averageRating == 0 ? 'checked' : ''} onclick="applyFilter()">
+											    </label>
+											    <label for="fourth">☆★★★★ 4점 이상
+											        <input type="radio" name="averageRating" value="4" ${averageRating == 4 ? 'checked' : ''} onclick="applyFilter()">
+											    </label>
+											    <label for="third">☆☆★★★ 3점 이상
+											        <input type="radio" name="averageRating" value="3" ${averageRating == 3 ? 'checked' : ''} onclick="applyFilter()">
+											    </label>
+											    <label for="second">☆☆☆★★ 2점 이상
+											        <input type="radio" name="averageRating" value="2" ${averageRating == 2 ? 'checked' : ''} onclick="applyFilter()">
+											    </label>
+											    <label for="first">☆☆☆☆★ 1점 이상
+											        <input type="radio" name="averageRating" value="1" ${averageRating == 1 ? 'checked' : ''} onclick="applyFilter()">
+											    </label>
+											</div>
+								        </div>
+								    </div>
+								</div>
                                 <div class="card">
-                                <div class="sidebar__item">
-                                    <div class="card-heading">
-		                            <h4>가격 상세설정</h4>
-		                            </div>
-		                            <div class="price-range-wrap">
-		                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="1000" data-max="5000000">
-		                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-		                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-		                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default"></span>
-		                                </div>
-		                                <div class="range-slider">
-		                                    <div class="price-input">
-		                                        <input type="text" id="minamount">
-		                                        <span> ~ </span>
-		                                        <input type="text" id="maxamount">
-		                                    </div>
-		                                </div>
-		                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
-									        <input type="hidden" name="minPrice" id="hiddenMinPrice" value="">
-									        <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="">
-									        <button type="submit" class="btn btn-primary">필터 적용</button>
-									    </form>
-		                            </div>
+								    <div class="card-heading">
+								        <a data-toggle="collapse" data-target="#collapseSix">추천 태그</a>
+								    </div>
+								    <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
+								        <div class="card-body">
+								            <div class="shop__sidebar__tags">
+								                <c:forEach var="tag" items="${topTags}">
+								                    <a href="#">#${tag}</a>
+								                </c:forEach>
+								            </div>
+								        </div>
+								    </div>
+								</div>
+								<div class="card">
+	                                <div class="sidebar__item">
+	                                    <div class="card-heading">
+			                            	<h4>가격 상세설정</h4>
+			                            </div>
+			                            <div class="price-range-wrap">
+			                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="1000" data-max="5000000">
+			                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+			                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="background-color:#000d35;"></span>
+			                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="background-color:#000d35;"></span>
+			                                </div>
+			                                <div class="range-slider">
+			                                    <div class="price-input">
+			                                        <input type="text" id="minamount" style="max-width:40%;">~
+			                                        <input type="text" id="maxamount" style="max-width:40%;">
+			                                    </div>
+			                                </div>
+			                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
+											    <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
+											    <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
+										        <button type="submit" class="btn btn-primary">필터 적용</button>
+										    </form>
+			                            </div>
+			                        </div>
 		                        </div>
-		                        </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseFour">별점</a>
-                                    </div>
-                                    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__size">
-                                                <label for="xs">별점 전체
-                                                    <input type="radio" id="all">
-                                                </label>
-                                                <label for="sm">☆★★★★ 4점 이상
-                                                    <input type="radio" id="fourth">
-                                                </label>
-                                                <label for="md">☆☆★★★ 3점 이상
-                                                    <input type="radio" id="third">
-                                                </label>
-                                                <label for="xl">☆☆☆★★ 2점 이상
-                                                    <input type="radio" id="second">
-                                                </label>
-                                                <label for="2xl">☆☆☆☆★ 1점 이상
-                                                    <input type="radio" id="first">
-                                                </label>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="card">
-                                    <div class="card-heading">
-                                        <a data-toggle="collapse" data-target="#collapseSix">추천 태그</a>
-                                    </div>
-                                    <div id="collapseSix" class="collapse show" data-parent="#accordionExample">
-                                        <div class="card-body">
-                                            <div class="shop__sidebar__tags">
-                                                <a href="#">#도도새</a>
-                                                <a href="#">#알레르기</a>
-                                                <a href="#">#알레르망</a>
-                                                <a href="#">#아이</a>
-                                                <a href="#">#아토피</a>
-                                                <a href="#">#비염</a>
-                                                <a href="#">#이불</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
                             </div>
                         </div>
                     </div>
@@ -268,18 +260,18 @@ margin-top: 20px;
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Showing 1–12 of ${productCntVO.productCnt} results</p>
+                                    <p>Showing ${pageVO.startIndexNo + 1}–${pageVO.pageSize} of ${productCntVO.productCnt} results</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
                                     <p>정렬순서</p>
-                                    <select name="sort" id="sort" onchange="productSort()">
-                                        <option value="productIdx desc" ${sort == 'productIdx desc' ? 'selected' : ''}>최신등록순</option>
-                                        <option value="likedCnt" ${sort == 'likedCnt' ? 'selected' : ''}>관심등록순</option>
-                                        <option value="productPrice" ${sort == 'productPrice' ? 'selected' : ''}>가격낮은순</option>
-                                        <option value="productPrice desc" ${sort == 'productPrice desc' ? 'selected' : ''}>가격높은순</option>
-                                    </select>
+									<select name="sort" id="sort" onchange="applyFilter()">
+									    <option value="productIdx desc" ${sort == 'productIdx desc' ? 'selected' : ''}>최신등록순</option>
+									    <option value="likedCnt" ${sort == 'likedCnt' ? 'selected' : ''}>관심등록순</option>
+									    <option value="productPrice" ${sort == 'productPrice' ? 'selected' : ''}>가격낮은순</option>
+									    <option value="productPrice desc" ${sort == 'productPrice desc' ? 'selected' : ''}>가격높은순</option>
+									</select>
                                 </div>
                             </div>
                         </div>
@@ -304,27 +296,16 @@ margin-top: 20px;
                                 </div>
                                 <div class="product__item__text">
                                     <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
-                                    <p>${productVO.productDetails}</p>
-                                    <div class="rating">
-		                                <c:forEach var="i" begin="1" end="${productVO.star}" varStatus="iSt">
-		                                    <font color="gold"><i class="fas fa-star"></i></font>
-		                                </c:forEach>
-		                                <c:forEach var="i" begin="1" end="${5 - productVO.star}" varStatus="iSt">
-		                                    <i class="fa fa-star"></i>
-		                                </c:forEach>
-                                    </div>
+                                    <p>${fn:substring(productVO.productDetails,0,35)}...</p>
+									<div>
+									    <c:forEach var="i" begin="1" end="${productVO.averageRating}" varStatus="iSt">
+									        <font color="#f7941d"><i class="fa-solid fa-star"></i></font>
+									    </c:forEach>
+									    <c:forEach var="i" begin="1" end="${5 - productVO.averageRating}" varStatus="iSt">
+									        <i class="fa-solid fa-star"></i>
+									    </c:forEach>
+									</div>
                                     <h6>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
-                                    <div class="product__color__select">
-                                        <label for="pc-7">
-                                            <input type="radio" id="pc-7">
-                                        </label>
-                                        <label class="active black" for="pc-8">
-                                            <input type="radio" id="pc-8">
-                                        </label>
-                                        <label class="grey" for="pc-9">
-                                            <input type="radio" id="pc-9">
-                                        </label>
-                                    </div>
                                 </div>
                             </div>
                         </div>
@@ -332,33 +313,26 @@ margin-top: 20px;
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
-                            <div class="product__pagination">
-                                <a class="active" href="#">1</a>
-                                <a href="#">2</a>
-                                <a href="#">3</a>
-                                <span>...</span>
-                                <a href="#">21</a>
-                            </div>
+		                    <div class="product__pagination">
+			                    <nav aria-label="...">
+			                      <ul class="pagination justify-content-center">
+			                          <c:if test="${pageVO.pag > 1}"><li class="page-item">
+			                          	<a class="page-link" href="${ctp}/shop/productList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
+			                          </li></c:if>
+			                          <c:if test="${pageVO.curBlock > 0}"><li class="page-item">
+			                          	<a class="page-link" href="${ctp}/shop/productList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
+			                          </li></c:if>
+			                          <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
+									    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/shop/productList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+									    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
+									  </c:forEach>
+									  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
+									  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
+			                      </ul>
+			                   	</nav>
+		                 	</div>
                         </div>
                     </div>
-                    <div class="product__pagination">
-                    <nav aria-label="...">
-                      <ul class="pagination justify-content-center">
-                          <c:if test="${pageVO.pag > 1}"><li class="page-item">
-                          	<a class="page-link" href="${ctp}/shop/productList?pag=1&pageSize=${pageVO.pageSize}" tabindex="-1">첫페이지</a>
-                          </li></c:if>
-                          <c:if test="${pageVO.curBlock > 0}"><li class="page-item">
-                          	<a class="page-link" href="${ctp}/shop/productList?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-left"></i></a>
-                          </li></c:if>
-                          <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize) + pageVO.blockSize}" varStatus="st">
-						    <c:if test="${i <= pageVO.totPage && i == pageVO.pag}"><li class="page-item active"><a class="page-link" href="${ctp}/shop/productList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
-						    <c:if test="${i <= pageVO.totPage && i != pageVO.pag}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${i}&pageSize=${pageVO.pageSize}">${i}<span class="sr-only">(current)</span></a></li></c:if>
-						  </c:forEach>
-						  <c:if test="${pageVO.curBlock < pageVO.lastBlock}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${(pageVO.curBlock+1)*pageVO.blockSize+1}&pageSize=${pageVO.pageSize}"><i class="fa-solid fa-angle-right"></i></a></li></c:if>
-						  <c:if test="${pageVO.pag < pageVO.totPage}"><li class="page-item"><a class="page-link" href="${ctp}/shop/productList?pag=${pageVO.totPage}&pageSize=${pageVO.pageSize}">마지막페이지</a></li></c:if>
-                      </ul>
-                   	</nav>
-                 	</div>
                 </div>
             </div>
         </div>

@@ -37,6 +37,11 @@
         FROM faq ORDER BY faqIdx, faqCategory;
     </select>
     
+    <select id="getQnaList" resultType="com.spring.javaclassS14.vo.CsworkVO">
+        SELECT *, (SELECT COUNT(*) FROM qna where qnaAnswerFlag = 'n') AS qnaAnswerNo 
+        FROM qna ORDER BY qnaIdx, qnaCategory;
+    </select>
+    
     <!-- FAQ 검색 목록 가져오기 -->
     <select id="getFaqSearchList" resultType="com.spring.javaclassS14.vo.CsworkVO">
         SELECT *, 
@@ -78,5 +83,16 @@
     <insert id="setBranchInput">
         INSERT INTO branch_store VALUES (default, #{branchVO.branchName}, #{branchVO.branchTel}, #{branchVO.branchLocation}, #{branchVO.latitude}, #{branchVO.longitude}, #{branchVO.createDate}, #{branchVO.qrCode});
     </insert>
+    
+    <select id="findById" parameterType="int" resultType="com.spring.javaclassS14.vo.CsworkVO">
+        SELECT * FROM qna WHERE qnaIdx = #{qnaIdx}
+    </select>
 
+    <update id="updateQna">
+        UPDATE qna
+        SET qnaAnswerContent = #{qnaAnswerContent},
+            qnaAnswerFlag = #{qnaAnswerFlag},
+            qnaAnswerDate = NOW()
+        WHERE qnaIdx = #{qnaIdx}
+    </update>
 </mapper>

@@ -110,12 +110,18 @@ public interface ShopDAO {
 
 	public int setNoticeInput(@Param("csworkVO") CsworkVO csworkVO);
 
-	public List<ShopVO> getProductList(@Param("part") String part, @Param("sort") String sort, @Param("productPrice") String productPrice, @Param("minPrice") int minPrice, @Param("maxPrice") int maxPrice);
+	public List<ShopVO> getProductList(@Param("part") String part, @Param("sort") String sort, @Param("productPrice") String productPrice, @Param("minPrice") int minPrice, @Param("maxPrice") int maxPrice, @Param("averageRating") int averageRating, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
 	public int countProductViewsByUserAndDate(@Param("userId") String userId, @Param("date") Date date);
 
 	public void recordProductView (@Param("userId") String userId, @Param("productIdx") int productIdx);
 
 	public List<String> getAllTags();
+
+	public int totRecCntKeyword(String keyword);
+
+	public int totRecCnt();
+
+	public List<String> getTopTags();
 
 }

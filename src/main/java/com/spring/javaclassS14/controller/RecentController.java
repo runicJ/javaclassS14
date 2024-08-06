@@ -40,17 +40,24 @@ public class RecentController {
         
         boolean isInterested = false;
         boolean success = false;
+        String message = "";
 
+        Map<String, Object> result = new HashMap<>();
+        
         if (userId != null) {
             isInterested = recentService.toggleProductInterest(userId, productIdx);
             success = true;
+            message = isInterested ? "관심등록 되었습니다." : "관심등록이 취소되었습니다.";
+        } else {
+            message = "로그인이 필요합니다.";
         }
 
-        Map<String, Object> result = new HashMap<>();
         result.put("success", success);
         result.put("isInterested", isInterested);
+        result.put("message", message);
         return result;
     }
+
 
     // 최근 본 상품 저장
     @PostMapping("/saveRecentView")

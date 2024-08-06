@@ -40,4 +40,12 @@ public interface CsworkDAO {
 
 	public List<AirVO> getAirStation();
 
+	public List<CsworkVO> getQnaList();
+
+	public void sendQnaResponse(@Param("qnaIdx") int qnaIdx, @Param("qnaAnswerContent") String qnaAnswerContent);
+
+	public void updateQna(CsworkVO qna);
+
+	public CsworkVO findById(int qnaIdx);
+
 }

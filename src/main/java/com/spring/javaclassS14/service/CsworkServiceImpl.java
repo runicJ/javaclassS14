@@ -294,4 +294,27 @@ public class CsworkServiceImpl implements CsworkService {
 	    }
 	    return airVOS;
 	}
+
+	@Override
+	public List<CsworkVO> getQnaList() {
+        return csworkDAO.getQnaList();
+	}
+
+   @Override
+    public void sendQnaResponse(int qnaIdx, String qnaAnswerContent) throws Exception {
+        // Fetch QnA entry
+        CsworkVO qna = csworkDAO.findById(qnaIdx);
+
+        if (qna == null) {
+            throw new Exception("Q&A entry not found.");
+        }
+
+        // Update QnA entry with response
+        qna.setQnaAnswerContent(qnaAnswerContent);
+        qna.setQnaAnswerFlag("y");
+        csworkDAO.updateQna(qna);
+
+        // Send response email
+        allProvide.mailSend(qna.getEmail(), "안녕하세요 '괄호 안 쉼표'에서 답변드립니다.", qnaAnswerContent);
+    }
 }

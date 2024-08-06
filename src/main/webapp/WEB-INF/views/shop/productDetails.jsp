@@ -283,30 +283,47 @@
             });
         }
         
-	    function toggleLiked(productIdx, element) {
-	        $.ajax({
-	            url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
-	            type: 'POST',
-	            data: { productIdx: productIdx },
-	            success: function(response) {
-	                if (response.success) {
-	                    // 관심등록 상태에 따라 하트 색상 변경
-	                    if (response.isInterested) {
-	                        $(element).find('i').css('color', 'red');  // 하트 아이콘을 빨간색으로 변경
-	                        alert("관심등록 되었습니다.");
-	                    } else {
-	                        $(element).find('i').css('color', ''); // 기본 색상으로 되돌림
-	                        alert("관심등록이 취소되었습니다.");
-	                    }
-	                } else {
-	                    alert("처리 중 오류가 발생했습니다.");
-	                }
-	            },
-	            error: function(xhr, status, error) {
-	                alert("관심등록 처리 중 오류가 발생했습니다.");
-	            }
-	        });
-	    }
+        function toggleLiked(productIdx, element) {
+            if (sUid == null || sUid == "") {
+                alert("로그인 이후에 가능한 메뉴입니다!");
+                return false;
+            }
+
+            $.ajax({
+                url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
+                type: 'POST',
+                data: { productIdx: productIdx },
+                success: function(response) {
+                    if (response.success) {
+                        // 관심등록 상태에 따라 하트 색상 변경
+                        if (response.isInterested) {
+                            $(element).find('i').css('color', 'red');
+                            alert("관심등록 되었습니다.");
+                        } else {
+                            $(element).find('i').css('color', '');
+                            alert("관심등록이 취소되었습니다.");
+                        }
+                    } else {
+                        alert("처리 중 오류가 발생했습니다.");
+                    }
+                },
+                error: function(xhr, status, error) {
+                    alert("관심등록 처리 중 오류가 발생했습니다.");
+                }
+            });
+        }
+
+        function copyURL() {
+            // 현재 페이지 URL 가져오기
+            let url = window.location.href;
+
+            // URL을 클립보드에 복사
+            navigator.clipboard.writeText(url).then(function() {
+                alert("URL이 복사되었습니다!");
+            }, function(err) {
+                alert("URL 복사에 실패했습니다.");
+            });
+        }
     </script>
     <style>
         .layer {
@@ -398,23 +415,18 @@
                     <div class="col-lg-8">
                         <div class="product__details__text">
                             <h4>${productVO.productName}</h4>
-                            <div class="rating">
-                                <c:forEach var="i" begin="1" end="${rVo.star}" varStatus="iSt">
-                                    <font color="gold"><i class="fas fa-star"></i></font>
-                                </c:forEach>
-                                <c:forEach var="i" begin="1" end="${5 - rVo.star}" varStatus="iSt">
-                                    <i class="fa fa-star"></i>
-                                </c:forEach>
-                                <span>(후기글 ${reviewVOS[0].productReviewCnt}개)</span>
-                            </div>
+							<div class="rating">
+						        <span>평균 별점: </span>
+						        <fmt:formatNumber value="${productVO.averageStar}" type="number" maxFractionDigits="1" />
+							    <span>(후기 ${reviewVOS[0].productReviewCnt > 0 ? reviewVOS[0].productReviewCnt : 0}개)</span>
+							</div>
                             
                             <div class="product__details__btns__option">
-		                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
-		                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
-		                            <i class="fa-solid fa-heart"></i>
-		                            <span>관심등록</span>
-		                        </a>
-                                <a href="#"><i class="fa-solid fa-square-share-nodes"></i> 공유하기</a>
+                                <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
+                                    <i class="fa-solid fa-heart"></i>
+                                    <span>관심등록</span>
+                                </a>
+                                <a href="javascript:void(0);" onclick="copyURL()"><i class="fa-solid fa-square-share-nodes"></i> 공유하기</a>
                             </div>
                             
                             <div class="form-group">
@@ -537,17 +549,18 @@
                                                                 <div class="p-2"><img src="${ctp}/user/${reviewVO.userImage}" alt="user" width="50px" height="50px" class="rounded-circle"></div>
 	                                                                <div class="comment-text w-100">
 	                                                                    <div>
-	                                                                        <h6 class="font-medium"><a>${reviewVO.nickName} <i class="fa-solid fa-angle-right"></i></a></h6>
-	                                                                        <c:if test="${reviewVO.re_step == 0}">
-	                                                                        <p class="float-right">
-	                                                                            <c:forEach var="i" begin="1" end="${reviewVO.star}" varStatus="iSt">
-	                                                                                <font color="gold"><i class="fas fa-star"></i></font>
-	                                                                            </c:forEach>
-	                                                                            <c:forEach var="i" begin="1" end="${5 - reviewVO.star}" varStatus="iSt">
-	                                                                                <i class="fa fa-star"></i>
-	                                                                            </c:forEach>
-	                                                                        </p>
-	                                                                        </c:if>
+	                                                                        <h6 class="font-medium"><a>${reviewVO.nickName}${reviewVO.star} <i class="fa-solid fa-angle-right"></i></a></h6>
+														                    <c:if test="${reviewVO.orderIdx != 0}">
+														                        <p class="float-right">
+														                            <!-- 별점 표시 -->
+														                            <c:forEach var="i" begin="1" end="${reviewVO.star}" varStatus="iSt">
+														                                <font color="gold"><i class="fa-solid fa-star"></i></font>
+														                            </c:forEach>
+														                            <c:forEach var="i" begin="1" end="${5 - reviewVO.star}" varStatus="iSt">
+														                                <i class="fa-regular fa-star"></i>
+														                            </c:forEach>
+														                        </p>
+														                    </c:if>
 	                                                                    </div>
 	                                                                    <div>
 	                                                                        <p class="text-muted float-left">
@@ -628,7 +641,7 @@
 										        <!-- 1일(24시간) 이내는 시간만 표시(10:43), 이후는 날짜와 시간을 표시 : 2024-05-14 10:43 -->
 										        ${vo.date_diff == 0 ? fn:substring(vo.WDate,11,19) : fn:substring(vo.WDate,0,10)}
 										      </td>
-										      <td>${vo.readNum}(${vo.good})</td>
+										      <td>${vo.readNum}(${vo.good},${vo.star})</td>
 										    </tr>
 										    <c:set var="curScrStartNo" value="${curScrStartNo - 1}" />
 										  </c:forEach>
@@ -692,9 +705,15 @@
                         <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${relatedVO.productThumb}" style="object-fit:cover;">
                             <c:if test="${relatedVO.createDiff > -7}"><span class="label">New</span></c:if>
                             <ul class="product__hover">
-	                            <li><a href="#"><i class="fa-solid fa-heart"></i><span>관심등록</span></a></li>
-	                            <li><a href="#"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
-	                            <li><a href="#"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
+								<li>
+			                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
+			                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
+			                            <i class="fa-solid fa-heart"></i>
+			                            <span>관심등록</span>
+			                        </a>
+			                    </li>
+			                    <li><a href="${ctp}/"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
+			                    <li><a href="${ctp}/"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
                             </ul>
                         </div>
                         <div class="product__item__text">

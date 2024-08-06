@@ -30,112 +30,51 @@
 		select * from product order by productIdx desc limit 1;
   	</select>
 	
-	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
-	    <!-- 전체 카테고리인 경우 -->
-	    <if test='part == "전체"'>
-	        <!-- 전체 정렬 -->
-	        <if test='sort == "전체"'>
-	            SELECT *, 
-	                   (SELECT COUNT(*) FROM product) AS productCnt 
-	            FROM product 
-	            <where>
-	                <!-- 가격 필터링 추가 -->
-	                <if test='productPrice != 0'>
-	                    <![CDATA[productPrice < #{productPrice}]]>
-	                </if>
-	                <!-- 가격 범위 필터링 추가 -->
-	                <if test='minPrice != 0 or maxPrice != 0'>
-	                    <![CDATA[
-	                        productPrice BETWEEN #{minPrice} AND #{maxPrice}
-	                    ]]>
-	                </if>
-	            </where>
-	            ORDER BY productIdx DESC;
-	        </if>
-	        <!-- 특정 정렬 옵션 -->
-	        <if test='sort != "전체"'>
-	            SELECT *, 
-	                   (SELECT COUNT(*) FROM product) AS productCnt 
-	            FROM product 
-	            <where>
-	                <!-- 가격 필터링 추가 -->
-	                <if test='productPrice != 0'>
-	                    <![CDATA[productPrice < #{productPrice}]]>
-	                </if>
-	                <!-- 가격 범위 필터링 추가 -->
-	                <if test='minPrice != 0 or maxPrice != 0'>
-	                    <![CDATA[
-	                        productPrice BETWEEN #{minPrice} AND #{maxPrice}
-	                    ]]>
-	                </if>
-	            </where>
-	            <choose>
-	                <when test='sort == "likedCnt"'>
-	                    ORDER BY likedCnt DESC
-	                </when>
-	                <when test='sort == "productPrice"'>
-	                    ORDER BY productPrice
-	                </when>
-	                <when test='sort == "productPrice desc"'>
-	                    ORDER BY productPrice DESC
-	                </when>
-	                <otherwise>
-	                    ORDER BY productIdx DESC
-	                </otherwise>
-	            </choose>
-	        </if>
-	    </if>
-	    <!-- 특정 카테고리인 경우 -->
-	    <if test='part != "전체"'>
-	        <!-- 전체 정렬 -->
-	        <if test='sort == "전체"'>
-	            SELECT *, 
-	                   (SELECT COUNT(*) FROM product WHERE productMidIdx=#{part}) AS productCnt 
-	            FROM product 
-	            WHERE productMidIdx=#{part}
-	            <if test='productPrice != 0'>
-	                AND <![CDATA[productPrice < #{productPrice}]]>
-	            </if>
-	            <if test='minPrice != 0 or maxPrice != 0'>
-	                AND <![CDATA[
-	                    productPrice BETWEEN #{minPrice} AND #{maxPrice}
-	                ]]>
-	            </if>
-	            ORDER BY productIdx DESC;
-	        </if>
-	        <!-- 특정 정렬 옵션 -->
-	        <if test='sort != "전체"'>
-	            SELECT *, 
-	                   (SELECT COUNT(*) FROM product WHERE productMidIdx=#{part}) AS productCnt 
-	            FROM product 
-	            WHERE productMidIdx=#{part}
-	            <if test='productPrice != 0'>
-	                AND <![CDATA[productPrice < #{productPrice}]]>
-	            </if>
-	            <if test='minPrice != 0 or maxPrice != 0'>
-	                AND <![CDATA[
-	                    productPrice BETWEEN #{minPrice} AND #{maxPrice}
-	                ]]>
-	            </if>
-	            <choose>
-	                <when test='sort == "likedCnt"'>
-	                    ORDER BY likedCnt DESC
-	                </when>
-	                <when test='sort == "productPrice"'>
-	                    ORDER BY productPrice
-	                </when>
-	                <when test='sort == "productPrice desc"'>
-	                    ORDER BY productPrice DESC
-	                </when>
-	                <otherwise>
-	                    ORDER BY productIdx DESC
-	                </otherwise>
-	            </choose>
-	        </if>
-	    </if>
-	</select>
+<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
+    SELECT p.*, 
+           COALESCE(pr.averageRating, 0) AS averageRating,
+           (SELECT COUNT(*) FROM product) AS productCnt 
+    FROM product p
+    LEFT JOIN (
+        SELECT productIdx, ROUND(AVG(star), 2) AS averageRating
+        FROM productReview
+        WHERE re_order = 1
+        GROUP BY productIdx
+    ) pr ON p.productIdx = pr.productIdx
+    <where>
+        <!-- 카테고리가 전체가 아닐 때만 part 조건을 추가 -->
+        <if test="part != '전체'">
+            p.productMidIdx = #{part}
+        </if>
 
- 		
+        <!-- 가격 범위 필터링 -->
+        <if test="minPrice != 0 or maxPrice != 0">
+            AND p.productPrice BETWEEN #{minPrice} AND #{maxPrice}
+        </if>
+
+        <!-- 별점 필터링 -->
+        <if test="averageRating > 0">
+            AND COALESCE(pr.averageRating, 0) >= #{averageRating}
+        </if>
+    </where>
+    GROUP BY p.productIdx
+    <choose>
+        <when test="sort == 'likedCnt'">
+            ORDER BY p.likedCnt DESC
+        </when>
+        <when test="sort == 'productPrice'">
+            ORDER BY p.productPrice ASC
+        </when>
+        <when test="sort == 'productPrice desc'">
+            ORDER BY p.productPrice DESC
+        </when>
+        <otherwise>
+            ORDER BY p.productIdx DESC
+        </otherwise>
+    </choose>
+    LIMIT #{pageSize} OFFSET #{startIndexNo};
+</select>
+
   	<select id="getProductNameOne" resultType="com.spring.javaclassS14.vo.ShopVO">
 		select * from product where productName=#{productName};
   	</select>
@@ -178,17 +117,29 @@
   	</select>
   	
  	<select id="getProduct" resultType="com.spring.javaclassS14.vo.ShopVO">
-  		select * FROM product where productIdx = #{productIdx};
+	    SELECT p.*, 
+	           COALESCE(AVG(r.star), 0.0) AS averageStar
+	    FROM product p
+	    LEFT JOIN productReview r ON p.productIdx = r.productIdx AND r.re_step = 1
+	    WHERE p.productIdx = #{productIdx}
+	    GROUP BY p.productIdx;
   	</select>
   	
  	<select id="getAllOption" resultType="com.spring.javaclassS14.vo.ShopVO">
   		select g.optiongroupIdx, g.optionGroupName, o.optionIdx, o.optionName, o.addPrice from product_option_group as g left join product_option as o on g.optionGroupIdx=o.optionGroupIdx where g.productIdx=#{productIdx} order by g.optionGroupIdx, o.optionIdx;
   	</select>
   	
- 	<select id="getNewProduct" resultType="com.spring.javaclassS14.vo.ShopVO">
-  		select *,datediff(createdDate, now()) as createDiff from product order by createdDate desc limit 6;
-  	</select>
-  	  	
+	<select id="getNewProduct" resultType="com.spring.javaclassS14.vo.ShopVO">
+	    SELECT p.*, 
+	           DATEDIFF(p.createdDate, NOW()) AS createDiff,
+	           COALESCE(AVG(pr.star), 0) AS averageRating
+	    FROM product p
+	    LEFT JOIN productReview pr ON p.productIdx = pr.productIdx and pr.orderIdx != 0
+	    GROUP BY p.productIdx
+	    ORDER BY p.createdDate DESC
+	    LIMIT 6;
+	</select>
+
  	<select id="getProductTopMidList" resultType="com.spring.javaclassS14.vo.ShopVO">
   		select t.*, m.productMidIdx, m.productMidName, (select count(*) from product as p where p.productMidIdx = m.productMidIdx) as productCnt from product_top as t left join product_mid as m on t.productTopIdx = m.productTopIdx;
   	</select>
@@ -264,8 +215,11 @@
     </select>
     
     <select id="getAllReview" resultType="com.spring.javaclassS14.vo.ReviewVO">
-        SELECT *, u.userImage, (select count(*) from productReview where pr.productIdx = #{productIdx}) as productReviewCnt 
-        FROM productReview pr, users u WHERE pr.productIdx = #{productIdx} and pr.userId = u.userId order by pr.re_order;
+        SELECT pr.*, u.userImage, (select count(*) from productReview where pr.productIdx = #{productIdx}) as productReviewCnt
+	    FROM productReview pr
+	    JOIN users u ON pr.userId = u.userId
+	    WHERE pr.productIdx = #{productIdx}
+	    ORDER BY pr.re_order;
     </select>
     
 	<select id="getProductParentReviewCheck" resultType="com.spring.javaclassS14.vo.ReviewVO">
@@ -289,6 +243,35 @@
         SELECT productTags FROM product
     </select>
 
+    <select id="totRecCntKeyword" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+        WHERE productName LIKE CONCAT('%', #{keyword}, '%') 
+        -- Add more filters if necessary
+    </select>
+
+    <select id="totRecCnt" resultType="int">
+        SELECT COUNT(*)
+        FROM product
+    </select>
+
+	<select id="getTopTags" resultType="String">
+	    SELECT tag
+	    FROM (
+	        SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(productTags, '#', numbers.n), '#', -1) AS tag
+	        FROM product
+	        INNER JOIN (
+	            SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3
+	            UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+	            UNION ALL SELECT 7 UNION ALL SELECT 8 UNION ALL SELECT 9
+	        ) numbers ON CHAR_LENGTH(productTags) - CHAR_LENGTH(REPLACE(productTags, '#', '')) >= numbers.n - 1
+	        WHERE productTags IS NOT NULL
+	    ) tagList
+	    WHERE tag != ''
+	    GROUP BY tag
+	    ORDER BY COUNT(*) DESC
+	    LIMIT 6;
+	</select>
 
     <insert id="recordProductView">
         INSERT INTO recent_view_product

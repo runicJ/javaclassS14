@@ -6,6 +6,7 @@ import java.util.Map;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaclassS14.dao.ShopDAO;
 import com.spring.javaclassS14.dao.UserDAO;
 import com.spring.javaclassS14.vo.PageVO;
 
@@ -14,6 +15,9 @@ public class PageProcess {
 
     @Autowired
     UserDAO userDAO;
+    
+    @Autowired
+    ShopDAO shopDAO;
 
     public PageVO totRecCnt(int pag, int pageSize, String section, String sortOption, String keyword) {
         PageVO pageVO = new PageVO();
@@ -30,14 +34,19 @@ public class PageProcess {
             else {
                 totRecCnt = userDAO.totRecCnt();
             }
+        } else if (section.equals("product")) {
+            if (!keyword.equals("")) {
+                totRecCnt = shopDAO.totRecCntKeyword(keyword);
+            } else {
+                totRecCnt = shopDAO.totRecCnt();
+            }
         }
-        // else if (section.equals("pds")) totRecCnt = pdsDAO.totRecCnt(part);
 
         int totPage = (totRecCnt % pageSize) == 0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;
         int startIndexNo = (pag - 1) * pageSize;
         int curScrStartNo = totRecCnt - startIndexNo;
 
-        int blockSize = 5;
+        int blockSize = 5; // Number of pages in a block
         int curBlock = (pag - 1) / blockSize;
         int lastBlock = (totPage - 1) / blockSize;
 
@@ -69,7 +78,7 @@ public class PageProcess {
         } catch (NumberFormatException e) {
             paramMap.put("stringOption", sortOption);
         }
-        // sortOption 자체도 넘깁니다.
+        // Include the sortOption itself
         paramMap.put("sortOption", sortOption);
 
         return paramMap;

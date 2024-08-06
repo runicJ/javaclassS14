@@ -22,6 +22,7 @@ import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -40,25 +41,41 @@ public class ShopController {
 
     @RequestMapping(value="/productList", method=RequestMethod.GET)
     public String productListGet(Model model,
-                                 @RequestParam(name="part", defaultValue = "전체", required = false) String part,
-                                 @RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
-                                 @RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice,
-                                 @RequestParam(name="minPrice", defaultValue = "0", required = false) int minPrice,
-                                 @RequestParam(name="maxPrice", defaultValue = "10000000", required = false) int maxPrice) {                     
-        model.addAttribute("part", part);
-        model.addAttribute("sort", sort);
-        List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice, minPrice, maxPrice);    // 가격 범위 추가
-        model.addAttribute("productVOS", productVOS);
-        model.addAttribute("productPrice", productPrice);
+            @RequestParam(name="part", defaultValue = "전체", required = false) String part,
+            @RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
+            @RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice,
+            @RequestParam(name="minPrice", defaultValue = "0", required = false) int minPrice,
+            @RequestParam(name="maxPrice", defaultValue = "10000000", required = false) int maxPrice,
+            @RequestParam(name="averageRating", defaultValue = "0", required = false) int averageRating,
+            @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
+            @RequestParam(name = "pageSize", defaultValue = "9", required = false) int pageSize) {
 
-        List<ShopVO> categoryTopVOS = shopService.getCategoryTop();
-        model.addAttribute("categoryTopVOS", categoryTopVOS);
-
-        List<ShopVO> productTopMidVOS = shopService.getProductTopMidList();
-        model.addAttribute("productTopMidVOS", productTopMidVOS);
-
-        return "shop/productList";
-    }
+		model.addAttribute("part", part);
+		model.addAttribute("sort", sort);
+		model.addAttribute("averageRating", averageRating);
+		model.addAttribute("minPrice", minPrice);
+		model.addAttribute("maxPrice", maxPrice);
+		
+		// 페이지네이션 처리
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "product", sort, ""); // section을 "product"로 설정
+		model.addAttribute("pageVO", pageVO);
+		
+		// 페이지네이션을 적용하여 제품 리스트 가져오기
+		List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice, minPrice, maxPrice, averageRating, pageVO.getStartIndexNo(), pageSize);
+		model.addAttribute("productVOS", productVOS);
+		model.addAttribute("productPrice", productPrice);
+		
+		List<ShopVO> categoryTopVOS = shopService.getCategoryTop();
+		model.addAttribute("categoryTopVOS", categoryTopVOS);
+		
+		List<ShopVO> productTopMidVOS = shopService.getProductTopMidList();
+		model.addAttribute("productTopMidVOS", productTopMidVOS);
+		
+		List<String> topTags = shopService.getTopTags();
+		model.addAttribute("topTags", topTags);
+		
+		return "shop/productList";
+	}
 
     @RequestMapping(value="/productDetails", method=RequestMethod.GET)
     public String productDetailsGet(HttpSession session, Model model, int productIdx) {

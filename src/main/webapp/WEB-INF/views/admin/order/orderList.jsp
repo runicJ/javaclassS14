@@ -35,9 +35,6 @@
                             </nav>
                         </div>
                     </div>
-                    <div class="col-7 text-right">
-                        <h3 class="page-title text-truncate text-dark font-weight-medium mb-1"> 관리자 님 \^0^/ 회원관리에 항상 신중하세요!</h3>
-                    </div>
                 </div>
             </div>
             <div class="container-fluid">

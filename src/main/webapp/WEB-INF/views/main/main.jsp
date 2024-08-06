@@ -514,15 +514,19 @@
                         <div class="product__item__text">
                             <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
                             <h6 class="float-right">￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
-                            <div class="rating">
-                                <c:forEach var="i" begin="1" end="${productVO.star}" varStatus="iSt">
-                                    <font color="gold"><i class="fas fa-star"></i></font>
-                                </c:forEach>
-                                <c:forEach var="i" begin="1" end="${5 - productVO.star}" varStatus="iSt">
-                                    <i class="fa fa-star"></i>
-                                </c:forEach>
-                            </div>
-                        	<p>${fn:substring(productVO.productDetails,0,30)}...</p>
+			                <div class="rating">
+			                    <c:forEach var="i" begin="1" end="5">
+			                        <c:choose>
+			                            <c:when test="${i <= productVO.averageRating}">
+			                                <font color="gold"><i class="fas fa-star"></i></font>
+			                            </c:when>
+			                            <c:otherwise>
+			                                <i class="fa fa-star"></i>
+			                            </c:otherwise>
+			                        </c:choose>
+			                    </c:forEach>
+			                </div>
+                        	<p>${fn:substring(productVO.productDetails,0,30)}${productVO.averageRating}...</p>
 							<p>${productVO.productTags}</p>
                         </div>
                     </div>
