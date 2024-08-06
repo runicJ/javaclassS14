@@ -131,7 +131,6 @@ public class MsgController {
 			model.addAttribute("msg", "옵션 등록 실패~~");
 			model.addAttribute("url", "/admin/shop/productOption?productName="+tempFlag);
 		}
-		
 		else if(msgFlag.equals("cartOrderOk")) {
 			model.addAttribute("msg", "장바구니에 상품이 등록되었습니다.\\n주문창으로 이동합니다.");
 			model.addAttribute("url", "/shop/productCart");

@@ -168,15 +168,15 @@
 			$("#surv_quests_tbl").append(str);
 		});
 		
-		let isSubmitted = false; //ajax 전송 상태
-		let changed = false; //내용 변화 상태
+		let isSubmitted = false;
+		let changed = false;
 		let oldParam;
 		
 		$(document).on("propertychange change keyup paste input", "input, textarea", function() {
 			changed = true;
 			isSubmitted = false;
 			$("#regSurvBtn").removeAttr('disabled');
-			console.log("changed => " + changed);
+			//console.log("changed => " + changed);
 		});
 		
 		$("#useFlag").on("change", function() {
@@ -217,7 +217,7 @@
 			if (chkValidate) {
 				if (!isSubmitted && changed) {
 					isSubmitted = true;
-					console.log("isSubmitted => " + isSubmitted);                  
+					//console.log("isSubmitted => " + isSubmitted);                  
 					$("#regSurvBtn").attr('disabled', 'disabled');
 					
 					let survQustList = [];
@@ -261,7 +261,7 @@
 					
 					$.ajax({
 						url: '${ctp}/admin/survey/surveyInput',
-						type: 'POST',
+						type: 'post',
 						contentType: "application/json; charset=utf-8",
 						data: JSON.stringify(query),
 						success: function(res) {
@@ -527,7 +527,7 @@
 		$('input[type=text]').each(function(index, item) {
 			let txt = $(item).val().trim();
 			if ("" == txt || null == txt) {
-				console.log("index: " + index + "  item: " + item);
+				console.log("index: " + index + " item: " + item);
 				result = false;
 				return false;
 			} 				
@@ -635,7 +635,6 @@
 							<td>
 	                            <div class="custom-file">
 	                                <input type="file" class="custom-file-input" name="file" id="file" required>
-	                                <label class="custom-file-label" for="validatedCustomFile">설문지 썸네일 선택</label>
 	                            </div>
 							</td>
 						</tr>

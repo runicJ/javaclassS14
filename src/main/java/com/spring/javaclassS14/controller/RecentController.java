@@ -27,7 +27,7 @@ public class RecentController {
 
     // 북마크 저장
     @ResponseBody
-    @PostMapping("/saveBookmark")
+    @PostMapping("/bookmarkToggle")
     public String saveBookmark(@RequestParam String userId, @RequestParam String partUrl, @RequestParam String category) {
         int res = recentService.saveBookmark(userId, partUrl, category);
         return res + "";

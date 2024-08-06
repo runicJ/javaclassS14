@@ -66,7 +66,7 @@
                           <div class="swiper-slide">
                             <div class="img-container two">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link forest-project-link">숲에서
+                                <a href="#0" class="project-link forest-project-link">숲을 통해
                                   <div class="view-project">생명이 살아갑니다.</div>
                                 </a>
                               </div>
@@ -75,8 +75,8 @@
                           <div class="swiper-slide">
                             <div class="img-container three">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link wildlife-project-link">우리 아이들을 위해
-                                  <div class="view-project">그들의 편안한</div>
+                                <a href="#0" class="project-link wildlife-project-link">자라날 우리 아이들을 위해
+                                  <div class="view-project">그리고 미래의</div>
 
                                 </a>
                               </div>
@@ -85,7 +85,7 @@
                           <div class="swiper-slide">
                             <div class="img-container four">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link city-project-link">편안한 숨을
+                                <a href="#0" class="project-link city-project-link">편안한 숨을 만들어갑시다
                                   <div class="view-project">삶을 위하여 우리 함께 나아갑시다</div>
                                  </a>
                               </div>
@@ -136,7 +136,7 @@
 <div class="navigation navigation-about">
         
   <div class="logo home-link about-opacity">
-   <a href="#"> 저는 Dodo입니다.</a>
+   <a href="#"> 안녕하세요. 저는 Dodo입니다.</a>
   </div>
 
   <div class="navigation-links about-opacity">
@@ -145,44 +145,8 @@
      <div class="navigation-close-line"></div>
    </div>
   </div>
+</div>
 
-</div>
-  <div class="about-content">
-  <div class="container-fluid m-0 p-0">
-    <div class="row">
-    <div class="col-0 col-md-0 col-lg-6 col-sm-0 col-xs-0 p-0 m-0">
-      <div class="about-img ">
-      </div>
-    </div>
-   <div class="col-12 col-md-12 col-lg-6 col-sm-12 col-xs-12 p-0 m-0">
-     <div class="about-text">
-       <div class="about-text-container about-opacity">
-       <div class="about-text-header">
-			Hi , I'm a 22 y/o Canadian photographer,
-			graduated in 2009
-       </div>
-       <div class="about-text-paragraph">
-         Lorem ipsum dolor sit amet consectetur, adipisicing elit. Ex debitis, nisi minima tempore repudiandae. 
-       </div>
-       <div class="about-text-paragraph">
-        similique quis quos, reiciendis dignissimos doloremque sequi eius esse qui. A iste blanditiis fugiat necessitatibus voluptatibus.
-      </div>
-       <div class="about-text-button">
-         <button class="contact-link-about contact-button hover">Contact Me</button>
-       </div>
-     </div>
-    </div>
-   </div>
-  </div>
-    </div>
-  <div class="social-media-links about-opacity">
-    <ul>
-      <li> <a href="#">FB</a> </li>
-      <li> <a href="#">IN</a> </li>
-      <li> <a href="#">TW</a> </li>
-    </ul>
-  </div>
-</div>
 </div>
       <!-- ABOUT -->
 
@@ -194,7 +158,7 @@
           <div class="navigation navigation-project">
                 
             <div class="logo home-link about-opacity">
-             <a href="#"> JAMES TYLER</a>
+             <a href="#"> { , }</a>
             </div>
           
             <div class="navigation-links about-opacity">

@@ -117,7 +117,7 @@
                     </ul>
                 </li>
                 
-                <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="authentication-register1.html" aria-expanded="false">
+                <li class="sidebar-item"> <a class="sidebar-link sidebar-link" href="${ctp}/admin/file/fileList" aria-expanded="false">
                 	<i data-feather="lock" class="feather-icon"></i><span class="hide-menu">덤프 파일 정리</span></a>
                 </li>
                 

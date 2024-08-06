@@ -151,11 +151,10 @@
 	    
 	    function toggleBookmark(productId) {
 	        $.ajax({
-	            url: '${ctp}/bookmark/toggle',
+	            url: '${ctp}/recent/bookmarkToggle',
 	            type: 'POST',
 	            data: { productIdx: productId },
 	            success: function(response) {
-	                // 성공적으로 처리된 경우 UI를 업데이트합니다.
 	                alert(response.message);
 	            },
 	            error: function(xhr, status, error) {
@@ -330,7 +329,7 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
+												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark());">
 												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic1">
 													<div>더보기</div>
@@ -516,11 +515,12 @@
                             <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
                             <h6 class="float-right">￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
                             <div class="rating">
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
-                                <i class="fa fa-star-o"></i>
+                                <c:forEach var="i" begin="1" end="${productVO.star}" varStatus="iSt">
+                                    <font color="gold"><i class="fas fa-star"></i></font>
+                                </c:forEach>
+                                <c:forEach var="i" begin="1" end="${5 - productVO.star}" varStatus="iSt">
+                                    <i class="fa fa-star"></i>
+                                </c:forEach>
                             </div>
                         	<p>${fn:substring(productVO.productDetails,0,30)}...</p>
 							<p>${productVO.productTags}</p>

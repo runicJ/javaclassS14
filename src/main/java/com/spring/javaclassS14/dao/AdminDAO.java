@@ -14,7 +14,7 @@ public interface AdminDAO {
 
 	public ArrayList<UserVO> getDeleteUserList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
-	public int getDeleteUser(String delFlag, String userId);
+	public int getDeleteUser(@Param("delFlag") String delFlag, @Param("userId") String userId);
 
 	public List<UserVO> getUserRegisterWay();
 

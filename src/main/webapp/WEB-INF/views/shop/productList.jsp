@@ -306,11 +306,12 @@ margin-top: 20px;
                                     <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
                                     <p>${productVO.productDetails}</p>
                                     <div class="rating">
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star"></i>
-                                        <i class="fa fa-star-o"></i>
+		                                <c:forEach var="i" begin="1" end="${productVO.star}" varStatus="iSt">
+		                                    <font color="gold"><i class="fas fa-star"></i></font>
+		                                </c:forEach>
+		                                <c:forEach var="i" begin="1" end="${5 - productVO.star}" varStatus="iSt">
+		                                    <i class="fa fa-star"></i>
+		                                </c:forEach>
                                     </div>
                                     <h6>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
                                     <div class="product__color__select">

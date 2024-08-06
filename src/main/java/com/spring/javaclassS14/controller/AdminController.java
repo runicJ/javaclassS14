@@ -1,5 +1,6 @@
 package com.spring.javaclassS14.controller;
 
+import java.io.File;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -34,8 +35,6 @@ import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.ShopVO;
-import com.spring.javaclassS14.vo.SurveyOptionVO;
-import com.spring.javaclassS14.vo.SurveyQuestionVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -109,13 +108,16 @@ public class AdminController {
 	}
 	
 	// 탈퇴 회원 처리
-	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-	public String userDeletePost(String delFlag, String userId) {
+	/*
+	@RequestMapping(value="/user/userDeleteFlag", method=RequestMethod.POST)
+	public String userDeletePost(@RequestParam String delFlag, @RequestParam String userId) {
+		
 		int res = adminService.getDeleteUser(delFlag, userId);
 		
 		if(res != 0) return "redirect:/msg/userCheckOk?delFlag="+delFlag;
 		else return "redirect:/msg/userCheckNo?delFlag="+delFlag;
 	}
+	*/
 	
 	@ResponseBody
     @GetMapping("/user/userInfo")
@@ -250,10 +252,12 @@ public class AdminController {
 	public String productListGet(Model model,
 			@RequestParam(name="part", defaultValue = "전체", required = false) String part,
 			@RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
-			@RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice){
+			@RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice,
+            @RequestParam(name="minPrice", defaultValue = "0", required = false) int minPrice,
+            @RequestParam(name="maxPrice", defaultValue = "10000000", required = false) int maxPrice) {
 		model.addAttribute("part", part);
 
-		List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice);	// 전체 상품리스트 가져오기
+		List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice, minPrice, maxPrice);	// 전체 상품리스트 가져오기
 		model.addAttribute("productVOS", productVOS);
 		model.addAttribute("productPrice", productPrice);
 		
@@ -401,15 +405,15 @@ public class AdminController {
         System.out.println("survey" + surveyVO);
         System.out.println("surveyTitlesss" + surveyVO.getSurveyTitle());
         if (userId.equals("admin")) {
-            System.out.println("===regSurv Controller START");
+            //System.out.println("===regSurv Controller START");
 
             surveyVO.setUserId(userId);
             
-            System.out.println("surveyDto ==> " + surveyVO.toString());
+            //System.out.println("surveyDto ==> " + surveyVO.toString());
             
             int res = surveyService.setSurveyInput(surveyVO);
 
-            System.out.println("===regSurv Controller END===");
+            //System.out.println("===regSurv Controller END===");
             return res + "";
         } 
         else {
@@ -440,22 +444,22 @@ public class AdminController {
         return mv;
     }
     
-/*
+
     // 설문 삭제하기 (ADMIN만 접근 가능)
-    @RequestMapping(value="/survey/delSurv", method=RequestMethod.POST)
+    @RequestMapping(value="/survey/deleteSurvey", method=RequestMethod.POST)
     public String delSurv(@RequestParam("survNo") int survNo, HttpSession session) {
         String userId = (String) session.getAttribute("sUid");
         if (userId.equals("admin")) {
-            System.out.println("delSurv Controller START");
+            //System.out.println("delSurv Controller START");
 
             surveyService.delOneSurvey(survNo);
 
             return "redirect:/admin/survey/surveyList";
         } else {
-            return "redirect:/accessDenied";
+            return "redirect:/msg/adminNo";
         }
     }
-
+/*
     // 설문 수정하기 (ADMIN과 MANAGER만 접근 가능)
     @RequestMapping(value="/survey/updateSurv", method=RequestMethod.POST)
     @ResponseBody
@@ -547,6 +551,38 @@ public class AdminController {
 	@RequestMapping(value = "/info/branchPurchase", method = RequestMethod.GET)
 	public String branchPurchaseGet() {
 		return "admin/info/branchPurchase";
+	}
+	
+	// ckeditor폴더의 파일 리스트 보여주기
+	@SuppressWarnings("deprecation")
+	@RequestMapping(value = "/file/fileList", method = RequestMethod.GET)
+	public String fileListGet(HttpServletRequest request, Model model) {
+		String realPath = request.getRealPath("/resources/data/ckeditor/");
+		
+		String[] files = new File(realPath).list();
+		
+		model.addAttribute("files", files);
+		
+		return "admin/file/fileList";
+	}
+	
+	// 선택된 파일 삭제처리하기
+	@SuppressWarnings("deprecation")
+	@ResponseBody
+	@RequestMapping(value = "/fileSelectDelete", method = RequestMethod.POST)
+	public String fileSelectDeleteGet(HttpServletRequest request, String delItems) {
+		// System.out.println("delItems : " + delItems);
+		String realPath = request.getRealPath("/resources/data/ckeditor/");
+		delItems = delItems.substring(0, delItems.length()-1);
+		
+		String[] fileNames = delItems.split("/");
+		
+		for(String fileName : fileNames) {
+			String realPathFile = realPath + fileName;
+			new File(realPathFile).delete();
+		}
+		
+		return "1";
 	}
 
 }

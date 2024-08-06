@@ -49,16 +49,16 @@
     </style>
     <script>
         function viewRslt(surveyIdx) {
-            location.href = '/admin/surveyResult?surveyIdx=' + surveyIdx;
+            location.href = '${ctp}/admin/survey/survey/surveyResult?surveyIdx=' + surveyIdx;
         }
 
         function editSurv(surveyIdx) {
-            location.href = '/admin/editSurvey?surveyIdx=' + surveyIdx;
+            location.href = '${ctp}/admin/survey/editSurvey?surveyIdx=' + surveyIdx;
         }
 
         function deleteSurv(surveyIdx) {
             if (confirm('정말로 이 설문을 삭제하시겠습니까?')) {
-                location.href = '/admin/deleteSurvey?surveyIdx=' + surveyIdx;
+                location.href = '${ctp}/admin/survey/deleteSurvey?surveyIdx=' + surveyIdx;
             }
         }
     </script>

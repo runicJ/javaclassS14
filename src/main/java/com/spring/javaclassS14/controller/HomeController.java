@@ -32,13 +32,13 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.WordCloudGenerator;
 import com.spring.javaclassS14.service.CsworkService;
+import com.spring.javaclassS14.service.NotifyService;
 import com.spring.javaclassS14.service.RecentService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.CrawlingVO;
 import com.spring.javaclassS14.vo.CsworkVO;
-import com.spring.javaclassS14.vo.RecentVO;
-import com.spring.javaclassS14.vo.SaveInterestVO;
+import com.spring.javaclassS14.vo.NotifyVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
 /**
@@ -48,6 +48,9 @@ import com.spring.javaclassS14.vo.ShopVO;
 public class HomeController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(HomeController.class);
+	
+	@Autowired
+	NotifyService notifyService;
 	
 	/**
 	 * Simply selects the home view to render by returning its name.
@@ -62,6 +65,11 @@ public class HomeController {
 		String formattedDate = dateFormat.format(date);
 		
 		model.addAttribute("serverTime", formattedDate );
+		
+		// 첫화면에 공지사항 팝업으로 띄우기
+		List<NotifyVO> popupVos = notifyService.getNotifyPopup();
+		System.out.println(popupVos);
+		model.addAttribute("popupVos", popupVos);
 		
 		return "home";
 	}

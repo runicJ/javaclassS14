@@ -36,10 +36,10 @@
 	                    <div class="shop__product__option__right">
 	                        <p>정렬기준 </p>
 	                        <select>
-	                            <option value="">최신등록순</option>
+	                            <option value="productIdx">최신등록순</option>
 	                            <option value="">관심도순</option>
 	                            <option value="">추천순</option>
-	                            <option value="">가격순</option>
+	                            <option value="productPrice">가격순</option>
 	                        </select>
 	                    </div>
 	                </div>

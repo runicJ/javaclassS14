@@ -90,6 +90,6 @@
 	
 	<update id="deleteUser">
 	    update users set level=99, userStatus='off' where userId=#{userId};
-	    insert into delete_users (userId, deleteReason, deleteDate) values (#{userId}, '관리자', NOW());
+	    insert into delete_users (userId, deleteReason, deleteDate) values (#{userId}, '관리자', default);
 	</update>
 </mapper>

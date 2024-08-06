@@ -9,6 +9,13 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>Insert</title>
   	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
+  	<script>
+  		'use strict';
+  		
+  		function userDelete(delFlag, userId) {
+  			
+  		}
+  	</script>
 </head>
 <body>
 	<div class="preloader">
@@ -67,8 +74,8 @@
                                     <td>${vo.deleteDiff <= -30 ? "탈퇴유예만료" : "탈퇴신청"} (${-vo.deleteDiff}일)</td>
                                     <td>${vo.deleteReason}</td>
                                     <td>
-                                    	<a type="button" onclick="${ctp}/users/userDelete?delFlag=Ok&userId=${vo.userId}" class="badge badge-info text-light mr-1">탈퇴승인</a>
-		                            	<a type="button" onclick="${ctp}/users/userDelete?delFlag=No&userId=${vo.userId}" class="badge badge-danger text-light">탈퇴취소</a>
+                                    	<%-- <a type="button" href="userDelete('Ok', ${vo.userId})" class="badge badge-info text-light mr-1">탈퇴승인</a>
+		                            	<a type="button" onclick="${ctp}/admin/user/userDelete?delFlag=No&userId=${vo.userId}" class="badge badge-danger text-light">탈퇴취소</a> --%>
                                     </td>
                                 </tr>
                                 </c:forEach>

@@ -23,6 +23,7 @@
 								</div>
 							</div>
 						</div>
+						<!--
 						<div class="help-block">
 							<div>인기검색어:</div>
 							<ul>
@@ -30,6 +31,7 @@
 								<li><a href="#">알레르기</a></li>
 							</ul>
 						</div>
+						-->
 					</form>								
 				</div>
 				<div class="col-md-4 col-sm-12 text-right">

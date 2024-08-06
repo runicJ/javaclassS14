@@ -150,11 +150,6 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-	public List<ShopVO> getProductList(String part, String sort, String productPrice) {
-		return shopDAO.getProductList(part, sort, productPrice);
-	}
-
-	@Override
 	public ShopVO getProduct(int productIdx) {
 		return shopDAO.getProduct(productIdx);
 	}
