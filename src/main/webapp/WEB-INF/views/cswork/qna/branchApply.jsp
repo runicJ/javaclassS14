@@ -204,7 +204,7 @@
     </div>
     <div class="popCont">
         <div class="inner">
-        <form name="frmInquiry" method="POST" action="https://upload.10x10.co.kr/linkweb/company/docorequest.asp" enctype="multipart/form-data">
+        <form name="frmInquiry" method="POST" action="" enctype="multipart/form-data">
         <input type="hidden" name="mode" value="write">
         <input type="hidden" name="reqcd" value="01">
             <!-- 회사 정보 -->
@@ -235,7 +235,7 @@
                             </tr>
                             <tr>
                                 <th style="padding-top:0;"><label for="compUrl">홈페이지/<br>판매처 URL</label></th>
-                                <td><input type="text" id="compUrl" name="companyurl" maxlength="64" class="txtInp" placeholder=" 예) http://www.10x10.co.kr"></td>
+                                <td><input type="text" id="compUrl" name="companyurl" maxlength="64" class="txtInp" placeholder=" 예) http://localhost:9090/javaclassS14/main"></td>
                             </tr>
                             <tr>
                                 <th><label for="compIntro">회사소개 <span class="essential">*</span></label></th>
@@ -340,7 +340,7 @@
                         </colgroup>
                         <tbody><tr>
                             <th><label for="chName">담당자 명</label> <span class="essential">*</span></th>
-                            <td><input type="text" id="chName" name="chargename" maxlength="64" class="txtInp" placeholder="김텐텐"></td>
+                            <td><input type="text" id="chName" name="chargename" maxlength="64" class="txtInp" placeholder="홍길동"></td>
                         </tr>
                         <tr>
                             <th><label for="chMail">이메일 주소 <span class="essential">*</span></label></th>

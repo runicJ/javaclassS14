@@ -67,7 +67,7 @@ CREATE TABLE order_return (
     responsibility ENUM('구매자','판매자') DEFAULT '구매자' NOT NULL,
     FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
     FOREIGN KEY (userId) REFERENCES users(userId),
-    FOREIGN KEY (productIdx) REFERENCES products(productIdx)
+    FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );
 
 /* 환불 테이블 */

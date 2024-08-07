@@ -65,7 +65,7 @@
 	    <mapping path="/admin/**"/>
 	    <beans:ref bean="level0Interceptor" />
 		</interceptor>
-        <!-- 공통 데이터 설정 인터셉터 (admin 제외 모든 경로에 대해 적용) -->
+        <!-- 공통 데이터 -->
         <interceptor>
             <mapping path="/**"/>
             <exclude-mapping path="/admin/**"/>

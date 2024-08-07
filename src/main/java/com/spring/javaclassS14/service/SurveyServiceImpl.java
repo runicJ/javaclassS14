@@ -35,7 +35,7 @@ public class SurveyServiceImpl implements SurveyService {
 	      if(originalFilename != null && originalFilename != "") {
 	      	String saveFileName = allProvide.saveFileName(originalFilename);
 	        
-	      	allProvide.writeFile(file, saveFileName, "shop/product");
+	      	allProvide.writeFile(file, saveFileName, "survey");
 	      	surveyVO.setSurveyThumb(originalFilename);
 	      }
 	      else {

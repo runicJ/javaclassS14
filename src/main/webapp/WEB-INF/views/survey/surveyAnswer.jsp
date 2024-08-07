@@ -195,7 +195,7 @@
             <!-- 설문지 질문 END -->
         </div>
         <br/>
-        <a onclick="submit()">제출하기</a>
+        <a href="javascript:void(0)" onclick="submit()">제출하기</a>
         <a href="${ctp}/survey/surveyEventList">목록 보기</a>
         </div>
     </section>

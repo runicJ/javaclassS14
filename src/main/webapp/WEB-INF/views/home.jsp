@@ -122,7 +122,7 @@
               <div class="social-media-links">
                 <ul>
                   <li class="fade-up"><a href="#"><i class="fa-solid fa-comment"></i></a></li>
-                  <li class="fade-up"><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+                  <li class="fade-up"><a href="https://youtube.com/@pause-in-parentheses?si=AYFfq87_vsBO3om1"><i class="fa-brands fa-youtube"></i></a></li>
                   <li class="fade-up"><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
                 </ul>
               </div>

@@ -354,11 +354,11 @@
                                         </tr>
                                         <tr>
                                             <th><label for="compAddr">회사 주소</label> <span class="essential">*</span></th>
-                                            <td><input type="text" id="compAddr" name="address" class="txtInp" style="width:370px;" placeholder="예) 서울시 서초구 서초대로 398 BNK디지털타워 19층"></td>
+                                            <td><input type="text" id="compAddr" name="address" class="txtInp" style="width:370px;" placeholder="예) 충청북도 청주시 서원구 사직대로 109, 4,5층"></td>
                                         </tr>
                                         <tr>
                                             <th><label for="compUrl">회사 페이지 URL</label></th>
-                                            <td><input type="text" id="compUrl" name="companyurl" class="txtInp" style="width:370px;" placeholder="예)  http://www.10x10.co.kr"></td>
+                                            <td><input type="text" id="compUrl" name="companyurl" class="txtInp" style="width:370px;" placeholder="예) http://localhost:9090/javaclassS14/main"></td>
                                         </tr>
                                         <tr>
                                             <th><label for="compIntro">회사소개서</label></th>
@@ -415,7 +415,7 @@
                                     <tbody>
                                         <tr>
                                             <th><label for="chName">담당자 명</label> <span class="essential">*</span></th>
-                                            <td><input type="text" id="chName" name="chargename" class="txtInp" style="width:370px;" placeholder="김텐텐"></td>
+                                            <td><input type="text" id="chName" name="chargename" class="txtInp" style="width:370px;" placeholder="홍길동"></td>
                                         </tr>
                                         <tr>
                                             <th><label for="chMail">이메일 주소 <span class="essential">*</span></label></th>

@@ -101,7 +101,7 @@
 		insert into user_log (userId, hostIp) values (#{userId},#{hostIp});
 	</insert>
 	
-    <insert id="insertDeletedUser">
+    <insert id="">
         insert into delete_users (userId, email, deleteReason) values (#{userId}, #{email}, #{deleteReason});
     </insert>
     
@@ -130,7 +130,7 @@
         update users set level=99, userStatus='off' where userId=#{userId};
     </update>
 
-    <insert id="insertDeletedUser">
+    <insert id="">
         insert into delete_users (userId, deleteReason) values (#{userId}, #{deleteReason});
     </insert>
  -->
