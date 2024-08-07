@@ -15,11 +15,6 @@ public class RecentServiceImpl implements RecentService {
     private RecentDAO recentDAO;
 
     @Override
-    public void saveRecentView(String userId, int productIdx) {
-        recentDAO.insertRecentView(userId, productIdx);
-    }
-
-    @Override
     public void saveRecentSearch(String userId, String searchTerm) {
         recentDAO.insertRecentSearch(userId, searchTerm);
     }

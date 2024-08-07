@@ -58,15 +58,6 @@ public class RecentController {
         return result;
     }
 
-
-    // 최근 본 상품 저장
-    @PostMapping("/saveRecentView")
-    @ResponseBody
-    public String saveRecentView(@RequestParam String userId, @RequestParam int productIdx) {
-        recentService.saveRecentView(userId, productIdx);
-        return "saved";
-    }
-
     // 최근 검색어 저장
     @PostMapping("/saveRecentSearch")
     @ResponseBody

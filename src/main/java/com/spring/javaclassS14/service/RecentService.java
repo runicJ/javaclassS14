@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Map;
 
 public interface RecentService {
-    public void saveRecentView(String userId, int productIdx);
     public void saveRecentSearch(String userId, String searchTerm);
     public List<RecentVO> getRecentViews(String userId, int limit);
     public List<RecentVO> getRecentSearches(String userId, int limit);
