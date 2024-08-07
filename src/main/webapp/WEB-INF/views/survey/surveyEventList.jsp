@@ -97,7 +97,6 @@
             $(".survey-detail").removeClass("hidden");
             $(".survey-list").addClass("hidden");
 
-            // Fetch survey detail data using AJAX and populate the detail section
             $.ajax({
                 type: 'get',
                 url: '/getSurveyDetail',

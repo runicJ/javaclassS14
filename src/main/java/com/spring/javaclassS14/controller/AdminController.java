@@ -67,9 +67,13 @@ public class AdminController {
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
 	public String adminMainGet(Model model) {
 		List<UserVO> wayVOS = adminService.getUserRegisterWay();
-		int deleteExUser = adminService.getdeleteExUser();
+		int deleteExUser = adminService.getDeleteExUser();
+		int recentUser = adminService.getRecentUser();
+		int deleteResUser = adminService.getDeleteResUser();
 		
 		model.addAttribute("deleteExUser", deleteExUser);
+		model.addAttribute("recentUser", recentUser);
+		model.addAttribute("deleteResUser", deleteResUser);
 		model.addAttribute("wayVOS", wayVOS);
 		return "admin/adminMain";
 	}
@@ -127,11 +131,18 @@ public class AdminController {
         return user;
     }
 
-//    @PostMapping("/user/userUpdate")
-//    public String updateUser(@ModelAttribute UserVO userVO, @RequestParam("fName") MultipartFile file) {
-//        int res = userService.setUserUpdate(userVO, file);
-//        return res != 0 ? "redirect:/msg/userUpdateOK" : "redirect:/msg/userUpdateNO";
-//    }
+    @PostMapping("/user/userUpdate")
+    public String updateUser(UserVO userVO, MultipartFile file) {
+    	
+        /*
+		if(fName.getOriginalFilename() != null && !fName.getOriginalFilename().equals("")) {
+			vo.setUserImage(userService.fileUpload(fName, vo.getUserId(), vo.getUserImage()));
+		}
+		*/
+		int res = userService.setUserUpdate(userVO);
+        
+        return res != 0 ? "redirect:/msg/userUpdateOK" : "redirect:/msg/userUpdateNO";
+    }
 
     @PostMapping("/user/userDelete")
     public String deleteUser(@RequestParam String userId) {
@@ -408,18 +419,17 @@ public class AdminController {
     // 설문 만들기 (ADMIN과 MANAGER만 접근 가능)
     @ResponseBody
     @RequestMapping(value="/survey/surveyInput", method=RequestMethod.POST)
-    public String surveyInputPost(@RequestBody SurveyVO surveyVO, HttpSession session) {
+    public String surveyInputPost(@RequestBody SurveyVO surveyVO, MultipartFile file, HttpSession session) {
         String userId = (String) session.getAttribute("sUid");
-        System.out.println("survey" + surveyVO);
-        System.out.println("surveyTitlesss" + surveyVO.getSurveyTitle());
+        //System.out.println("survey" + surveyVO);
+        //System.out.println("surveyTitlesss" + surveyVO.getSurveyTitle());
         if (userId.equals("admin")) {
             //System.out.println("===regSurv Controller START");
 
             surveyVO.setUserId(userId);
-            
             //System.out.println("surveyDto ==> " + surveyVO.toString());
             
-            int res = surveyService.setSurveyInput(surveyVO);
+            int res = surveyService.setSurveyInput(file,surveyVO);
 
             //System.out.println("===regSurv Controller END===");
             return res + "";
@@ -433,8 +443,8 @@ public class AdminController {
     @RequestMapping(value = "/survey/surveyList", method=RequestMethod.GET)
     public ModelAndView surveyListGet(
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
+            @RequestParam(value = "cntPerPage", required = false, defaultValue = "9") int cntPerPage,
+            @RequestParam(value = "pageSize", required = false, defaultValue = "9") int pageSize,
             HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
         ModelAndView mv = new ModelAndView();
         

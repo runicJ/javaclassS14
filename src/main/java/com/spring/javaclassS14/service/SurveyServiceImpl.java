@@ -1,11 +1,14 @@
 package com.spring.javaclassS14.service;
 
+import java.io.IOException;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.SurveyDAO;
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
 import com.spring.javaclassS14.vo.SurveyOptionVO;
@@ -17,13 +20,32 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     SurveyDAO surveyDAO;
+    
+    @Autowired
+    AllProvide allProvide;
 
     @Transactional
     @Override
-    public int setSurveyInput(SurveyVO surveyVO) {
+    public int setSurveyInput(MultipartFile file, SurveyVO surveyVO) {
         System.out.println("===insertSurv ServiceImpl START===");
         
-        int res = surveyDAO.setSurveyInput(surveyVO);
+        int res = 0;
+	    try {
+	      String originalFilename = file.getOriginalFilename();
+	      if(originalFilename != null && originalFilename != "") {
+	      	String saveFileName = allProvide.saveFileName(originalFilename);
+	        
+	      	allProvide.writeFile(file, saveFileName, "shop/product");
+	      	surveyVO.setSurveyThumb(originalFilename);
+	      }
+	      else {
+	        return res;
+	      }
+	    } catch (IOException e) {
+	      e.printStackTrace();
+	    }
+        
+        res = surveyDAO.setSurveyInput(surveyVO);
         
         if (res > 0) {
 	        List<SurveyQuestionVO> questList = surveyVO.getQuestList();
@@ -176,6 +198,5 @@ public class SurveyServiceImpl implements SurveyService {
         surveyDto.setNickName(nickName);
         return surveyDto;
 	}
-
 
 }

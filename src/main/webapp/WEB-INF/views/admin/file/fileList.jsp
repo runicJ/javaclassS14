@@ -88,8 +88,16 @@
   </style>
 </head>
 <body>
-<p><br/></p>
-<div class="container">
+	<div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
+		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
+        <div class="page-wrapper">
   <h2>서버 파일 리스트</h2>
   <hr/>
   <p>서버의 파일 경로 : ${ctp}/data/ckeditor/~~~파일명</p>
@@ -126,6 +134,7 @@
 		  <tr><td colspan="4" class="m-0 p-0"></td></tr>
 	  </table>
   </form>
+</div>
 </div>
 <p><br/></p>
 <!-- 위로가기 버튼 -->

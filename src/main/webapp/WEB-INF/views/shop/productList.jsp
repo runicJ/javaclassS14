@@ -86,20 +86,19 @@ margin-top: 20px;
 		
 		function toggleLiked(productIdx, element) {
 		    $.ajax({
-		        url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
+		        url: '${ctp}/recent/saveLikedProduct',
 		        type: 'POST',
 		        data: { productIdx: productIdx },
 		        success: function(response) {
 		            if (!response.success) {
-		                alert(response.message);  // Display login required message
+		                alert(response.message);
 		                return;
 		            }
 
-		            // Change heart icon color based on interest state
 		            if (response.isInterested) {
-		                $(element).find('i').css('color', 'red');  // Change heart icon to red
+		                $(element).find('i').css('color', 'red');
 		            } else {
-		                $(element).find('i').css('color', '');  // Revert to default color
+		                $(element).find('i').css('color', '');
 		            }
 		            alert(response.message);
 		        },
@@ -111,13 +110,12 @@ margin-top: 20px;
 	    
 		function applyFilter() {
 		    let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
-		    
 		    let sort = document.getElementById("sort").value;
 
 		    let minPrice = $("#hiddenMinPrice").val();
 		    let maxPrice = $("#hiddenMaxPrice").val();
 
-		    let url = `${ctp}/shop/productList?averageRating=${averageRating}&sort=${sort}&minPrice=${minPrice}&maxPrice=${maxPrice}`;
+		    let url = '${ctp}/shop/productList?averageRating=${averageRating}&sort=${sort}&minPrice=${minPrice}&maxPrice=${maxPrice}';
 
 		    window.location.href = url;
 		}
@@ -142,7 +140,7 @@ margin-top: 20px;
                     <div class="breadcrumb__text">
                         <h4>판매목록</h4>
                         <div class="breadcrumb__links">
-                            <a href="./index.html">메인페이지</a>
+                            <a href="${ctp}/main">메인페이지</a>
                             <span>제품목록</span>
                         </div>
                     </div>
@@ -159,8 +157,8 @@ margin-top: 20px;
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
                         <div class="shop__sidebar__search">
-                            <form action="#">
-                                <input type="text" placeholder="Search...">
+                            <form action="${ctp}/shop/productList">
+                                <input type="text" name="keyword" placeholder="Search...">
                                 <button type="submit"><span class="icon_search"></span></button>
                             </form>
                         </div>
@@ -243,11 +241,11 @@ margin-top: 20px;
 			                                        <input type="text" id="maxamount" style="max-width:40%;">
 			                                    </div>
 			                                </div>
-			                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
+<%-- 			                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
 											    <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
 											    <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
 										        <button type="submit" class="btn btn-primary">필터 적용</button>
-										    </form>
+										    </form> --%>
 			                            </div>
 			                        </div>
 		                        </div>

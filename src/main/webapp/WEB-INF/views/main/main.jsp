@@ -126,7 +126,7 @@
 	        
 	        // 카운트다운 시작
 	        const countdown = () => {
-                const countDate = new Date("Aug 8, 2024 00:00:00").getTime();
+                const countDate = new Date("Aug 9, 2024 00:00:00").getTime();
                 const now = new Date().getTime();
                 const gap = countDate - now;
 

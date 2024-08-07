@@ -79,7 +79,7 @@
 				<div class="copyright">
 					COPYRIGHT &copy; PAUSE IN BRACE 2024. ALL RIGHT RESERVED.
 					<div>
-						Made by RUNIC.
+						Made by DODO.
 					</div>
 				</div>
 			</div>

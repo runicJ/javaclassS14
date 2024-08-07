@@ -350,7 +350,7 @@
                                         </tr>
                                         <tr>
                                             <th><label for="compName">회사명</label> <span class="essential">*</span></th>
-                                            <td><input type="text" id="compName" name="companyname" class="txtInp" style="width:370px;" placeholder="예) (주)텐바이텐"></td>
+                                            <td><input type="text" id="compName" name="companyname" class="txtInp" style="width:370px;" placeholder="예) 괄호 안 쉼표"></td>
                                         </tr>
                                         <tr>
                                             <th><label for="compAddr">회사 주소</label> <span class="essential">*</span></th>
@@ -474,7 +474,7 @@
                         <div class="section">
                             <h4>개인정보 수집 및 이용 동의</h4>
                             <div class="private">
-                                <p>사업제휴 광고문의를 위한 정보수집 및 이용동의<br><br>㈜텐바이텐(이하 “회사”라 함)는 개인정보보호법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률 등 관련 법령상의 개인정보보호 규정을 준수하며, 파트너의 개인정보 보호에 최선을 다하고 있습니다.</p>
+                                <p>사업제휴 광고문의를 위한 정보수집 및 이용동의<br><br>{ , }(이하 “회사”라 함)는 개인정보보호법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률 등 관련 법령상의 개인정보보호 규정을 준수하며, 파트너의 개인정보 보호에 최선을 다하고 있습니다.</p>
                                 <p></p>
                                 <ol>
                                     <li>1.&nbsp;개인정보 수집 및 이용주체<br>제휴문의 및 상담신청을 통해 제공하신 정보는 “회사”가 직접 접수하고 관리합니다.</li>

@@ -148,4 +148,5 @@ public class UserServiceImpl implements UserService {
 	public int getUserEmailCheck(String email) {
 		return userDAO.getUserEmailCheck(email);
 	}
+
 }

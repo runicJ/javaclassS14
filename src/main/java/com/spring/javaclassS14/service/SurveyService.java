@@ -2,13 +2,15 @@ package com.spring.javaclassS14.service;
 
 import java.util.List;
 
+import org.springframework.web.multipart.MultipartFile;
+
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 
 public interface SurveyService {
 	
 	// 설문 만들기
-	public int setSurveyInput(SurveyVO surveyVO);
+	public int setSurveyInput(MultipartFile file, SurveyVO surveyVO);
 	
 	public SurveyVO getSurveyForm(int surveyIdx);
 	

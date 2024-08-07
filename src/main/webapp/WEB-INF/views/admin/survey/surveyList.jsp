@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -64,17 +65,12 @@
     </script>
 </head>
 <body>
-	<div class="preloader">
-        <div class="lds-ripple">
-            <div class="lds-pos"></div>
-            <div class="lds-pos"></div>
-        </div>
-    </div>
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
         <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
 		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <div class="page-wrapper">
-        <div class="card p-5">
+			<div class="card p-5">
+			                <div class="card-body">
 			<h2><i class="fa-solid fa-list-check"></i> 설문 목록</h2>
         <br>
         <span style="font-weight: bold;">전체 설문 수: <c:out value="${total}" /></span>
@@ -129,7 +125,8 @@
             </table>
         </div>
     </div>
-    </div>
+</div>
+</div>
 </div>
 </body>
 </html>

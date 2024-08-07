@@ -7,7 +7,7 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
-	<title>Home</title>
+	<title>괄호 안 쉼표</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css" integrity="sha256-DBYdrj7BxKM3slMeqBVWX2otx7x4eqoHRJCsSDJ0Nxw=" crossorigin="anonymous"/>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.2.6/gsap.min.js"></script>
@@ -75,8 +75,8 @@
                           <div class="swiper-slide">
                             <div class="img-container three">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link wildlife-project-link">자라날 우리 아이들을 위해
-                                  <div class="view-project">그리고 미래의</div>
+                                <a href="#0" class="project-link wildlife-project-link">우리 아이들을 위해
+                                  <div class="view-project">그리고 어쩌면 가까운 미래의</div>
 
                                 </a>
                               </div>
@@ -85,8 +85,8 @@
                           <div class="swiper-slide">
                             <div class="img-container four">
                               <div class="slide-text opacity">
-                                <a href="#0" class="project-link city-project-link">편안한 숨을 만들어갑시다
-                                  <div class="view-project">삶을 위하여 우리 함께 나아갑시다</div>
+                                <a href="#0" class="project-link city-project-link">편안한 숨을
+                                  <div class="view-project">삶을 위하여 함께</div>
                                  </a>
                               </div>
                             </div>
@@ -121,14 +121,13 @@
               </div>
               <div class="social-media-links">
                 <ul>
-                  <li class="fade-up"> <a href="#"><i class="fa-solid fa-comment"></i></a></li>
-                  <li class="fade-up"> <a href="#"><i class="fa-brands fa-youtube"></i></a></li>
+                  <li class="fade-up"><a href="#"><i class="fa-solid fa-comment"></i></a></li>
+                  <li class="fade-up"><a href="#"><i class="fa-brands fa-youtube"></i></a></li>
                   <li class="fade-up"><a href="#"><i class="fa-brands fa-instagram"></i></a></li>
                 </ul>
               </div>
             </div>
       <!-- HOME -->
-
 
       <!-- ABOUT -->
 <div id="about">
@@ -172,19 +171,13 @@
           <div class="col-12 p-0 m-0">
          <div class="slideshow-container">
            <div class="slides">
-             <img src="${ctp}/images/home/life-tree.webp" alt="marine-image">
+             <img src="${ctp}/images/home/life-tree.jpg" alt="marine-image">
            </div>
            <div class="slides">
-            <img src="${ctp}/images/home/marine-image-three.webp" alt="marine-image">
+            <img src="${ctp}/images/home/life2.jpg" alt="marine-image">
           </div>
            <div class="slides">
-             <img src="${ctp}/images/home/marine-image-six.webp" alt="marine-image">
-           </div>
-           <div class="slides">
-             <img src="${ctp}/images/home/marine-image-five.webp" alt="marine-image">
-           </div>
-           <div class="slides">
-             <img src="${ctp}/images/home/marine-image-two.webp" alt="marine-image">
+             <img src="${ctp}/images/home/life3.jpg" alt="marine-image">
            </div>
          </div>
         
@@ -194,13 +187,13 @@
           <button id ="next" class="hover"><img src="${ctp}/images/home/next.png" alt="" class="imgs"></button>
         </div>
         <div class="project-name">
-          MARINE
+          생명
         </div>
         <div class="social-media-links opacity">
           <ul>
-            <li> <a href="#">FB</a> </li>
-            <li> <a href="#">IN</a> </li>
-            <li> <a href="#">TW</a> </li>
+            <li> <a href="#"><i class="fa-solid fa-comment"></i></a> </li>
+            <li> <a href="#"><i class="fa-brands fa-youtube"></i></a> </li>
+            <li> <a href="#"><i class="fa-brands fa-instagram"></i></a> </li>
           </ul>
         </div>
         </div>
@@ -211,7 +204,7 @@
   <div class="navigation navigation-project">
         
     <div class="logo home-link about-opacity">
-     <a href="#"> JAMES TYLER</a>
+     <a href="#"> { , }</a>
     </div>
   
     <div class="navigation-links about-opacity">
@@ -225,19 +218,13 @@
   <div class="col-12 p-0 m-0">
  <div class="slideshow">
    <div class="forest-slides">
-     <img src="${ctp}/images/home/nature-gross.jpg" alt="marine-image">
+     <img src="${ctp}/images/home/breath-gross.jpg" alt="marine-image">
    </div>
    <div class="forest-slides">
-     <img src="${ctp}/images/home/forest-image-two.webp" alt="marine-image">
+     <img src="${ctp}/images/home/breath2.jpg" alt="marine-image">
    </div>
    <div class="forest-slides">
-     <img src="${ctp}/images/home/forest-image-three.webp" alt="marine-image">
-   </div>
-   <div class="forest-slides">
-     <img src="${ctp}/images/home/forest-image-five.webp" alt="marine-image">
-   </div>
-   <div class="forest-slides">
-     <img src="${ctp}/images/home/forest-image-six.webp" alt="marine-image">
+     <img src="${ctp}/images/home/breath3.jpg" alt="marine-image">
    </div>
  </div>
 
@@ -247,13 +234,13 @@
   <button id ="forest-next" class="hover"><img src="${ctp}/images/home/next.png" alt="next" class="imgs"></button>
 </div>
 <div class="project-name">
-  FOREST
+  숲
 </div>
 <div class="social-media-links opacity">
   <ul>
-    <li> <a href="#">FB</a> </li>
-    <li> <a href="#">IN</a> </li>
-    <li> <a href="#">TW</a> </li>
+    <li> <a href="#"><i class="fa-solid fa-comment"></i></a> </li>
+    <li> <a href="#"><i class="fa-brands fa-youtube"></i></a> </li>
+    <li> <a href="#"><i class="fa-brands fa-instagram"></i></a> </li>
   </ul>
 </div>
       </div>
@@ -264,7 +251,7 @@
   <div class="navigation navigation-project">
         
     <div class="logo home-link about-opacity">
-     <a href="#"> JAMES TYLER</a>
+     <a href="#"> { , }</a>
     </div>
   
     <div class="navigation-links about-opacity">
@@ -281,19 +268,10 @@
      <img src="${ctp}/images/home/kid-baby.jpg" alt="marine-image">
    </div>
    <div class="wildlife-slides">
-     <img src="${ctp}/images/home/wildlife-image-two.webp" alt="marine-image">
+     <img src="${ctp}/images/home/kid2.jpg" alt="marine-image">
    </div>
    <div class="wildlife-slides">
-     <img src="${ctp}/images/home/wildlife-image-three.webp" alt="marine-image">
-   </div>
-   <div class="wildlife-slides">
-     <img src="${ctp}/images/home/wildlife-image-four.webp" alt="marine-image">
-   </div>
-   <div class="wildlife-slides">
-     <img src="${ctp}/images/home/wildlife-image-five.webp" alt="marine-image">
-   </div>
-   <div class="wildlife-slides">
-     <img src="${ctp}/images/home/wildlife-image-six.webp" alt="marine-image">
+     <img src="${ctp}/images/home/kid3.jpg" alt="marine-image">
    </div>
  </div>
 
@@ -303,13 +281,13 @@
   <button id ="wildlife-next" class="hover"><img src="${ctp}/images/home/next.png" alt="next" class="imgs"></button>
 </div>
 <div class="project-name">
-  wildlife
+  아이들
 </div>
 <div class="social-media-links opacity">
   <ul>
-    <li> <a href="#">FB</a> </li>
-    <li> <a href="#">IN</a> </li>
-    <li> <a href="#">TW</a> </li>
+    <li> <a href="#"><i class="fa-solid fa-comment"></i></a> </li>
+    <li> <a href="#"><i class="fa-brands fa-youtube"></i></a> </li>
+    <li> <a href="#"><i class="fa-brands fa-instagram"></i></a> </li>
   </ul>
 </div>
       </div>
@@ -320,7 +298,7 @@
   <div class="navigation navigation-project">
         
     <div class="logo home-link about-opacity">
-     <a href="#"> JAMES TYLER</a>
+     <a href="#"> { , }</a>
     </div>
   
     <div class="navigation-links about-opacity">
@@ -337,16 +315,10 @@
      <img src="${ctp}/images/home/forest-path.jpg" alt="city-image">
    </div>
    <div class="city-slides">
-    <img src="${ctp}/images/home/city-two.webp" alt="city-image">
+    <img src="${ctp}/images/home/forest2.jpg" alt="city-image">
   </div>
    <div class="city-slides">
-     <img src="${ctp}/images/home/city-image-three.webp" alt="city-image">
-   </div>
-   <div class="city-slides">
-     <img src="${ctp}/images/home/city-image-four.webp" alt="city-image">
-   </div>
-   <div class="city-slides">
-     <img src="${ctp}/images/home/city-image-five.webp" alt="city-image">
+     <img src="${ctp}/images/home/forest3.jpg" alt="city-image">
    </div>
  </div>
 
@@ -356,18 +328,17 @@
   <button id ="city-next" class="hover"><img src="${ctp}/images/home/next.png" alt="next" class="imgs"></button>
 </div>
 <div class="project-name">
-  CITY
+  숨
 </div>
 <div class="social-media-links opacity">
   <ul>
-    <li> <a href="#">FB</a> </li>
-    <li> <a href="#">IN</a> </li>
-    <li> <a href="#">TW</a> </li>
+    <li> <a href="#"><i class="fa-solid fa-comment"></i></a> </li>
+    <li> <a href="#"><i class="fa-brands fa-youtube"></i></a> </li>
+    <li> <a href="#"><i class="fa-brands fa-instagram"></i></a> </li>
   </ul>
 </div>
       </div>
 <!-- CITY PROJECT -->
-
 
       <!-- PROJECTS -->
     </div>
@@ -377,7 +348,7 @@
   <div class="navigation navigation-contact">
         
     <div class="logo home-link contact-opacity">
-     <a href="#">JAMES TYLER</a>
+     <a href="#">DODO</a>
     </div>
   
     <div class="navigation-links contact-opacity">
@@ -388,38 +359,30 @@
     </div>
   
   </div>
-  <div class="contact-header contact-opacity">
-    getting in touch is easy.
-  </div>
-<div class="container-fluid">
-  <div class="row p-0 m-0">
-  
-      <div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xs-12 p-0 m-0">
-        <div class="form contact-opacity" autocomplete="false">
-          <form  id ="myForm" action="mail.php">
-            <div class="input-line">
-              <input id="name" type="text" placeholder="name" class="input-same-line">
-              <input id="email" type="email" placeholder="email" class="input-same-line">
-            </div>
-            <div class="input-line-column">
-              <input id="subject" type="text" placeholder="subject">
-              <textarea name="textarea" id="body" class="textarea" placeholder="message"></textarea>
-            </div>
-           <button type="button" id="submit" class="hover">Send</button>
-          </form>
-        </div>
-        </div>
+	  <div class="contact-header contact-opacity">
+	    getting in touch is easy.
+	  </div>
+		<div class="container-fluid">
+	  		<div class="row p-0 m-0">
+		      	<div class="col-12 col-md-12 col-lg-12 col-sm-12 col-xs-12 p-0 m-0">
+			        <div class="form contact-opacity" autocomplete="false">
+			          <form  id ="myForm" action="mail.php">
+			            <div class="input-line">
+			              <input id="name" type="text" placeholder="name" class="input-same-line">
+			              <input id="email" type="email" placeholder="email" class="input-same-line">
+			            </div>
+			            <div class="input-line-column">
+			              <input id="subject" type="text" placeholder="subject">
+			              <textarea name="textarea" id="body" class="textarea" placeholder="message"></textarea>
+			            </div>
+			           <button type="button" id="submit" class="hover">Send</button>
+			          </form>
+			        </div>
+		        </div>
+			</div>
+		</div>
+	</div>
 </div>
-
-</div>
-</div>
-
-<!--CONTACT PAGE-->
-
-
-
-    </div>
-
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js" integrity="sha256-4sETKhh3aSyi6NRiA+qunPaTawqSMDQca/xLWu27Hg4=" crossorigin="anonymous"></script>
     <script src="${ctp}/js/home/jquery.min.js"></script>
     <script src="${ctp}/js/home/bez.js"></script>

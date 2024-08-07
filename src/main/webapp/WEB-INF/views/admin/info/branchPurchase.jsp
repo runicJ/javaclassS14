@@ -65,11 +65,19 @@ function decrementQuantity(inputId) {
 </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
-<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
-<p><br/></p>
-<div class="container">
-	<h2>발주 폼</h2>
+    <div class="preloader">
+        <div class="lds-ripple">
+            <div class="lds-pos"></div>
+            <div class="lds-pos"></div>
+        </div>
+    </div>
+    <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
+        <jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
+        <div class="page-wrapper">
+            <div class="card p-5">
+                <div class="card-body">
+	<h2 class="text-center">발주 신청</h2>
 <form action="/submit-order" method="post">
     <label for="branch">지점 선택:</label>
     <select id="branch" name="branch">
@@ -98,6 +106,9 @@ function decrementQuantity(inputId) {
     </table>
     <button type="submit" class="btn-order">주문하기</button>
 </form>
+</div>
+</div>
+</div>
 <a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 </div>
 <p><br/></p>

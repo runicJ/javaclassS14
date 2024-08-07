@@ -47,8 +47,8 @@ public class ShopController {
             @RequestParam(name="minPrice", defaultValue = "0", required = false) int minPrice,
             @RequestParam(name="maxPrice", defaultValue = "10000000", required = false) int maxPrice,
             @RequestParam(name="averageRating", defaultValue = "0", required = false) int averageRating,
-            @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
-            @RequestParam(name = "pageSize", defaultValue = "9", required = false) int pageSize) {
+            @RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+            @RequestParam(name="pageSize", defaultValue = "9", required = false) int pageSize) {
 
 		model.addAttribute("part", part);
 		model.addAttribute("sort", sort);

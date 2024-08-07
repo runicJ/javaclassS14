@@ -193,7 +193,7 @@
 		$("#regSurvBtn").click(function() {
 			let chkValidate = chkFields() == true ? true : false;
 			
-			let file = myform.file.value;	
+			let file = document.getElementById("file").value;	
 			let ext = file.substring(file.lastIndexOf(".")+1);
 			let uExt = ext.toUpperCase();
 			
@@ -634,6 +634,7 @@
 							</td>
 							<td>
 	                            <div class="custom-file">
+	                            	<label for="file">대표이미지 등록하기</label>
 	                                <input type="file" class="custom-file-input" name="file" id="file" required>
 	                            </div>
 							</td>

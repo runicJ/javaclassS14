@@ -17,6 +17,10 @@ public interface AdminService {
 
 	public void allAction(String action, List<String> users);
 
-	public int getdeleteExUser();
+	public int getDeleteExUser();
+
+	public int getRecentUser();
+
+	public int getDeleteResUser();
 
 }

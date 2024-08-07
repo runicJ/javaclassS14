@@ -35,7 +35,7 @@
 
         function submit() {
             let userId = $("#userId").val();
-            let questList = ${surveyVO.questList}; // JSON.stringify로 변환 필요
+            let questList = ${surveyVO.questList};
             questList = JSON.parse('${surveyVO.questList}');
             let empty = false;
             let answerList = [];
@@ -46,24 +46,24 @@
                     userId: userI
                 };
 
-                if (qust.questType === "long") {
+                if (qust.questType == "long") {
                     let answLong = document.getElementById(qust.qustNo).value.trim();
                     if (!answLong) empty = true;
                     answerObj.answLong = answLong;
                     answerList.push(answerObj);
                 } else if (["check", "radio"].includes(qust.questType)) {
                     let checkedOptions = [...document.getElementsByName(qust.qustNo)].filter(opt => opt.checked);
-                    if (checkedOptions.length === 0) empty = true;
+                    if (checkedOptions.length == 0) empty = true;
                     checkedOptions.forEach(opt => {
                         let optionAnswer = { ...answerObj, answCont: opt.value };
                         answerList.push(optionAnswer);
                     });
-                } else if (qust.questType === "short") {
+                } else if (qust.questType == "short") {
                     let answCont = document.getElementById(qust.qustNo).value.trim();
                     if (!answCont) empty = true;
                     answerObj.answCont = answCont;
                     answerList.push(answerObj);
-                } else if (qust.questType === "select") {
+                } else if (qust.questType == "select") {
                     answerObj.answCont = document.getElementById(qust.qustNo).value;
                     answerList.push(answerObj);
                 }
@@ -75,7 +75,7 @@
             }
 
             $.ajax({
-                url: "/surveyAnswer",
+                url: "${ctp}/survey/surveyAnswer",
                 type: "POST",
                 contentType: "application/json; charset=utf-8",
                 data: JSON.stringify({ answerList }),
@@ -195,7 +195,7 @@
             <!-- 설문지 질문 END -->
         </div>
         <br/>
-        <button onclick="submit()">제출하기</button>
+        <a onclick="submit()">제출하기</a>
         <a href="${ctp}/survey/surveyEventList">목록 보기</a>
         </div>
     </section>

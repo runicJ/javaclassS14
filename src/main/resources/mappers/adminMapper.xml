@@ -62,8 +62,16 @@
  		select *, datediff(deleteDate, now()) as deleteDiff from delete_users order by deleteIdx desc limit #{startIndexNo},#{pageSize};
  	</select>
 
- 	<select id="getdeleteExUser" resultType="int">
+ 	<select id="getDeleteExUser" resultType="int">
  		select count(*) from delete_users where datediff(deleteDate, now()) <![CDATA[<=]]> -30;
+ 	</select>
+
+ 	<select id="getRecentUser" resultType="int">
+ 		select count(*) from users where userStatus = 'on';
+ 	</select>
+
+ 	<select id="getDeleteResUser" resultType="int">
+ 		select count(*) from users where userStatus = 'off';
  	</select>
 
  	<select id="getUserRegisterWay" resultType="com.spring.javaclassS14.vo.UserVO">

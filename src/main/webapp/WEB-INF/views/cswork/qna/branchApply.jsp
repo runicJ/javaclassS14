@@ -220,7 +220,7 @@
                         <tbody>
                             <tr>
                                 <th><label for="compName">회사명 <span class="essential">*</span></label></th>
-                                <td><input type="text" name="companyname" maxlength="64" id="compName" class="txtInp" placeholder="(주)텐바이텐"></td>
+                                <td><input type="text" name="companyname" maxlength="64" id="compName" class="txtInp" placeholder="{ , }"></td>
                             </tr>
                             <tr>
                                 <th><label for="compNum">사업자 등록번호 <span class="essential">*</span></label></th>
@@ -260,7 +260,7 @@
                         </colgroup>
                         <tbody><tr>
                             <th><label for="brdName">상품 브랜드명 <span class="essential">*</span></label></th>
-                            <td><input type="text" name="reqcomment1" maxlength="30" id="brdName" class="txtInp" placeholder="예) 텐바이텐 문구 (15자 이내)"></td>
+                            <td><input type="text" name="reqcomment1" maxlength="30" id="brdName" class="txtInp" placeholder="예) { , } 문구 (15자 이내)"></td>
                         </tr>
                         <tr>
                             <th><label for="ct1" id="catecode_a">대표 카테고리 <span class="essential">*</span></label></th>
@@ -322,7 +322,7 @@
                         </tr>
                         <tr>
                             <th><label for="mall">현재 입점몰 <span class="essential">*</span></label></th>
-                            <td><input type="text" id="mall" name="manufacturing_name" maxlength="200" class="txtInp" placeholder="예) 텐바이텐, GS  Shop 등 현재 입점몰을 입력해주세요."></td>
+                            <td><input type="text" id="mall" name="manufacturing_name" maxlength="200" class="txtInp" placeholder="예) { , }, GS  Shop 등 현재 입점몰을 입력해주세요."></td>
                         </tr>
                     </tbody></table>
                 </div>
@@ -381,7 +381,7 @@
             <div class="section">
                 <h4>개인정보 수집 및 이용 동의</h4>
                 <div class="private">
-                    <p>신규입점 문의를 위한 정보수집 및 이용동의<br><br>㈜텐바이텐(이하 “회사”라 함)는 개인정보보호법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률 등 관련 법령상의 개인정보보호 규정을 준수하며, 파트너의 개인정보 보호에 최선을 다하고 있습니다.</p>
+                    <p>신규입점 문의를 위한 정보수집 및 이용동의<br><br>{ , }(이하 “회사”라 함)는 개인정보보호법, 정보통신망 이용촉진 및 정보보호 등에 관한 법률 등 관련 법령상의 개인정보보호 규정을 준수하며, 파트너의 개인정보 보호에 최선을 다하고 있습니다.</p>
                     <p></p>
                     <ol>
                         <li>1.&nbsp;개인정보 수집 및 이용주체<br>입점 신청을 통해 제공하신 정보는 “회사”가 직접 접수하고 관리합니다.</li>

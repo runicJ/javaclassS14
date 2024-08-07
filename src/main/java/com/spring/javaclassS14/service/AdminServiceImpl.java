@@ -92,7 +92,17 @@ public class AdminServiceImpl implements AdminService {
     }
 
 	@Override
-	public int getdeleteExUser() {
-		return adminDAO.getdeleteExUser();
+	public int getDeleteExUser() {
+		return adminDAO.getDeleteExUser();
+	}
+
+	@Override
+	public int getRecentUser() {
+		return adminDAO.getRecentUser();
+	}
+
+	@Override
+	public int getDeleteResUser() {
+		return adminDAO.getDeleteResUser();
 	}
 }

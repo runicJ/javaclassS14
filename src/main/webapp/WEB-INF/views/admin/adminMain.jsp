@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -164,9 +165,6 @@
                                 </form>
                             </a>
                         </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
@@ -176,6 +174,7 @@
                                         class="text-dark">${sNickName} 님</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
+                            <!-- 
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
@@ -198,10 +197,8 @@
                                 <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
                                         Profile</a></div>
                             </div>
+                             -->
                         </li>
-                        <!-- ============================================================== -->
-                        <!-- User profile and search -->
-                        <!-- ============================================================== -->
                     </ul>
                 </div>
             </nav>
@@ -253,13 +250,14 @@
                                     <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">탈퇴유예만료 회원</h6>
                                     <div class="d-inline-flex align-items-center">
                                         <h2 class="text-dark mb-1 font-weight-medium"><a href="${ctp}/admin/user/deleteUserList?deleteStatus='탈퇴유예만료'">${empty deleteExUser ? 0 : deleteExUser}명</a></h2>
-                                        <span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">+18.33%</span>
+                                        <span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">${empty deleteExUser ? 0 : recentUser/deleteExUser>0 ? recentUser/deleteExUser : "+"+recentUser/deleteExUser}</span>
                                     </div>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
                                 </div>
                             </div>
+                            <p>회원 : ${empty recentUser ? 0 : recentUser}명 | 탈퇴신청 : ${empty deleteResUser ? 0 : deleteResUser}명</p>
                         </div>
                     </div>
                     <div class="card border-right">

@@ -83,10 +83,7 @@
     </select>
 
 	<select id="getSurveyList" resultType="com.spring.javaclassS14.vo.SurveyVO">
-	    SELECT surveyIdx, surveyTitle, surveyDesc, createDate, modDate, useFlag
-	    FROM Survey
-	    WHERE userId = #{userId} AND delFlag = 'n'
-	    ORDER BY surveyIdx DESC;
+	    SELECT * FROM survey WHERE userId = #{userId} AND delFlag = 'n' ORDER BY surveyIdx DESC;
 	</select>
 
     <select id="getOneSurv" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">

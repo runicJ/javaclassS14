@@ -60,10 +60,10 @@
     GROUP BY p.productIdx
     <choose>
         <when test="sort == 'likedCnt'">
-            ORDER BY p.likedCnt DESC
+            ORDER BY p.likedCnt DESC, p.productIdx desc
         </when>
         <when test="sort == 'productPrice'">
-            ORDER BY p.productPrice ASC
+            ORDER BY p.productPrice
         </when>
         <when test="sort == 'productPrice desc'">
             ORDER BY p.productPrice DESC
@@ -72,7 +72,7 @@
             ORDER BY p.productIdx DESC
         </otherwise>
     </choose>
-    LIMIT #{pageSize} OFFSET #{startIndexNo};
+    LIMIT #{startIndexNo}, #{pageSize};
 </select>
 
   	<select id="getProductNameOne" resultType="com.spring.javaclassS14.vo.ShopVO">
