@@ -150,6 +150,7 @@
 	    };
 	    
 	    function toggleBookmark(productId) {
+	    	
 	        $.ajax({
 	            url: '${ctp}/recent/bookmarkToggle',
 	            type: 'POST',
@@ -228,6 +229,7 @@
         });
 	    
 	    function toggleLiked(productIdx, element) {
+	    	
 	        $.ajax({
 	            url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
 	            type: 'POST',
@@ -875,6 +877,7 @@
             </div>
         </div>
     </section>
+    <!--
 	<section class="best-of-the-week">
 		<div class="container">
 			<h1><div class="text">추천 후기글</div>
@@ -998,8 +1001,10 @@
 				</article>
 			</div>
 		</div>
-		<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
 	</section>
+	  -->
+		<a href="#" class="upBtn"><span><i class="fa-solid fa-angle-up"></i></span></a>
+		<p><br></p>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 <script>
     $('.set-bg').each(function () {

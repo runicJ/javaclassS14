@@ -8,10 +8,8 @@
         VALUES (#{userId}, #{searchTerm}, NOW())
     </insert>
 
-    <!-- 특정 사용자의 최근 본 상품 조회 -->
     <select id="selectRecentViews" resultType="com.spring.javaclassS14.vo.RecentVO">
-        SELECT viewIdx, userId, productIdx, viewDate 
-        FROM recent_view_product 
+        SELECT * FROM recent_view_product 
         WHERE userId = #{userId} 
         group by productIdx
         ORDER BY viewDate DESC 
@@ -72,12 +70,10 @@
     </select>
     
     <select id="getRecentViewProduct" resultType="map">
-        SELECT p.* 
-        FROM recent_view_product v
+        SELECT p.* FROM recent_view_product v
         JOIN product p ON v.productIdx = p.productIdx
         WHERE v.userId = #{userId}
-        ORDER BY v.viewIdx DESC
-        LIMIT 3
+        ORDER BY v.viewIdx DESC LIMIT 3
     </select>
 
     <select id="isProductInterested" resultType="int">

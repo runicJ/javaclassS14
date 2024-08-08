@@ -183,6 +183,14 @@ public class MsgController {
 			model.addAttribute("msg", "문의 접수에 실패하였습니다 다시 시도해주세요.");
 			model.addAttribute("url", "/cswork/qna/qnaApply");
 		}
+		else if(msgFlag.equals("adminUserUpdateOK")) {
+			model.addAttribute("msg", "회원정보 수정이 완료되었습니다. 관리자님.");
+			model.addAttribute("url", "/admin/user/userList");
+		}
+		else if(msgFlag.equals("adminUserUpdateNO")) {
+			model.addAttribute("msg", "회원정보 수정 실패! 다시 시도해 주세요!");
+			model.addAttribute("url", "/admin/user/userList");
+		}
 		
 	return "include/msg";
 	}

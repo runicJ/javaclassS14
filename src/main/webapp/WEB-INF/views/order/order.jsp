@@ -143,7 +143,7 @@
                         <div class="checkout__form">
                             <div class="row">
                                 <div class="col-lg-12 col-md-6">
-                                    <h6 class="coupon__code"><span class="icon_tag_alt"></span> Have a coupon? <a href="#">Click here</a> to enter your code</h6>
+                                    <!-- <h6 class="coupon__code"><span class="icon_tag_alt"></span> 쿠폰이 있으신가요? <a href="#">여기를 클릭하시어</a> 코드번호를 입력하세요</h6> -->
                                     <h2 class="checkout__title">주문자 정보입력</h2>
                                     <div class="row">
                                         <div class="col">

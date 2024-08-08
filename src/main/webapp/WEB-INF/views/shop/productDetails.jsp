@@ -88,7 +88,7 @@
                 return false;
             } 
             else {
-                myform.action = "${ctp}/shop/addToCart";
+                myform.action = "${ctp}/shop/productDetails";
                 myform.submit();
             }
         }
@@ -497,7 +497,7 @@
                                 <p class="text-right">
                                     <b><input type="text" class="totalPrice text-right" id="totalPrice" value="<fmt:formatNumber value='0'/>" readonly /></b>
                                 </p>
-                                <a href="${ctp}/shop/addToCart" class="primary-btn mr-2">바로 구매하기</a>
+                                <%-- <a href="${ctp}/shop/addToCart" class="primary-btn mr-2">바로 구매하기</a> --%>
                                 <a type="button" onclick="cart()" class="primary-btn mr-2">장바구니 담기</a>
                             </div>
                             <div class="line"></div>

@@ -27,7 +27,6 @@ public class SurveyServiceImpl implements SurveyService {
     @Transactional
     @Override
     public int setSurveyInput(MultipartFile file, SurveyVO surveyVO) {
-        System.out.println("===insertSurv ServiceImpl START===");
         
         int res = 0;
 	    try {
@@ -51,10 +50,10 @@ public class SurveyServiceImpl implements SurveyService {
 	        List<SurveyQuestionVO> questList = surveyVO.getQuestList();
 	
 	        if (questList.isEmpty()) {
-	            System.out.println("questList EMPTY!!");
+	            System.out.println("비어있어요!!");
 	        } 
 	        else {
-	            System.out.println("questList NOT EMPTY!!");
+	            System.out.println("정상이에요!!");
 	
 	            for (SurveyQuestionVO question : questList) {
 	                question.setSurveyIdx(surveyVO.getSurveyIdx());
@@ -63,10 +62,10 @@ public class SurveyServiceImpl implements SurveyService {
 	                List<SurveyOptionVO> options = question.getOptions();
 	
 	                if (options == null || options.isEmpty()) {
-	                    System.out.println("options EMPTY!!");
+	                    System.out.println("옵션 비었어!!");
 	                } 
 	                else {
-	                    System.out.println("options NOT EMPTY!!");
+	                    System.out.println("옵션 OK!!");
 	
 	                    for (SurveyOptionVO option : options) {
 	                        option.setQuestIdx(question.getQuestIdx());
@@ -76,7 +75,7 @@ public class SurveyServiceImpl implements SurveyService {
 	            }
 	        }
         }
-        System.out.println("===insertSurv ServiceImpl END===");
+        System.out.println("END");
         
         return res;
     }

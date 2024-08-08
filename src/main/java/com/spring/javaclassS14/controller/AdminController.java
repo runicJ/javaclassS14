@@ -141,7 +141,7 @@ public class AdminController {
 		*/
 		int res = userService.setUserUpdate(userVO);
         
-        return res != 0 ? "redirect:/msg/userUpdateOK" : "redirect:/msg/userUpdateNO";
+        return res != 0 ? "redirect:/msg/adminUserUpdateOK" : "redirect:/msg/adminUserUpdateNO";
     }
 
     @PostMapping("/user/userDelete")

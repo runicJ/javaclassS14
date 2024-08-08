@@ -144,7 +144,7 @@
   		select t.*, m.productMidIdx, m.productMidName, (select count(*) from product as p where p.productMidIdx = m.productMidIdx) as productCnt from product_top as t left join product_mid as m on t.productTopIdx = m.productTopIdx;
   	</select>
   	
-	<!-- CartItem의 ResultMap 정의 -->
+	<!-- CartItem -->
     <resultMap id="CartItemResultMap" type="com.spring.javaclassS14.vo.CartItem">
         <result property="productIdx" column="productIdx"/>
         <result property="optionIdx" column="optionIdx"/>
@@ -159,7 +159,7 @@
     	<result property="productTags" column="productTags"/> <!-- 추가 -->
     </resultMap>
 
-    <!-- CartVO의 ResultMap 정의 -->
+    <!-- CartVO -->
     <resultMap id="CartVOResultMap" type="com.spring.javaclassS14.vo.CartVO">
         <result property="cartIdx" column="cartIdx"/>
         <result property="userId" column="userId"/>
@@ -338,7 +338,11 @@
     
     
 	<delete id="setCategoryTopDelete">
-		delete from product_mid where productTopIdx=#{productTopIdx};
+		delete from product_top where productTopIdx=#{productTopIdx};
+	</delete>
+	
+	<delete id="setCategoryMidDelete">
+		delete from product_mid where productMidIdx=#{productMidIdx};
 	</delete>
 	
 	<delete id="setoptionGroupDelete">

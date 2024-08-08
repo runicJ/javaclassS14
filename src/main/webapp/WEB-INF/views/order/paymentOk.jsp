@@ -72,7 +72,7 @@
 <p><br></p>
 <div class="container text-center">
  <section class="checkout spad">
-  <h2>결제처리 연습</h2>
+  <h2>결제처리 중</h2>
   <hr/>
   <h3>현재 결제가 진행중입니다.</h3>
   <p><img src="${ctp}/images/payment.gif" width="200px"/></p>

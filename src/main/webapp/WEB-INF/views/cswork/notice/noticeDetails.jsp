@@ -30,9 +30,9 @@
                     <div class="blog__hero__text">
                         <h2>${noticeVO.noticeTitle}</h2>
                         <ul>
-                            <li>By Deercreative</li>
+                            <!-- <li>By Deercreative</li> -->
                             <li>${fn:substring(noticeVO.createDate,0,10)}</li>
-                            <li>8 Comments</li>
+                            <!-- <li>8 Comments</li> -->
                         </ul>
                     </div>
                 </div>
@@ -60,27 +60,6 @@
                         </div>
                         <div class="blog__details__text">
                             ${noticeVO.content}
-                        </div>
-                        <div class="blog__details__option">
-                            <div class="row">
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="blog__details__author">
-                                        <div class="blog__details__author__pic">
-                                            <img src="img/blog/details/blog-author.jpg" alt="">
-                                        </div>
-                                        <div class="blog__details__author__text">
-                                            <h5>Aiden Blair</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-lg-6 col-md-6 col-sm-6">
-                                    <div class="blog__details__tags">
-                                        <a href="#">#Fashion</a>
-                                        <a href="#">#Trending</a>
-                                        <a href="#">#2020</a>
-                                    </div>
-                                </div>
-                            </div>
                         </div>
                         <div class="blog__details__btns">
                             <div class="row">

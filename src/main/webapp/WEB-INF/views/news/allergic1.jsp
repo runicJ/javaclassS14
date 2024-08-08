@@ -75,6 +75,7 @@
 								</figure>
 							</div>
 						</aside>
+						<!-- 
 						<aside>
 							<h1 class="aside-title">Recent Post</h1>
 							<div class="aside-body">
@@ -149,6 +150,7 @@
 								</article>
 							</div>
 						</aside>
+						 -->
 					</div>
 					<div class="col-md-8">
 						<ol class="breadcrumb">
@@ -180,11 +182,13 @@
 									<c:if test="${vo.isBookmared == 0}">
 										<i id="bookmark-icon-${vo.partUrl}" class="fa-regular fa-bookmark" style="color:gray;"></i>
 									</c:if> --%>
+									<i class="fa-solid fa-bookmark"></i>
 								</a>
 								<a type="button" class="btn btn-light rounded-circle border border-2 border-end" id="kakaotalk-sharing-btn" href="javascript:shareMessage()"><i class="fa-solid fa-share-nodes"></i></a>
 								<button type="button" class="copy-btn" onclick="copyUrl()">링크 복사</button>
 							</p>
 						</article>
+						<!--
 						<div class="line"><div>관련된 게시글</div></div>
 						<div class="row">
 							<article class="article related col-md-6 col-sm-6 col-xs-12">
@@ -220,6 +224,7 @@
 								</div>
 							</article>
 						</div>
+						  -->
 						<div class="line thin"></div>
 						<div class="comments">
 							<h2 class="title"> 댓글</h2>

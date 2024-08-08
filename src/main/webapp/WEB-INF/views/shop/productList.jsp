@@ -241,11 +241,11 @@ margin-top: 20px;
 			                                        <input type="text" id="maxamount" style="max-width:40%;">
 			                                    </div>
 			                                </div>
-<%-- 			                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
+ 			                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
 											    <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
 											    <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
 										        <button type="submit" class="btn btn-primary">필터 적용</button>
-										    </form> --%>
+										    </form>
 			                            </div>
 			                        </div>
 		                        </div>

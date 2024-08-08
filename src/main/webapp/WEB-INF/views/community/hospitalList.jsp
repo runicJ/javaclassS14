@@ -90,6 +90,7 @@
             <button type="submit">검색</button>
         </form>
     </div>
+    <!--
     <div class="card">
         <div class="card-heading">
             <a data-toggle="collapse" data-target="#collapseThree">가격</a>
@@ -108,6 +109,7 @@
             </div>
         </div>
     </div>
+      -->
     <h3>병원 목록</h3>
     <ul class="hospital-list">
         <c:forEach var="hospital" items="${hospitals}">

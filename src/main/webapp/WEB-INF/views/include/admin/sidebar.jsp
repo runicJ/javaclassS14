@@ -59,7 +59,7 @@
                         	<a href="${ctp}/admin/info/noticeInput" class="sidebar-link"><span class="hide-menu"> 공지사항 관리</span></a>
                         </li>
                         <li class="sidebar-item">
-                        	<a href="${ctp}/admin/notify/notifyInput" class="sidebar-link"><span class="hide-menu"> </span></a>
+                        	<a href="${ctp}/admin/notify/#" class="sidebar-link"><span class="hide-menu"> </span></a>
                         </li>
                     </ul>
                 </li>
@@ -94,7 +94,7 @@
                         aria-expanded="false"><i data-feather="box" class="feather-icon"></i><span
                             class="hide-menu"> 광고 관리 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
-                        <li class="sidebar-item"><a href="form-input-grid.html" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/admin/#" class="sidebar-link"><span
                                     class="hide-menu"> 광고신청목록
                                 </span></a>
                         </li>
@@ -108,11 +108,11 @@
                                     class="hide-menu"> 설문조사 등록
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/survey/surveyList" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/admin/survey/#" class="sidebar-link"><span
                                     class="hide-menu"> 설문조사 리스트
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"><a href="${ctp}/survey/surveyDetails" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/admin/survey/#" class="sidebar-link"><span
                                     class="hide-menu">
                                     설문별 통계 현황
                                 </span></a>

@@ -632,7 +632,7 @@
 							<td>
 								<label><i class="fa-solid fa-tag"></i> 설문지 대표이미지</label>
 							</td>
-							<td>
+							<td colspan=3>
 	                            <div class="custom-file">
 	                            	<label for="file">대표이미지 등록하기</label>
 	                                <input type="file" class="custom-file-input" name="file" id="file" required>

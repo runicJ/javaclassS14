@@ -112,7 +112,7 @@ public class ShopController {
     }
 
     // 장바구니 담기 - 상품 상세정보보기창에서 '장바구니'버튼을 클릭시에 처리하는곳
-    @RequestMapping(value="/addToCart", method=RequestMethod.POST)
+    @RequestMapping(value="/productDetails", method=RequestMethod.POST)
     public String addToCartPost(CartVO vo, HttpSession session, String flag) {
         String userId = (String) session.getAttribute("sUid");
         

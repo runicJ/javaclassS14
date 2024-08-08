@@ -45,8 +45,7 @@
   <select id="getTotalDeleveryOrder" parameterType="int" resultType="int">
     SELECT SUM(totalPrice) FROM orders WHERE orderIdx = #{orderIdx}
   </select>
-
-  <!-- CartItem의 ResultMap 정의 -->
+  
   <resultMap id="CartItemResultMap" type="com.spring.javaclassS14.vo.CartItem">
       <result property="productIdx" column="productIdx"/>
       <result property="optionIdx" column="optionIdx"/>
@@ -60,36 +59,23 @@
       <result property="optionGroupName" column="optionGroupName"/>
   </resultMap>
 
-  <!-- CartVO의 ResultMap 정의 -->
   <resultMap id="CartVOResultMap" type="com.spring.javaclassS14.vo.CartVO">
       <result property="cartIdx" column="cartIdx"/>
       <result property="userId" column="userId"/>
       <collection property="items" ofType="com.spring.javaclassS14.vo.CartItem" column="cartIdx" select="getCartItemsByCartIdx"/>
   </resultMap>
 
-  <!-- 장바구니 항목의 CartItem 가져오기 -->
   <select id="getCartItemsByCartIdx" parameterType="int" resultMap="CartItemResultMap">
       SELECT 
-          c.productIdx,
-          c.optionIdx,
-          c.quantity,
-          c.isSoldOut,
-          c.addedDate,
-          p.productThumb,
-          p.productName,
-          p.productPrice,
+          c.productIdx, c.optionIdx, c.quantity, c.isSoldOut, c.addedDate,
+          p.productThumb, p.productName, p.productPrice,
           IFNULL(o.optionName, '기본') AS optionName,
           IFNULL(g.optionGroupName, '기본') AS optionGroupName
-      FROM 
-          cart c
-      JOIN
-          product p ON c.productIdx = p.productIdx
-      LEFT JOIN
-          product_option o ON c.optionIdx = o.optionIdx
-      LEFT JOIN
-          product_option_group g ON o.optionGroupIdx = g.optionGroupIdx
-      WHERE 
-          c.cartIdx = #{cartIdx}
+      FROM cart c
+      JOIN product p ON c.productIdx = p.productIdx
+      LEFT JOIN product_option o ON c.optionIdx = o.optionIdx
+      LEFT JOIN product_option_group g ON o.optionGroupIdx = g.optionGroupIdx
+      WHERE c.cartIdx = #{cartIdx}
   </select>
     
 </mapper>
