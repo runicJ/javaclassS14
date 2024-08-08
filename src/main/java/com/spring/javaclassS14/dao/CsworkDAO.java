@@ -48,4 +48,6 @@ public interface CsworkDAO {
 
 	public CsworkVO findById(int qnaIdx);
 
+	public List<BranchVO> getPurchaseList();
+
 }

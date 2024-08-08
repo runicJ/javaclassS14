@@ -166,7 +166,8 @@ public class ShopController {
             return "redirect:/msg/cartEmpty";
         }
         
-        Set<String> tags = new HashSet<String>();  // HashSet은 중복 불허 중복된 태그를 하나로 합치기 위해 사용(List는 중복된 태그 허용/Map은 출현 빈도 계산까지)
+        // HashSet은 중복 불허 중복된 태그를 하나로 합치기 위해 사용(List는 중복된 태그 허용/Map은 출현 빈도 계산까지)
+        Set<String> tags = new HashSet<String>();
         for (CartVO cart : productCartVOS) {
         	for(CartItem items : cart.getItems()) {
         		if(items.getProductTags() != null) {

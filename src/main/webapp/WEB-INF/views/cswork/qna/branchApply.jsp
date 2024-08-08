@@ -235,7 +235,7 @@
                             </tr>
                             <tr>
                                 <th style="padding-top:0;"><label for="compUrl">홈페이지/<br>판매처 URL</label></th>
-                                <td><input type="text" id="compUrl" name="companyurl" maxlength="64" class="txtInp" placeholder=" 예) http://localhost:9090/javaclassS14/main"></td>
+                                <td><input type="text" id="compUrl" name="companyurl" maxlength="64" class="txtInp" placeholder=" 예) http://49.142.159.251:9090/javaclassS14/main"></td>
                             </tr>
                             <tr>
                                 <th><label for="compIntro">회사소개 <span class="essential">*</span></label></th>

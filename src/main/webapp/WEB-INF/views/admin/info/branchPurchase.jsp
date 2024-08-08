@@ -81,9 +81,7 @@ function decrementQuantity(inputId) {
 <form action="/submit-order" method="post">
     <label for="branch">지점 선택:</label>
     <select id="branch" name="branch">
-        <option value="서울">서울</option>
-        <option value="부산">부산</option>
-        <!-- 추가 지점 -->
+        <option value="제천">제천</option>
     </select>
     <table>
         <tr>
@@ -92,16 +90,18 @@ function decrementQuantity(inputId) {
             <th>원산지</th>
             <th>수량</th>
         </tr>
+        	<c:forEach var="bppVO" items="${bppVOS}">
         <tr>
-            <td>뉴욕 스페셜 오일</td>
-            <td>50,000원</td>
-            <td>미국</td>
+            <td>${bppVO.bppName}</td>
+            <td>${bppVO.bppPrice}원</td>
+            <td>${bppVO.bppOrigin}</td>
             <td>
                 <button type="button" class="btn-qty" onclick="decrementQuantity('quantity1')">-</button>
                 <input type="text" class="form-control" id="quantity1" name="quantity1" value="0">
                 <button type="button" class="btn-qty" onclick="incrementQuantity('quantity1')">+</button>
             </td>
         </tr>
+            </c:forEach>
         <!-- 추가 제품 행 -->
     </table>
     <button type="submit" class="btn-order">주문하기</button>

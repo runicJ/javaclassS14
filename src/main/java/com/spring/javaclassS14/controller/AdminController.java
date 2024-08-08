@@ -570,7 +570,10 @@ public class AdminController {
 	}
 	
 	@RequestMapping(value = "/info/branchPurchase", method = RequestMethod.GET)
-	public String branchPurchaseGet() {
+	public String branchPurchaseGet(Model model) {
+		List<BranchVO> bppVOS = csworkService.getPurchaseList();
+		
+		model.addAttribute("bppVOS",bppVOS);
 		return "admin/info/branchPurchase";
 	}
 	

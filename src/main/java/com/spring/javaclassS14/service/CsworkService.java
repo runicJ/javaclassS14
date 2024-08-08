@@ -43,4 +43,6 @@ public interface CsworkService {
 
 	public void sendQnaResponse(int qnaIdx, String qnaAnswerContent) throws Exception;
 
+	public List<BranchVO> getPurchaseList();
+
 }

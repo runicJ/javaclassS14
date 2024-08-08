@@ -14,4 +14,8 @@ public class BranchVO {
 	private String createDate;
 	private String qrCode;
 	
+	private int bppIdx;
+	private String bppName;
+	private int bppPrice;
+	private String bppOrigin;
 }

@@ -27,7 +27,7 @@ public class SurveyServiceImpl implements SurveyService {
     @Transactional
     @Override
     public int setSurveyInput(MultipartFile file, SurveyVO surveyVO) {
-        
+        /*
         int res = 0;
 	    try {
 	      String originalFilename = file.getOriginalFilename();
@@ -43,8 +43,9 @@ public class SurveyServiceImpl implements SurveyService {
 	    } catch (IOException e) {
 	      e.printStackTrace();
 	    }
-        
-        res = surveyDAO.setSurveyInput(surveyVO);
+	    */
+	    //surveyVO.setSurveyThumb(null);
+        int res = surveyDAO.setSurveyInput(surveyVO);
         
         if (res > 0) {
 	        List<SurveyQuestionVO> questList = surveyVO.getQuestList();

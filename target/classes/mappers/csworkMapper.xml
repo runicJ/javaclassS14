@@ -42,6 +42,10 @@
         FROM qna ORDER BY qnaIdx, qnaCategory;
     </select>
     
+    <select id="getPurchaseList" resultType="com.spring.javaclassS14.vo.BranchVO">
+        SELECT * from branch_purchase_product order by bppName;
+    </select>
+    
     <!-- FAQ 검색 목록 가져오기 -->
     <select id="getFaqSearchList" resultType="com.spring.javaclassS14.vo.CsworkVO">
         SELECT *, 

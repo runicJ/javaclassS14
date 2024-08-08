@@ -8,7 +8,7 @@
 			<div class="row">
 				<div class="col-md-2 col-sm-12">
 					<div class="brand">
-						<a href="http://localhost:9090/javaclassS14/main">
+						<a href="http://49.142.159.251:9090/javaclassS14/main">
 							<img src="${ctp}/images/logo.png" alt="myLogo">
 						</a>
 					</div>						
