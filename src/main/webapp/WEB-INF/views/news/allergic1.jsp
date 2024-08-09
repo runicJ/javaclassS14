@@ -262,8 +262,10 @@
       imageUrl : 'https://search1.kakaocdn.net/argon/0x200_85_hr/8x5qcdbcQwi',
         url,
       link: {
-        mobileWebUrl: 'http://49.142.159.251:9090',
-        webUrl: 'http://49.142.159.251:9090',
+        mobileWebUrl: 'http://localhost:9090',
+        webUrl: 'http://localhost:9090',
+/*         mobileWebUrl: 'http://49.142.159.251:9090',
+        webUrl: 'http://49.142.159.251:9090', */
       },
     });
   }

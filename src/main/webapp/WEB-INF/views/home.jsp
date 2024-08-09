@@ -47,7 +47,6 @@
           </div>
         
         </div>
-        
               <div class="slider">
                 <div class="container-fluid">
                   <div class="row">
@@ -148,10 +147,8 @@
 
 </div>
       <!-- ABOUT -->
-
       <!-- PROJECTS -->
       <div id="projects">
-
         <!-- MARINE PROJECT -->
         <div class="project marine-project">
           <div class="navigation navigation-project">

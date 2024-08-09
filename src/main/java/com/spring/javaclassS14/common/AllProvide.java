@@ -87,7 +87,8 @@ public class AllProvide {
 		content = content.replace("\n", "<br>");  // 우리는 textarea에 내용을 담지만 보내면 웹에서 text로 봄(한줄로 출력되기에 줄바꿈 처리 위해서 첫줄 '=' 사용)
 		content += "<br><hr><h3>"+pwd+"</h3><hr><br>";
 		content += "<p><img src=\"cid:logo.png\" width='300px'></p>";
-		content += "<p>방문하기 : <a href='http://49.142.157.251:9090/javaclassS14'>javaclass</a></p>";
+		/*content += "<p>방문하기 : <a href='http://49.142.157.251:9090/javaclassS14'>javaclass</a></p>";*/
+		content += "<p>방문하기 : <a href='http://localhost:9090/javaclassS14'>javaclass</a></p>";
 		content += "<hr>";
 		messageHelper.setText(content, true);  // 기존 것 무시하고 깨끗하게 갈아치워줘(위에거 3개 안써도됨)
  		
