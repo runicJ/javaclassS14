@@ -21,6 +21,10 @@
     <link href="${ctp}/css/admin/c3.min.css" rel="stylesheet">
     <link href="${ctp}/css/admin/chartist.min.css" rel="stylesheet">
     <link href="${ctp}/css/admin/style.min.css" rel="stylesheet">
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.16.0/d3.min.js"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/c3/0.7.20/c3.min.js"></script>
+    
 </head>
 <body>
     <div class="preloader">
@@ -29,14 +33,8 @@
             <div class="lds-pos"></div>
         </div>
     </div>
-    <!-- ============================================================== -->
-    <!-- Main wrapper - style you can find in pages.scss -->
-    <!-- ============================================================== -->
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
-        <!-- ============================================================== -->
-        <!-- Topbar header - style you can find in pages.scss -->
-        <!-- ============================================================== -->
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
@@ -51,9 +49,6 @@
                     </div>
                 </div>
                 <div class="navbar-collapse collapse" id="navbarSupportedContent">
-                    <!-- ============================================================== -->
-                    <!-- toggle and nav items -->
-                    <!-- ============================================================== -->
                     <ul class="navbar-nav float-left mr-auto ml-3 pl-1">
                         <!-- Notification -->
                         <li class="nav-item dropdown">
@@ -130,10 +125,6 @@
                                 </ul>
                             </div>
                         </li>
-                        <!-- End Notification -->
-                        <!-- ============================================================== -->
-                        <!-- create new -->
-                        <!-- ============================================================== -->
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -147,13 +138,7 @@
                             </div>
                         </li>
                     </ul>
-                    <!-- ============================================================== -->
-                    <!-- Right side toggle and nav items -->
-                    <!-- ============================================================== -->
                     <ul class="navbar-nav float-right">
-                        <!-- ============================================================== -->
-                        <!-- Search -->
-                        <!-- ============================================================== -->
                         <li class="nav-item d-none d-md-block">
                             <a class="nav-link" href="javascript:void(0)">
                                 <form>
@@ -168,13 +153,12 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="${ctp}/user/noImage.png" alt="user" class="rounded-circle"
-                                    width="40">
+                                <img src="${ctp}/user/noImage.png" alt="user" class="rounded-circle" width="50" height="50">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>안녕하세요,</span> <span
                                         class="text-dark">${sNickName} 님</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
-                            <!-- 
+
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
@@ -194,18 +178,15 @@
                                         class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
                                 <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">View
-                                        Profile</a></div>
+                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">관리자 메인으로</a></div>
                             </div>
-                             -->
+                            
                         </li>
                     </ul>
                 </div>
             </nav>
         </header>
-        <!-- ============================================================== -->
-        <!-- End Topbar header -->
-        <!-- ============================================================== -->
+
         <jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <div class="page-wrapper">
             <div class="page-breadcrumb">
@@ -232,56 +213,49 @@
                     </div>
                 </div>
             </div>
-            <!-- ============================================================== -->
-            <!-- End Bread crumb and right sidebar toggle -->
-            <!-- ============================================================== -->
-            <!-- ============================================================== -->
-            <!-- Container fluid  -->
-            <!-- ============================================================== -->
+
             <div class="container-fluid">
-                <!-- *************************************************************** -->
-                <!-- Start First Cards -->
-                <!-- *************************************************************** -->
                 <div class="card-group">
                     <div class="card border-right">
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">탈퇴유예만료 회원</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">즉시 탈퇴 처리 회원</h6>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium"><a href="${ctp}/admin/user/deleteUserList?deleteStatus='탈퇴유예만료'">${empty deleteExUser ? 0 : deleteExUser}명</a></h2>
-                                        <span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none">${empty deleteExUser ? 0 : recentUser/deleteExUser>0 ? recentUser/deleteExUser : "+"+recentUser/deleteExUser}</span>
+                                        <h2 class="text-dark mb-1 font-weight-medium"><a href="${ctp}/admin/user/deleteUserList?deleteStatus='탈퇴유예만료'" style="${deleteExUser != 0 ? 'color:red;font-weight:bold;' : ''}">${empty deleteExUser ? 0 : deleteExUser}명</a></h2>
+					                    <span class="badge bg-primary font-12 text-white font-weight-medium badge-pill ml-2 d-lg-block d-md-none"> 
+										    ${sign}&nbsp;&nbsp;${percentage}
+					                    </span>
                                     </div>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span>
+                                    <a href="${ctp}/admin/user/userList"><span class="opacity-7 text-muted"><i data-feather="user-plus"></i></span></a>
                                 </div>
                             </div>
-                            <p>회원 : ${empty recentUser ? 0 : recentUser}명 | 탈퇴신청 : ${empty deleteResUser ? 0 : deleteResUser}명</p>
+                            <p>회원 : <a href="${ctp}/admin/user/userList">${empty recentUser ? 0 : recentUser}</a>명 | 탈퇴신청 : <a href="${ctp}/admin/user/deleteUserList">${empty deleteResUser ? 0 : deleteResUser}</a>명</p>
                         </div>
                     </div>
                     <div class="card border-right">
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">주문 관련 미처리 현황</h6>
-                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><sup class="set-doller">$</sup>18,306</h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">주문 미처리 현황</h6>
+                                    <h2 class="text-dark mb-1 w-100 text-truncate font-weight-medium"><a href="${ctp}/admin/order/orderList?orderStatus='주문'" style="${orderCount != 0 ? 'color:red;font-weight:bold;' : ''}">${empty orderCount ? 0 : orderCount}건</a></h2>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
-                                    <span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span>
+                                    <a href="${ctp}/admin/order/orderList"><span class="opacity-7 text-muted"><i data-feather="dollar-sign"></i></span></a>
                                 </div>
                             </div>
+                            <p>주문 : <a href="${ctp}/admin/order/orderList">${empty orderCount ? 0 : orderCount}</a>명 | 배송 : <a href="${ctp}/admin/order/orderList">${empty shippingCount ? 0 : shippingCount}</a>명</p>
                         </div>
                     </div>
                     <div class="card border-right">
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">배송 관련 미처리 현황</h6>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">제품 문의 미처리 현황</h6>
                                     <div class="d-inline-flex align-items-center">
-                                        <h2 class="text-dark mb-1 font-weight-medium">1538</h2>
-                                        <span
-                                            class="badge bg-danger font-12 text-white font-weight-medium badge-pill ml-2 d-md-none d-lg-block">-18.33%</span>
+                                        <h2 class="text-dark mb-1 font-weight-medium"><a href="${ctp}/admin/info/productQnaList" style="${productQnaCount != 0 ? 'color:red;font-weight:bold;' : ''}">${empty productQnaCount ? 0 : productQnaCount}건</a></h2>
                                     </div>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
@@ -294,40 +268,36 @@
                         <div class="card-body">
                             <div class="d-flex d-lg-flex d-md-block align-items-center">
                                 <div>
-                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">문의 미처리 현황</h6>
-                                    <h2 class="text-dark mb-1 font-weight-medium">864</h2>
+                                    <h6 class="text-muted font-weight-normal mb-0 w-100 text-truncate">1:1 문의 미처리 현황</h6>
+                                    <h2 class="text-dark mb-1 font-weight-medium"><a href="${ctp}/admin/info/qnaList?qnaAnswerFlag='n'" style="${qnaCount != 0 ? 'color:red;font-weight:bold;' : ''}">${empty qnaCount ? 0 : qnaCount}건</a></h2>
                                 </div>
                                 <div class="ml-auto mt-md-3 mt-lg-0">
                                     <span class="opacity-7 text-muted"><i data-feather="globe"></i></span>
                                 </div>
                             </div>
+							<p>비회원 : <a href="${ctp}/admin/info/qnaList">${empty qnaGuestCount ? 0 : qnaGuestCount}</a>명 | 회원 : <a href="${ctp}/admin/info/qnaList">${empty qnaUserCount ? 0 : qnaUserCount}</a>명</p>
                         </div>
                     </div>
                 </div>
-                <!-- *************************************************************** -->
-                <!-- End First Cards -->
-                <!-- *************************************************************** -->
-                <!-- *************************************************************** -->
-                <!-- Start Sales Charts Section -->
-                <!-- *************************************************************** -->
                 <div class="row">
-                    <div class="col-lg-4 col-md-12">
-                        <div class="card">
-                            <div class="card-body">
-                                <h4 class="card-title">회원별 가입목적</h4>
-                                <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
-                                <ul class="list-style-none mb-0">
-                                	<c:forEach var="wayVO" items="${wayVOS}">
-                                    <li>
-                                        <i class="fas fa-circle text-primary font-10 mr-2"></i>
-                                        <span class="text-muted">${wayVO.registerWay}</span>
-                                        <span class="text-dark float-right font-weight-medium">${wayVO.wayCount}</span>
-                                    </li>
-                                    </c:forEach>
-                                </ul>
-                            </div>
-                        </div>
-                    </div>
+					<div class="col-lg-4 col-md-12">
+					    <div class="card">
+					        <div class="card-body">
+					            <h4 class="card-title">회원별 가입목적</h4>
+					            <div id="campaign-v2" class="mt-2" style="height:283px; width:100%;"></div>
+					            <ul class="list-style-none mb-0">
+					                <c:forEach var="wayVO" items="${wayVOS}" varStatus="status">
+					                    <li>
+											<i class="fas fa-circle font-10 mr-2"
+                           						style="color: ${status.index % 6 == 0 ? '#2a9d8f' : status.index % 6 == 1 ? '#e76f51' : status.index % 6 == 2 ? '#f4a261' : status.index % 6 == 3 ? '#9d4edd' : status.index % 6 == 4 ? '#457b9d' : '#a8dadc'};"></i>
+					                        <span class="text-muted">${wayVO.registerWay}</span>
+					                        <span class="text-dark float-right font-weight-medium">${wayVO.wayCount}</span>
+					                    </li>
+					                </c:forEach>
+					            </ul>
+					        </div>
+					    </div>
+					</div>
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
@@ -406,12 +376,6 @@
                         </div>
                     </div>
                 </div>
-                <!-- *************************************************************** -->
-                <!-- End Sales Charts Section -->
-                <!-- *************************************************************** -->
-                <!-- *************************************************************** -->
-                <!-- Start Location and Earnings Charts Section -->
-                <!-- *************************************************************** -->
                 <div class="row">
                     <div class="col-md-6 col-lg-8">
                         <div class="card">
@@ -495,23 +459,13 @@
                         </div>
                     </div>
                 </div>
-                <!-- *************************************************************** -->
-                <!-- End Location and Earnings Charts Section -->
-                <!-- *************************************************************** -->
+
             </div>
-            <!-- ============================================================== -->
-            <!-- End Container fluid  -->
-            <!-- ============================================================== -->
+
         </div>
-        <!-- ============================================================== -->
-        <!-- End Page wrapper  -->
-        <!-- ============================================================== -->
+
     </div>
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
-    <!-- End Wrapper -->
-    <!-- ============================================================== -->
+
 <p><br/></p>
     <%-- <script src="${ctp}/js/admin/popper.min.js"></script> --%>
     <script src="${ctp}/js/admin/app-style-switcher.js"></script>
@@ -526,37 +480,42 @@
     <%-- <script src="${ctp}/js/admin/dashboard1.min.js"></script> --%>
     <script>
 	    $(function() {
-	        for (var i = 0; i < wayVOS.length; i++) {
-	            wayLabels.push(wayVOS[i].registerWay);
-	            wayData.push(wayVOS[i].wayCount);
-	        }
-	        c3.generate({
-	            bindto: "#campaign-v2",
-	            data: {
-	                columns: [
-	                    wayLabels,
-	                    wayData
-	                ],
-	                type: "donut",
-	                tooltip: {
-	                    show: !0
-	                }
-	            },
-	            donut: {
-	                label: {
-	                    show: !1
+	        var wayColumns = [];
+
+	        <c:forEach var="wayVO" items="${wayVOS}" varStatus="status">
+	            wayColumns.push(['${wayVO.registerWay}', ${wayVO.wayCount}]);
+	        </c:forEach>
+
+	        if (wayColumns.length > 0) {
+	            c3.generate({
+	                bindto: '#campaign-v2',
+	                data: {
+	                    columns: wayColumns,
+	                    type: 'donut',
+	                    tooltip: {
+	                        show: true
+	                    }
 	                },
-	                title: "registerWay",
-	                width: 18
-	            },
-	            legend: {
-	                hide: !0
-	            },
-	            color: {
-	                pattern: ["#edf2f6", "#5f76e8", "#ff4f70", "#01caf1", "#D9E9F6", "#E6E6FA"]
-	            }
-	        });
-	        d3.select("#campaign-v2 .c3-chart-arcs-title").style("font-family", "Rubik");
+	                donut: {
+	                    label: {
+	                        show: false
+	                    },
+	                    title: "회원 가입 목적",
+	                    width: 18
+	                },
+	                legend: {
+	                    hide: false
+	                },
+	                color: {
+	                    pattern: ["#2a9d8f", "#e76f51", "#f4a261", "#9d4edd", "#457b9d", "#a8dadc"]
+	                }
+	            });
+
+	            d3.select("#campaign-v2 .c3-chart-arcs-title").style("font-family", "Rubik");
+	        } else {
+	            console.warn("데이터 없음");
+	        }
+	        
 	        var e = {
 	            axisX: {
 	                showGrid: !1
@@ -655,6 +614,7 @@
 	            t.update()
 	        })
 	    });
+	    
     </script>
 </body>
 </html>

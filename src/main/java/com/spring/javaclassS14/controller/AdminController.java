@@ -71,9 +71,46 @@ public class AdminController {
 		int recentUser = adminService.getRecentUser();
 		int deleteResUser = adminService.getDeleteResUser();
 		
+		double percentage = 0;
+	    String sign = "+";
+	    if (recentUser != 0) {
+	        percentage = ((double) deleteExUser / recentUser) * 100;
+	        if (recentUser < deleteExUser) {
+	            sign = "-";
+	        }
+	    }
+	    
+		model.addAttribute("percentage", String.format("%.2f", percentage) + "%");
+		model.addAttribute("sign", sign);
+		
 		model.addAttribute("deleteExUser", deleteExUser);
 		model.addAttribute("recentUser", recentUser);
 		model.addAttribute("deleteResUser", deleteResUser);
+		
+        int orderCount = adminService.getOrderCnt();
+        int shipCount = adminService.getShipCnt();
+		
+        model.addAttribute("orderCount", orderCount);
+        model.addAttribute("shipCount", shipCount);
+        
+        int productQnaCount = adminService.getProductQnaCnt();
+        
+        model.addAttribute("productQnaCount", productQnaCount);
+        
+        int qnaGuestCount = adminService.getQnaGuestCnt();
+        int qnaUserCount = adminService.getQnaUserCnt();
+        int qnaCount = adminService.getQnaCnt();
+        
+        model.addAttribute("qnaGuestCount", qnaGuestCount);
+        model.addAttribute("qnaUserCount", qnaUserCount);
+        model.addAttribute("qnaCount", qnaCount);
+        
+        List<Map<String, Object>> weeklySales = adminService.getWeeklySales();
+        List<Map<String, Object>> dailySales = adminService.getDailySales();
+
+        model.addAttribute("weeklySales", weeklySales);
+        model.addAttribute("dailySales", dailySales);
+        
 		model.addAttribute("wayVOS", wayVOS);
 		return "admin/adminMain";
 	}

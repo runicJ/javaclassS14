@@ -77,20 +77,65 @@
  	<select id="getUserRegisterWay" resultType="com.spring.javaclassS14.vo.UserVO">
  		select registerWay, count(*) as wayCount from users group by registerWay;
  	</select>
+
+ 	<select id="getOrderStatusCnt" resultType="int">
+ 		select count(*) from orders_p where orderStatus=#{orderStatus};
+ 	</select>
+
+ 	<select id="getQnaCnt" resultType="int">
+	    select count(*) from qna where qnaAnswerFlag = 'n'
+	    <if test="email == 'all'">
+	        <!-- 모든 QnA -->
+	    </if>
+	    <if test="email == 'null'">
+	        <!-- 이메일이 null인 경우 -->
+	        and email IS NULL
+	    </if>
+	    <if test="email != 'null' and email != 'all'">
+	        <!-- 특정 이메일에 대한 경우 -->
+	        and email IS NOT NULL
+	    </if>
+ 	</select>
+
+ 	<select id="getProductQnaCnt" resultType="int">
+ 		select count(*) from product_qna where answerFlag='n';
+ 	</select>
  	
-<update id="getDeleteUser">
-    <if test="delFlag == 'Ok'">
-        update delete_users 
-        set userId = CONCAT('del_', userId), 
-            email = CONCAT('del_', email) 
-        where userId = #{userId};
-        delete from users where userId = #{userId};
-    </if>
-    <if test="delFlag != 'Ok'">
-        update users set userStatus = 'on' where userId = #{userId};
-        delete from delete_users where userId = #{userId};
-    </if>
-</update>
+    <!-- 주별 매출 데이터 -->
+    <select id="getWeeklySales" resultType="map">
+        SELECT YEAR(orderDate) AS year,
+               WEEK(orderDate, 1) AS week,
+               SUM(totalPrice) AS total_sales
+        FROM orders_p
+        WHERE orderStatus IN ('주문', '배송', '완료')
+        GROUP BY year, week
+        ORDER BY year, week
+    </select>
+
+    <!-- 요일별 매출 데이터 -->
+    <select id="getDailySales" resultType="map">
+        SELECT DAYOFWEEK(orderDate) AS day_of_week,
+               SUM(totalPrice) AS total_sales
+        FROM orders_p
+        WHERE orderStatus IN ('주문', '배송', '완료')
+        GROUP BY day_of_week
+        ORDER BY day_of_week
+    </select>
+ 	
+ 	
+	<update id="getDeleteUser">
+	    <if test="delFlag == 'Ok'">
+	        update delete_users 
+	        set userId = CONCAT('del_', userId), 
+	            email = CONCAT('del_', email) 
+	        where userId = #{userId};
+	        delete from users where userId = #{userId};
+	    </if>
+	    <if test="delFlag != 'Ok'">
+	        update users set userStatus = 'on' where userId = #{userId};
+	        delete from delete_users where userId = #{userId};
+	    </if>
+	</update>
 
 	<update id="updateUserStatus">
 	    UPDATE users SET userStatus = #{userStatus} WHERE userId = #{userId}

@@ -105,4 +105,42 @@ public class AdminServiceImpl implements AdminService {
 	public int getDeleteResUser() {
 		return adminDAO.getDeleteResUser();
 	}
+
+	@Override
+	public int getOrderCnt() {
+		return adminDAO.getOrderStatusCnt("주문");
+	}
+
+	@Override
+	public int getShipCnt() {
+		return adminDAO.getOrderStatusCnt("배송");
+	}
+
+	@Override
+	public int getQnaCnt() {
+		return adminDAO.getQnaCnt("all");
+	}
+
+	@Override
+	public int getQnaGuestCnt() {
+		return adminDAO.getQnaCnt("");
+	}
+
+	@Override
+	public int getQnaUserCnt() {
+		return adminDAO.getQnaCnt("null");
+	}
+
+	@Override
+	public int getProductQnaCnt() {
+		return adminDAO.getProductQnaCnt();
+	}
+	
+    public List<Map<String, Object>> getWeeklySales() {
+        return adminDAO.getWeeklySales();
+    }
+
+    public List<Map<String, Object>> getDailySales() {
+        return adminDAO.getDailySales();
+    }
 }

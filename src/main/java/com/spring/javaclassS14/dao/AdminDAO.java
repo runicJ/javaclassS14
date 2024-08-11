@@ -30,4 +30,13 @@ public interface AdminDAO {
 
 	public int getDeleteResUser();
 
+	public int getOrderStatusCnt(@Param("orderStatus") String orderStatus);
+
+	public int getQnaCnt(@Param("email") String email);
+
+	public int getProductQnaCnt();
+	
+    public List<Map<String, Object>> getWeeklySales();
+    public List<Map<String, Object>> getDailySales();
+
 }

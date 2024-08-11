@@ -2,6 +2,7 @@ package com.spring.javaclassS14.service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -22,5 +23,20 @@ public interface AdminService {
 	public int getRecentUser();
 
 	public int getDeleteResUser();
+
+	public int getOrderCnt();
+
+	public int getShipCnt();
+
+	public int getQnaCnt();
+
+	public int getQnaGuestCnt();
+
+	public int getQnaUserCnt();
+
+	public int getProductQnaCnt();
+	
+	public List<Map<String, Object>> getWeeklySales();
+    public List<Map<String, Object>> getDailySales();
 
 }
