@@ -111,8 +111,18 @@ public class AdminController {
         model.addAttribute("weeklySales", weeklySales);
         model.addAttribute("dailySales", dailySales);
         
+        List<UserVO> mailUserVOS = adminService.getMailUser();
+        model.addAttribute("mailUserVOS", mailUserVOS);
+        
 		model.addAttribute("wayVOS", wayVOS);
 		return "admin/adminMain";
+	}
+	
+	@RequestMapping(value = "/sendCoupon", method = RequestMethod.POST)
+	@ResponseBody
+	public String sendCoupon(@RequestParam("userId") String userId) {
+	    boolean success = adminService.sendCouponToUser(userId);
+	    return success ? "Success" : "Failure";
 	}
 	
 	// 회원리스트
@@ -162,10 +172,9 @@ public class AdminController {
 	
 	@ResponseBody
     @GetMapping("/user/userInfo")
-    public UserVO userInfoGet(@RequestParam String userId) {
-    	UserVO user = userService.getUserIdCheck(userId);
-    	System.out.println("UserVO1: " + user);
-        return user;
+    public UserVO userInfoGet(String userId) {
+    	UserVO userVO = userService.getUserIdCheck(userId);
+        return userVO;
     }
 
     @PostMapping("/user/userUpdate")
@@ -199,14 +208,7 @@ public class AdminController {
         }
         return response;
     }
-    /*
-    @RequestMapping(value="/user/userStop", method=RequestMethod.POST)
-    public String userStopPost() {
-    	int res = adminService.setUserStop();
-    	
-    	return res != 0 ? "redirect:/msg/userStopOk" : "redirect:/msg/userStopNo";
-    }
-    */
+    
 	// 제품 카테고리 관리 페이지 이동
 	@RequestMapping(value="/shop/productCategory", method=RequestMethod.GET)
 	public String productCategoryGet(Model model) {

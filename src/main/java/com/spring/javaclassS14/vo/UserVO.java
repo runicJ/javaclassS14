@@ -27,6 +27,8 @@ public class UserVO {
 	private String loginTime;
 	private String hostIp;
 	
+	private String lastLogin;
+	
 	// 탈퇴 회원
 	private int deleteIdx;
 	private String deleteDate;

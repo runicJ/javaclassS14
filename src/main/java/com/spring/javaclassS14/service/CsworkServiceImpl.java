@@ -315,7 +315,7 @@ public class CsworkServiceImpl implements CsworkService {
         csworkDAO.updateQna(qna);
 
         // Send response email
-        allProvide.mailSend(qna.getEmail(), "안녕하세요 '괄호 안 쉼표'에서 답변드립니다.", qnaAnswerContent);
+        allProvide.mailSend(qna.getEmail(), "안녕하세요 '괄호 안 쉼표'에서 답변드립니다.", qnaAnswerContent, "");
     }
 
 @Override

@@ -77,7 +77,7 @@ public class UserController {
 	        session.setAttribute("sEmailKey", emailKey);
 
 	        // 이메일로 인증 코드 전송
-	        allProvide.mailSend(email, "이메일 인증 코드", "인증 코드: " + emailKey);
+	        allProvide.mailSend(email, "이메일 인증 코드", "인증 코드: " + emailKey, "");
 	        return "0";
 	    }
 	}
@@ -264,7 +264,7 @@ public class UserController {
 			userService.setKakaoUserInput(userId, passwordEncoder.encode(pwd), nickName, email);
 			
 			// 새로 발급받은 임시비밀번호를 메일로 전송한다.
-			allProvide.mailSend(email, "임시 비밀번호를 발급하였습니다.", pwd);
+			allProvide.mailSend(email, "임시 비밀번호를 발급하였습니다.", pwd, "");
 			
 			// 새로 가입처리된 회원의 정보를 다시 vo에 담아준다.
 			vo = userService.getUserIdCheck(userId);
@@ -348,7 +348,7 @@ public class UserController {
 			// 발급받은 비밀번호를 메일로 전송처리한다.
 			String title = vo.getName() + "님 '괄호안쉼표'에서 '"+ today +"'에 임시 비밀번호를 발급받으셨습니다.\n 본인이 아니실 경우 빠른 문의 부탁드립니다.";
 			String mailFlag = "임시 비밀번호 : " + tempPwd;
-			String res = allProvide.mailSend(email, title, mailFlag);
+			String res = allProvide.mailSend(email, title, mailFlag, "");
 			
 			session.setAttribute("sLogin", "OK");  // 새비밀번호 왔을때만 세션이 생성 -> 다 끝나고 세션 지워버림
 			

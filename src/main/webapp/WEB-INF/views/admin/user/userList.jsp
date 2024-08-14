@@ -13,24 +13,24 @@
   	<script>
   		'use strict';
   		
-  		function openUserModal(user) {
+  		function openUserModal(userVO) {
   		    // 기존 필드 설정
-  		    $('#modalUserId').val(user.userId);
-  		    $('#modalUserIdDisplay').val(user.userId);
-  		    $('#imageDemo').attr('src', '${ctp}/user/' + user.userImage);
-  		    $('#modalName').val(user.name);
-  		    $('#modalNickName').val(user.nickName);
-  		    $('#modalEmail').val(user.email);
-  		    $('#modalTel').val(user.tel);
-  		    $('input[name="gender"][value="' + user.gender + '"]').prop('checked', true);
-  		    $('#registerWay').val(user.registerWay);
+  		    $('#modalUserId').val(userVO.userId);  // userId를 숨겨진 필드에 설정
+  		    $('#modalUserIdDisplay').val(userVO.userId); // 필요에 따라 별도 표시용 필드에도 설정
+  		    $('#imageDemo').attr('src', '${ctp}/user/' + userVO.userImage);
+  		    $('#modalName').val(userVO.name);
+  		    $('#modalNickName').val(userVO.nickName);
+  		    $('#modalEmail').val(userVO.email);
+  		    $('#modalTel').val(userVO.tel);
+  		    $('input[name="gender"][value="' + userVO.gender + '"]').prop('checked', true);
+  		    $('#registerWay').val(userVO.registerWay);
 
-  		    $('#userStatus').val(user.userStatus);
-  		    $('#level').val(user.level);
-  		    $('#point').val(user.point);
-  		    $('#agreeOptional').prop('checked', user.policyFlag == 'y');
-  		    $('#createDate').val(user.createDate.substring(0,19));
-  		    $('#updateDate').val(user.updateDate.substring(0,19));
+  		    $('#userStatus').val(userVO.userStatus);
+  		    $('#level').val(userVO.level);
+  		    $('#point').val(userVO.point);
+  		    $('#agreeOptional').prop('checked', userVO.policyFlag == 'y');
+  		    $('#createDate').val(userVO.createDate.substring(0,19));
+  		    $('#updateDate').val(userVO.updateDate.substring(0,19));
 
   		    // 모달 열기
   		    $('#userModal').modal('show');
@@ -40,20 +40,13 @@
   			$('#userForm').submit();
   		}
   		
-  		function stopUser() {
-  		    if (confirm("정말로 해당 회원의 기능을 정지시키겠습니까?")) {
-  		        $('#userForm').attr('action', '${ctp}/admin/user/userStop');
-  		        $('#userForm').submit();
-  		    }
-  		}
-  		
 		function userInfo(userId) {
   		    $.ajax({
   		        url: '${ctp}/admin/user/userInfo',
   		        type: 'GET',
   		        data: { userId: userId },
-  		        success: function(user) {
-  		            openUserModal(user);
+  		        success: function(userVO) {
+  		            openUserModal(userVO);
   		        },
   		        error: function() {
   		            alert("전송오류!");
@@ -432,7 +425,6 @@
             <div class="modal-footer">
                 <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">확인</button>
                 <button type="button" class="btn btn-warning btn-sm" onclick="submitForm()">수정</button>
-                <button type="button" class="btn btn-danger btn-sm" onclick="stopUser()">정지</button>
             </div>
         </div>
     </div>

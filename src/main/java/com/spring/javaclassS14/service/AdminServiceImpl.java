@@ -4,10 +4,15 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+
+import javax.mail.MessagingException;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.stereotype.Service;
 
+import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.AdminDAO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -16,7 +21,13 @@ public class AdminServiceImpl implements AdminService {
 
 	@Autowired
 	AdminDAO adminDAO;
-
+	
+	@Autowired
+	JavaMailSender mailSender;
+	
+	@Autowired
+	AllProvide allProvide;
+	
 	public List<UserVO> getUserList(int startIndexNo, int pageSize, String keyword, String sortOption) {
         Map<String, Object> paramMap = prepareSortOption(keyword, sortOption, startIndexNo, pageSize);
         return adminDAO.getUserList(paramMap);
@@ -75,7 +86,6 @@ public class AdminServiceImpl implements AdminService {
 
     @Override
     public void allAction(String action, List<String> users) {
-    	System.out.println("action ; " + action);
         for (String userId : users) {
             switch (action) {
                 case "정상":
@@ -136,11 +146,44 @@ public class AdminServiceImpl implements AdminService {
 		return adminDAO.getProductQnaCnt();
 	}
 	
+	@Override
     public List<Map<String, Object>> getWeeklySales() {
         return adminDAO.getWeeklySales();
     }
-
+	
+	@Override
     public List<Map<String, Object>> getDailySales() {
         return adminDAO.getDailySales();
+    }
+	
+	@Override
+    public List<UserVO> getMailUser() {
+    	return adminDAO.getMailUser();
+    }
+	
+	@Override
+	public boolean sendCouponToUser(String userId) {
+        // 사용자 이메일 가져오기
+        UserVO user = adminDAO.getUserById(userId);
+        if (user == null) {
+            return false;  // 유저가 없을 경우 실패
+        }
+
+        // UUID로 쿠폰 코드 생성
+        String couponCode = UUID.randomUUID().toString().replace("-", "").substring(0, 12).toUpperCase();
+
+        // 메일 발송에 사용할 기본 메시지 설정
+        String email = user.getEmail();
+        String title = "귀하를 위한 특별 쿠폰 코드";
+        String content = "안녕하세요,\n\n아래는 귀하를 위한 특별 쿠폰 코드입니다.";
+
+        try {
+            allProvide.mailSend(email, title, content, couponCode);
+        } catch (MessagingException e) {
+            e.printStackTrace();
+            return false;  // 메일 발송 실패 시
+        }
+
+        return true;  // 성공적으로 메일 발송 완료
     }
 }

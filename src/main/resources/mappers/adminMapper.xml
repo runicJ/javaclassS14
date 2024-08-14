@@ -101,6 +101,10 @@
  		select count(*) from product_qna where answerFlag='n';
  	</select>
  	
+ 	<select id="getUserById" resultType="com.spring.javaclassS14.vo.UserVO">
+ 		select * from users where userId = #{userId};
+ 	</select>
+ 	
     <!-- 주별 매출 데이터 -->
     <select id="getWeeklySales" resultType="map">
         SELECT YEAR(orderDate) AS year,
@@ -120,6 +124,16 @@
         WHERE orderStatus IN ('주문', '배송', '완료')
         GROUP BY day_of_week
         ORDER BY day_of_week
+    </select>
+
+    <select id="getMailUser" resultType="com.spring.javaclassS14.vo.UserVO">
+        SELECT u.userIdx, u.userId, u.name, u.createDate, 
+               IFNULL(DATEDIFF(NOW(), ul.loginTime), DATEDIFF(NOW(), u.createDate)) AS lastLogin,
+               ul.loginTime
+        FROM users u
+        LEFT JOIN user_log ul ON u.userId = ul.userId
+        WHERE u.level > 0 AND u.userStatus = 'on'
+        ORDER BY lastLogin DESC limit 5;
     </select>
  	
  	

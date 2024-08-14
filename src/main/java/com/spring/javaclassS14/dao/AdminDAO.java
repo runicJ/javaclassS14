@@ -39,4 +39,8 @@ public interface AdminDAO {
     public List<Map<String, Object>> getWeeklySales();
     public List<Map<String, Object>> getDailySales();
 
+	public List<UserVO> getMailUser();
+
+	public UserVO getUserById(String userId);
+
 }

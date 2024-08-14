@@ -70,7 +70,7 @@ public class AllProvide {
 	}
 	
 	//메일 전송하기(비밀번호 찾기)
-	public String mailSend(String toMail, String title, String pwd) throws MessagingException {
+	public String mailSend(String toMail, String title, String pwd, String couponCode) throws MessagingException {
 		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();  // 그냥 못씀 강제 형변환 해서 request 써야함
 		String content = "";
 			
@@ -81,7 +81,14 @@ public class AllProvide {
  		// 메일보관함에 작성한 메시지들의 정보를 모두 저장시킨 후 작업처리...(3개 필요한 것 밑에서 하나로 처리함(공부하라고 써놓음)
  		messageHelper.setTo(toMail);  // 받는 사람 메일 주소 // 앞에서 받은 메일 주소로 보낼거야
  		messageHelper.setSubject(title);  // 메일 제목  // 다 setter에 넣는 것
- 		messageHelper.setText(content);
+
+        // 이메일 기본 내용 설정
+        StringBuilder emailContent = new StringBuilder(content);
+ 		
+        // 쿠폰 코드가 있을 경우 추가
+        if (couponCode != null && !couponCode.isEmpty()) {
+            emailContent.append("<br><hr><h3>쿠폰 코드: ").append(couponCode).append("</h3><hr><br>");
+        }
  		
  		// 메시지 보관함의 내용(content)에, 발신자의 필요한 정보를 추가로 담아서 전송처리한다.
 		content = content.replace("\n", "<br>");  // 우리는 textarea에 내용을 담지만 보내면 웹에서 text로 봄(한줄로 출력되기에 줄바꿈 처리 위해서 첫줄 '=' 사용)
@@ -90,8 +97,11 @@ public class AllProvide {
 		/*content += "<p>방문하기 : <a href='http://49.142.157.251:9090/javaclassS14'>javaclass</a></p>";*/
 		content += "<p>방문하기 : <a href='http://localhost:9090/javaclassS14'>javaclass</a></p>";
 		content += "<hr>";
-		messageHelper.setText(content, true);  // 기존 것 무시하고 깨끗하게 갈아치워줘(위에거 3개 안써도됨)
+		//messageHelper.setText(content, true);  // 기존 것 무시하고 깨끗하게 갈아치워줘(위에거 3개 안써도됨)
  		
+        // 최종 메시지 설정
+        messageHelper.setText(emailContent.toString(), true);
+		
  		// 본문에 기재될 그림파일의 경로를 별도로 표시시켜준다. 그런후 다시 보관함에 저장한다.
 		FileSystemResource file = new FileSystemResource(request.getSession().getServletContext().getRealPath("/resources/images/logo.png"));
 		messageHelper.addInline("logo.png", file);
