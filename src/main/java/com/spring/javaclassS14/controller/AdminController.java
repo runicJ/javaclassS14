@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -62,6 +63,9 @@ public class AdminController {
 	
 	@Autowired
 	CsworkService csworkService;
+	
+	@Autowired
+	BCryptPasswordEncoder passwordEncoder;
 	
 	// 관리자 페이지로 이동
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
@@ -173,19 +177,24 @@ public class AdminController {
 	@ResponseBody
     @GetMapping("/user/userInfo")
     public UserVO userInfoGet(String userId) {
-    	UserVO userVO = userService.getUserIdCheck(userId);
-        return userVO;
+    	UserVO user = userService.getUserIdCheck(userId);
+        return user;
     }
 
     @PostMapping("/user/userUpdate")
-    public String updateUser(UserVO userVO, MultipartFile file) {
+    public String updateUser(@RequestParam(value = "newPwd", required = false) String newPwd, UserVO userVO, MultipartFile fName) {
     	
-        /*
+        if (newPwd != null && !newPwd.isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(newPwd);
+            userVO.setUserPwd(hashedPassword);
+        }
+        else userVO.setUserPwd(null);
+    	
 		if(fName.getOriginalFilename() != null && !fName.getOriginalFilename().equals("")) {
-			vo.setUserImage(userService.fileUpload(fName, vo.getUserId(), vo.getUserImage()));
+			userVO.setUserImage(userService.fileUpload(fName, userVO.getUserId(), userVO.getUserImage()));
 		}
-		*/
-		int res = userService.setUserUpdate(userVO);
+
+		int res = userService.setUpdateUser(userVO);
         
         return res != 0 ? "redirect:/msg/adminUserUpdateOK" : "redirect:/msg/adminUserUpdateNO";
     }

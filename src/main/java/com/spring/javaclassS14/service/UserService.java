@@ -48,4 +48,6 @@ public interface UserService {
 
 	public int getUserEmailCheck(String email);
 
+	public int setUpdateUser(UserVO userVO);
+
 }

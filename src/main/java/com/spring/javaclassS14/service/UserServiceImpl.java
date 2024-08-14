@@ -127,6 +127,11 @@ public class UserServiceImpl implements UserService {
 	public int setUserUpdate(UserVO vo) {
 		return userDAO.setUserUpdate(vo);
 	}
+	
+	@Override
+	public int setUpdateUser(UserVO vo) {
+		return userDAO.setUpdateUser(vo);
+	}
 
 	@Override
 	public SaveInterestVO getBookmarkList(String userId) {

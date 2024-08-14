@@ -13,31 +13,44 @@
   	<script>
   		'use strict';
   		
-  		function openUserModal(userVO) {
+  		function openUserModal(user) {
   		    // 기존 필드 설정
-  		    $('#modalUserId').val(userVO.userId);  // userId를 숨겨진 필드에 설정
-  		    $('#modalUserIdDisplay').val(userVO.userId); // 필요에 따라 별도 표시용 필드에도 설정
-  		    $('#imageDemo').attr('src', '${ctp}/user/' + userVO.userImage);
-  		    $('#modalName').val(userVO.name);
-  		    $('#modalNickName').val(userVO.nickName);
-  		    $('#modalEmail').val(userVO.email);
-  		    $('#modalTel').val(userVO.tel);
-  		    $('input[name="gender"][value="' + userVO.gender + '"]').prop('checked', true);
-  		    $('#registerWay').val(userVO.registerWay);
+  		    $('#modalUserId').val(user.userId);  // userId를 숨겨진 필드에 설정
+  		    $('#modalUserIdDisplay').val(user.userId); // 필요에 따라 별도 표시용 필드에도 설정
+  		    $('#imageDemo').attr('src', '${ctp}/user/' + user.userImage);
+  		    $('#modalName').val(user.name);
+  		    $('#modalNickName').val(user.nickName);
+  		    $('#modalEmail').val(user.email);
+  		    $('#modalTel').val(user.tel);
+  		    $('input[name="gender"][value="' + user.gender + '"]').prop('checked', true);
+  		    $('#registerWay').val(user.registerWay);
 
-  		    $('#userStatus').val(userVO.userStatus);
-  		    $('#level').val(userVO.level);
-  		    $('#point').val(userVO.point);
-  		    $('#agreeOptional').prop('checked', userVO.policyFlag == 'y');
-  		    $('#createDate').val(userVO.createDate.substring(0,19));
-  		    $('#updateDate').val(userVO.updateDate.substring(0,19));
+  		    $('#userStatus').val(user.userStatus);
+  		    $('#level').val(user.level);
+  		    $('#point').val(user.point);
+  		    $('#agreeOptional').prop('checked', user.policyFlag == 'y');
+  		    $('#createDate').val(user.createDate.substring(0,19));
+  		    $('#updateDate').val(user.updateDate.substring(0,19));
 
   		    // 모달 열기
   		    $('#userModal').modal('show');
   		}
   		
   		function submitForm() {
-  			$('#userForm').submit();
+  		    let fName = document.getElementById("file").value;
+  		    if (fName.trim() != "") {
+  		        let ext = fName.substring(fName.lastIndexOf(".")+1).toLowerCase(); 
+  		        let maxSize = 1024 * 1024 * 10;
+  		        if(!['jpg','jpeg','png','gif'].includes(ext)) {
+  		            alert("JPG, JPEG, PNG, GIF 파일만 업로드 가능합니다.");
+  		            return false; // 폼 제출 방지
+  		        }
+  		        if(document.getElementById("file").files[0].size > maxSize) {
+  		            alert("업로드할 파일의 최대용량은 10Mbyte입니다.");
+  		            return false; // 폼 제출 방지
+  		        }
+  		    }
+  		    $('#userForm').submit(); // 유효성 검사가 통과되면 폼 제출
   		}
   		
 		function userInfo(userId) {
@@ -45,8 +58,8 @@
   		        url: '${ctp}/admin/user/userInfo',
   		        type: 'GET',
   		        data: { userId: userId },
-  		        success: function(userVO) {
-  		            openUserModal(userVO);
+  		        success: function(user) {
+  		            openUserModal(user);
   		        },
   		        error: function() {
   		            alert("전송오류!");
@@ -57,6 +70,7 @@
 		$(document).ready(function() {
 		    $('.userInfo').on('click', function() {
 		        let userId = $(this).data('user-id');
+		        console.log("UserId passed to userInfo:", userId);
 		        userInfo(userId);
 		    });
 		    
@@ -110,6 +124,7 @@
                 });
             }
         }
+		
   	</script>
 </head>
 <body>
@@ -142,9 +157,6 @@
                 </div>
             </div>
             <div class="container-fluid">
-                <!-- *************************************************************** -->
-                <!-- Start Top Leader Table -->
-                <!-- *************************************************************** -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card p-3">
@@ -424,7 +436,7 @@
             <!-- Modal footer -->
             <div class="modal-footer">
                 <button type="button" class="btn btn-success btn-sm" data-dismiss="modal">확인</button>
-                <button type="button" class="btn btn-warning btn-sm" onclick="submitForm()">수정</button>
+				<button type="button" id="submitButton" class="btn btn-warning btn-sm" onclick="submitForm()">수정</button>
             </div>
         </div>
     </div>

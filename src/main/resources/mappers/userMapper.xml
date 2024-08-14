@@ -160,6 +160,23 @@
 	    WHERE userId = #{vo.userId}
 	</update>
 
+	<update id="setUpdateUser">
+	    UPDATE users
+	    SET 
+	        <if test="userPwd != null">userPwd = #{vo.userPwd},</if>
+	        name = #{vo.name},
+	        nickName = #{vo.nickName},
+	        gender = #{vo.gender},
+	        email = #{vo.email},
+	        tel = #{vo.tel},
+	        userImage = #{vo.userImage},
+	        registerWay = #{vo.registerWay},
+	        point = #{vo.point},
+	        policyFlag = #{vo.policyFlag},
+	        level = #{vo.level},
+	        userStatus = #{vo.userStatus}
+	    WHERE userId = #{vo.userId}
+	</update>
     
 
     <select id="getAllDeletedUsers" resultType="com.spring.javaclassS14.vo.UserVO">

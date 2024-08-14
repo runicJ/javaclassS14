@@ -52,7 +52,9 @@ public interface UserDAO {
 
 	public int totRecCntOption(Map<String, Object> paramMap);
 
-	public int getUserEmailCheck(String email);
+	public int getUserEmailCheck(@Param("email") String email);
+
+	public int setUpdateUser(@Param("vo") UserVO vo);
 	
 //	public int setUserDelete(@Param("userId") String userId);
 //	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);
