@@ -2,8 +2,13 @@
 
 
 <details>
-<summary>About Me (접혔을 때 화살표 옆에 뜨는 텍스트)</summary>
-어쩌구저쩌구 (감추고자 하는 내용)
+<summary>About Me
+•	개발 환경: Windows
+•	데이터베이스: MySQL 5.7
+•	프로그래밍 언어 및 기술: Java, JavaScript, JSP, jQuery, HTML5, CSS
+•	서버: Apache Tomcat 9.0
+•	IDE: Eclipse 2023-06
+•	Spring Framework: STS-4.14.1.RELEASE
 </summary>
 
 <span>
