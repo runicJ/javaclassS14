@@ -6,6 +6,7 @@ import lombok.Data;
 public class PhotoReviewVO {
 	// photoGallery.sql
 	private int idx;
+	private int userIdx;
 	private String userId;
 	private String part;
 	private String title;

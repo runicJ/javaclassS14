@@ -7,19 +7,19 @@ import java.util.Map;
 import org.apache.ibatis.annotations.Param;
 
 public interface RecentDAO {
-    public void insertRecentView(@Param("userId") String userId, @Param("productIdx") int productIdx);
-    public void insertRecentSearch(@Param("userId") String userId, @Param("searchTerm") String searchTerm);
-    public List<RecentVO> selectRecentViews(@Param("userId") String userId, @Param("limit") int limit);
-    public List<RecentVO> selectRecentSearches(@Param("userId") String userId, @Param("limit") int limit);
+    public void insertRecentView(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
+    public void insertRecentSearch(@Param("userIdx") int userIdx, @Param("searchTerm") String searchTerm);
+    public List<RecentVO> selectRecentViews(@Param("userIdx") int userIdx, @Param("limit") int limit);
+    public List<RecentVO> selectRecentSearches(@Param("userIdx") int userIdx, @Param("limit") int limit);
     // 기존 기능도 포함
-    public int saveBookmark(@Param("userId") String userId, String partUrl, @Param("category") String category);
-    public int saveLikedProduct(@Param("userId") String userId, @Param("productIdx") int productIdx);
-    public boolean toggleLike(@Param("userId") String userId, @Param("productIdx") int productIdx);
-    public List<RecentVO> getBookmarks(@Param("userId") String userId, @Param("category") String category);
-    public List<RecentVO> getFavoriteProducts(@Param("userId") String userId);
-    public List<Map<String, Object>> getRecentSearch(@Param("userId") String userId, @Param("limit") int limit);
-    public List<Map<String, Object>> getRecentViewProduct(@Param("userId") String userId);
-	public int isProductInterested(@Param("userId") String userId, @Param("productIdx") int productIdx);
-	public void removeProductInterest(@Param("userId") String userId, @Param("productIdx") int productIdx);
-	public void addProductInterest(@Param("userId") String userId, @Param("productIdx") int productIdx);
+    public int saveBookmark(@Param("userIdx") int userIdx, String partUrl, @Param("category") String category);
+    public int saveLikedProduct(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
+    public boolean toggleLike(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
+    public List<RecentVO> getBookmarks(@Param("userIdx") int userIdx, @Param("category") String category);
+    public List<RecentVO> getFavoriteProducts(@Param("userIdx") int userIdx);
+    public List<Map<String, Object>> getRecentSearch(@Param("userIdx") int userIdx, @Param("limit") int limit);
+    public List<Map<String, Object>> getRecentViewProduct(@Param("userIdx") int userIdx);
+	public int isProductInterested(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
+	public void removeProductInterest(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
+	public void addProductInterest(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
 }

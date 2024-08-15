@@ -1,16 +1,16 @@
 queshow tables;
 
 CREATE TABLE survey (	
-	surveyIdx int auto_increment NOT NULL PRIMARY KEY,
+	surveyIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
 	surveyTitle VARCHAR(100) NOT NULL,
 	surveyDesc TEXT,
-	surveyThumb varchar(255) default 'noImage.png',
-	useFlag enum('y','n') default 'y',
-	delFlag enum('y','n') default 'n',
-	userId VARCHAR(20),
-	createDate datetime default now(),
-	modDate datetime default now(),
-	FOREIGN KEY (userId) REFERENCES users(userId) on delete set null
+	surveyThumb VARCHAR(255) DEFAULT 'noImage.png',
+	useFlag ENUM('y','n') DEFAULT 'y',
+	delFlag ENUM('y','n') DEFAULT 'n',
+	userIdx INT,
+	createDate DATETIME DEFAULT NOW(),
+	modDate DATETIME DEFAULT NOW(),
+	FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE SET NULL
 );
 drop table survey;
 
@@ -34,13 +34,13 @@ CREATE TABLE surveytOption (
 drop table surveytOption;
 
 CREATE TABLE surveyAnswer (	
-	answerIdx int auto_increment NOT NULL PRIMARY KEY,
-	questIdx int,
-	userId VARCHAR(20),
+	answerIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
+	questIdx INT,
+	userIdx INT,
 	answerContent VARCHAR(100),
 	answerLong TEXT,
-	answerDate datetime default now(),
-	FOREIGN KEY (questIdx) REFERENCES surveyQuest(questIdx) on delete cascade,
-	FOREIGN KEY (userId) REFERENCES users(userId) on delete set null
+	answerDate DATETIME DEFAULT NOW(),
+	FOREIGN KEY (questIdx) REFERENCES surveyQuest(questIdx) ON DELETE CASCADE,
+	FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE SET NULL
 );
 drop table surveyAnswer;

@@ -22,70 +22,70 @@
 		select * from users where nickName = #{nickName} and email = #{email} limit 1;
 	</select>
 	
-<select id="totRecCnt" resultType="int">
-    select count(*) from users;
-</select>
+	<select id="totRecCnt" resultType="int">
+	    select count(*) from users;
+	</select>
+	
+	<select id="totRecCntOption" parameterType="map" resultType="int">
+	<choose>
+	    <when test="stringOption != null">
+	        <choose>
+	            <when test="stringOption == '정상'">
+	                select count(*) from users where userStatus = 'on'
+	            </when>
+	            <when test="stringOption == '탈퇴'">
+	                select count(*) from users where userStatus = 'off'
+	            </when>
+	            <when test="stringOption == '정지'">
+	                select count(*) from users where userStatus = 'stop'
+	            </when>
+	            <otherwise>
+	                select count(*) from users where 1=1
+	            </otherwise>
+	        </choose>
+	    </when>
+	    <when test="numericOption != null">
+	        <choose>
+	            <when test="numericOption == 3">
+	                select count(*) from users where level = 3
+	            </when>
+	            <when test="numericOption == 2">
+	                select count(*) from users where level = 2
+	            </when>
+	            <when test="numericOption == 1">
+	                select count(*) from users where level = 1
+	            </when>
+	            <when test="numericOption == 0.5">
+	                select count(*) from users where level = 0.5
+	            </when>
+	            <otherwise>
+	                select count(*) from users where 1=1
+	            </otherwise>
+	        </choose>
+	    </when>
+	    <otherwise>
+	        select count(*) from users where 1=1
+	    </otherwise>
+	</choose>
+	</select>
 
-<select id="totRecCntOption" parameterType="map" resultType="int">
-<choose>
-    <when test="stringOption != null">
-        <choose>
-            <when test="stringOption == '정상'">
-                select count(*) from users where userStatus = 'on'
-            </when>
-            <when test="stringOption == '탈퇴'">
-                select count(*) from users where userStatus = 'off'
-            </when>
-            <when test="stringOption == '정지'">
-                select count(*) from users where userStatus = 'stop'
-            </when>
-            <otherwise>
-                select count(*) from users where 1=1
-            </otherwise>
-        </choose>
-    </when>
-    <when test="numericOption != null">
-        <choose>
-            <when test="numericOption == 3">
-                select count(*) from users where level = 3
-            </when>
-            <when test="numericOption == 2">
-                select count(*) from users where level = 2
-            </when>
-            <when test="numericOption == 1">
-                select count(*) from users where level = 1
-            </when>
-            <when test="numericOption == 0.5">
-                select count(*) from users where level = 0.5
-            </when>
-            <otherwise>
-                select count(*) from users where 1=1
-            </otherwise>
-        </choose>
-    </when>
-    <otherwise>
-        select count(*) from users where 1=1
-    </otherwise>
-</choose>
-</select>
-
-<select id="totRecCntKeyword" resultType="int">
-    select count(*) from users
-    <where>
-        name LIKE CONCAT('%', #{keyword}, '%') OR userId LIKE CONCAT('%', #{keyword}, '%') OR nickName LIKE CONCAT('%', #{keyword}, '%')
-    </where>
-</select>
+	<select id="totRecCntKeyword" resultType="int">
+	    select count(*) from users
+	    <where>
+	        name LIKE CONCAT('%', #{keyword}, '%') OR userId LIKE CONCAT('%', #{keyword}, '%') OR nickName LIKE CONCAT('%', #{keyword}, '%')
+	    </where>
+	</select>
 	
 	<select id="recentLog" resultType="int">
-		select count(*) as recentLog from user_log where userId=#{userId} and loginTime > DATE_SUB(NOW(), INTERVAL 1 HOUR);
+		select count(*) as recentLog from user_log where userIdx=#{userIdx} and loginTime > DATE_SUB(NOW(), INTERVAL 1 HOUR);
 	</select>
 	
 	<select id="getBookmarkList" resultType="com.spring.javaclassS14.vo.SaveInterestVO">
-		select * from bookmark where userId=#{userId};
+		select * from bookmark where userIdx=#{userIdx};
 	</select>
 	
 	<select id="checkUserBookmark" resultType="int">
-	    select count(*) from bookmark where userId=#{userId} and partUrl=#{partUrl};
+	    select count(*) from bookmark where userIdx=#{userIdx} and partUrl=#{partUrl};
 	</select>
 
 
@@ -98,7 +98,7 @@
 	</insert>
 	
 	<insert id="setUserLog">
-		insert into user_log (userId, hostIp) values (#{userId},#{hostIp});
+		insert into user_log (userIdx, hostIp) values (#{userIdx},#{hostIp});
 	</insert>
 	
     <insert id="">
@@ -108,10 +108,10 @@
     <insert id="saveBookmarkToggle">
     	<choose>
     		<when test="bookmark">
-    			insert into bookmark (userId, partUrl) values (#{userId}, #{partUrl})
+    			insert into bookmark (userIdx, partUrl) values (#{userIdx}, #{partUrl})
     		</when>
     		<otherwise>
-    			delete from bookmark where userId=#{userId} and partUrl=#{partUrl}
+    			delete from bookmark where userIdx=#{userIdx} and partUrl=#{partUrl}
     		</otherwise>
     	</choose>
     </insert>
@@ -122,21 +122,13 @@
 	</update>
 	
 	<update id="setUserDelete">
-	    update users set level=99, userStatus='off' where userId=#{userId};
-	    insert into delete_users (userId, deleteReason, deleteDate) values (#{userId}, #{deleteReason}, NOW());
+	    update users set level=999, userStatus='off' where userId=#{userId};
+	    insert into delete_users (userId, email, deleteReason, deleteDate) values (#{userId}, #{email}, #{deleteReason}, NOW());
 	</update>
-    
-    <!-- <update id="setUserDelete">
-        update users set level=99, userStatus='off' where userId=#{userId};
-    </update>
-
-    <insert id="">
-        insert into delete_users (userId, deleteReason) values (#{userId}, #{deleteReason});
-    </insert>
- -->
  
      <update id="updateDeletedUser">
         update delete_users set userId = concat('delete_', userId), email = concat('delete_', email) where userId = #{userId} and deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH);
+        delete from users where userId = #{userId};
     </update>
     
     <update id="cancelUserDelete">
@@ -162,24 +154,45 @@
 
 	<update id="setUpdateUser">
 	    UPDATE users
-	    SET 
-	        <if test="userPwd != null">userPwd = #{vo.userPwd},</if>
-	        name = #{vo.name},
-	        nickName = #{vo.nickName},
-	        gender = #{vo.gender},
-	        email = #{vo.email},
-	        tel = #{vo.tel},
-	        userImage = #{vo.userImage},
-	        registerWay = #{vo.registerWay},
-	        point = #{vo.point},
-	        policyFlag = #{vo.policyFlag},
-	        level = #{vo.level},
-	        userStatus = #{vo.userStatus}
+	    <set>
+	        <if test="vo.userPwd != null">
+	            userPwd = #{vo.userPwd},
+	        </if>
+	        <if test="vo.name != null">
+	            name = #{vo.name},
+	        </if>
+	        <if test="vo.nickName != null">
+	            nickName = #{vo.nickName},
+	        </if>
+	        <if test="vo.gender != null">
+	            gender = #{vo.gender},
+	        </if>
+	        <if test="vo.email != null">
+	            email = #{vo.email},
+	        </if>
+	        <if test="vo.tel != null">
+	            tel = #{vo.tel},
+	        </if>
+	        <if test="vo.userImage != null">
+	            userImage = #{vo.userImage},
+	        </if>
+	        <if test="vo.registerWay != null">
+	            registerWay = #{vo.registerWay},
+	        </if>
+	        <if test="vo.point != null">
+	            point = #{vo.point},
+	        </if>
+	        <if test="vo.policyFlag != null">
+	            policyFlag = #{vo.policyFlag},
+	        </if>
+	        <if test="vo.level != null">
+	            level = #{vo.level},
+	        </if>
+	        <if test="vo.userStatus != null">
+	            userStatus = #{vo.userStatus},
+	        </if>
+	    </set>
 	    WHERE userId = #{vo.userId}
 	</update>
     
-
-    <select id="getAllDeletedUsers" resultType="com.spring.javaclassS14.vo.UserVO">
-        select * from delete_users where deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH);
-    </select>
 </mapper>

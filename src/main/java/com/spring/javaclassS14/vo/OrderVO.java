@@ -5,6 +5,7 @@ import lombok.Data;
 @Data
 public class OrderVO {
     private int orderIdx;
+    private int userIdx;
     private String userId;
     private int totalPrice;
     private int couponIdx;

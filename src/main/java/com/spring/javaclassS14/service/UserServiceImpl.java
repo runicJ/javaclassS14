@@ -75,47 +75,36 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public int setUserDelete(String userId, String deleteReason) {
+    public int setUserDelete(String userId, String email, String deleteReason) {
         int res = userDAO.setUserDelete(userId, deleteReason);
         if (res != 0) {
-            userDAO.insertDeletedUser(userId, deleteReason);
+            userDAO.insertDeletedUser(userId, email, deleteReason);
         }
         return res;
     }
-    
-//    @Override
-//    @Transactional
-//    public int deleteUserWithReason(String userId, String deleteReason) {
-//        int updateResult = userDAO.setUserDelete(userId);
-//        if (updateResult != 0) {
-//            userDAO.insertDeletedUser(userId, deleteReason);
-//        }
-//        return updateResult;
-//    }
 
-    @Override
-    public boolean isLoggedIn(String userId) {
-        return userDAO.recentLog(userId) > 0;
-    }
 
 	@Override
-	public void setUserLog(String userId, String hostIp) {
-		if (!isLoggedIn(userId)) {
-			userDAO.setUserLog(userId,hostIp);
+	public void setUserLog(Integer userIdx, String hostIp) {
+		if (!isLoggedIn(userIdx)) {
+			userDAO.setUserLog(userIdx, hostIp);
 			System.out.println("로그 기록중...");
 		} else {
 			System.out.println("이미 로그인 되었습니다.");
 		}
 	}
+	
+	@Override
+	public boolean isLoggedIn(Integer userIdx) {
+		if (userIdx == null) {
+			return false;
+		}
+		return userDAO.recentLog(userIdx) > 0;
+	}
 
     @Override
     public void updateDeletedUser(String userId) {
         userDAO.updateDeletedUser(userId);
-    }
-
-    @Override
-    public List<UserVO> getAllDeletedUsers() {
-        return userDAO.getAllDeletedUsers();
     }
 
     @Override
@@ -134,19 +123,19 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public SaveInterestVO getBookmarkList(String userId) {
-		return userDAO.getBookmarkList(userId);
+	public SaveInterestVO getBookmarkList(Integer userIdx) {
+		return userDAO.getBookmarkList(userIdx);
 	}
 
 	@Override
-	public boolean checkUserBookmark(String userId, String partUrl) {
-		int count = userDAO.checkUserBookmark(userId, partUrl);
+	public boolean checkUserBookmark(Integer userIdx, String partUrl) {
+		int count = userDAO.checkUserBookmark(userIdx, partUrl);
         return count > 0;
 	}
 
 	@Override
-	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark) {
-		userDAO.saveBookmarkToggle(userId, partUrl, bookmark);
+	public void saveBookmarkToggle(Integer userIdx, String partUrl, boolean bookmark) {
+		userDAO.saveBookmarkToggle(userIdx, partUrl, bookmark);
 	}
 
 	@Override

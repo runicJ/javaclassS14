@@ -2,17 +2,17 @@ show tables;
 
 CREATE TABLE recent_view_product (
     viewIdx INT AUTO_INCREMENT PRIMARY KEY,
-    userId varchar(20) NOT NULL,
+    userIdx INT NOT NULL,
     productIdx INT NOT NULL,
     viewDate DATETIME DEFAULT NOW(),
-    FOREIGN KEY (userId) REFERENCES users(userId),
-    FOREIGN KEY (productIdx) REFERENCES product(productIdx)
+    FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE CASCADE,
+    FOREIGN KEY (productIdx) REFERENCES product(productIdx) ON DELETE CASCADE
 );
 
 CREATE TABLE recent_search (
     searchIdx INT AUTO_INCREMENT PRIMARY KEY,
-    userId varchar(20) NOT NULL,
+    userIdx INT NOT NULL,
     search_term VARCHAR(255) NOT NULL,
     searchDate DATETIME DEFAULT NOW(),
-    FOREIGN KEY (userId) REFERENCES users(userId)
+    FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE CASCADE
 );

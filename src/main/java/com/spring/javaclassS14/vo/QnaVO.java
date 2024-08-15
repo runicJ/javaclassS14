@@ -6,6 +6,7 @@ import lombok.Data;
 public class QnaVO {
 	private int idx;
 	private int qnaIdx;
+	private int userIdx;
 	private String mid;
 	private String nickName;
 	private String title;

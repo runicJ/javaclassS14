@@ -1,21 +1,23 @@
 /* 쿠폰 */
 CREATE TABLE coupon (
     couponIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    couponCode VARCHAR(50) NOT NULL,
+    couponCode VARCHAR(50) NOT NULL UNIQUE,
     discountPercent DECIMAL(10,2) NOT NULL,
     expirationDate DATETIME NOT NULL,
-    isActive ENUM('y', 'n') DEFAULT 'y' NOT NULL
+    isActive ENUM('y', 'n') DEFAULT 'y' NOT NULL,
+    createDate DATETIME NOT NULL DEFAULT now(),
+    couponType ENUM('per', 'dis') NOT NULL DEFAULT 'per'
 );
-desc coupon
+desc coupon;
 
 CREATE TABLE userCoupon (
     userCouponIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
-    userId varchar(20) NOT NULL,
+    userIdx int NOT NULL,
     couponIdx INT NOT NULL,
     issuedDate DATETIME NOT NULL,
     isUsed ENUM('y', 'n') DEFAULT 'n' NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users(userId),
-    FOREIGN KEY (couponIdx) REFERENCES coupon(couponIdx)
+    FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE CASCADE,
+    FOREIGN KEY (couponIdx) REFERENCES coupon(couponIdx) ON DELETE CASCADE
 );
 
 /* 광고 */
@@ -38,8 +40,6 @@ CREATE TABLE notice (
     createDate DATETIME DEFAULT NOW(),
     noticeStatus ENUM('y', 'n') DEFAULT 'y'
 );
-
-drop table notice;
 
 /* 알람 */
 CREATE TABLE alarm (

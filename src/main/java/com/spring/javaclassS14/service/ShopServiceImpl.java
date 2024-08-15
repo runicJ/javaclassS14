@@ -247,13 +247,13 @@ public class ShopServiceImpl implements ShopService {
 	}
 
     @Override
-    public List<CartVO> getProductCart(String userId) {
-        return shopDAO.getProductCart(userId);
+    public List<CartVO> getProductCart(Integer userIdx) {
+        return shopDAO.getProductCart(userIdx);
     }
 
     @Override
-    public CartItem getCartProductOptionSearch(int productIdx, int optionIdx, String userId) {
-        return shopDAO.getCartProductOptionSearch(productIdx, optionIdx, userId);
+    public CartItem getCartProductOptionSearch(int productIdx, int optionIdx, Integer userIdx) {
+        return shopDAO.getCartProductOptionSearch(productIdx, optionIdx, userIdx);
     }
 
     @Override
@@ -267,14 +267,14 @@ public class ShopServiceImpl implements ShopService {
             if (shopDAO.checkProductExists(item.getProductIdx()) == 0) {
                 throw new RuntimeException("Invalid productIdx: " + item.getProductIdx());
             }
-            result += shopDAO.addCart(cartVO.getUserId(), item);
+            result += shopDAO.addCart(cartVO.getUserIdx(), item);
         }
         return result;
     }
     
     @Override
-    public int updateCart(CartItem cartItem, String userId) {
-        return shopDAO.updateCart(userId, cartItem);
+    public int updateCart(CartItem cartItem, Integer userIdx) {
+        return shopDAO.updateCart(userIdx, cartItem);
     }
     
     @Override
@@ -283,8 +283,11 @@ public class ShopServiceImpl implements ShopService {
     }
 
 	@Override
-	public int getUserCartCnt(String userId) {
-        return shopDAO.getUserCartCnt(userId);
+	public int getUserCartCnt(Integer userIdx) {
+	    if (userIdx == null) {
+	        return 0;
+	    }
+	    return shopDAO.getUserCartCnt(userIdx);
 	}
 
 	@Override
@@ -365,15 +368,15 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-    public boolean canRecordProductView(String userId, int productIdx) {
-        int count = shopDAO.countProductViewsByUserAndDate(userId, new Date());
+    public boolean canRecordProductView(Integer userIdx, int productIdx) {
+        int count = shopDAO.countProductViewsByUserAndDate(userIdx, new Date());
         return count < 10;  // 하루 조회 횟수 10번 제한
     }
 
 
 	@Override
-	public void recordProductView(String userId, int productIdx) {
-	   shopDAO.recordProductView(userId, productIdx);
+	public void recordProductView(Integer userIdx, int productIdx) {
+	   shopDAO.recordProductView(userIdx, productIdx);
 	}
 
     @Override

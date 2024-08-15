@@ -84,9 +84,9 @@ public class ShopController {
         List<ShopVO> optionVOS = shopService.getAllOption(productIdx);    // 해당 상품의 모든 옵션 정보를 가져온다.
         List<ReviewVO> reviewVOS = shopService.getAllReview(productIdx);
         
-        String userId = (String) session.getAttribute("sUid");
-        if (userId != null && canRecordProductView(userId, productIdx)) {
-            shopService.recordProductView(userId, productIdx);
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
+        if (userIdx != null && canRecordProductView(userIdx, productIdx)) {
+            shopService.recordProductView(userIdx, productIdx);
         }
         
         Set<String> tags = new HashSet<String>();
@@ -107,23 +107,23 @@ public class ShopController {
         return "shop/productDetails";
     }
     
-    private boolean canRecordProductView(String userId, int productIdx) {
-        return shopService.canRecordProductView(userId, productIdx);
+    private boolean canRecordProductView(Integer userIdx, int productIdx) {
+        return shopService.canRecordProductView(userIdx, productIdx);
     }
 
     // 장바구니 담기 - 상품 상세정보보기창에서 '장바구니'버튼을 클릭시에 처리하는곳
     @RequestMapping(value="/productDetails", method=RequestMethod.POST)
     public String addToCartPost(CartVO vo, HttpSession session, String flag) {
-        String userId = (String) session.getAttribute("sUid");
+    	Integer userIdx = (Integer) session.getAttribute("sUidx");
         
-        if (userId == null) {
+        if (userIdx == null) {
             return "redirect:/users/userLogin"; // 로그인하지 않은 상태라면 로그인 페이지로 리다이렉트
         }
         
-        vo.setUserId(userId);
+        vo.setUserIdx(userIdx);
         
         // 기존 장바구니 항목을 가져온다.
-        List<CartVO> existingCartItems = shopService.getProductCart(userId);
+        List<CartVO> existingCartItems = shopService.getProductCart(userIdx);
         
         for (CartItem newItem : vo.getItems()) {
             boolean isUpdated = false;
@@ -131,7 +131,7 @@ public class ShopController {
                 for (CartItem existingItem : existingCart.getItems()) {
                     if (existingItem.getProductIdx() == newItem.getProductIdx()) {
                         existingItem.setQuantity(existingItem.getQuantity() + newItem.getQuantity());
-                        shopService.updateCart(existingItem, userId);
+                        shopService.updateCart(existingItem, userIdx);
                         isUpdated = true;
                         break;
                     }
@@ -141,7 +141,7 @@ public class ShopController {
 
             if (!isUpdated) {
                 CartVO newCart = new CartVO();
-                newCart.setUserId(userId);
+                newCart.setUserIdx(userIdx);
                 List<CartItem> newItems = new ArrayList<>();
                 newItems.add(newItem);
                 newCart.setItems(newItems);
@@ -159,8 +159,8 @@ public class ShopController {
     // 장바구니 보기
     @RequestMapping(value="/productCart", method=RequestMethod.GET)
     public String viewProductCart(HttpSession session, Model model) {
-        String userId = (String) session.getAttribute("sUid");
-        List<CartVO> productCartVOS = shopService.getProductCart(userId);
+    	Integer userIdx = (Integer) session.getAttribute("sUidx");
+        List<CartVO> productCartVOS = shopService.getProductCart(userIdx);
         
         if(productCartVOS.isEmpty()) {
             return "redirect:/msg/cartEmpty";

@@ -12,8 +12,22 @@
   	<script>
   		'use strict';
   		
-  		function userDelete(delFlag, userId) {
-  			
+  		function userDelete(action, userId) {
+  		    if (confirm("정말로 해당 회원을 " + action + " 처리 하시겠습니까?")) {
+  		        $.ajax({
+  		            url: '${ctp}/admin/user/userDelete',
+  		            type: 'POST',
+  		            data: { action: action,
+	  		            	userId: userId },
+  		            success: function(res) {
+  		                alert(res.message);
+  		                location.reload();
+  		            },
+  		            error: function() {
+  		                alert("전송오류!");
+  		            }
+  		        });
+  		    }
   		}
   	</script>
 </head>
@@ -74,8 +88,8 @@
                                     <td>${vo.deleteDiff <= -30 ? "탈퇴유예만료" : "탈퇴신청"} (${-vo.deleteDiff}일)</td>
                                     <td>${vo.deleteReason}</td>
                                     <td>
-                                    	<%-- <a type="button" href="userDelete('Ok', ${vo.userId})" class="badge badge-info text-light mr-1">탈퇴승인</a>
-		                            	<a type="button" onclick="${ctp}/admin/user/userDelete?delFlag=No&userId=${vo.userId}" class="badge badge-danger text-light">탈퇴취소</a> --%>
+                                    	<a type="button" href="javascript:userDelete('Ok', '${vo.userId}')" class="badge badge-info text-light mr-1">탈퇴승인</a>
+    									<a type="button" href="javascript:userDelete('No', '${vo.userId}')" class="badge badge-danger text-light">탈퇴취소</a>
                                     </td>
                                 </tr>
                                 </c:forEach>

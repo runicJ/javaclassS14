@@ -196,6 +196,7 @@ public class UserController {
 			else if(vo.getLevel() == 2) strLevel = "숙련자";
 			else if(vo.getLevel() == 3) strLevel = "지식인";
 			
+			session.setAttribute("sUidx", vo.getUserIdx());
 			session.setAttribute("sUid", userId);
 			session.setAttribute("sNickName", vo.getNickName());
 			session.setAttribute("sLevel", vo.getLevel());
@@ -220,9 +221,11 @@ public class UserController {
 					}
 				}
 			}
+			
 			// 회원 로그
+			Integer userIdx = (Integer) session.getAttribute("sUidx");
 			String hostIp = request.getRemoteAddr();
-			userService.setUserLog(userId, hostIp);
+			userService.setUserLog(userIdx, hostIp);
 			
 			return "redirect:/msg/userLoginOk?uid="+userId;
 		}
@@ -450,19 +453,10 @@ public class UserController {
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
 	public String userDeletePost(HttpSession session, @RequestParam("deleteReason") String deleteReason) {
 	    String userId = (String) session.getAttribute("sUid");
-	    int res = userService.setUserDelete(userId, deleteReason);
+	    UserVO userVO = userService.getUserIdCheck(userId);
+	    int res = userService.setUserDelete(userId, userVO.getEmail(), deleteReason);
 		
 		return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
-	}
-
-	// 회원탈퇴 신청
-	@RequestMapping(value="/updateDeletedUsers", method=RequestMethod.GET)
-	public String updateDeletedUsersGet() {
-	    List<UserVO> deletedUsers = userService.getAllDeletedUsers();
-	    for (UserVO user : deletedUsers) {
-	        userService.updateDeletedUser(user.getUserId());
-	    }
-	    return "redirect:/msg/updateDeletedUsersOk";
 	}
 	
 	// 회원 배송지 리스트
@@ -474,8 +468,8 @@ public class UserController {
 	// 회원 북마크 리스트
 	@RequestMapping(value="/userBookmarkList", method=RequestMethod.GET)
 	public String userBookmarkListGet(HttpSession session, Model model) {
-	    String userId = (String) session.getAttribute("sUid");
-		SaveInterestVO vo = userService.getBookmarkList(userId);
+		Integer userIdx = (Integer) session.getAttribute("sUidx");
+		SaveInterestVO vo = userService.getBookmarkList(userIdx);
 		model.addAttribute("vo", vo);
 		return "users/userBookmarkList";
 	}
@@ -483,18 +477,18 @@ public class UserController {
 	// 북마크 등록
 	@RequestMapping(value="/saveBookmarkToggle", method=RequestMethod.POST)
 	public String saveBookmarkInputPost(HttpSession session, String partUrl) {
-		String userId = (String) session.getAttribute("sUid");
-		
-		boolean bookmarkExist = userService.checkUserBookmark(userId, partUrl);
-		int res = 0;
-        if (!bookmarkExist) {
-        	userService.saveBookmarkToggle(userId, partUrl, true);
-        	res = 1;
-        } 
-        else {
-        	userService.saveBookmarkToggle(userId, partUrl, false);
-        }
-		
-		return res + "";
+	    Integer userIdx = (Integer) session.getAttribute("sUidx");
+	    
+	    boolean bookmarkExist = userService.checkUserBookmark(userIdx, partUrl);
+	    int res = 0;
+	    if (!bookmarkExist) {
+	        userService.saveBookmarkToggle(userIdx, partUrl, true);
+	        res = 1;
+	    } 
+	    else {
+	        userService.saveBookmarkToggle(userIdx, partUrl, false);
+	    }
+	    
+	    return String.valueOf(res);
 	}
 }

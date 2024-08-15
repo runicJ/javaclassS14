@@ -4,13 +4,13 @@
 
     <!-- 최근 검색어 삽입 -->
     <insert id="insertRecentSearch">
-        INSERT INTO recent_search (userId, search_term, searchDate)
-        VALUES (#{userId}, #{searchTerm}, NOW())
+        INSERT INTO recent_search (userIdx, search_term, searchDate)
+        VALUES (#{userIdx}, #{searchTerm}, NOW())
     </insert>
 
     <select id="selectRecentViews" resultType="com.spring.javaclassS14.vo.RecentVO">
         SELECT * FROM recent_view_product 
-        WHERE userId = #{userId} 
+        WHERE userIdx = #{userIdx} 
         group by productIdx
         ORDER BY viewDate DESC 
         LIMIT #{limit}
@@ -18,23 +18,23 @@
 
     <!-- 특정 사용자의 최근 검색어 조회 -->
     <select id="selectRecentSearches" resultType="com.spring.javaclassS14.vo.RecentVO">
-        SELECT searchIdx, userId, search_term as searchTerm, searchDate 
+        SELECT searchIdx, userIdx, search_term as searchTerm, searchDate 
         FROM recent_search 
-        WHERE userId = #{userId} 
+        WHERE userIdx = #{userIdx} 
         ORDER BY searchDate DESC 
         LIMIT #{limit}
     </select>
 
     <!-- 북마크 저장 -->
     <insert id="saveBookmark">
-        INSERT INTO bookmark (userId, partUrl, category)
-        VALUES (#{userId}, #{partUrl}, #{category})
+        INSERT INTO bookmark (userIdx, partUrl, category)
+        VALUES (#{userIdx}, #{partUrl}, #{category})
     </insert>
 
     <!-- 좋아요 저장 -->
     <insert id="saveLikedProduct">
         INSERT INTO liked_product
-        VALUES (default, #{userId}, #{productIdx}, default)
+        VALUES (default, #{userIdx}, #{productIdx}, default)
     </insert>
 
 
@@ -42,29 +42,29 @@
     <update id="toggleLike">
         <choose>
             <when test="isLiked == true">
-                DELETE FROM liked_product WHERE userId = #{userId} AND productIdx = #{productIdx}
+                DELETE FROM liked_product WHERE userIdx = #{userIdx} AND productIdx = #{productIdx}
             </when>
             <otherwise>
-                INSERT INTO liked_product (userId, productIdx) VALUES (#{userId}, #{productIdx})
+                INSERT INTO liked_product (userIdx, productIdx) VALUES (#{userIdx}, #{productIdx})
             </otherwise>
         </choose>
     </update>
 
     <!-- 북마크 조회 -->
     <select id="getBookmarks" resultType="com.spring.javaclassS14.vo.RecentVO">
-        SELECT * FROM bookmark WHERE userId = #{userId} AND category = #{category} ORDER BY addDate DESC
+        SELECT * FROM bookmark WHERE userIdx = #{userIdx} AND category = #{category} ORDER BY addDate DESC
     </select>
 
     <!-- 좋아요한 제품 조회 -->
     <select id="getFavoriteProducts" resultType="com.spring.javaclassS14.vo.RecentVO">
-        SELECT * FROM liked_product WHERE userId = #{userId} ORDER BY addDate DESC
+        SELECT * FROM liked_product WHERE userIdx = #{userIdx} ORDER BY addDate DESC
     </select>
 
     <!-- 최근 검색어 조회 -->
     <select id="getRecentSearch" resultType="map">
-        SELECT searchIdx, userId, search_term, searchDate 
+        SELECT searchIdx, userIdx, search_term, searchDate 
         FROM recent_search 
-        WHERE userId = #{userId} 
+        WHERE userIdx = #{userIdx} 
         ORDER BY searchDate DESC 
         LIMIT #{limit}
     </select>
@@ -72,19 +72,19 @@
     <select id="getRecentViewProduct" resultType="map">
         SELECT p.* FROM recent_view_product v
         JOIN product p ON v.productIdx = p.productIdx
-        WHERE v.userId = #{userId}
+        WHERE v.userIdx = #{userIdx}
         ORDER BY v.viewIdx DESC LIMIT 3
     </select>
 
     <select id="isProductInterested" resultType="int">
-        SELECT COUNT(*) FROM liked_product WHERE userId = #{userId} AND productIdx = #{productIdx}
+        SELECT COUNT(*) FROM liked_product WHERE userIdx = #{userIdx} AND productIdx = #{productIdx}
     </select>
 
     <insert id="addProductInterest">
-        INSERT INTO liked_product VALUES (default, #{userId}, #{productIdx}, default)
+        INSERT INTO liked_product VALUES (default, #{userIdx}, #{productIdx}, default)
     </insert>
 
     <delete id="removeProductInterest">
-        DELETE FROM liked_product WHERE userId = #{userId} AND productIdx = #{productIdx}
+        DELETE FROM liked_product WHERE userIdx = #{userIdx} AND productIdx = #{productIdx}
     </delete>
 </mapper>

@@ -6,6 +6,7 @@ import lombok.Data;
 public class RecentVO {
 	
     private int viewIdx;
+    private int userIdx;
     private String userId;
     private int productIdx;
     private String viewDate;

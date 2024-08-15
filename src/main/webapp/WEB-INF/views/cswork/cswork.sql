@@ -2,7 +2,7 @@ show tables;
 
 create table product_qna (
 	productQnaIdx int not null auto_increment primary key,
-	userId varchar(20) not null,
+	userIdx int not null,
 	productIdx int not null,
 	qnaContent text,
 	qnaOpenFlag enum('y','n') default 'y',
@@ -12,9 +12,19 @@ create table product_qna (
 	answerContent text,
 	answerDate datetime default null,
 	deleteFlag enum('y','n') default 'n',
-	foreign key (userId) references users(userId),
-	foreign key (productIdx) references product(productIdx)
+	FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE CASCADE,
+	foreign key (productIdx) references product(productIdx) ON DELETE CASCADE
 );
+
+ALTER TABLE product_qna ADD COLUMN userIdx INT;
+
+UPDATE product_qna r
+JOIN users u ON r.userId = u.userId
+SET r.userIdx = u.userIdx;
+
+ALTER TABLE product_qna
+ADD CONSTRAINT product_qna_ibfk_1
+FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE CASCADE;
 
 create table qna (
 	qnaIdx int not null auto_increment primary key,
@@ -28,8 +38,6 @@ create table qna (
 	qnaCategory varchar(30) not null,
 	email varchar(30) default null
 );
-
-drop table qna;
 
 create table faq (
 	faqIdx int not null auto_increment primary key,

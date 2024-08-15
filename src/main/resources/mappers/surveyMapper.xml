@@ -17,14 +17,14 @@
     <select id="resSurveyFlag" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="int">
         SELECT COUNT(*)
         FROM (SELECT questIdx FROM surveyQuest WHERE surveyIdx = #{surveyIdx}) AS qust
-        INNER JOIN (SELECT questIdx FROM surveyAnswer WHERE userId = #{userId}) AS answ
+        INNER JOIN (SELECT questIdx FROM surveyAnswer WHERE userIdx = #{userIdx}) AS answ
         ON qust.questIdx = answ.questIdx;
     </select>
     
     
     <!-- Insert Survey -->
 	<insert id="setSurveyInput" useGeneratedKeys="true" keyProperty="surveyIdx">
-        INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, 'noImage.png', #{surveyVO.useFlag}, default, #{surveyVO.userId}, default, default);
+        INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, 'noImage.png', #{surveyVO.useFlag}, default, #{surveyVO.userIdx}, default, default);
     </insert>
 
     <!-- Insert Survey Question -->
@@ -45,8 +45,8 @@
     </insert>
 
     <insert id="surveyAnswerInput" parameterType="int">
-        INSERT INTO surveyAnswer (answerNo, questIdx, userId, answerContent, answerLong, answerDate)
-        VALUES (#{answerNo}, #{questIdx}, #{userId}, #{answerContent}, #{answerLong}, NOW());
+        INSERT INTO surveyAnswer (answerNo, questIdx, userIdx, answerContent, answerLong, answerDate)
+        VALUES (#{answerNo}, #{questIdx}, #{userIdx}, #{answerContent}, #{answerLong}, NOW());
     </insert>
 
 
@@ -56,7 +56,7 @@
 
     <update id="updateNewSurv" parameterType="com.spring.javaclassS14.vo.SurveyVO">
         UPDATE Survey 
-        SET surveyTitle = #{surveyTitle}, surveyDesc = #{surveyDesc}, userId = #{userId}, useFlag = #{useFlag}, delFlag = #{delFlag}, modDate = NOW()
+        SET surveyTitle = #{surveyTitle}, surveyDesc = #{surveyDesc}, userIdx = #{userIdx}, useFlag = #{useFlag}, delFlag = #{delFlag}, modDate = NOW()
         WHERE surveyIdx = #{surveyIdx};
     </update>
 
@@ -83,19 +83,15 @@
     </select>
 
 	<select id="getSurveyList" resultType="com.spring.javaclassS14.vo.SurveyVO">
-	    SELECT * FROM survey WHERE userId = #{userId} AND delFlag = 'n' ORDER BY surveyIdx DESC;
+	    SELECT * FROM survey WHERE userIdx = #{userIdx} AND delFlag = 'n' ORDER BY surveyIdx DESC;
 	</select>
 
     <select id="getOneSurv" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
-        SELECT surveyIdx, surveyTitle, surveyDesc, userId, useFlag, delFlag, createDate, modDate
-        FROM Survey
-        WHERE surveyIdx = #{surveyIdx};
+        SELECT * FROM Survey WHERE surveyIdx = #{surveyIdx};
     </select>
 
     <select id="getSurvQust" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        SELECT questIdx, questContent, questType, questOrder
-        FROM survQuest
-        WHERE surveyIdx = #{surveyIdx};
+        SELECT * FROM survQuest WHERE surveyIdx = #{surveyIdx};
     </select>
 
     <select id="getAnswer" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
@@ -114,8 +110,8 @@
     <select id="getRegNick" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="String">
         SELECT u.nickName
         FROM Survey s
-        LEFT JOIN users u ON s.userId = u.userId
-        WHERE s.userId = #{userId} AND s.surveyIdx = #{surveyIdx};
+        LEFT JOIN users u ON s.userIdx = u.userIdx
+        WHERE s.userIdx = #{userIdx} AND s.surveyIdx = #{surveyIdx};
     </select>
 
 </mapper>

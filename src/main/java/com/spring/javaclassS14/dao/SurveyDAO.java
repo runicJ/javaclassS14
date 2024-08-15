@@ -34,7 +34,7 @@ public interface SurveyDAO {
     
     public int getSurveyCnt();
     
-    public List<SurveyVO> getSurveyList(@Param("userId") String userId);
+    public List<SurveyVO> getSurveyList(@Param("userIdx") int userIdx);
     public SurveyVO getOneSurv(@Param("survNo") int survNo);
     public List<SurveyQuestionVO> getSurvQust(@Param("survNo") int survNo);
     public List<SurveyAnswerVO> getLongAnswer(@Param("questNo") int questNo);

@@ -14,6 +14,7 @@ public class CsworkVO {
 
 	// 문의하기
 	private int qnaIdx;
+	private int userIdx;
 	private String userId;  // nn
 	private String qnaTitle;  // nn
 	private String qnaContent;  // nn

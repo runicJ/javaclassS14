@@ -8,6 +8,7 @@ import lombok.Data;
 public class CartVO {
 	
     private int cartIdx;
+    private int userIdx;
     private String userId;
     private List<CartItem> items;
 	

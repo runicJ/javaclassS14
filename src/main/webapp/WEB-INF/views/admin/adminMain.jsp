@@ -29,7 +29,7 @@
     <script>
     function sendCoupon(userId) {
 	    $.ajax({
-	        url: '${cpt}/admin/sendCoupon',
+	        url: '${ctp}/admin/sendCoupon',
 	        type: 'POST',
 	        data: { userId: userId },
 	        success: function(response) {
@@ -175,7 +175,7 @@
                                         class="text-dark">${sNickName} 님</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
                             </a>
-
+							
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>

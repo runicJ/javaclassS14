@@ -79,20 +79,23 @@ CREATE TABLE product_option (
 );
 select g.optionGroupName, o.* from product_option_group as g, product_option as o where g.optionGroupIdx=o.optionGroupIdx and g.productIdx = 9 order by g.optionGroupIdx, o.optionIdx;
 select g.optiongroupIdx, g.optionGroupName, o.optionIdx, o.optionName from product_option_group as g left join product_option as o on g.optionGroupIdx=o.optionGroupIdx where g.productIdx=9 order by g.optionGroupIdx, o.optionIdx;
-desc product_option;
 
 /* 장바구니 */
 CREATE TABLE cart (
     cartIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    userId VARCHAR(20) NOT NULL,
+    userIdx INT NOT NULL,
     productIdx INT NOT NULL,
     quantity INT DEFAULT 1 NOT NULL,
     addedDate DATETIME DEFAULT NOW() NOT NULL,
     isSoldOut ENUM('y','n') DEFAULT 'n' NOT NULL,
     optionIdx INT DEFAULT NULL,
-    FOREIGN KEY (userId) REFERENCES users(userId),
-    FOREIGN KEY (productIdx) REFERENCES product(productIdx),
-    FOREIGN KEY (optionIdx) REFERENCES product_option(optionIdx)
+    FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE CASCADE,
+    FOREIGN KEY (productIdx) REFERENCES product(productIdx) ON DELETE CASCADE,
+    FOREIGN KEY (optionIdx) REFERENCES product_option(optionIdx) ON DELETE SET NULL
 );
 
-desc cart;
+ALTER TABLE cart ADD COLUMN userIdx INT;
+
+UPDATE cart c
+JOIN users u ON c.userId = u.userId
+SET c.userIdx = u.userIdx;

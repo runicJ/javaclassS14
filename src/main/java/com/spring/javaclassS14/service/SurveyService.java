@@ -36,7 +36,7 @@ public interface SurveyService {
 	public int getSurveyCnt();
 	
 	// 내 설문 리스트 가져오기
-	public List<SurveyVO> getSurveyList(String userId);
+	public List<SurveyVO> getSurveyList(Integer userIdx);
 	
 	// 내 설문 리스트 개수 가져오기
 	//public int getMyCnt(String userId);

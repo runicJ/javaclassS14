@@ -15,62 +15,62 @@ public class RecentServiceImpl implements RecentService {
     private RecentDAO recentDAO;
 
     @Override
-    public void saveRecentSearch(String userId, String searchTerm) {
-        recentDAO.insertRecentSearch(userId, searchTerm);
+    public void saveRecentSearch(int userIdx, String searchTerm) {
+        recentDAO.insertRecentSearch(userIdx, searchTerm);
     }
 
     @Override
-    public List<RecentVO> getRecentViews(String userId, int limit) {
-        return recentDAO.selectRecentViews(userId, limit);
+    public List<RecentVO> getRecentViews(int userIdx, int limit) {
+        return recentDAO.selectRecentViews(userIdx, limit);
     }
 
     @Override
-    public List<RecentVO> getRecentSearches(String userId, int limit) {
-        return recentDAO.selectRecentSearches(userId, limit);
+    public List<RecentVO> getRecentSearches(int userIdx, int limit) {
+        return recentDAO.selectRecentSearches(userIdx, limit);
     }
 
     @Override
-    public int saveBookmark(String userId, String partUrl, String category) {
-        return recentDAO.saveBookmark(userId, partUrl, category);
+    public int saveBookmark(int userIdx, String partUrl, String category) {
+        return recentDAO.saveBookmark(userIdx, partUrl, category);
     }
 
     @Override
-    public int saveLikedProduct(String userId, int productIdx) {
-        return recentDAO.saveLikedProduct(userId, productIdx);
+    public int saveLikedProduct(int userIdx, int productIdx) {
+        return recentDAO.saveLikedProduct(userIdx, productIdx);
     }
 
     @Override
-    public boolean toggleLike(String userId, int productIdx) {
-        return recentDAO.toggleLike(userId, productIdx);
+    public boolean toggleLike(int userIdx, int productIdx) {
+        return recentDAO.toggleLike(userIdx, productIdx);
     }
 
     @Override
-    public List<RecentVO> getBookmarks(String userId, String category) {
-        return recentDAO.getBookmarks(userId, category);
+    public List<RecentVO> getBookmarks(int userIdx, String category) {
+        return recentDAO.getBookmarks(userIdx, category);
     }
 
     @Override
-    public List<RecentVO> getFavoriteProducts(String userId) {
-        return recentDAO.getFavoriteProducts(userId);
+    public List<RecentVO> getFavoriteProducts(int userIdx) {
+        return recentDAO.getFavoriteProducts(userIdx);
     }
 
 	@Override
-	public List<Map<String, Object>> getRecentSearch(String userId, int limit) {
-        return recentDAO.getRecentSearch(userId, limit);
+	public List<Map<String, Object>> getRecentSearch(int userIdx, int limit) {
+        return recentDAO.getRecentSearch(userIdx, limit);
 	}
 
 	@Override
-    public List<Map<String, Object>> getRecentViewProduct(String userId) {
-        return recentDAO.getRecentViewProduct(userId);
+    public List<Map<String, Object>> getRecentViewProduct(int userIdx) {
+        return recentDAO.getRecentViewProduct(userIdx);
     }
 
-    public boolean toggleProductInterest(String userId, int productIdx) {
-        int isInterested = recentDAO.isProductInterested(userId, productIdx);
+    public boolean toggleProductInterest(int userIdx, int productIdx) {
+        int isInterested = recentDAO.isProductInterested(userIdx, productIdx);
         if (isInterested != 0) {
-            recentDAO.removeProductInterest(userId, productIdx);
+            recentDAO.removeProductInterest(userIdx, productIdx);
             return false;
         } else {
-            recentDAO.addProductInterest(userId, productIdx);
+            recentDAO.addProductInterest(userIdx, productIdx);
             return true;
         }
     }

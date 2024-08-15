@@ -79,12 +79,12 @@ public interface ShopDAO {
 
 	public int deleteCartItem(@Param("cartIdx") int cartIdx);
 
-	public List<CartVO> getProductCart(@Param("userId") String userId);
-	public CartItem getCartProductOptionSearch(@Param("productIdx") int productIdx, @Param("optionIdx") int optionIdx, @Param("userId") String userId);
+	public List<CartVO> getProductCart(@Param("userIdx") Integer userIdx);
+	public CartItem getCartProductOptionSearch(@Param("productIdx") int productIdx, @Param("optionIdx") int optionIdx, @Param("userIdx") Integer userIdx);
 
-	public int addCart(@Param("userId") String userId, @Param("cartItem") CartItem cartItem);
+	public int addCart(@Param("userIdx") Integer userIdx, @Param("cartItem") CartItem cartItem);
 
-	public int updateCart(@Param("userId") String userId, @Param("cartItem") CartItem cartItem);
+	public int updateCart(@Param("userIdx") Integer userIdx, @Param("cartItem") CartItem cartItem);
 
 	public int setProductCartDelete(@Param("cartIdx") int cartIdx);
 
@@ -92,7 +92,7 @@ public interface ShopDAO {
 
 	public int checkProductExists(@Param("productIdx") int productIdx);
 
-	public int getUserCartCnt(@Param("userId") String userId);
+	public int getUserCartCnt(@Param("userIdx") int userIdx);
 
 	public List<ReviewVO> getAllReview(@Param("productIdx") int productIdx);
 
@@ -112,9 +112,9 @@ public interface ShopDAO {
 
 	public List<ShopVO> getProductList(@Param("part") String part, @Param("sort") String sort, @Param("productPrice") String productPrice, @Param("minPrice") int minPrice, @Param("maxPrice") int maxPrice, @Param("averageRating") int averageRating, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
-	public int countProductViewsByUserAndDate(@Param("userId") String userId, @Param("date") Date date);
+	public int countProductViewsByUserAndDate(@Param("userIdx") Integer userIdx, @Param("date") Date date);
 
-	public void recordProductView (@Param("userId") String userId, @Param("productIdx") int productIdx);
+	public void recordProductView (@Param("userIdx") Integer userIdx, @Param("productIdx") int productIdx);
 
 	public List<String> getAllTags();
 

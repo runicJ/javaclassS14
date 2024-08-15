@@ -25,29 +25,27 @@ public interface UserService {
 
 	public void setUserPwdUpdate(String userId, String tempPwd);
 
-	public int setUserDelete(String userId, String deleteReason);
+	public int setUserDelete(String userId, String email, String deleteReason);
 	
 	//public int deleteUserWithReason(String userId, String deleteReason);
 
-	public void setUserLog(String userId, String hostIp);
-
-	public boolean isLoggedIn(String userId);
+	public void setUserLog(Integer userIdx, String hostIp);
 	
 	public void updateDeletedUser(String userId);
-	public List<UserVO> getAllDeletedUsers();
 	
 	public void cancelUserDelete(String userId);
 
 	public int setUserUpdate(UserVO vo);
 
-	public SaveInterestVO getBookmarkList(String userId);
+	public SaveInterestVO getBookmarkList(Integer userIdx);
 
-	public boolean checkUserBookmark(String userId, String partUrl);
+	public boolean checkUserBookmark(Integer userIdx, String partUrl);
 
-	public void saveBookmarkToggle(String userId, String partUrl, boolean bookmark);
+	public void saveBookmarkToggle(Integer userIdx, String partUrl, boolean bookmark);
 
 	public int getUserEmailCheck(String email);
 
 	public int setUpdateUser(UserVO userVO);
 
+	boolean isLoggedIn(Integer userIdx);
 }

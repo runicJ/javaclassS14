@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -162,18 +164,6 @@ public class AdminController {
 		return "admin/user/deleteUserList";
 	}
 	
-	// 탈퇴 회원 처리
-	/*
-	@RequestMapping(value="/user/userDeleteFlag", method=RequestMethod.POST)
-	public String userDeletePost(@RequestParam String delFlag, @RequestParam String userId) {
-		
-		int res = adminService.getDeleteUser(delFlag, userId);
-		
-		if(res != 0) return "redirect:/msg/userCheckOk?delFlag="+delFlag;
-		else return "redirect:/msg/userCheckNo?delFlag="+delFlag;
-	}
-	*/
-	
 	@ResponseBody
     @GetMapping("/user/userInfo")
     public UserVO userInfoGet(String userId) {
@@ -182,13 +172,12 @@ public class AdminController {
     }
 
     @PostMapping("/user/userUpdate")
-    public String updateUser(@RequestParam(value = "newPwd", required = false) String newPwd, UserVO userVO, MultipartFile fName) {
+    public String updateUser(@RequestParam(value="pwdNew", required=false) String pwdNew, UserVO userVO, MultipartFile fName) {
     	
-        if (newPwd != null && !newPwd.isEmpty()) {
-            String hashedPassword = passwordEncoder.encode(newPwd);
+        if (pwdNew != null && !pwdNew.isEmpty()) {
+            String hashedPassword = passwordEncoder.encode(pwdNew);
             userVO.setUserPwd(hashedPassword);
         }
-        else userVO.setUserPwd(null);
     	
 		if(fName.getOriginalFilename() != null && !fName.getOriginalFilename().equals("")) {
 			userVO.setUserImage(userService.fileUpload(fName, userVO.getUserId(), userVO.getUserImage()));
@@ -200,9 +189,19 @@ public class AdminController {
     }
 
     @PostMapping("/user/userDelete")
-    public String deleteUser(@RequestParam String userId) {
-        int res = userService.setUserDelete(userId, "");
-        return res != 0 ? "redirect:/msg/userDeleteOK" : "redirect:/msg/userDeleteNO";
+    public ResponseEntity<String> userDelete(@RequestParam("action") String action, @RequestParam("userId") String userId) {
+        if ("Ok".equals(action)) {
+            // 탈퇴 승인
+            userService.updateDeletedUser(userId);
+            return new ResponseEntity<>("탈퇴가 승인되었습니다.", HttpStatus.OK);
+        } 
+        else if ("No".equals(action)) {
+            // 탈퇴 취소
+            userService.cancelUserDelete(userId);
+            return new ResponseEntity<>("탈퇴가 취소되었습니다.", HttpStatus.OK);
+        } else {
+            return new ResponseEntity<>("잘못된 요청입니다.", HttpStatus.BAD_REQUEST);
+        }
     }
     
     @PostMapping("/user/allAction")
@@ -468,13 +467,13 @@ public class AdminController {
     @ResponseBody
     @RequestMapping(value="/survey/surveyInput", method=RequestMethod.POST)
     public String surveyInputPost(@RequestBody SurveyVO surveyVO, MultipartFile file, HttpSession session) {
-        String userId = (String) session.getAttribute("sUid");
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
         //System.out.println("survey" + surveyVO);
         //System.out.println("surveyTitlesss" + surveyVO.getSurveyTitle());
-        if (userId.equals("admin")) {
+        if (userIdx.equals(1)) {
             //System.out.println("===regSurv Controller START");
 
-            surveyVO.setUserId(userId);
+        	surveyVO.setUserIdx(userIdx);
             //System.out.println("surveyDto ==> " + surveyVO.toString());
             
             int res = surveyService.setSurveyInput(file,surveyVO);
@@ -497,11 +496,11 @@ public class AdminController {
         ModelAndView mv = new ModelAndView();
         
         // Id 세팅
-        String userId = (String) session.getAttribute("sUid");
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
         
         request.setCharacterEncoding("utf-8");
 
-        mv.addObject("survList", surveyService.getSurveyList(userId));
+        mv.addObject("survList", surveyService.getSurveyList(userIdx));
 
         //mv.addObject("pagination", searchVo);
         

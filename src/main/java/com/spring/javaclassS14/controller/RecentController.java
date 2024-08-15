@@ -28,15 +28,15 @@ public class RecentController {
     // 북마크 저장
     @ResponseBody
     @PostMapping("/bookmarkToggle")
-    public String saveBookmark(@RequestParam String userId, @RequestParam String partUrl, @RequestParam String category) {
-        int res = recentService.saveBookmark(userId, partUrl, category);
+    public String saveBookmark(@RequestParam int userIdx, @RequestParam String partUrl, @RequestParam String category) {
+        int res = recentService.saveBookmark(userIdx, partUrl, category);
         return res + "";
     }
 
     @PostMapping("/saveLikedProduct")
     @ResponseBody
     public Map<String, Object> saveInterestProduct(@RequestParam int productIdx, HttpSession session) {
-        String userId = (String) session.getAttribute("sUid");
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
         
         boolean isInterested = false;
         boolean success = false;
@@ -44,8 +44,8 @@ public class RecentController {
 
         Map<String, Object> result = new HashMap<>();
         
-        if (userId != null) {
-            isInterested = recentService.toggleProductInterest(userId, productIdx);
+        if (userIdx != null) {
+            isInterested = recentService.toggleProductInterest(userIdx, productIdx);
             success = true;
             message = isInterested ? "관심등록 되었습니다." : "관심등록이 취소되었습니다.";
         } else {
@@ -61,31 +61,31 @@ public class RecentController {
     // 최근 검색어 저장
     @PostMapping("/saveRecentSearch")
     @ResponseBody
-    public String saveRecentSearch(@RequestParam String userId, @RequestParam String searchTerm) {
-        recentService.saveRecentSearch(userId, searchTerm);
+    public String saveRecentSearch(@RequestParam int userIdx, @RequestParam String searchTerm) {
+        recentService.saveRecentSearch(userIdx, searchTerm);
         return "saved";
     }
 
     // 유저 대시보드 조회
     @GetMapping("/dashboard")
-    public String getUserDashboard(Model model, @RequestParam String userId) {
-        model.addAttribute("bookmarks", recentService.getBookmarks(userId, "research")); // 예시로 연구 북마크만 조회
-        model.addAttribute("favoriteProducts", recentService.getFavoriteProducts(userId));
+    public String getUserDashboard(Model model, @RequestParam int userIdx) {
+        model.addAttribute("bookmarks", recentService.getBookmarks(userIdx, "research")); // 예시로 연구 북마크만 조회
+        model.addAttribute("favoriteProducts", recentService.getFavoriteProducts(userIdx));
         return "user/dashboard";
     }
 
     // 최근 본 상품 조회
     @GetMapping("/recentViews")
-    public String getRecentViews(Model model, @RequestParam String userId, @RequestParam(defaultValue = "5") int limit) {
-        List<RecentVO> recentViews = recentService.getRecentViews(userId, limit);
+    public String getRecentViews(Model model, @RequestParam int userIdx, @RequestParam(defaultValue = "5") int limit) {
+        List<RecentVO> recentViews = recentService.getRecentViews(userIdx, limit);
         model.addAttribute("recentViews", recentViews);
         return "recent/recentViews";
     }
 
     // 최근 검색어 조회
     @GetMapping("/recentSearches")
-    public String getRecentSearches(Model model, @RequestParam String userId, @RequestParam(defaultValue = "5") int limit) {
-        List<RecentVO> recentSearches = recentService.getRecentSearches(userId, limit);
+    public String getRecentSearches(Model model, @RequestParam int userIdx, @RequestParam(defaultValue = "5") int limit) {
+        List<RecentVO> recentSearches = recentService.getRecentSearches(userIdx, limit);
         model.addAttribute("recentSearches", recentSearches);
         return "recent/recentSearches";
     }

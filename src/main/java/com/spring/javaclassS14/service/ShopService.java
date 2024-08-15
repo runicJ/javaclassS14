@@ -72,14 +72,14 @@ public interface ShopService {
 
 	public List<ShopVO> getProductTopMidList();
 
-	public List<CartVO> getProductCart(String userId);
-	public CartItem getCartProductOptionSearch(int productIdx, int optionIdx, String userId);
-	public int updateCart(CartItem cartItem, String userId);
+	public List<CartVO> getProductCart(Integer userIdx);
+	public CartItem getCartProductOptionSearch(int productIdx, int optionIdx, Integer userIdx);
+	public int updateCart(CartItem cartItem, Integer userIdx);
 	public int addCart(CartVO cartVO);
 
 	public int setProductCartDelete(int cartIdx);
 
-	public int getUserCartCnt(String userId);
+	public int getUserCartCnt(Integer userIdx);
 
 	public void setCartDeleteAll(int orderProductIdx);
 
@@ -99,9 +99,9 @@ public interface ShopService {
 
 	public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice, int averageRating, int startIndexNo, int pageSize);
 
-	public boolean canRecordProductView(String userId, int productIdx);
+	public boolean canRecordProductView(Integer userIdx, int productIdx);
 
-	public void recordProductView(String userId, int productIdx);
+	public void recordProductView(Integer userIdx, int productIdx);
 
 	public List<String> getTags();
 	public String getTagsAsText();

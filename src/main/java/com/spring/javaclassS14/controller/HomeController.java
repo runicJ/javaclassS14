@@ -288,10 +288,13 @@ public class HomeController {
         
         model.addAttribute("airStationVOS", airStationVOS);
         
-        String userId = (String) session.getAttribute("sUid");
-        List<Map<String, Object>> recentProducts = recentService.getRecentViewProduct(userId);
-        
-        model.addAttribute("recentProducts",recentProducts);
+        Integer userIdx = (Integer) session.getAttribute("sUidx");  // userIdx를 Integer로 선언
+        if (userIdx != null) {
+            List<Map<String, Object>> recentProducts = recentService.getRecentViewProduct(userIdx);
+            model.addAttribute("recentProducts", recentProducts);
+        } else {
+            model.addAttribute("recentProducts", new ArrayList<>());  // null일 경우 빈 리스트 전달
+        }
         
         List<CsworkVO> noticeVOS = csworkService.getNoticeList();
         

@@ -162,7 +162,7 @@
     <!-- CartVO -->
     <resultMap id="CartVOResultMap" type="com.spring.javaclassS14.vo.CartVO">
         <result property="cartIdx" column="cartIdx"/>
-        <result property="userId" column="userId"/>
+        <result property="userIdx" column="userIdx"/>
         <collection property="items" ofType="com.spring.javaclassS14.vo.CartItem" resultMap="CartItemResultMap"/>
     </resultMap>
 
@@ -170,7 +170,7 @@
 	<select id="getProductCart" resultMap="CartVOResultMap">
 	    SELECT 
 	        c.cartIdx,
-	        c.userId,
+	        c.userIdx,
 	        c.productIdx,
 	        c.optionIdx,
 	        IFNULL(o.optionName, '기본') AS optionName, <!-- optionIdx가 없을 경우 '기본'으로 처리 -->
@@ -191,13 +191,13 @@
 	    LEFT JOIN
 	        product_option_group g ON o.optionGroupIdx = g.optionGroupIdx
 	    WHERE 
-	        c.userId = #{userId}
+	        c.userIdx = #{userIdx}
 	</select>
 
 	<select id="getCartProductOptionSearch" resultType="com.spring.javaclassS14.vo.CartItem">
 	    SELECT productIdx, optionIdx, quantity, isSoldOut, addedDate
 	    FROM cart
-	    WHERE productIdx = #{productIdx} AND optionIdx = #{optionIdx} AND userId = #{userId}
+	    WHERE productIdx = #{productIdx} AND optionIdx = #{optionIdx} AND userIdx = #{userIdx}
 	</select>
 	
     <!-- productIdx 존재 여부 확인 -->
@@ -211,7 +211,7 @@
     </select>
     
     <select id="getUserCartCnt" resultType="int">
-        SELECT COUNT(*) FROM cart WHERE userId = #{userId}
+        SELECT COUNT(*) FROM cart WHERE userIdx = #{userIdx}
     </select>
     
     <select id="getAllReview" resultType="com.spring.javaclassS14.vo.ReviewVO">
@@ -236,7 +236,7 @@
 
     <select id="countProductViewsByUserAndDate" resultType="int">
         SELECT COUNT(*) FROM recent_view_product
-        WHERE userId = #{userId} AND DATE(viewDate) = #{date}
+        WHERE userIdx = #{userIdx} AND DATE(viewDate) = #{date}
     </select>
 
     <select id="getAllTags" resultType="string">
@@ -275,7 +275,7 @@
 
     <insert id="recordProductView">
         INSERT INTO recent_view_product
-        VALUES (default, #{userId}, #{productIdx}, default);
+        VALUES (default, #{userIdx}, #{productIdx}, default);
     </insert>
 
 	<insert id="setCategoryTopInput">
@@ -300,12 +300,12 @@
 	</insert>
 	
 	<insert id="setShopCartInput">
-	  insert into cart values (default,#{vo.userId},#{vo.productIdx},#{vo.quantity},default,default,#{vo.optionIdx});
+	  insert into cart values (default,#{vo.userIdx},#{vo.productIdx},#{vo.quantity},default,default,#{vo.optionIdx});
 	</insert>
 	
     <!-- 장바구니에 항목 추가 -->
     <insert id="addCart">
-        INSERT INTO cart VALUES (default, #{userId}, #{cartItem.productIdx}, #{cartItem.quantity}, default, #{cartItem.isSoldOutAsString}, 
+        INSERT INTO cart VALUES (default, #{userIdx}, #{cartItem.productIdx}, #{cartItem.quantity}, default, #{cartItem.isSoldOutAsString}, 
         <if test="cartItem.optionIdx != 0">
             #{cartItem.optionIdx}
         </if>
@@ -328,7 +328,7 @@
     <update id="updateCart">
         UPDATE cart
         SET quantity = #{cartItem.quantity}, isSoldOut = #{cartItem.isSoldOutAsString}
-        WHERE productIdx = #{cartItem.productIdx} AND optionIdx = #{cartItem.optionIdx} AND userId = #{userId}
+        WHERE productIdx = #{cartItem.productIdx} AND optionIdx = #{cartItem.optionIdx} AND userIdx = #{userIdx}
     </update>
     
    	<update id="setReviewOrderUpdate">

@@ -6,6 +6,7 @@ import lombok.Data;
 public class SaveInterestVO {
 	// 북마크
 	private int bookmarkIdx;
+	private int userIdx;
 	private String userId;
 	private String partUrl;
 	private String addDate;

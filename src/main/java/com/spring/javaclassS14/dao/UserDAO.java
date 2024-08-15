@@ -1,6 +1,5 @@
 package com.spring.javaclassS14.dao;
 
-import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
@@ -28,25 +27,23 @@ public interface UserDAO {
 
 	public int totRecCnt();
 
-	public int recentLog(@Param("userId") String userId);
+	public int recentLog(@Param("userIdx") int userIdx);
 	
-	public void setUserLog(@Param("userId") String userId, @Param("hostIp") String hostIp);
+	public void setUserLog(@Param("userIdx") int userIdx, @Param("hostIp") String hostIp);
 
-	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);
+	public void insertDeletedUser(@Param("userId") String userId, @Param("email") String email, @Param("deleteReason") String deleteReason);
 
 	public void updateDeletedUser(@Param("userId") String userId);
 
-	public List<UserVO> getAllDeletedUsers();
-	
 	public void cancelUserDelete(@Param("userId") String userId);
 
 	public int setUserUpdate(@Param("vo") UserVO vo);
 
-	public SaveInterestVO getBookmarkList(@Param("userId") String userId);
+	public SaveInterestVO getBookmarkList(@Param("userIdx") Integer userIdx);
 
-	public int checkUserBookmark(@Param("userId") String userId, @Param("partUrl") String partUrl);
+	public int checkUserBookmark(@Param("userIdx") int userIdx, @Param("partUrl") String partUrl);
 
-	public void saveBookmarkToggle(@Param("userId") String userId, @Param("partUrl") String partUrl, @Param("bookmark") boolean bookmark);
+	public void saveBookmarkToggle(@Param("userIdx") int userIdx, @Param("partUrl") String partUrl, @Param("bookmark") boolean bookmark);
 
 	public int totRecCntKeyword(@Param("keyword") String keyword);
 
@@ -55,8 +52,4 @@ public interface UserDAO {
 	public int getUserEmailCheck(@Param("email") String email);
 
 	public int setUpdateUser(@Param("vo") UserVO vo);
-	
-//	public int setUserDelete(@Param("userId") String userId);
-//	public void insertDeletedUser(@Param("userId") String userId, @Param("deleteReason") String deleteReason);
-
 }

@@ -131,7 +131,7 @@
                IFNULL(DATEDIFF(NOW(), ul.loginTime), DATEDIFF(NOW(), u.createDate)) AS lastLogin,
                ul.loginTime
         FROM users u
-        LEFT JOIN user_log ul ON u.userId = ul.userId
+        LEFT JOIN user_log ul ON u.userIdx = ul.userIdx
         WHERE u.level > 0 AND u.userStatus = 'on'
         ORDER BY lastLogin DESC limit 5;
     </select>

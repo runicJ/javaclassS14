@@ -6,6 +6,7 @@ import lombok.Data;
 @Data
 public class SurveyVO {
     private String userId;
+    private int userIdx;
     private String nickName;
     private int surveyIdx;      // 설문 조사 번호
     private String surveyTitle;// 설문 제목

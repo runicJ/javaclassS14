@@ -43,16 +43,16 @@ public class CommonDataInterceptor extends HandlerInterceptorAdapter {
             modelAndView.addObject("productTopMidVOS", productTopMidVOS);
 
             HttpSession session = request.getSession();
-            String userId = (String) session.getAttribute("sUid");
-            if (userId != null) {
-                Integer cartCount = shopService.getUserCartCnt(userId);
+            Integer userIdx = (Integer) session.getAttribute("sUidx");  // userIdx를 Integer로 선언
+            if (userIdx != null) {
+                Integer cartCount = shopService.getUserCartCnt(userIdx);
                 modelAndView.addObject("cartCount", cartCount != null ? cartCount : 0);
                 
                 // 최근 검색어와 최근 본 상품 추가
-                //List<Map<String, Object>> recentSearch = recentService.getRecentSearch(userId, 5); // 최근 검색어 5개
-                //List<Map<String, Object>> recentProduct = recentService.getRecentProduct(userId, 5); // 최근 본 상품 5개
+                List<Map<String, Object>> recentSearch = recentService.getRecentSearch(userIdx, 5); // 최근 검색어 5개
+                //List<Map<String, Object>> recentProduct = recentService.getRecentProduct(userIdx, 5); // 최근 본 상품 5개
 
-                //modelAndView.addObject("recentSearch", recentSearch);
+                modelAndView.addObject("recentSearch", recentSearch);
                 //modelAndView.addObject("recentProduct", recentProduct);
             }
     		

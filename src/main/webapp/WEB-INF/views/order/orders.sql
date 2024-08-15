@@ -3,17 +3,15 @@ show tables;
 /* 주문 */
 CREATE TABLE orders_p (
     orderIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
-    userId VARCHAR(20) NOT NULL,
+    userIdx INT NOT NULL,
     totalPrice INT NOT NULL,
     couponIdx INT DEFAULT NULL,
     pointUse INT DEFAULT 0 NOT NULL,
     orderStatus ENUM('주문', '배송', '완료', '취소') DEFAULT '주문' NOT NULL,
     orderDate DATETIME DEFAULT NOW() NOT NULL,
-    FOREIGN KEY (userId) REFERENCES users(userId),
+    FOREIGN KEY (userIdx) REFERENCES users(userIdx),
     FOREIGN KEY (couponIdx) REFERENCES coupon(couponIdx)
 );
-
-desc orders_p;
 
 /* 주문 정보 */
 CREATE TABLE order_product (
@@ -27,8 +25,6 @@ CREATE TABLE order_product (
     FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );
 
-drop table order_product;
-
 /* 주문 배송지 정보 */
 CREATE TABLE order_delivery (
     deliveryIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
@@ -40,8 +36,6 @@ CREATE TABLE order_delivery (
     FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx)
 );
 
-drop table order_delivery;
-
 /* 주문 취소 테이블 */
 CREATE TABLE order_cancel (
     cancelIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
@@ -51,7 +45,7 @@ CREATE TABLE order_cancel (
     cancelDate DATETIME DEFAULT NOW() NOT NULL,
     status ENUM('신청','승인','반려') DEFAULT '신청' NOT NULL,
     cancel_msg TEXT DEFAULT NULL,
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
+    FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx),
     FOREIGN KEY (userIdx) REFERENCES users(userIdx)
 );
 
@@ -59,14 +53,14 @@ CREATE TABLE order_cancel (
 CREATE TABLE order_return (
     returnIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     orderIdx INT NOT NULL,
-    userId VARCHAR(20) NOT NULL,
+    userIdx INT NOT NULL,
     productIdx INT NOT NULL,
     returnReason TEXT,
     returnDate DATETIME DEFAULT NOW() NOT NULL,
     status ENUM('신청','승인','반려') DEFAULT '신청' NOT NULL,
     responsibility ENUM('구매자','판매자') DEFAULT '구매자' NOT NULL,
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
-    FOREIGN KEY (userId) REFERENCES users(userId),
+    FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx),
+    FOREIGN KEY (userIdx) REFERENCES users(userIdx),
     FOREIGN KEY (productIdx) REFERENCES product(productIdx)
 );
 
@@ -74,12 +68,12 @@ CREATE TABLE order_return (
 CREATE TABLE refund (
     refundIdx INT NOT NULL AUTO_INCREMENT PRIMARY KEY,
     orderIdx INT NOT NULL,
-    userId VARCHAR(20) NOT NULL,
+    userIdx INT NOT NULL,
     refund_amount INT DEFAULT 1 NOT NULL,
     refundDate DATETIME DEFAULT NOW() NOT NULL,
     paymentMethod ENUM('card','bank','point') NOT NULL,
     responsibility ENUM('신청','승인','반려') DEFAULT '신청' NOT NULL,
     deliveryFee INT DEFAULT 0 NOT NULL,
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx),
-    FOREIGN KEY (userId) REFERENCES users(userId)
+    FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx),
+    FOREIGN KEY (userIdx) REFERENCES users(userIdx)
 );

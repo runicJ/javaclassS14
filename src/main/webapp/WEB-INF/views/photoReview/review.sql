@@ -1,35 +1,30 @@
 show tables;
 
-create table photoGallery (
-  idx   int not null auto_increment,	/* 고유번호 */
-  userId   varchar(20) not null,					/* 포토갤러리에 올린이 아이디 */
-  part  varchar(10)  not null,				/* 분류(풍경/인물/학습/사물/기타) */		
-  title varchar(100) not null,				/* 제목 */
-  content     text   not null,				/* 포토갤러리 상세내역-사진 List(CKEDITOR사용) */
-  thumbnail   varchar(100) not null,	/* 썸네일 이미지(ckeditor에 올린 첫번째 사진으로 처리) */
-  photoCount 	int not null,						/* 업로드 사진 수량 */
-  hostIp			varchar(30)	not null,		/* 접속 IP */
-  pDate				datetime not null default now(),	/* 올린 날짜 */
-  goodCount  	int not null default 0, /* 좋아요수 */
-  readNum			int not null default 0,	/* 조회수 */
-  primary key(idx),
-  foreign key(userId) references users(userId)
+CREATE TABLE photoReview (
+  idx         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  /* 고유번호 */
+  userIdx     INT NOT NULL,                             /* 포토갤러리에 올린이의 고유번호 */
+  part        VARCHAR(10) NOT NULL,                     /* 분류(풍경/인물/학습/사물/기타) */
+  title       VARCHAR(100) NOT NULL,                    /* 제목 */
+  content     TEXT NOT NULL,                            /* 포토갤러리 상세내역-사진 List(CKEDITOR사용) */
+  thumbnail   VARCHAR(100) NOT NULL,                    /* 썸네일 이미지(ckeditor에 올린 첫번째 사진으로 처리) */
+  photoCount  INT NOT NULL,                             /* 업로드 사진 수량 */
+  hostIp      VARCHAR(30) NOT NULL,                     /* 접속 IP */
+  pDate       DATETIME NOT NULL DEFAULT NOW(),          /* 올린 날짜 */
+  goodCount   INT NOT NULL DEFAULT 0,                   /* 좋아요수 */
+  readNum     INT NOT NULL DEFAULT 0,                   /* 조회수 */
+  FOREIGN KEY(userIdx) REFERENCES users(userIdx)
 );
-drop table photoGallery;
-desc photoGallery
 
-create table photoReply (
-  idx  int not null auto_increment,
-  userId   varchar(20) not null,				/* 포토갤러리에 댓글 올린이 아이디 */
-  photoIdx int not null,						/* 포토갤러리 고유번호 */
-  content  text not null,						/* 포토갤러리 댓글 내용 */
-  prDate   datetime default now(),	/* 댓글 입력일자 */
-  primary key(idx),
-  foreign key(photoIdx) references photoGallery(idx),
-  foreign key(userId) references users(userId)
+CREATE TABLE photoReply (
+  idx      INT NOT NULL AUTO_INCREMENT PRIMARY KEY,     /* 댓글 고유번호 */
+  userIdx  INT NOT NULL,                                /* 포토갤러리에 댓글 올린이의 고유번호 */
+  photoIdx INT NOT NULL,                                /* 포토갤러리 고유번호 */
+  content  TEXT NOT NULL,                               /* 포토갤러리 댓글 내용 */
+  prDate   DATETIME DEFAULT NOW(),                      /* 댓글 입력일자 */
+  FOREIGN KEY(photoIdx) REFERENCES photoReview(idx),
+  FOREIGN KEY(userIdx) REFERENCES users(userIdx)
 );
-drop table photoReply;
-desc photoReply;
+
 select * from photoReply;
 select pg.*,(select count(*) from photoReply where photoIdx = 9) as replyCnt from photoGallery pg where idx = 9;
 

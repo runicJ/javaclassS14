@@ -7,6 +7,7 @@ public class CommunityVO {
 
     private int hospitalCommentIdx;
     private int hospitalIdx;
+    private int userIdx;
     private String userId;
     private String hospitalCommentTitle;
     private String hospitalComment;

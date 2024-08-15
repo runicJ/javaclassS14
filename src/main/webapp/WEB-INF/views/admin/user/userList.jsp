@@ -15,8 +15,8 @@
   		
   		function openUserModal(user) {
   		    // 기존 필드 설정
-  		    $('#modalUserId').val(user.userId);  // userId를 숨겨진 필드에 설정
-  		    $('#modalUserIdDisplay').val(user.userId); // 필요에 따라 별도 표시용 필드에도 설정
+  		    $('#modalUserId').val(user.userId);
+  		    $('#userIdRead').val(user.userId);
   		    $('#imageDemo').attr('src', '${ctp}/user/' + user.userImage);
   		    $('#modalName').val(user.name);
   		    $('#modalNickName').val(user.nickName);
@@ -32,7 +32,6 @@
   		    $('#createDate').val(user.createDate.substring(0,19));
   		    $('#updateDate').val(user.updateDate.substring(0,19));
 
-  		    // 모달 열기
   		    $('#userModal').modal('show');
   		}
   		
@@ -43,14 +42,14 @@
   		        let maxSize = 1024 * 1024 * 10;
   		        if(!['jpg','jpeg','png','gif'].includes(ext)) {
   		            alert("JPG, JPEG, PNG, GIF 파일만 업로드 가능합니다.");
-  		            return false; // 폼 제출 방지
+  		            return false;
   		        }
   		        if(document.getElementById("file").files[0].size > maxSize) {
   		            alert("업로드할 파일의 최대용량은 10Mbyte입니다.");
-  		            return false; // 폼 제출 방지
+  		            return false;
   		        }
   		    }
-  		    $('#userForm').submit(); // 유효성 검사가 통과되면 폼 제출
+  		    $('#userForm').submit();
   		}
   		
 		function userInfo(userId) {
@@ -349,7 +348,7 @@
                         <div class="input-group-prepend">
                             <span class="input-group-text">아이디</span>
                         </div>
-                        <input type="text" id="modalUserIdDisplay" class="form-control">
+                        <input type="text" id="userIdRead" class="form-control">
                     </div>
                     <div class="input-group mb-3">
                         <div class="input-group-prepend">

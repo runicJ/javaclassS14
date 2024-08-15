@@ -161,8 +161,8 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public List<SurveyVO> getSurveyList(String userId) {
-        return surveyDAO.getSurveyList(userId);
+    public List<SurveyVO> getSurveyList(Integer userIdx) {
+        return surveyDAO.getSurveyList(userIdx);
     }
 
     @Override

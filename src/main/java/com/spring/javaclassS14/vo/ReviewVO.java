@@ -7,6 +7,7 @@ public class ReviewVO {
 	
 	private int reviewIdx;
 	private int productIdx;
+	private int userIdx;
 	private String userId;
 	private String nickName;
 	private int orderIdx;

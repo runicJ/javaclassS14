@@ -5,16 +5,16 @@ import java.util.List;
 import java.util.Map;
 
 public interface RecentService {
-    public void saveRecentSearch(String userId, String searchTerm);
-    public List<RecentVO> getRecentViews(String userId, int limit);
-    public List<RecentVO> getRecentSearches(String userId, int limit);
+    public void saveRecentSearch(int userIdx, String searchTerm);
+    public List<RecentVO> getRecentViews(int userIdx, int limit);
+    public List<RecentVO> getRecentSearches(int userIdx, int limit);
     // 기존 기능도 포함
-    public int saveBookmark(String userId, String partUrl, String category);
-    public int saveLikedProduct(String userId, int productIdx);
-    public boolean toggleLike(String userId, int productIdx);
-    public List<RecentVO> getBookmarks(String userId, String category);
-    public List<RecentVO> getFavoriteProducts(String userId);
-    public List<Map<String, Object>> getRecentSearch(String userId, int limit);
-    public List<Map<String, Object>> getRecentViewProduct(String userId);
-	public boolean toggleProductInterest(String userId, int productIdx);
+    public int saveBookmark(int userIdx, String partUrl, String category);
+    public int saveLikedProduct(int userIdx, int productIdx);
+    public boolean toggleLike(int userIdx, int productIdx);
+    public List<RecentVO> getBookmarks(int userIdx, String category);
+    public List<RecentVO> getFavoriteProducts(int userIdx);
+    public List<Map<String, Object>> getRecentSearch(int userIdx, int limit);
+    public List<Map<String, Object>> getRecentViewProduct(int userIdx);
+	public boolean toggleProductInterest(int userIdx, int productIdx);
 }
