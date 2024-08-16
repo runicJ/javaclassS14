@@ -59,7 +59,7 @@
                         	<a href="${ctp}/admin/info/noticeInput" class="sidebar-link"><span class="hide-menu"> 공지사항 관리</span></a>
                         </li>
                         <li class="sidebar-item">
-                        	<a href="${ctp}/admin/notify/#" class="sidebar-link"><span class="hide-menu"> </span></a>
+                        	<a href="${ctp}/admin/notify/notifyList" class="sidebar-link"><span class="hide-menu"> 팝업창 관리</span></a>
                         </li>
                     </ul>
                 </li>
@@ -102,7 +102,7 @@
                 </li>
                 <li class="sidebar-item"> <a class="sidebar-link has-arrow" href="javascript:void(0)"
                         aria-expanded="false"><i data-feather="bar-chart" class="feather-icon"></i><span
-                            class="hide-menu"> 통계 목록 </span></a>
+                            class="hide-menu"> 통계 현황 </span></a>
                     <ul aria-expanded="false" class="collapse  first-level base-level-line">
                         <li class="sidebar-item"><a href="${ctp}/admin/survey/surveyInput" class="sidebar-link"><span
                                     class="hide-menu"> 설문조사 등록

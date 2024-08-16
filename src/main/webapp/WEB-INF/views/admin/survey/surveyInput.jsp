@@ -191,105 +191,89 @@
 		}
 
 		$("#regSurvBtn").click(function() {
-			let chkValidate = chkFields() == true ? true : false;
-			
-			let file = document.getElementById("file").value;	
-			let ext = file.substring(file.lastIndexOf(".")+1);
-			let uExt = ext.toUpperCase();
-			
-			if(file == "") {
-				alert("상품 메인 이미지를 등록하세요");
-				return false;
-			}
-			else if(uExt != "JPG" && uExt != "GIF" && uExt != "PNG" && uExt != "JPEG") {
-				alert("업로드 가능한 파일이 아닙니다.");
-				return false;
-			}
-			else if(document.getElementById("file").value != "") {
-				var maxSize = 1024 * 1024 * 10;  // 10MByte까지 허용
-				var fileSize = document.getElementById("file").files[0].size;
-				if(fileSize > maxSize) {
-					alert("첨부파일의 크기는 10MB 이내로 등록하세요");
-					return false;
-				}
-			}
-			
-			if (chkValidate) {
-				if (!isSubmitted && changed) {
-					isSubmitted = true;
-					//console.log("isSubmitted => " + isSubmitted);                  
-					$("#regSurvBtn").attr('disabled', 'disabled');
-					
-					let survQustList = [];
-					
-					$("#surv_quests_tbl>tbody tr").each(function(index) { // 각 질문의 순서에 맞게 index 사용
-						let survQustObj = new Object(); //질문1개
-						let qustOptArr = [];
-						
-						let questType = $(this).find("td:eq(2) select option:selected").val();
-						survQustObj.questIdx = $(this).find("td:eq(1)").text().substr(2);
-						survQustObj.questOrder = index + 1; // 질문 순서 저장
-						survQustObj.questType = questType;
-						survQustObj.surveyIdx = $("#surveyIdx").val();
-						
-						if (questType == 'short') {                
-							survQustObj.questContent = $(this).find("td:eq(3) input").val().trim();
-						} else if (questType == "long") {
-							survQustObj.questContent = $(this).find("td:eq(3) textarea").val().trim();
-						} else {
-							survQustObj.questContent = $(this).find("td:eq(3) input").val().trim();
-							$(this).find('ol[name="multi-opt"] li').each(function(optIndex, item) {
-								let optObj = new Object(); //옵션 1개의 객체
-								optObj.optionIdx = optIndex + 1;
-								optObj.optContent = $(item).find("input").val();
-								optObj.optOrder = optIndex + 1; // 옵션 순서 저장
-								qustOptArr.push(optObj);
-							});
-							survQustObj.options = qustOptArr; // 옵션 리스트 저장
-						}
-						survQustList.push(survQustObj);
-					});
-					
-					let query = {
-						surveyTitle: $("#survTitle").val(),
-						surveyDesc: $("#survDesc").val(),
-						useFlag: $("#useFlag").val(),        
-						createDate: $("#regDate").text(),
-						questList: survQustList,
-						file : file
-					}
-					
-					$.ajax({
-						url: '${ctp}/admin/survey/surveyInput',
-						type: 'post',
-						contentType: "application/json; charset=utf-8",
-						data: JSON.stringify(query),
-						success: function(res) {
-							if(res != 0) {
-								alert('등록 완료');
-								oldParam = query;
-								if (confirm("설문목록에서 확인할까요?")) {
-									location.href = "${ctp}/admin/survey/surveyList";
-								}
-							}
-							else alert("등록 실패!")
-						},
-						error: function(e) {
-							alert("전송 오류!");
-							console.log(e);
-						},
-						complete: function() {
-							isSubmitted = false;
-						}
-					});
-				} 
-				else {
-					alert("이미 등록된 설문입니다.");
-				}
-			} 
-			else {
-				alert("빈칸을 입력해주세요!!");
-			}
+		    let chkValidate = chkFields() === true;
+
+		    if (!chkValidate) {
+		        alert("빈칸을 입력해주세요!!");
+		        return false;
+		    }
+
+		    let fileInput = document.getElementById("file");
+		    let file = fileInput.files[0];
+
+		    if (!file) {
+		        alert("상품 메인 이미지를 등록하세요");
+		        return false;
+		    }
+
+		    let ext = file.name.split('.').pop().toUpperCase();
+		    if (!["JPG", "GIF", "PNG", "JPEG"].includes(ext)) {
+		        alert("업로드 가능한 파일이 아닙니다.");
+		        return false;
+		    }
+
+		    if (file.size > 1024 * 1024 * 10) {
+		        alert("첨부파일의 크기는 10MB 이내로 등록하세요");
+		        return false;
+		    }
+
+		    let formData = new FormData();
+		    formData.append("fName", file);
+		    formData.append("surveyTitle", $("#survTitle").val());
+		    formData.append("surveyDesc", $("#survDesc").val());
+		    formData.append("useFlag", $("#useFlag").val());
+		    formData.append("createDate", $("#regDate").text());
+
+		    let survQustList = [];
+
+		    $("#surv_quests_tbl>tbody tr").each(function(index) {
+		        let survQustObj = {};
+		        let qustOptArr = [];
+
+		        let questType = $(this).find("td:eq(2) select option:selected").val();
+		        survQustObj.questIdx = $(this).find("td:eq(1)").text().substr(2);
+		        survQustObj.questOrder = index + 1;
+		        survQustObj.questType = questType;
+
+		        if (questType === 'short' || questType === 'long') {
+		            survQustObj.questContent = $(this).find("td:eq(3) input, td:eq(3) textarea").val().trim();
+		        } else {
+		            survQustObj.questContent = $(this).find("td:eq(3) input").val().trim();
+		            $(this).find('ol[name="multi-opt"] li').each(function(optIndex, item) {
+		                let optObj = {};
+		                optObj.optionIdx = optIndex + 1;
+		                optObj.optContent = $(item).find("input").val();
+		                optObj.optOrder = optIndex + 1;
+		                qustOptArr.push(optObj);
+		            });
+		            survQustObj.options = qustOptArr;
+		        }
+		        survQustList.push(survQustObj);
+		    });
+
+		    formData.append("questList", JSON.stringify(survQustList));
+
+		    $.ajax({
+		        url: '${ctp}/admin/survey/surveyInput',
+		        type: 'post',
+		        processData: false,
+		        contentType: false,
+		        data: formData,
+		        success: function(res) {
+		            if (res != 0) {
+		                alert('등록 완료');
+		                if (confirm("설문목록에서 확인할까요?")) {
+		                    location.href = "${ctp}/admin/survey/surveyList";
+		                }
+		            } else {
+		                alert("등록 실패!");
+		            }
+		        },
+		        error: function(e) {
+		            alert("전송 오류!");
+		            console.log(e);
+		        }
+		    });
 		});
 		  
 		  $("#uptSurvBtn").click(function() {
@@ -584,8 +568,6 @@
 			"questList": survQustList
 		};
 							
-		//console.log("oldParam => " + JSON.stringify(oldParam));
-		//console.log("newParam => " + JSON.stringify(newParam));
 		return JSON.stringify(oldParam) !== JSON.stringify(newParam);
 	}
 	</script>
@@ -629,13 +611,13 @@
 							</td>
 						</tr>
 						<tr>
-							<td>
-								<label><i class="fa-solid fa-tag"></i> 설문지 대표이미지</label>
-							</td>
-							<td colspan=3>
+							<td class="form-tbl-col">
+                        		<label>설문대표이미지</label>
+                        	</td>
+	                        <td colspan="3">
 	                            <div class="custom-file">
-	                            	<label for="file">대표이미지 등록하기</label>
 	                                <input type="file" class="custom-file-input" name="file" id="file" required>
+	                                <label class="custom-file-label" for="validatedCustomFile">이미지 선택</label>
 	                            </div>
 							</td>
 						</tr>

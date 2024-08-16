@@ -131,13 +131,14 @@ public class NewsController {
             e.printStackTrace();
         }
 
+        // google 뉴스
         try {
             String baseUrl3 = "https://news.google.com/search?q=allergy";
             Document document = Jsoup.connect(baseUrl3).get();
             Elements newsElements = document.select("article");
 
             for (Element newsElement : newsElements) {
-                if (dVos.size() >= MAX_ARTICLES) break; // 갯수 제한 적용
+                if (dVos.size() >= MAX_ARTICLES) break; // 갯수 제한
                 CrawlingVO vo = new CrawlingVO();
 
                 // 제목과 URL 가져오기
@@ -147,6 +148,7 @@ public class NewsController {
                     vo.setItemUrl1("https://news.google.com" + titleElement.attr("href").substring(1));
                 }
 
+                /*
                 // 이미지 가져오기
                 Element imageElement = newsElement.selectFirst("img.Quavad.vwBmvb");
                 if (imageElement != null) {
@@ -159,6 +161,7 @@ public class NewsController {
                 else {
                     vo.setItem2("${ctp}/images/google-icon.png");
                 }
+                */
 
                 // 출처 가져오기
                 Element sourceElement = newsElement.selectFirst("div.oovtQ");

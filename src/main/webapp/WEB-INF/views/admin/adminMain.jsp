@@ -170,7 +170,7 @@
                         <li class="nav-item dropdown">
                             <a class="nav-link dropdown-toggle" href="javascript:void(0)" data-toggle="dropdown"
                                 aria-haspopup="true" aria-expanded="false">
-                                <img src="${ctp}/user/noImage.png" alt="user" class="rounded-circle" width="50" height="50">
+                                <img src="${ctp}/user/${sImage}" alt="user" class="rounded-circle" width="50" height="50">
                                 <span class="ml-2 d-none d-lg-inline-block"><span>안녕하세요,</span> <span
                                         class="text-dark">${sNickName} 님</span> <i data-feather="chevron-down"
                                         class="svg-icon"></i></span>
@@ -341,7 +341,7 @@
 			                            <td>${mailUser.name}</td>
 			                            <td>${mailUser.loginTime != null ? fn:substring(mailUser.loginTime,0,10) : fn:substring(mailUser.createDate,0,10)}(${mailUser.lastLogin}일)</td>
 			                            <td>
-			                                <input class="badge badge-info" value="메일보내기" onclick="sendCoupon('${mailUser.userId}')" />
+											<button class="badge badge-warning" onclick="sendCoupon('${mailUser.userId}')">메일보내기</button>
 			                            </td>
 		                            </tr>
 		                            </c:forEach>

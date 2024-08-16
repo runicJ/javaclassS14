@@ -21,7 +21,7 @@
             display: flex;
             justify-content: center;
             align-items: center;
-            min-height: 100vh;
+            min-height: 100px;
             padding: 20px;
         }
         
@@ -283,7 +283,7 @@
         // 개인정보 수집 동의 체크
         function fnagreechk() {
             const agreeCheckbox = document.getElementById('agreechk');
-            agreeCheckbox.value = agreeCheckbox.value === '0' ? '1' : '0';
+            agreeCheckbox.value = agreeCheckbox.value == '0' ? '1' : '0';
             document.querySelector('.agree').classList.toggle('checked');
         }
 
@@ -316,7 +316,7 @@
         <div class="container">
             <div class="popup partner alliance">
                 <div class="popHead">
-                    <h3>제휴/광고 제안</h3>
+                    <h3>제휴 / 광고 제안</h3>
                 </div>
 
                 <div class="popCont">
@@ -330,71 +330,56 @@
                             <p class="noti">* 표시는 필수 입력정보입니다</p>
                             <div class="tblWrap">
                                 <table>
-                                    <caption>회사 정보 입력</caption>
                                     <colgroup>
                                         <col style="width:200px;"> <col style="width:*;">
                                     </colgroup>
                                     <tbody>
                                         <tr>
-                                            <th>제휴 종류 <span class="essential">*</span></th>
-                                            <td>
-                                                <ul class="formList">
-                                                    <li><input type="radio" id="kind1" name="sellgubun" value="1" checked="checked"> <label for="kind1">공급 제휴</label></li>
-                                                    <li><input type="radio" id="kind2" name="sellgubun" value="2"> <label for="kind2">컨텐츠 제휴</label></li>
-                                                    <li><input type="radio" id="kind3" name="sellgubun" value="3"> <label for="kind3">공동마케팅 및 프로모션 제휴</label></li>
-                                                    <li><input type="radio" id="kind4" name="sellgubun" value="4"> <label for="kind4">문화 이벤트 제휴</label></li>
-                                                    <li><input type="radio" id="kind5" name="sellgubun" value="5"> <label for="kind5">기술 및 솔루션 관련 제휴</label></li>
-                                                    <li><input type="radio" id="kind6" name="sellgubun" value="6"> <label for="kind6">광고 문의</label></li>
-                                                </ul>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th><label for="compName">회사명</label> <span class="essential">*</span></th>
+                                            <th><label for="compName">회사명</label>*</th>
                                             <td><input type="text" id="compName" name="companyname" class="txtInp" style="width:370px;" placeholder="예) 괄호 안 쉼표"></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="compAddr">회사 주소</label> <span class="essential">*</span></th>
-                                            <td><input type="text" id="compAddr" name="address" class="txtInp" style="width:370px;" placeholder="예) 충청북도 청주시 서원구 사직대로 109, 4,5층"></td>
+                                            <th><label for="compAddr">회사 주소</label></th>
+                                            <td><input type="text" id="adApplyComAddress" name="adApplyComAddress" class="txtInp" style="width:370px;" placeholder="예) 충청북도 청주시 서원구 사직대로 109, 4,5층"></td>
                                         </tr>
                                         <tr>
-                                            <th><label for="compUrl">회사 페이지 URL</label></th>
-                                            <td><input type="text" id="compUrl" name="companyurl" class="txtInp" style="width:370px;" placeholder="예) http://49.142.159.251:9090/javaclassS14/main"></td>
-                                        </tr>
-                                        <tr>
-                                            <th><label for="compIntro">회사소개서</label></th>
+                                            <th><label for="adApplyEmail">이메일 주소*</label></th>
                                             <td>
-                                                <input type="file" id="compIntro" name="attachfile2" onblur="return CheckFile(this);" class="txtInp" style="width:370px;">
-                                                <p class="tip">*참고할 수 있는 파일을 1MB 용량 이하의  GIF, JPEG, PNG, ZIP 파일형태로 첨부해주세요.</p>
+                                                <input type="text" id="adApplyEmail" name="adApplyEmail" class="form-control" placeholder="">
                                             </td>
                                         </tr>
                                     </tbody>
                                 </table>
                             </div>
                         </div>
-                        <!--// 회사 정보 -->
 
                         <!-- 제휴/광고 내용 -->
                         <div class="section">
                             <h4>제휴/광고 내용</h4>
                             <div class="tblWrap">
                                 <table>
-                                    <caption>제휴/광고 내용 입력</caption>
                                     <colgroup>
                                         <col style="width:205px;"> <col style="width:*;">
                                     </colgroup>
                                     <tbody>
                                         <tr>
-                                            <th style="padding-top:0;"><label for="suggest">광고 및 제휴 <span class="essential">*</span><br>제안 내용</label></th>
+                                            <th><label for="adApplyEmail">제목</label></th>
                                             <td>
-                                                <input type="file" id="suggest" name="attachfile" onblur="return CheckFile(this);" class="txtInp" style="width:370px;">
-                                                <p class="tip">*참고할 수 있는 파일을 1MB 용량 이하의  GIF, JPEG, PNG, ZIP 파일형태로 첨부해주세요.</p>
+                                                <input type="text" id="adApplyTitle" name="adApplyTitle" class="form-control" placeholder="">
                                             </td>
                                         </tr>
                                         <tr>
-                                            <th><label for="comment">기타 코멘트</label></th>
+                                            <th><label for="adApplyContent">제휴/광고 내용*</label></th>
                                             <td>
-                                                <textarea cols="30" rows="8" id="comment" name="companycomments" maxlength="300" class="txtInp" style="height:168px;"></textarea>
+                                                <textarea cols="30" rows="8" id="adApplyContent" name="adApplyContent" maxlength="300" class="txtInp" style="height:168px;"></textarea>
                                                 <p class="count" id="counter">0/300</p>
+                                            </td>
+                                        </tr>
+                                        <tr>
+                                            <th style="padding-top:0;"><label for="suggest">제휴/광고 이미지*</label></th>
+                                            <td>
+                                                <input type="file" id="suggest" name="attachfile" onblur="return CheckFile(this);" class="txtInp" style="width:370px;">
+                                                <p class="tip">*참고할 수 있는 파일을 10MB 용량 이하의  GIF, JPEG, PNG, ZIP 파일형태로 첨부해주세요.</p>
                                             </td>
                                         </tr>
                                     </tbody>
@@ -402,73 +387,6 @@
                             </div>
                         </div>
                         <!--// 제휴/광고 내용 -->
-
-                        <!-- 담당자 정보 -->
-                        <div class="section">
-                            <h4>담당자 정보</h4>
-                            <div class="tblWrap">
-                                <table>
-                                    <caption>담당자 정보 입력</caption>
-                                    <colgroup>
-                                        <col style="width:205px;"> <col style="width:*;">
-                                    </colgroup>
-                                    <tbody>
-                                        <tr>
-                                            <th><label for="chName">담당자 명</label> <span class="essential">*</span></th>
-                                            <td><input type="text" id="chName" name="chargename" class="txtInp" style="width:370px;" placeholder="홍길동"></td>
-                                        </tr>
-                                        <tr>
-                                            <th><label for="chMail">이메일 주소 <span class="essential">*</span></label></th>
-                                            <td>
-                                                <input type="text" id="chMail" name="txEmail1" class="txtInp" onkeydown="keyCodeCheckEmail(event);" onkeyup="jsChkEmail();" onclick="jsChkEmail();" style="width:175px;" placeholder="tentenkim" maxlength="32">
-                                                <span class="pad">@</span>
-                                                <input type="text" name="selfemail" id="selfemail" title="이메일 직접 입력" maxlength="48" class="txtInp" style="display:none; width:120px;ime-mode:disabled;" onkeydown="keyCodeCheckEmail(event);" onkeyup="jsChkEmail();" onblur="DuplicateEmailCheck();" onclick="jsChkEmail();">
-                                                <div class="selectbox" style="width:160px;">
-                                                    <input type="hidden" id="txEmail2" name="txEmail2" value="">
-                                                    <input type="hidden" id="email" name="email" value="">
-                                                    <p>이메일 서비스 선택</p>
-                                                    <ul>
-                                                        <li onclick="NewEmailChecker('@hanmail.net');">hanmail.net</li>
-                                                        <li onclick="NewEmailChecker('@naver.com');">naver.com</li>
-                                                        <li onclick="NewEmailChecker('@nate.com');">nate.com</li>
-                                                        <li onclick="NewEmailChecker('@gmail.com');">gmail.com</li>
-                                                        <li onclick="NewEmailChecker('@hotmail.com');">hotmail.com</li>
-                                                        <li onclick="NewEmailChecker('@yahoo.co.kr');">yahoo.co.kr</li>
-                                                        <li onclick="NewEmailChecker('@hanmir.com');">hanmir.com</li>
-                                                        <li onclick="NewEmailChecker('@korea.com');">korea.com</li>
-                                                        <li onclick="NewEmailChecker('@lycos.co.kr');">lycos.co.kr</li>
-                                                        <li onclick="NewEmailChecker('@dreamwiz.com');">dreamwiz.com</li>
-                                                        <li onclick="NewEmailChecker('@empal.com');">empal.com</li>
-                                                        <li onclick="NewEmailChecker('@netian.com');">netian.com</li>
-                                                        <li onclick="NewEmailChecker('@freechal.com');">freechal.com</li>
-                                                        <li onclick="NewEmailChecker('@paran.com');">paran.com</li>
-                                                        <li onclick="NewEmailChecker('etc');">직접입력</li>
-                                                    </ul>
-                                                </div>
-                                                <p class="tip" id="checkMsgEmail"></p>
-                                            </td>
-                                        </tr>
-                                        <tr>
-                                            <th>연락처 <span class="essential">*</span></th>
-                                            <td>
-                                                <div class="selectbox" style="width:80px;">
-                                                    <input type="hidden" value="" name="hp1" id="hp1">
-                                                    <p>선택</p>
-                                                    <ul>
-                                                        <li onclick="fnhpnb('010');">010</li>
-                                                    </ul>
-                                                </div>
-                                                <span class="pad">-</span>
-                                                <input type="text" class="txtInp" name="hp2" maxlength="4" style="width:80px;" placeholder="1234">
-                                                <span class="pad">-</span>
-                                                <input type="text" class="txtInp" name="hp3" maxlength="4" style="width:80px;" placeholder="5678">
-                                            </td>
-                                        </tr>
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <!--// 담당자 정보 -->
 
                         <!-- 개인정보 수집 및 이용 동의 -->
                         <div class="section">

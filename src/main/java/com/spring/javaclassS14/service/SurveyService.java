@@ -10,7 +10,7 @@ import com.spring.javaclassS14.vo.SurveyVO;
 public interface SurveyService {
 	
 	// 설문 만들기
-	public int setSurveyInput(MultipartFile file, SurveyVO surveyVO);
+	public int setSurveyInput(MultipartFile fName, SurveyVO surveyVO);
 	
 	public SurveyVO getSurveyForm(int surveyIdx);
 	

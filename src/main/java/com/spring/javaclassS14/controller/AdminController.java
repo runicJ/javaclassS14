@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.AdminService;
 import com.spring.javaclassS14.service.CsworkService;
@@ -68,6 +69,9 @@ public class AdminController {
 	
 	@Autowired
 	BCryptPasswordEncoder passwordEncoder;
+	
+	@Autowired
+	AllProvide allProvide;
 	
 	// 관리자 페이지로 이동
 	@RequestMapping(value="/adminMain", method=RequestMethod.GET)
@@ -298,7 +302,7 @@ public class AdminController {
 	// 상품 등록 처리하기
 	@RequestMapping(value = "/shop/productInput", method=RequestMethod.POST)
 	public String productInputPost(MultipartFile file, ShopVO vo) {
-		// 이미지파일 업로드 시에 ckeditor폴더에서 'dbShop/product'폴더로 복사처리 처리된 내용을 DB에 저장하기
+		// 이미지파일 업로드 시에 ckeditor폴더에서 'shop/product'폴더로 복사처리 처리된 내용을 DB에 저장하기
 		int res = shopService.imgCheckProductInput(file, vo);
 		//System.out.println("res : " + res);
 		if(res != 0) return "redirect:/msg/productInputOk";
@@ -462,26 +466,21 @@ public class AdminController {
             return "redirect:/msg/userAdminNo";
         }
     }
-
-    // 설문 만들기 (ADMIN과 MANAGER만 접근 가능)
+    
+    // 설문 생성
     @ResponseBody
     @RequestMapping(value="/survey/surveyInput", method=RequestMethod.POST)
-    public String surveyInputPost(@RequestBody SurveyVO surveyVO, MultipartFile file, HttpSession session) {
+    public String surveyInputPost(
+            @RequestParam("fName") MultipartFile fName, SurveyVO surveyVO, HttpSession session) {
         Integer userIdx = (Integer) session.getAttribute("sUidx");
-        //System.out.println("survey" + surveyVO);
-        //System.out.println("surveyTitlesss" + surveyVO.getSurveyTitle());
-        if (userIdx.equals(1)) {
-            //System.out.println("===regSurv Controller START");
 
-        	surveyVO.setUserIdx(userIdx);
-            //System.out.println("surveyDto ==> " + surveyVO.toString());
-            
-            int res = surveyService.setSurveyInput(file,surveyVO);
+        if (userIdx != null && userIdx.equals(1)) {
+            surveyVO.setUserIdx(userIdx);
 
-            //System.out.println("===regSurv Controller END===");
-            return res + "";
-        } 
-        else {
+            int res = surveyService.setSurveyInput(fName, surveyVO);
+
+            return String.valueOf(res);
+        } else {
             return "redirect:/msg/userAdminNo";
         }
     }

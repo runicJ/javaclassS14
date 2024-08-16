@@ -74,7 +74,7 @@
         </div>
         <div>
             <label for="comment">내용:</label>
-            <textarea id="comment" name="hospitalComment" required></textarea>
+            <textarea id="comment" row="5" name="hospitalComment" required></textarea>
         </div>
         <div>
             <label for="star">별점:</label>
@@ -88,10 +88,9 @@
         </div>
         <div>
             <label for="waiting_time">대기 시간:</label>
-            <input type="range" id="waiting_time" name="waiting_time" min="0" max="60" value="10">
-            <span id="waiting_time_value">10분</span>
+            <input type="number" id="waiting_time" name="waiting_time" min="0" max="60" value="10">
         </div>
-        <button type="submit">작성</button>
+        <input type="button" class="btn btn-success" value="작성" />
     </form>
 </div>
 </section>

@@ -336,47 +336,52 @@ ANIMATIONS
 </head>
 <body>
 <div id="loader">
-  <div class="face">
-  <?xml version="1.0" encoding="utf-8" standalone="yes"?>
-  <svg version="1.1"
-	   xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
-	   x="0px" y="0px" width="270px" height="270px" viewBox="0.032 0 270 270"
-	   overflow="visible" enable-background="new 0.032 0 270 270" xml:space="preserve">
-  <defs>
-  </defs>
-  <g id="supervisior">
-    <g class="head">
-	    <path fill="#58585A" d="M135,10c33.389,0,64.778,13.002,88.388,36.612S260,101.611,260,135s-13.003,64.779-36.612,88.388
-		S168.389,260,135,260s-64.778-13.002-88.388-36.612C23.002,199.779,10,168.389,10,135s13.002-64.779,36.612-88.388
-		C70.222,23.002,101.611,10,135,10 M135,0C60.442,0,0,60.441,0,135s60.442,135,135,135s135-60.441,135-135S209.558,0,135,0L135,0z"
-		  />
-    </g>
-    <g id="eyeLeft">
-      <g class="eyeLeft">
-        <circle class="eye" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" cx="66.063" cy="127.51" r="18.849"/>
-        <circle class="pupil" fill="#58585A" cx="66.063" cy="127.511" r="8.949"/>
-      </g>
-      <path class="closedLeft" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="
-	M47.238,127.972c0.247,10.194,8.57,18.387,18.824,18.387s18.579-8.193,18.826-18.387"/>
-    </g>
-    <g id="eyeRight">
-      <g class="eyeRight">
-        <circle class="eye" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" cx="203.936" cy="127.51" r="18.849"/>
-        <circle class="pupil" fill="#58585A" cx="203.935" cy="127.511" r="8.949"/>
-      </g>
-      <path class="closedRight" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="
-	M185.11,127.972c0.247,10.194,8.571,18.387,18.824,18.387c10.255,0,18.579-8.193,18.826-18.387"/>
-    </g>
-    <g class="mouth">
-      <polyline class="bar" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" points="
-	111.532,232.832 135.032,232.832 158.532,232.832 "/>
-      <path class="smile" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="
-	M62.485,168.615c0.951,35.593,33.016,64.198,72.511,64.198c39.503,0,71.566-28.605,72.519-64.198"/>
-    </g>
-  </g>
-  </svg>
-  </div>
-  <div class="loading-bar"></div>
+	<p>
+		로딩 중입니다... 잠시만 기다려 주세요:)<br>
+		뉴스기사를 불러오는 중입니다..
+	</p>
+	<br>
+  	<div class="face">
+		<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+		<svg version="1.1"
+		  xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
+		  x="0px" y="0px" width="270px" height="270px" viewBox="0.032 0 270 270"
+		  overflow="visible" enable-background="new 0.032 0 270 270" xml:space="preserve">
+		<defs>
+	  	</defs>
+	  <g id="supervisior">
+	    <g class="head">
+		    <path fill="#58585A" d="M135,10c33.389,0,64.778,13.002,88.388,36.612S260,101.611,260,135s-13.003,64.779-36.612,88.388
+			S168.389,260,135,260s-64.778-13.002-88.388-36.612C23.002,199.779,10,168.389,10,135s13.002-64.779,36.612-88.388
+			C70.222,23.002,101.611,10,135,10 M135,0C60.442,0,0,60.441,0,135s60.442,135,135,135s135-60.441,135-135S209.558,0,135,0L135,0z"
+			  />
+	    </g>
+	    <g id="eyeLeft">
+	      <g class="eyeLeft">
+	        <circle class="eye" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" cx="66.063" cy="127.51" r="18.849"/>
+	        <circle class="pupil" fill="#58585A" cx="66.063" cy="127.511" r="8.949"/>
+	      </g>
+	      <path class="closedLeft" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="
+		M47.238,127.972c0.247,10.194,8.57,18.387,18.824,18.387s18.579-8.193,18.826-18.387"/>
+	    </g>
+	    <g id="eyeRight">
+	      <g class="eyeRight">
+	        <circle class="eye" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" cx="203.936" cy="127.51" r="18.849"/>
+	        <circle class="pupil" fill="#58585A" cx="203.935" cy="127.511" r="8.949"/>
+	      </g>
+	      <path class="closedRight" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="
+		M185.11,127.972c0.247,10.194,8.571,18.387,18.824,18.387c10.255,0,18.579-8.193,18.826-18.387"/>
+	    </g>
+	    <g class="mouth">
+	      <polyline class="bar" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" points="
+		111.532,232.832 135.032,232.832 158.532,232.832 "/>
+	      <path class="smile" fill="none" stroke="#58585A" stroke-width="4" stroke-linecap="round" stroke-miterlimit="10" d="
+		M62.485,168.615c0.951,35.593,33.016,64.198,72.511,64.198c39.503,0,71.566-28.605,72.519-64.198"/>
+	    </g>
+	  </g>
+	  </svg>
+  	</div>
+  	<div class="loading-bar"></div>
 </div>
     <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
     <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
@@ -516,7 +521,7 @@ ANIMATIONS
                         </c:if>
                     </div>
                 </div>
-                <!-- google News Column -->
+                <!-- google News -->
                 <div class="col-md-4 col-sm-4" id="google-news-section">
                     <h1 class="title-col">Google 뉴스</h1>
                     <div class="body-col">
@@ -535,18 +540,11 @@ ANIMATIONS
                         <c:if test="${!empty dVos}">
                             <c:forEach var="dVo" items="${dVos}" varStatus="status">
                                 <article class="article-mini ${status.index >= 10 ? 'hidden' : ''}">
-                                    <div class="inner">
-                                        <figure>
-                                            <c:choose>
-                                                <c:when test="${!empty dVo.item2}">
-                                                    <img src="${dVo.item2}" alt="news image" style="object-fit:cover; width: 100%; height: auto;">
-                                                </c:when>
-                                                <c:otherwise>
-                                                    <img src="${ctp}/images/noImage.png" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
-                                                </c:otherwise>
-                                            </c:choose>
-                                        </figure>
-                                        <div class="padding">
+                                    <div class="inner mr-4">
+<%--                                         <figure>
+                                            <img src="${ctp}/images/noImage.png" alt="default image" style="object-fit:cover; width: 100%; height: auto;">
+                                        </figure> --%>
+                                        <!-- <div class="padding"> -->
                                             <h1>
                                                 <a href="${dVo.itemUrl1}" target="_blank">
                                                     <c:choose>
@@ -572,7 +570,7 @@ ANIMATIONS
                                                 </div>
                                                 <div class="time">${dVo.item5}</div>
                                             </div>
-                                        </div>
+                                    <!-- </div> -->
                                     </div>
                                 </article>
                             </c:forEach>

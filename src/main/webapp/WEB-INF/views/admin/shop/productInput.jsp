@@ -8,7 +8,7 @@
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>productInput</title>
 	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
-    <script src="${ctp}/ckeditor/ckeditor.js"></script>
+     <script src="${ctp}/ckeditor/ckeditor.js"></script>
 	<script>
 		'use strict';
 		
@@ -50,12 +50,12 @@
 			let ext = file.substring(file.lastIndexOf(".")+1);
 			let uExt = ext.toUpperCase();
 			
-			if(productCode == "") {
-				alert("상품코드를 입력하세요!");
+			if(productName == "") {
+				alert("상품명을 입력하세요!");
 				return false;
 			}
-			else if(productName == "") {
-				alert("상품명을 입력하세요!");
+			else if(productCode == "") {
+				alert("상품코드를 입력하세요!");
 				return false;
 			}
 			else if(file == "") {
@@ -120,6 +120,7 @@
                             </select>
                         </div>
                     </div>
+                    
                     <div class="form-group row">
                         <label class="col-md-3"><i class="fa-solid fa-tag"></i> 제품 코드</label>
                         <div class="col-md-9">
@@ -127,7 +128,8 @@
 	                            <input type="text" class="form-control" name="productCode" id="productCode" placeholder="제품코드를 입력하세요" required>
                             </div>
                         </div>
-                    </div>
+                    </div> 
+                    
                     <div class="form-group row">
                         <label class="col-md-3"><i class="fa-solid fa-tag"></i> 제품명</label>
                         <div class="col-md-9">

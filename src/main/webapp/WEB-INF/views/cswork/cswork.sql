@@ -54,10 +54,14 @@ CREATE TABLE ad_apply (
 	adApplyTitle VARCHAR(100) NOT NULL,
 	adApplyContent TEXT,
 	adApplyImage VARCHAR(255) NOT NULL,
-	adApplyDate DATETIME DEFAULT NOW() NOT NULL,
-	adApplyCompany VARCHAR(255) NOT NULL,
+	adApplyDate DATETIME DEFAULT NOW(),
+	adApplyComName VARCHAR(255) NOT NULL,
+	adApplyComAddress varchar(255),
+	adApplyEmail varchar(60) NOT NULL,
 	adApplyStatus enum('신청','승인','반려') default '신청'
 );
+
+drop table ad_apply;
 
 create table branch_store (
 	branchStoreIdx int not null auto_increment primary key,

@@ -26,58 +26,41 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Transactional
     @Override
-    public int setSurveyInput(MultipartFile file, SurveyVO surveyVO) {
-        /*
+    public int setSurveyInput(MultipartFile fName, SurveyVO surveyVO) {
         int res = 0;
-	    try {
-	      String originalFilename = file.getOriginalFilename();
-	      if(originalFilename != null && originalFilename != "") {
-	      	String saveFileName = allProvide.saveFileName(originalFilename);
-	        
-	      	allProvide.writeFile(file, saveFileName, "survey");
-	      	surveyVO.setSurveyThumb(originalFilename);
-	      }
-	      else {
-	        return res;
-	      }
-	    } catch (IOException e) {
-	      e.printStackTrace();
-	    }
-	    */
-	    //surveyVO.setSurveyThumb(null);
-        int res = surveyDAO.setSurveyInput(surveyVO);
-        
-        if (res > 0) {
-	        List<SurveyQuestionVO> questList = surveyVO.getQuestList();
-	
-	        if (questList.isEmpty()) {
-	            System.out.println("비어있어요!!");
-	        } 
-	        else {
-	            System.out.println("정상이에요!!");
-	
-	            for (SurveyQuestionVO question : questList) {
-	                question.setSurveyIdx(surveyVO.getSurveyIdx());
-	                surveyDAO.setQuestionInput(question);
-	
-	                List<SurveyOptionVO> options = question.getOptions();
-	
-	                if (options == null || options.isEmpty()) {
-	                    System.out.println("옵션 비었어!!");
-	                } 
-	                else {
-	                    System.out.println("옵션 OK!!");
-	
-	                    for (SurveyOptionVO option : options) {
-	                        option.setQuestIdx(question.getQuestIdx());
-	                        surveyDAO.setOptionInput(option);
-	                    }
-	                }
-	            }
-	        }
+        try {
+            String originalFilename = fName.getOriginalFilename();
+            if (originalFilename != null && !originalFilename.isEmpty()) {
+                String saveFileName = allProvide.saveFileName(originalFilename);
+                allProvide.writeFile(fName, saveFileName, "survey");
+                surveyVO.setSurveyThumb(saveFileName);
+            } else {
+                return res;
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        System.out.println("END");
-        
+
+        res = surveyDAO.setSurveyInput(surveyVO);
+
+        if (res > 0) {
+            List<SurveyQuestionVO> questList = surveyVO.getQuestList();
+
+            if (!questList.isEmpty()) {
+                for (SurveyQuestionVO question : questList) {
+                    question.setSurveyIdx(surveyVO.getSurveyIdx());
+                    surveyDAO.setQuestionInput(question);
+
+                    List<SurveyOptionVO> options = question.getOptions();
+                    if (options != null && !options.isEmpty()) {
+                        for (SurveyOptionVO option : options) {
+                            option.setQuestIdx(question.getQuestIdx());
+                            surveyDAO.setOptionInput(option);
+                        }
+                    }
+                }
+            }
+        }
         return res;
     }
 

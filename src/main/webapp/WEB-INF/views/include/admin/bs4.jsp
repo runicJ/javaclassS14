@@ -14,6 +14,7 @@
    <link href="${ctp}/css/admin/c3.min.css" rel="stylesheet">
    <link href="${ctp}/css/admin/chartist.min.css" rel="stylesheet">
    <link href="${ctp}/css/admin/style.min.css" rel="stylesheet">
+   <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
    
    <style>
    		.upBtn {

@@ -16,7 +16,7 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/mixitup/3.3.0/mixitup.min.js" integrity="sha512-vNxzM1ciPhd7UnKdgrAWNJ/JAdxaPPfmFen8WXcjZ2X99lptf001o+KB3OE1M0b8UsISc2kvLCI3M9ND4BcmnA==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
 <script>
-  Kakao.init('f8adb2181213318e34c8e8f99a4eb70c');
+  Kakao.init('3fe3ad77eb298aac7a938386f756b9b1');
 </script>
 	<style>
 		.upBtn {

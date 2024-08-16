@@ -125,8 +125,8 @@
 	        getAirQualityData();
 	        
 	        // 카운트다운 시작
-	        /* const countdown = () => {
-                const countDate = new Date("Aug 9, 2024 00:00:00").getTime();
+	        const countdown = () => {
+                const countDate = new Date("Apr 19, 2025 00:00:00").getTime();
                 const now = new Date().getTime();
                 const gap = countDate - now;
 
@@ -146,7 +146,7 @@
                 document.querySelector(".cd-item span[data-seconds]").innerText = textSecond;
             };
 
-            setInterval(countdown, 1000); */
+            setInterval(countdown, 1000);
 	    };
 	    
 	    function toggleBookmark(productId) {
@@ -217,7 +217,8 @@
             ['두드러기', 10]
             // 데이터를 추가적으로 삽입 가능
         ];
-
+        
+		/*
         WordCloud(document.getElementById('wordcloud'), {
             list: wordData,
             gridSize: Math.round(16 * $('#wordcloud').width() / 1024),
@@ -227,6 +228,7 @@
             rotateRatio: 0.5,
             backgroundColor: '#f0f0f0'
         });
+	    */
 	    
 	    function toggleLiked(productIdx, element) {
 	    	
@@ -503,7 +505,6 @@
                             <c:if test="${productVO.createDiff > -7}"><span class="label">New</span></c:if>
                             <ul class="product__hover">
 	                            <li>
-			                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
 			                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
 			                            <i class="fa-solid fa-heart"></i>
 			                            <span>관심등록</span>

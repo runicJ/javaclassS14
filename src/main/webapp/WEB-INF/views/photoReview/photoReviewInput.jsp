@@ -5,16 +5,17 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>photoGalleryInput.jsp</title>
+  	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+  <title>photoReview Input</title>
 <jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
-  <script src="${ctp}/ckeditor/ckeditor.js"></script>
+     <script src="${ctp}/ckeditor/ckeditor.js"></script>
   <script>
     'use strict';
-    
+    /*
     function fCheck() {
     	let title = document.getElementById("title").value;
     	// ckeditor 입력 내용 받기 = CKEDITOR.instances.textarea태그의id.getData();
-    	if(CKEDITOR.instances.content.getData() == '' || CKEDITOR.instances.content.getData().length == 0) {
+    	if(CKEDITOR.instances.CKEDITOR.getData() == '' || CKEDITOR.instances.CKEDITOR.getData().length == 0) {
   	    alert("사진을 등록해주세요.");
   	    $("#content").focus();
     	}
@@ -26,52 +27,55 @@
     		myform.submit();
     	}
     }
+    */
+
   </script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
-<p><br/></p>
+<section class="page">
 <div class="container">
-  <h2>사진파일 업로드</h2>
+  <h2>포토리뷰 등록</h2>
   <hr/>
   <form name="myform" method="post">
-    <div class="input-group mb-2">
+    <div class="form-group mb-2">
       <div class="input-group-prepend input-group-text">분 류</div>
       <select name="part" id="part" class="form-control">
-        <option value="풍경" selected>풍경</option>
-        <option value="인물">인물</option>
-        <option value="음식">음식</option>
-        <option value="여행">여행</option>
-        <option value="학습">학습</option>
-        <option value="사물">사물</option>
-        <option value="기타">기타</option>
+          <option value="침구류">침구류</option>
+          <option value="유기농 제품">유기농 제품</option>
+          <option value="알레르기 완화 제품">알레르기 완화 제품</option>
+          <option value="기타">기타</option>
       </select>
     </div>
-    <div class="input-group mb-2">
+    <div class="form-group mb-2">
       <div class="input-group-prepend input-group-text">제 목</div>
       <input type="text" name="title" id="title" class="form-control"/>
     </div>
-    <div class="mb-2">
-		  <textarea rows="6" name="content" id="content" required></textarea>
-      <script>
-		    CKEDITOR.replace("content",{
-		    	height:600,
-		    	filebrowserUploadUrl: "${ctp}/imageUpload",
-		    	uploadUrl:"${ctp}/imageUpload"
-		    });
-		  </script>
-    </div>
-    <div class="row">
-    	<div class="col"><input type="button" value="파일전송" onclick="fCheck()" class="btn btn-success"/></div>
-    	<div class="col text-right"><input type="button" value="돌아가기" onclick="location.href='photoGallery';" class="btn btn-warning"/></div>
-    </div>
-    <input type="hidden" name="mid" value="${sMid}" />
+        <div class="form-group mb-2">
+          <label for="content">사진파일 업로드</label>
+    				<textarea rows="5" name="content" id="CKEDITOR" class="form-control" required></textarea>
+      			</div>
+     			<script>
+				    CKEDITOR.replace("content",{
+				    	uploadUrl:"${ctp}/imageUpload",
+				    	filebrowserUploadUrl: "${ctp}/imageUpload",
+				    	height:460
+				    });
+		  		</script>
+        <div class="row">
+          <div class="col">
+            <input type="button" value="파일전송" onclick="fCheck()" class="btn btn-success"/>
+          </div>
+          <div class="col text-right">
+            <input type="button" value="돌아가기" onclick="location.href='photoReviewList';" class="btn btn-warning"/>
+          </div>
+        </div>
+    <input type="hidden" name="mid" value="${sUid}" />
     <input type="hidden" name="hostIp" value="${pageContext.request.remoteAddr}" />
   </form>
-  <hr/>
 </div>
+</section>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
-<p><br/></p>
 </body>
 </html>

@@ -51,16 +51,16 @@
     });
     
     // 리스트 불러오기 함수(ajax처리)
-    /* function getList(curPage) {
+    function getList(curPage) {
     	$.ajax({
-    		url  : "${ctp}/photoGallery/photoGallerySimpleList",
+    		url  : "${ctp}/photoReview/photoReviewSimpleList",
     		type : "post",
     		data : {pag : curPage},
     		success:function(res) {
     			$("#list-wrap").append(res);
     		}
     	});
-    } */
+    }
     
     // 화살표클릭시 화면 상단으로 부드럽게 이동하기
     $(window).scroll(function(){
@@ -115,9 +115,9 @@
           <div>
 	          <select name="part" id="part" class="form-control mr-1" style="width:100px">
 		          <option value="전체" ${part == '전체' ? 'selected' : ''}>전체</option>
-		          <option value="풍경" ${part == '풍경' ? 'selected' : ''}>제품</option>
-		          <option value="인물" ${part == '인물' ? 'selected' : ''}>병원</option>
-		          <option value="음식" ${part == '음식' ? 'selected' : ''}>자연</option>
+		          <option value="침구류" ${part == '침구류' ? 'selected' : ''}>침구류</option>
+		          <option value="유기농 제품" ${part == '유기농 제품' ? 'selected' : ''}>유기농 제품</option>
+		          <option value="알레르기 완화 제품" ${part == '알레르기 완화 제품' ? 'selected' : ''}>알레르기 완화 제품</option>
 		        </select>
 	        </div>
 	        <div class="input-group-append">
@@ -134,8 +134,8 @@
         </div>
       </td>
       <td class="text-right">
-        <input type="button" value="사진올리기" onclick="location.href='photoGalleryInput';" class="btn btn-success"/>
-        <input type="button" value="한장씩보기" onclick="location.href='photoGallerySingle';" class="btn btn-info mr-2"/>
+        <input type="button" value="사진올리기" onclick="location.href='photoReviewInput';" class="btn btn-success"/>
+        <input type="button" value="한장씩보기" onclick="location.href='photoReviewSingle';" class="btn btn-info mr-2"/>
       </td>
     </tr>
   </table>
@@ -164,7 +164,5 @@
 </section>
 <p style="clear:both;"><br/></p>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
-<!-- 위로가기 버튼 -->
-<h6 id="topBtn" class="text-right mr-3"><img src="${ctp}/images/arrowTop.gif" title="위로이동"/></h6>
 </body>
 </html>

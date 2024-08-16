@@ -1,8 +1,3 @@
-.fa-fw,
-.fa-li {
-    text-align: center
-}
-
 pre,
 textarea {
     overflow: auto
@@ -8464,7 +8459,7 @@ textarea.form-control.is-valid {
 .was-validated .custom-select:valid {
     border-color: #22ca80;
     padding-right: calc((1em + .75rem) * 3 / 4 + 1.75rem);
-    background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2322ca80' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff
+    /*background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2322ca80' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff*/
 }
 
 .custom-select.is-valid:focus,
@@ -8587,7 +8582,7 @@ textarea.form-control.is-invalid {
 .was-validated .custom-select:invalid {
     border-color: #ff4f70;
     padding-right: calc((1em + .75rem) * 3 / 4 + 1.75rem);
-    background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff4f70' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23ff4f70' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff
+    /*background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff4f70' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23ff4f70' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff*/
 }
 
 .custom-select.is-invalid:focus,
@@ -18370,7 +18365,7 @@ ul.list-style-none li a:hover {
 }
 
 .custom-select {
-    background: url(../../assets/images/custom-select.png) right 1.1rem center no-repeat;
+    /*background: url(../../assets/images/custom-select.png) right 1.1rem center no-repeat;*/
     -moz-appearance: none;
     -webkit-appearance: none;
     -o-appearance: none;
@@ -27853,7 +27848,7 @@ textarea.form-control.is-valid {
 .was-validated .custom-select:valid {
     border-color: #22ca80;
     padding-right: calc((1em + .75rem) * 3 / 4 + 1.75rem);
-    background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2322ca80' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff
+    /*background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 8 8'%3e%3cpath fill='%2322ca80' d='M2.3 6.73L.6 4.53c-.4-1.04.46-1.4 1.1-.8l1.1 1.4 3.4-3.8c.6-.63 1.6-.27 1.2.7l-4 4.6c-.43.5-.8.4-1.1.1z'/%3e%3c/svg%3e") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff*/
 }
 
 .custom-select.is-valid:focus,
@@ -27976,7 +27971,7 @@ textarea.form-control.is-invalid {
 .was-validated .custom-select:invalid {
     border-color: #ff4f70;
     padding-right: calc((1em + .75rem) * 3 / 4 + 1.75rem);
-    background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff4f70' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23ff4f70' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff
+    /*background: url(../../assets/images/custom-select.png) right .75rem center/8px 10px no-repeat, url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='%23ff4f70' viewBox='-2 -2 7 7'%3e%3cpath stroke='%23ff4f70' d='M0 0l3 3m0-3L0 3'/%3e%3ccircle r='.5'/%3e%3ccircle cx='3' r='.5'/%3e%3ccircle cy='3' r='.5'/%3e%3ccircle cx='3' cy='3' r='.5'/%3e%3c/svg%3E") center right 1.75rem/calc(.75em + .375rem) calc(.75em + .375rem) no-repeat #fff*/
 }
 
 .custom-select.is-invalid:focus,
@@ -37759,7 +37754,7 @@ ul.list-style-none li a:hover {
 }
 
 .custom-select {
-    background: url(../../assets/images/custom-select.png) right 1.1rem center no-repeat;
+    /*background: url(../../assets/images/custom-select.png) right 1.1rem center no-repeat;*/
     -moz-appearance: none;
     -webkit-appearance: none;
     -o-appearance: none;

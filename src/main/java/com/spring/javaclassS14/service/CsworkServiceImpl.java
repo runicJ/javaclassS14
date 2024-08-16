@@ -302,14 +302,12 @@ public class CsworkServiceImpl implements CsworkService {
 
    @Override
     public void sendQnaResponse(int qnaIdx, String qnaAnswerContent) throws Exception {
-        // Fetch QnA entry
         CsworkVO qna = csworkDAO.findById(qnaIdx);
 
         if (qna == null) {
             throw new Exception("Q&A entry not found.");
         }
 
-        // Update QnA entry with response
         qna.setQnaAnswerContent(qnaAnswerContent);
         qna.setQnaAnswerFlag("y");
         csworkDAO.updateQna(qna);

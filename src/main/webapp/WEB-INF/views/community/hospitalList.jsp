@@ -93,17 +93,17 @@
     <!--
     <div class="card">
         <div class="card-heading">
-            <a data-toggle="collapse" data-target="#collapseThree">가격</a>
+            <a data-toggle="collapse" data-target="#collapseThree">대기시간</a>
         </div>
         <div id="collapseThree" class="collapse show" data-parent="#accordionExample">
             <div class="card-body">
                 <div class="shop__sidebar__price">
                     <ul>
-                        <li><a href="${ctp}/shop/productList">가격 전체</a></li>
-                        <li><a href="${ctp}/shop/productList?productPrice=100000">~10만원</a></li>
-                        <li><a href="${ctp}/shop/productList?productPrice=300000">~30만원</a></li>
-                        <li><a href="${ctp}/shop/productList?productPrice=600000">~60만원</a></li>
-                        <li><a href="${ctp}/shop/productList?productPrice=1000000">~100만원</a></li>
+                        <li><a href="${ctp}/shop/productList">대기시간 전체</a></li>
+                        <li><a href="${ctp}/shop/productList?productPrice=100000">~10분</a></li>
+                        <li><a href="${ctp}/shop/productList?productPrice=300000">~20분</a></li>
+                        <li><a href="${ctp}/shop/productList?productPrice=600000">~30분</a></li>
+                        <li><a href="${ctp}/shop/productList?productPrice=1000000">30분~</a></li>
                     </ul>
                 </div>
             </div>
