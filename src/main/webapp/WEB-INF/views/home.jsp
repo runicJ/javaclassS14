@@ -14,6 +14,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" rel="stylesheet">
 	<script src="https://kit.fontawesome.com/df66332deb.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="${ctp}/css/home/style.css" />
+    <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
   </head>
 
   <body>

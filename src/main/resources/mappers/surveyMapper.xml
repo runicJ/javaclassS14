@@ -11,7 +11,7 @@
     </select>
 
     <select id="getQuestOptList" resultType="com.spring.javaclassS14.vo.SurveyOptionVO">
-        SELECT * FROM surveytOption WHERE questIdx = #{questIdx};
+        SELECT * FROM surveyOption WHERE questIdx = #{questIdx};
     </select>
     
     <select id="resSurveyFlag" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="int">
@@ -22,31 +22,25 @@
     </select>
     
     
-    <!-- Insert Survey -->
 	<insert id="setSurveyInput" useGeneratedKeys="true" keyProperty="surveyIdx">
-        INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc},  #{surveyVO.surveyThumb}, #{surveyVO.useFlag}, default, #{surveyVO.userIdx}, default, default);
-    </insert>
-
-    <!-- Insert Survey Question -->
-    <insert id="setQuestionInput" useGeneratedKeys="true" keyProperty="questIdx">
-        INSERT INTO surveyQuest (surveyIdx, questOrder, questContent, questType)
-        VALUES (#{questionVO.surveyIdx}, #{questionVO.questOrder}, #{questionVO.questContent}, #{questionVO.questType});
-    </insert>
-
-    <!-- Insert Survey Option -->
-    <insert id="setOptionInput" useGeneratedKeys="true" keyProperty="optionIdx">
-        INSERT INTO surveytOption (questIdx, optOrder, optContent)
-        VALUES (#{optionVO.questIdx}, #{optionVO.optOrder}, #{optionVO.optContent});
-    </insert>
+	    INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, #{surveyVO.surveyThumb}, #{surveyVO.useFlag}, default, #{surveyVO.userIdx}, default, default);
+	</insert>
+	
+	<insert id="setQuestionInput" useGeneratedKeys="true" keyProperty="questIdx">
+	    INSERT INTO surveyQuest VALUES (default, #{questionVO.surveyIdx}, #{questionVO.questContent}, #{questionVO.questType}, #{questionVO.questOrder});
+	</insert>
+	
+	<insert id="setOptionInput" useGeneratedKeys="true" keyProperty="optionIdx">
+	    INSERT INTO surveyOption VALUES (default, #{optionVO.questIdx}, #{optionVO.optContent}, #{optionVO.optOrder});
+	</insert>
 
     <insert id="insertNewSurvqust" parameterType="com.spring.javaclassS14.vo.SurveyQuestionVO">
         INSERT INTO survQuest (questIdx, surveyIdx, questOrder, questContent, questType)
         VALUES (#{questIdx}, #{surveyIdx}, #{questOrder}, #{questContent}, #{questType});
     </insert>
 
-    <insert id="surveyAnswerInput" parameterType="int">
-        INSERT INTO surveyAnswer (answerNo, questIdx, userIdx, answerContent, answerLong, answerDate)
-        VALUES (#{answerNo}, #{questIdx}, #{userIdx}, #{answerContent}, #{answerLong}, NOW());
+    <insert id="setSurveyAnswerInput" parameterType="int">
+        INSERT INTO surveyAnswer VALUES (default, #{questIdx}, #{userIdx}, #{answerContent}, #{answerLong}, default);
     </insert>
 
 
@@ -66,7 +60,7 @@
     </delete>
 
     <delete id="delQustopt" parameterType="int">
-        DELETE FROM surveytOption WHERE questIdx IN (SELECT questIdx FROM survQuest WHERE surveyIdx = #{surveyIdx});
+        DELETE FROM surveyOption WHERE questIdx IN (SELECT questIdx FROM survQuest WHERE surveyIdx = #{surveyIdx});
     </delete>
 
     <delete id="delAnswer" parameterType="int">

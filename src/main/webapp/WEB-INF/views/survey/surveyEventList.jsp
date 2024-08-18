@@ -8,7 +8,6 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>surveyEventList</title>
-    <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
@@ -214,7 +213,7 @@
                 <c:forEach var="surveyVO" items="${surveyVOS}">
 	                <div class="col-lg-4 col-md-6 col-sm-6">
 	                    <div class="blog__item">
-	                        <div class="blog__item__pic set-bg" data-setbg="${ctp}/survey/${surveyVO.surveyThumb}"></div>
+							<div class="blog__item__pic set-bg" style="background-image: url('${ctp}/survey/${surveyVO.surveyThumb}');"></div>
 	                        <div class="blog__item__text">
 	                            <span><i class="fa-regular fa-calendar-check"></i> ${fn:substring(surveyVO.createDate,0,10)}</span>
 	                            <h5>${surveyVO.surveyTitle}</h5>

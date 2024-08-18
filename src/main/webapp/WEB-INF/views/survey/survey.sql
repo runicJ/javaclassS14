@@ -12,7 +12,6 @@ CREATE TABLE survey (
 	modDate DATETIME DEFAULT NOW(),
 	FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE SET NULL
 );
-drop table survey;
 
 CREATE TABLE surveyQuest (	
 	questIdx int auto_increment NOT NULL PRIMARY KEY,
@@ -22,16 +21,14 @@ CREATE TABLE surveyQuest (
 	questOrder int,
 	FOREIGN KEY (surveyIdx) REFERENCES survey(surveyIdx) on delete cascade
 );
-drop table surveyQuest;
 
-CREATE TABLE surveytOption (	
+CREATE TABLE surveyOption (	
 	optionIdx int auto_increment NOT NULL PRIMARY KEY,
 	questIdx int,
 	optContent VARCHAR(100) NOT NULL,
 	optOrder int,
 	FOREIGN KEY (questIdx) REFERENCES surveyQuest(questIdx) on delete cascade
 );
-drop table surveytOption;
 
 CREATE TABLE surveyAnswer (	
 	answerIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,

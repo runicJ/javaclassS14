@@ -2,6 +2,7 @@ package com.spring.javaclassS14.service;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -28,39 +29,51 @@ public class SurveyServiceImpl implements SurveyService {
     @Override
     public int setSurveyInput(MultipartFile fName, SurveyVO surveyVO) {
         int res = 0;
+
         try {
+            // 파일 저장 처리
             String originalFilename = fName.getOriginalFilename();
             if (originalFilename != null && !originalFilename.isEmpty()) {
-                String saveFileName = allProvide.saveFileName(originalFilename);
+                String saveFileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
                 allProvide.writeFile(fName, saveFileName, "survey");
                 surveyVO.setSurveyThumb(saveFileName);
             } else {
-                return res;
+                return res; // 파일이 없으면 0 반환
             }
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
 
-        res = surveyDAO.setSurveyInput(surveyVO);
+            // 설문조사 입력
+            res = surveyDAO.setSurveyInput(surveyVO);
 
-        if (res > 0) {
-            List<SurveyQuestionVO> questList = surveyVO.getQuestList();
-
-            if (!questList.isEmpty()) {
-                for (SurveyQuestionVO question : questList) {
-                    question.setSurveyIdx(surveyVO.getSurveyIdx());
-                    surveyDAO.setQuestionInput(question);
-
-                    List<SurveyOptionVO> options = question.getOptions();
-                    if (options != null && !options.isEmpty()) {
-                        for (SurveyOptionVO option : options) {
-                            option.setQuestIdx(question.getQuestIdx());
-                            surveyDAO.setOptionInput(option);
+            if (res > 0) {
+                // 설문조사 ID 업데이트
+                int surveyIdx = surveyVO.getSurveyIdx();
+                List<SurveyQuestionVO> questList = surveyVO.getQuestList();
+                
+                if (questList != null && !questList.isEmpty()) {
+                    for (SurveyQuestionVO question : questList) {
+                        question.setSurveyIdx(surveyIdx);
+                        surveyDAO.setQuestionInput(question);  // 질문 삽입
+                        
+                        List<SurveyOptionVO> options = question.getOptions();
+                        if (options != null && !options.isEmpty()) {
+                            for (SurveyOptionVO option : options) {
+                                option.setQuestIdx(question.getQuestIdx());
+                                surveyDAO.setOptionInput(option);  // 선택지 삽입
+                            }
                         }
                     }
+                } else {
+                    System.out.println("No questions found to insert.");
                 }
+            } else {
+                System.out.println("Survey insert failed.");
             }
+
+        } catch (IOException e) {
+            e.printStackTrace();
+            return res; // 파일 저장 오류 발생 시 0 반환
         }
+
         return res;
     }
 

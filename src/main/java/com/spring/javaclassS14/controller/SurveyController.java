@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.google.gson.Gson;
 import com.spring.javaclassS14.service.SurveyService;
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
+import com.spring.javaclassS14.vo.SurveyQuestionVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 
 @Controller
@@ -67,20 +69,18 @@ public class SurveyController {
         if(surveyVO.getSurveyDesc() != null) {
         	surveyVO.setSurveyDesc(surveyVO.getSurveyDesc().replace("\n","<br>"));
         }
-        
-        //System.out.println("surveyVO" + surveyVO);
+        model.addAttribute("questListJson", new Gson().toJson(surveyVO.getQuestList()));
         model.addAttribute("surveyVO", surveyVO);
-
+        
         return "survey/surveyAnswer";
     }
 
     // 응답하기 
-    @PostMapping("/surveyAnswer")
     @ResponseBody
-    public String resSurv(@RequestBody List<SurveyAnswerVO> answerList) {    
-        System.out.println(answerList);
+    @PostMapping("/surveyAnswer")
+    public String resSurv(@RequestBody List<SurveyAnswerVO> answerList) {
         int res = surveyService.setSurveyAnswerInput(answerList);
-        return res != 0 ? "redirect:/msg/surveyAnswerOk" : "redirect:/msg/surveyAnswerNo";
+        return res + "";
     }
 
     // 설문 결과 접속

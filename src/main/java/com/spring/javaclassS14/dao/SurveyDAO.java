@@ -11,9 +11,9 @@ public interface SurveyDAO {
 	
 	// RegSurvDAO
 	public int setSurveyInput(@Param("surveyVO") SurveyVO surveyVO);
-	
+
 	public void setQuestionInput(@Param("questionVO") SurveyQuestionVO questionVO);
-	
+
 	public void setOptionInput(@Param("optionVO") SurveyOptionVO optionVO);
 	
 	public SurveyVO getSurveyForm(@Param("surveyIdx") int surveyIdx);

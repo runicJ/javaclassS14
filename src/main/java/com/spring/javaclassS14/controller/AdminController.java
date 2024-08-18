@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.controller;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -18,14 +19,15 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.AdminService;
@@ -39,6 +41,8 @@ import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.ShopVO;
+import com.spring.javaclassS14.vo.SurveyOptionVO;
+import com.spring.javaclassS14.vo.SurveyQuestionVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -467,23 +471,58 @@ public class AdminController {
         }
     }
     
-    // 설문 생성
     @ResponseBody
-    @RequestMapping(value="/survey/surveyInput", method=RequestMethod.POST)
+    @PostMapping("/survey/surveyInput")
     public String surveyInputPost(
-            @RequestParam("fName") MultipartFile fName, SurveyVO surveyVO, HttpSession session) {
+            @RequestParam("fName") MultipartFile fName,
+            @RequestParam("surveyVOJson") String surveyVOJson,
+            HttpSession session) {
+
         Integer userIdx = (Integer) session.getAttribute("sUidx");
 
         if (userIdx != null && userIdx.equals(1)) {
-            surveyVO.setUserIdx(userIdx);
+            ObjectMapper objectMapper = new ObjectMapper();
+            SurveyVO surveyVO = null;
+            try {
+                Map<String, Object> jsonMap = objectMapper.readValue(surveyVOJson, Map.class);
+                surveyVO = new SurveyVO();
+                surveyVO.setSurveyTitle((String) jsonMap.get("surveyTitle"));
+                surveyVO.setSurveyDesc((String) jsonMap.get("surveyDesc"));
+                surveyVO.setUseFlag((String) jsonMap.get("useFlag"));
+
+                List<Map<String, Object>> questListMap = (List<Map<String, Object>>) jsonMap.get("questList");
+                List<SurveyQuestionVO> questList = new ArrayList<>();
+                for (Map<String, Object> questMap : questListMap) {
+                    SurveyQuestionVO questionVO = new SurveyQuestionVO();
+                    questionVO.setQuestIdx((Integer) questMap.get("questIdx"));
+                    questionVO.setQuestType((String) questMap.get("questType"));
+                    questionVO.setQuestContent((String) questMap.get("questContent"));
+
+                    List<Map<String, Object>> optionsMap = (List<Map<String, Object>>) questMap.get("options");
+                    List<SurveyOptionVO> options = new ArrayList<>();
+                    for (Map<String, Object> optionMap : optionsMap) {
+                        SurveyOptionVO optionVO = new SurveyOptionVO();
+                        optionVO.setOptionIdx((Integer) optionMap.get("optionIdx"));
+                        optionVO.setOptContent((String) optionMap.get("optContent"));
+                        options.add(optionVO);
+                    }
+                    questionVO.setOptions(options);
+                    questList.add(questionVO);
+                }
+                surveyVO.setQuestList(questList);
+                surveyVO.setUserIdx(userIdx);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
 
             int res = surveyService.setSurveyInput(fName, surveyVO);
 
-            return String.valueOf(res);
+            return res + "";
         } else {
-            return "redirect:/msg/userAdminNo";
+            return "redirect:/msg/adminNo";
         }
     }
+
 
 	// My Survey 접속
     @RequestMapping(value = "/survey/surveyList", method=RequestMethod.GET)
@@ -507,7 +546,6 @@ public class AdminController {
         
         return mv;
     }
-    
 
     // 설문 삭제하기 (ADMIN만 접근 가능)
     @RequestMapping(value="/survey/deleteSurvey", method=RequestMethod.POST)
