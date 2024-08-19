@@ -41,31 +41,28 @@
                 <li>로그인,로그아웃,회원가입,회원탈퇴</li>
                 <li>ID찾기</li>
                 <li>비밀번호 재발급 - 이메일 전송</li>
-                <li>MyPage(주문 내역, 포인트 내역, 작성 문의, 구독 관리, 회원정보 관리)</li>
             </ul>
         </li><br/>
         <li>
-            <strong>매거진</strong>
+            <strong>알레르기 정보</strong>
             <ul>
-                <li>매거진 상품</li>
-                <li>버튼 페이징</li>
-                <li>최신순, 상품명, 낮은 가격순, 높은 가격순, 발행년도 정렬</li>
-                <li>QnA CRUD</li>
+                <li>뉴스리스트</li>
+                <li>정보 크롤링</li>
             </ul>
         </li><br/>
         <li>
-           <strong>컬렉션</strong>
+           <strong>알러지프리 제품 판매</strong>
            <ul>
-               <li>컬렉션 리스트 / 컬렉션 상품</li>
-               <li>버튼 페이징</li>
-               <li>최신순, 상품명, 낮은 가격순, 높은 가격순 정렬</li>
-               <li>QnA CRUD</li>
+               <li>제품 목록</li>
+               <li>제품 필터화</li>
+               <li>정렬</li>
+               <li>댓글, 대댓글</li>
            </ul>
         </li><br/>    
         <li>
-            <strong>공지사항</strong>
+            <strong>설문조사</strong>
             <ul>
-                <li>게시판 CRUD</li>
+                <li>설문조사 등록</li>
             </ul>
         </li><br/>
         <li>
@@ -85,23 +82,21 @@
         <li>
            <strong>커뮤니티 관련</strong>
            <ul>
-               <li>랜덤도서 추출기</li>
-               <li>기록 - 게시판 CRUD</li>
-               <li>기록 댓글 (유튜브 댓글 로직 참고)</li>
-               <li>문장수집</li>
-               <li>MyPage(서재, 저장한 기록, 저장 문장수집, 작성 댓글, 작성 신고, 작성 문의)</li>
+               <li>병원 검색 기능</li>
+               <li>병원 후기 작성</li>
+               <li>유저 채팅(웹소캣)</li>
            </ul>
         </li><br/>
         <li>
            <strong>관리자 페이지 관련</strong>
            <ul>
                <li>통계 (차트 통계, 일반 통게)</li>
-               <li>회원관리</li>
-               <li>매거진 관리</li>
-               <li>컬렉션 관리</li>
-               <li>커뮤니티 관리</li>
-               <li>판매 관리</li>
-               <li>문의 / 공지 관리</li>
+               <li>회원 관리</li>
+               <li>제품 관리</li>
+               <li>공지/문의 관리</li>
+               <li>지점 관리</li>
+               <li>설문조사 관리</li>
+               <li>파일 관리</li>
            </ul>
        </li>
     </ul>
@@ -117,8 +112,8 @@
                 <li>신규 매거진(20개)</li>
                 <li>랜덤도서 추출기 / 최신 문장수집</li>
                 <li>뉴스레터 구독 신청</li>
-                  <img src="https://i.imgur.com/hTVfFI3.png" width="500px">
-                  <img src="https://i.imgur.com/7Tse7DV.png" width="500px">
+                  <img src="https://github.com/user-attachments/assets/515078e5-c555-4fcb-aeaa-7442b6aed6c5" width="500px">
+                    <img src="https://github.com/user-attachments/assets/b7470e84-7edc-4f75-9ec2-667ad2e26579" width="500px">
             </ul>
         </li>
         <br/>
