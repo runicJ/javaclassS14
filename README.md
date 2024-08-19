@@ -120,9 +120,9 @@
         <li>
             <strong>로그인 / 회원가입 / 아이디찾기 / 비밀번호찾기</strong>
             <ul>
-                <li>프론트 유효성 검사</li>
-                <li>SMTP이용 - 임시비밀번호 재발급</li>
-                  <img src="https://i.imgur.com/EOhnk2h.png" width="500px">
+                <li>회원가입 유효성 검사</li>
+                <li>SMTP이용 - 임시비밀번호 발송</li>
+                  <img src="https://github.com/user-attachments/assets/022d0de5-ce98-4326-b6fd-5a157d61a9ba" width="500px">
                   <img src="https://i.imgur.com/0gReaaA.png" width="500px">
             </ul>
         </li>
