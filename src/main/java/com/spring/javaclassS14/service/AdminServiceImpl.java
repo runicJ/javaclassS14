@@ -178,7 +178,7 @@ public class AdminServiceImpl implements AdminService {
         String content = "안녕하세요,\n\n아래는 귀하를 위한 특별 쿠폰 코드입니다.";
 
         try {
-            allProvide.mailSend(email, title, content, couponCode);
+            allProvide.mailSend(email, title, content);
         } catch (MessagingException e) {
             e.printStackTrace();
             return false;  // 메일 발송 실패 시
