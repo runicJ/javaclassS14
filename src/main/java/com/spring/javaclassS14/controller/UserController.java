@@ -178,7 +178,7 @@ public class UserController {
 	public String userLoginPost(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(name="userId", defaultValue = "admin", required = false) String userId,
 			@RequestParam(name="userPwd", defaultValue = "1234", required = false) String userPwd,
-			@RequestParam(name="idSave", defaultValue="off", required = false) String idSave
+			@RequestParam(name="idSave", defaultValue="on", required = false) String idSave
 		) {
 		UserVO vo = userService.getUserIdCheck(userId);
 		

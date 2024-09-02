@@ -15,6 +15,8 @@ public class CartItem {
     private String productName; // 추가
     private int productPrice;
     private String productTags;
+    private String couponIdx;
+    private String pointUse;
 
     public String getIsSoldOutAsString() {
         return isSoldOut ? "y" : "n";

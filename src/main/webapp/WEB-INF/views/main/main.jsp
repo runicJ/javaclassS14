@@ -744,11 +744,11 @@
 								        </div>
 								    </article>
 								</c:forEach>
-								<c:if test="${empty recentProducts}">
-									<p>최근 본 상품이 존재하지 않습니다</p>
-								</c:if>
 								<c:if test="${sUid}">
 									<p>로그인 이후에 확인 가능합니다</p>
+								</c:if>
+								<c:if test="${empty recentProducts}">
+									<p>최근 본 상품이 존재하지 않습니다</p>
 								</c:if>
 							</div>
 							<div class="tab-pane comments" id="comments">

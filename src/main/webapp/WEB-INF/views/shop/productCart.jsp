@@ -85,23 +85,36 @@
             onTotal();
         }
 
-        // 장바구니에서 선택한 상품만 '주문'처리하기
-        function order() {
-            let checkedItems = $(".quantity__item input:checked");
-            if (checkedItems.length == 0) {
-                alert("장바구니에서 주문처리할 상품을 선택해주세요!");
-                return false;
-            }
-            
-            // 선택되지 않은 항목도 0으로 설정하여 hidden input 추가
-            $(".quantity__item input[type='checkbox']").each(function() {
-                let cartIdx = $(this).val();
-                $("input[name='isChecked_" + cartIdx + "']").val($(this).is(":checked") ? 1 : 0);
-            });
+        function applyCouponAndPoints() {
+            const couponIdx = document.getElementById("couponIdx").value;
+            const pointUse = document.getElementById("pointUse").value;
 
-            document.myform.action = "${ctp}/order/productOrder";
-            document.myform.submit();
+            document.getElementById("hiddenCouponIdx").value = couponIdx;
+            document.getElementById("hiddenPointUse").value = pointUse;
+
+            onTotal();
         }
+     
+        // 장바구니에서 선택한 상품만 '주문'처리하기
+		function order() {
+		    let checkedItems = $(".quantity__item input:checked");
+		    if (checkedItems.length == 0) {
+		        alert("장바구니에서 주문처리할 상품을 선택해주세요!");
+		        return false;
+		    }
+		
+		    // 선택된 항목에 대해 isChecked 값 설정
+		    $(".quantity__item input[type='checkbox']").each(function() {
+		        let cartIdx = $(this).val();
+		        $("input[name='isChecked_" + cartIdx + "']").val($(this).is(":checked") ? 1 : 0);
+		    });
+		
+		    // 쿠폰과 포인트 값을 확인하고 숨겨진 필드에 설정
+		    applyCouponAndPoints();
+		
+		    // 폼 제출
+		    document.myform.submit();
+		}
      
         // 천단위마다 쉼표처리
         function numberWithCommas(x) {
@@ -144,7 +157,7 @@
             <div class="row">
                 <div class="col-lg-8">
                     <div class="shopping__cart__table">
-                		<form name="myform" method="post">
+						<form name="myform" method="post" action="${ctp}/order/productOrder">
 						    <table>
 						        <thead>
 						            <tr>
@@ -177,7 +190,6 @@
 						                                        <h6>- 기본 옵션</h6>
 						                                    </c:otherwise>
 						                                </c:choose>
-						                                <p><input type="button" class="badge badge-warning"></p>
 						                            </div>
 						                        </td>
 						                        <td class="quantity__item">
@@ -194,8 +206,15 @@
 						            </c:forEach>
 						        </tbody>
 						    </table>
+						
+						    <!-- 숨겨진 입력 필드 추가 -->
 						    <input type="hidden" name="orderTotalPrice" id="orderTotalPrice"/>
 						    <input type="hidden" name="charge" id="charge"/>    
+						    <input type="hidden" name="couponIdx" id="hiddenCouponIdx"/>
+						    <input type="hidden" name="pointUse" id="hiddenPointUse"/>
+						
+						    <!-- 주문 버튼 -->
+						    <a href="#" class="primary-btn" onclick="order()">결제하기</a>
 						</form>
                     </div>
                     <div class="row">
@@ -214,15 +233,17 @@
                 <div class="col-lg-4">
                     <div class="cart__discount">
                         <h6>쿠폰/포인트 적용하기</h6>
-                        <form action="#" class="mb-2">
-                            <select class="form-control">
-                                <option>쿠폰내역</option>
-                            </select>
-                        </form>
-                        <form action="#">
-                            <input type="text" placeholder="포인트">
-                            <button type="submit">적용하기</button>
-                        </form>
+					    <form onsubmit="applyCouponAndPoints(); return false;">
+					        <select class="form-control" name="couponIdx" id="couponIdx">
+					            <option value="">쿠폰내역</option>
+					            <!-- 가능한 쿠폰 목록을 동적으로 추가 -->
+					            <c:forEach var="coupon" items="${availableCoupons}">
+					                <option value="${coupon.id}">${coupon.name} - 할인: ${coupon.discountAmount}원</option>
+					            </c:forEach>
+					        </select>
+					        <input type="text" name="pointUse" id="pointUse" placeholder="포인트">
+					        <button type="submit">적용하기</button>
+					    </form>
                     </div>
                     <div class="cart__total">
                         <h6>장바구니</h6>

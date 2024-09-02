@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.service;
 
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import com.spring.javaclassS14.dao.OrderDAO;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.PaymentVO;
 
 @Service
 public class OrderServiceImpl implements OrderService {
@@ -32,8 +34,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void setCartDeleteAll(int orderProductIdx) {
-        orderDAO.setCartDeleteAll(orderProductIdx);
+    public void setCartDeleteAll(int cartIdx) {
+        orderDAO.setCartDeleteAll(cartIdx);
     }
 
     @Override
@@ -42,8 +44,8 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void setUserPointPlus(int point, String userId) {
-        orderDAO.setUserPointPlus(point, userId);
+    public void setUserPointPlus(int point, int userIdx) {
+        orderDAO.setUserPointPlus(point, userIdx);
     }
 
     @Override
@@ -55,19 +57,6 @@ public class OrderServiceImpl implements OrderService {
     public int getTotalDeleveryOrder(int orderIdx) {
         return orderDAO.getTotalDeleveryOrder(orderIdx);
     }
-
-	@Override
-	public List<OrderVO> getMyOrderList(int startIndexNo, int pageSize, String mid) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public List<OrderVO> getMyOrderStatus(int startIndexNo, int pageSize, String mid, String startJumun,
-			String endJumun, String conditionOrderStatus) {
-		// TODO Auto-generated method stub
-		return null;
-	}
 
     @Override
     public List<CartItem> getCartItemsByCartIdx(int cartIdx) {
@@ -82,5 +71,22 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<OrderVO> getOrderList() {
         return orderDAO.getOrderList();
+	}
+
+	@Override
+	public void setOrderProduct(OrderVO vo) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public PaymentVO getPaymentByOrderIdx(String orderIdx) {
+		return orderDAO.getPaymentByOrderIdx(orderIdx);
+	}
+
+	@Override
+	public List<OrderVO> getMyOrderStatus(int startIndexNo, int pageSize, int userIdx, String startOrder,
+			String endOrder, String conditionOrderStatus) {
+		return orderDAO.getMyOrderStatus(startIndexNo, pageSize, userIdx, startOrder, endOrder, conditionOrderStatus);
 	}
 }

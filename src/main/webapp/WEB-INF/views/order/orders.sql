@@ -10,7 +10,7 @@ CREATE TABLE orders_p (
     orderStatus ENUM('주문', '배송', '완료', '취소') DEFAULT '주문' NOT NULL,
     orderDate DATETIME DEFAULT NOW() NOT NULL,
     FOREIGN KEY (userIdx) REFERENCES users(userIdx),
-    FOREIGN KEY (couponIdx) REFERENCES coupon(couponIdx)
+    FOREIGN KEY (couponIdx) REFERENCES userCoupon(userCouponIdx)
 );
 
 /* 주문 정보 */

@@ -3,7 +3,7 @@
 <mapper namespace="com.spring.javaclassS14.dao.OrderDAO">
 
   <select id="getOrderMaxIdx" resultType="com.spring.javaclassS14.vo.OrderVO">
-    SELECT MAX(orderIdx) AS orderIdx FROM orders
+    SELECT MAX(orderIdx) AS orderIdx FROM orders_p
   </select>
 
   <select id="getCartIdx" parameterType="int" resultType="com.spring.javaclassS14.vo.CartVO">
@@ -11,39 +11,19 @@
   </select>
   
   <select id="getOrderCheck" resultType="int">
-    SELECT * FROM order_p WHERE userId = #{userId} and productIdx = #{productIdx} limit 1;
+    SELECT * FROM order_p WHERE userIdx = #{userIdx} and productIdx = #{productIdx} limit 1;
   </select>
   
   <select id="getOrderList" resultType="com.spring.javaclassS14.vo.OrderVO">
     SELECT * FROM orders_p order by orderIdx desc;
   </select>
   
-  
-
-  <insert id="setOrder" parameterType="com.spring.javaclassS14.vo.OrderVO">
-    INSERT INTO orders (orderIdx, userId, totalPrice, couponIdx, pointUse, orderStatus, orderDate, orderProductIdx, productIdx, orderQuantity, price, optionIdx)
-    VALUES (#{orderIdx}, #{userId}, #{totalPrice}, #{couponIdx}, #{pointUse}, #{orderStatus}, #{orderDate}, #{orderProductIdx}, #{productIdx}, #{orderQuantity}, #{price}, #{optionIdx})
-  </insert>
-
-  <delete id="setCartDeleteAll" parameterType="int">
-    DELETE FROM cart WHERE orderProductIdx = #{orderProductIdx}
-  </delete>
-
-  <insert id="setDelivery" parameterType="com.spring.javaclassS14.vo.OrderVO">
-    INSERT INTO delivery (orderIdx, receiverName, receiverTel, receiverAddress, country, imp_uid, merchant_uid, paid_amount, apply_num)
-    VALUES (#{orderIdx}, #{receiverName}, #{receiverTel}, #{receiverAddress}, #{country}, #{imp_uid}, #{merchant_uid}, #{paid_amount}, #{apply_num})
-  </insert>
-
-  <update id="setUserPointPlus">
-    UPDATE users SET point = point + #{point} WHERE userId = #{userId}
-  </update>
-
   <select id="getOrderDelivery" parameterType="String" resultType="com.spring.javaclassS14.vo.OrderVO">
     SELECT * FROM order_delivery WHERE orderIdx = #{orderIdx}
   </select>
 
   <select id="getTotalDeleveryOrder" parameterType="int" resultType="int">
-    SELECT SUM(totalPrice) FROM orders WHERE orderIdx = #{orderIdx}
+    SELECT SUM(totalPrice) FROM orders_p WHERE orderIdx = #{orderIdx}
   </select>
   
   <resultMap id="CartItemResultMap" type="com.spring.javaclassS14.vo.CartItem">
@@ -77,5 +57,74 @@
       LEFT JOIN product_option_group g ON o.optionGroupIdx = g.optionGroupIdx
       WHERE c.cartIdx = #{cartIdx}
   </select>
+  
+    <select id="getPaymentByOrderIdx" parameterType="int" resultType="com.spring.javaclassS14.vo.PaymentVO">
+        SELECT * FROM delivery_address WHERE orderIdx = #{orderIdx}
+    </select>
+
+    <!-- 특정 사용자의 주문 상태 조회 -->
+    <select id="getMyOrderStatus" parameterType="map" resultType="com.spring.javaclassS14.vo.OrderVO">
+        SELECT 
+            o.orderIdx,
+            o.userIdx,
+            o.totalPrice,
+            o.couponIdx,
+            o.pointUse,
+            o.orderStatus,
+            o.orderDate,
+            p.productName,
+            p.productPrice,
+            p.productThumb,
+            p.optionGroupName,
+            p.optionName,
+            p.quantity
+        FROM orders_p o
+        LEFT JOIN order_product p ON o.orderIdx = p.orderIdx
+        WHERE o.userIdx = #{userIdx}
+        
+        <!-- 주문 날짜 조건 -->
+        <if test="startOrder != null and startOrder != '' and endOrder != null and endOrder != ''">
+            AND o.orderDate BETWEEN #{startOrder} AND #{endOrder}
+        </if>
+
+        <!-- 주문 상태 조건 -->
+        <if test="conditionOrderStatus != null and conditionOrderStatus != '전체'">
+            AND o.orderStatus = #{conditionOrderStatus}
+        </if>
+
+        <!-- 페이징 처리 -->
+        ORDER BY o.orderDate DESC
+        LIMIT #{startIndexNo}, #{pageSize}
+    </select>
+
+
+
+  <insert id="setOrder" parameterType="com.spring.javaclassS14.vo.OrderVO">
+    INSERT INTO orders_p VALUES (default, #{orderVO.userIdx}, #{orderVO.totalPrice}, 
+    <if test="orderVO.couponIdx != 0">
+        #{orderVO.couponIdx}
+    </if>
+    <if test="orderVO.couponIdx == 0">
+        NULL
+    </if>,
+    #{orderVO.pointUse}, default, default);
+  </insert>
+
+  <insert id="setDelivery" parameterType="com.spring.javaclassS14.vo.OrderVO">
+    INSERT INTO order_delivery (orderIdx, receiverName, receiverTel, receiverAddress, country, imp_uid, merchant_uid, paid_amount, apply_num)
+    VALUES (#{orderIdx}, #{receiverName}, #{receiverTel}, #{receiverAddress}, #{country}, #{imp_uid}, #{merchant_uid}, #{paid_amount}, #{apply_num})
+  </insert>
+
+
+
+  <update id="setUserPointPlus">
+    UPDATE users SET point = point + #{point} WHERE userIdx = #{userIdx}
+  </update>
+
+
+
+  <delete id="setCartDeleteAll" parameterType="int">
+    DELETE FROM cart WHERE cartIdx = #{cartIdx}
+  </delete>
     
 </mapper>

@@ -66,7 +66,7 @@ CREATE TABLE user_point (
     pointLogDate DATETIME DEFAULT NOW() NOT NULL,
     pointLogType ENUM('사용', '적립', '환불') NOT NULL,
     FOREIGN KEY (userIdx) REFERENCES users(userIdx) ON DELETE CASCADE,
-    FOREIGN KEY (orderIdx) REFERENCES orders(orderIdx) ON DELETE CASCADE
+    FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx) ON DELETE CASCADE
 );
 
 /* 관심 제품 */

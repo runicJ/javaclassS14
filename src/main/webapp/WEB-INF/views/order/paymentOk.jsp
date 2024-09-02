@@ -25,7 +25,7 @@
 		    name : '${paymentVO.name}',
 		    amount : ${paymentVO.amount},
 		    buyer_email : '${paymentVO.buyer_email}',
-		    buyer_name : '${paymentVO.buyer_name}',
+		    buyer_name : '${paymentVO.buyer_uid}',
 		    buyer_tel : '${paymentVO.buyer_tel}',
 		    buyer_addr : '${paymentVO.buyer_addr}',
 		    buyer_postcode : '${paymentVO.buyer_postcode}'
@@ -52,7 +52,7 @@
 					temp += '?name=${paymentVO.name}';
 					temp += '&amount=${paymentVO.amount}';
 					temp += '&buyer_email=${paymentVO.buyer_email}';
-					temp += '&buyer_name=${paymentVO.buyer_name}';
+					temp += '&buyer_name=${paymentVO.buyer_uid}';
 					temp += '&buyer_tel=${paymentVO.buyer_tel}';
 					temp += '&buyer_addr=${paymentVO.buyer_addr}';
 					temp += '&buyer_postcode=${paymentVO.buyer_postcode}';

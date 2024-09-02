@@ -112,13 +112,13 @@
 							<label class="fw">아이디
 								<a onclick="popupFindId();" class="float-right" style="cursor:pointer;">아이디를 잊으셨나요?</a>
 							</label>
-							<input type="text" name="userId" id="userId" value="admin" class="form-control">
+							<input type="text" name="userId" id="userId" value="" class="form-control">
 						</div>
 						<div class="form-group">
 							<label class="fw">비밀번호
 								<a onclick="popupFindPw();" class="float-right" style="cursor:pointer;">비밀번호를 잊으셨나요?</a>
 							</label>
-							<input type="password" name="userPwd" id="userPwd" value="1234" class="form-control">
+							<input type="password" name="userPwd" id="userPwd" value="" class="form-control">
 						</div>
 						<div class="form-group text-right">
 							<button class="btn btn-primary btn-block" onclick="location.href='${ctp}/users/userLogin';">로그인</button>
