@@ -8,7 +8,6 @@
 > 인원: 1명
 
 ##### 사이트 링크 : http://49.142.157.251:9090/cjgreen/
-##### 프로젝트 상세설명 : https://crawling-devourer-dd7.notion.site/Spring-Project-827f4e6b914a4f60b97bb295860dc2b8?pvs=4
 <hr>
 <h2>사용 기술 스택</h2>
 <ul>
