@@ -116,17 +116,13 @@ public class OrderController {
             return "redirect:/msg/paymentError";
         }
 
-        // 배송 주소 설정 (Hidden input으로 받은 값 사용)
-        paymentVO.setReceiverAddress(paymentVO.getBuyer_addr() + " " + request.getParameter("detailAddress"));
-
-        // 결제 및 배송 정보 세션에 저장
         session.setAttribute("sPaymentVO", paymentVO);
-
         return "order/paymentOk";
     }
 
     // 결제 완료 후 주문 내역 저장 및 처리
     @Transactional
+	@SuppressWarnings("unchecked")
     @RequestMapping(value="/paymentResult", method=RequestMethod.GET)
     public String finalizeOrder(HttpSession session, Model model) {
         List<OrderVO> orderVOS = (List<OrderVO>) session.getAttribute("sOrderVOS");
@@ -138,25 +134,25 @@ public class OrderController {
 
         // 결제 완료된 주문 정보 저장 및 처리
         for (OrderVO vo : orderVOS) {
+            // PaymentVO에서 buyer_addr를 receiverAddress로 사용
+            vo.setReceiverName(paymentVO.getBuyer_name());
+            vo.setReceiverTel(paymentVO.getBuyer_tel());
+            vo.setReceiverAddress(paymentVO.getBuyer_addr());  // buyer_addr를 receiverAddress로 사용
+
             orderService.setOrder(vo);  // 주문 정보 저장
             orderService.setOrderProduct(vo);  // 주문 상품 정보 저장
             orderService.setCartDeleteAll(vo.getCartIdx());  // 장바구니에서 주문된 상품 삭제
+            orderService.setDelivery(vo);
         }
-
-        // 배송 정보 설정
-        paymentVO.setReceiverAddress(paymentVO.getBuyer_addr() + " " + paymentVO.getExtraAddress() + " " + paymentVO.getDetailAddress());
-        paymentVO.setReceiverTel(paymentVO.getBuyer_tel());
 
         // 총 주문 금액 계산
         int totalOrderPrice = orderVOS.stream().mapToInt(OrderVO::getTotalPrice).sum();
         if (totalOrderPrice < 50000) {
             paymentVO.setAmount(totalOrderPrice + 3000);  // 배송비 추가
-        } else {
+        } 
+        else {
             paymentVO.setAmount(totalOrderPrice);
         }
-
-        // 배송 정보 저장
-        orderService.setDelivery(paymentVO);
 
         // 유저 포인트 적립 처리
         orderService.setUserPointPlus((int) (paymentVO.getAmount() * 0.01), orderVOS.get(0).getUserIdx());

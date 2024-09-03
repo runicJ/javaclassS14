@@ -191,6 +191,14 @@ public class MsgController {
 			model.addAttribute("msg", "회원정보 수정 실패! 다시 시도해 주세요!");
 			model.addAttribute("url", "/admin/user/userList");
 		}
+		else if(msgFlag.equals("productCartEmpty")) {
+			model.addAttribute("msg", "선택된 주문 상품이 없습니다.");
+			model.addAttribute("url", "/shop/productList");
+		}
+		else if(msgFlag.equals("paymentError")) {
+			model.addAttribute("msg", "유효하지 않은 결제 정보입니다.");
+			model.addAttribute("url", "/shop/productList");
+		}
 		
 	return "include/msg";
 	}

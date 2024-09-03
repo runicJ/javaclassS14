@@ -14,12 +14,6 @@ public class PaymentVO {
 	private String buyer_postcode;		// 우편번호
 	private int buyer_uid;
 	
-    // 배송 관련 정보
-    private String receiverName;
-    private String receiverTel;
-    private String receiverAddress;
-    private String country;
-	
 	private String imp_uid;			// 고유ID
 	private String merchant_uid;	// 상점 거래 ID
 	private String paid_amount;		// 결제 금액

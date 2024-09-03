@@ -111,8 +111,7 @@
   </insert>
 
   <insert id="setDelivery" parameterType="com.spring.javaclassS14.vo.OrderVO">
-    INSERT INTO order_delivery (orderIdx, receiverName, receiverTel, receiverAddress, country, imp_uid, merchant_uid, paid_amount, apply_num)
-    VALUES (#{orderIdx}, #{receiverName}, #{receiverTel}, #{receiverAddress}, #{country}, #{imp_uid}, #{merchant_uid}, #{paid_amount}, #{apply_num})
+    INSERT INTO order_delivery VALUES (default, #{orderIdx}, #{receiverName}, #{receiverTel}, #{receiverAddress});
   </insert>
 
 

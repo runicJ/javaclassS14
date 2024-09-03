@@ -26,8 +26,27 @@
             });
         });
 
-        // 결제하기
+     	// 결제하기 버튼 클릭 시 주소 입력 검증 및 결제 처리
         function payment() {
+            // 주소 입력 필드 값 가져오기
+            var postcode = document.getElementById("sample6_postcode").value;
+            var roadAddress = document.getElementById("sample6_address").value;
+            var detailAddress = document.getElementById("sample6_detailAddress").value;
+            var extraAddress = document.getElementById("sample6_extraAddress").value;
+
+            // 주소 입력 여부 검증
+            if (!postcode || !roadAddress || !detailAddress) {
+                alert("주소를 모두 입력하세요.");
+                return false;
+            }
+            
+		    var combinedAddress = postcode + " / " + roadAddress + " / " + detailAddress;
+		    if (extraAddress) {
+		        combinedAddress += " / " + extraAddress;
+		    }
+		    document.getElementById("buyer_addr").value = combinedAddress;
+
+		    // 결제 방식 및 결제 정보 검증
             var paymentCard = document.getElementById("paymentCard").value;
             var payMethodCard = document.getElementById("payMethodCard").value;
             var paymentBank = document.getElementById("paymentBank").value;
@@ -41,7 +60,8 @@
                 alert("카드번호를 입력하세요.");
                 document.getElementById("payMethodCard").focus();
                 return false;
-            } else if (paymentBank != "" && payMethodBank == "") {
+            } 
+            else if (paymentBank != "" && payMethodBank == "") {
                 alert("입금자명을 입력하세요.");
                 return false;
             }
@@ -55,6 +75,7 @@
                     document.getElementById("payment").value = "B" + paymentBank;
                     document.getElementById("payMethod").value = payMethodBank;
                 }
+                // 폼 제출
                 document.myform.action = "${ctp}/order/payment";
                 document.myform.submit();
             }
@@ -69,11 +90,9 @@
     <jsp:include page="/WEB-INF/views/include/user/nav.jsp"/>
     <p><br/></p>
     <div class="container">
-        <!-- Page Preloader -->
         <div id="preloder">
             <div class="loader"></div>
         </div>
-        <!-- Breadcrumb Section Begin -->
         <section class="breadcrumb-option">
             <div class="container">
                 <div class="row">
@@ -90,15 +109,12 @@
                 </div>
             </div>
         </section>
-        <!-- Breadcrumb Section End -->
         <section class="shopping-cart spad">
             <table class="table-bordered text-center" style="margin:auto; width:90%">
                 <tr class="table-dark text-dark">
                     <th colspan="2">상 품</th>
                     <th>총상품금액</th>
                 </tr>
-
-                <!-- 주문서 목록출력 -->
                 <c:set var="orderTotalPrice" value="0"/>
                 <c:forEach var="vo" items="${sOrderVOS}">
                     <tr align="center">
@@ -152,10 +168,6 @@
                                                 <input type="text" name="buyer_name" value="${userVO.name}">
                                             </div>
                                         </div>
-                                    </div>
-                                    <div class="checkout__input">
-                                        <p>국가(국내가 아닌 경우 작성)</p>
-                                        <input type="text">
                                     </div>
                                     <div class="checkout__input">
                                         <p>주소<span>*</span></p>
@@ -272,6 +284,9 @@
                     </div>
                 </div>
                 <hr/>
+                <input type="hidden" name="postcode" id="hiddenPostcode"/>
+				<input type="hidden" name="buyer_addr" id="buyer_addr"/>
+
                 <div align="center">
                     <a type="button" class="btn btn-primary" onclick="payment()" >결제하기</a> &nbsp;
                     <button type="button" class="btn btn-info" onclick="location.href='${ctp}/shop/productCart';">장바구니보기</button> &nbsp;

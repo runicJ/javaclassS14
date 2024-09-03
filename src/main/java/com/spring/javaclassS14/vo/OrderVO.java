@@ -32,4 +32,10 @@ public class OrderVO {
     private int optionIdx;
     private int cartIdx;
 
+    // 배송 관련 정보
+    private String receiverName;
+    private String receiverTel;
+    private String receiverAddress;
+    private String country;
+    
 }
