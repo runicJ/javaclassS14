@@ -29,9 +29,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public void setOrder(OrderVO orderVO) {
-        orderDAO.setOrder(orderVO);
+    public int setOrder(OrderVO orderVO) {
+    	return orderDAO.setOrder(orderVO);
     }
+	 
 
     @Override
     public void setCartDeleteAll(int cartIdx) {
@@ -75,8 +76,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Override
 	public void setOrderProduct(OrderVO vo) {
-		// TODO Auto-generated method stub
-		
+		orderDAO.setOrderProduct(vo);
 	}
 
 	@Override

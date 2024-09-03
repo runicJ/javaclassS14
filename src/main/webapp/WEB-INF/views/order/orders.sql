@@ -32,7 +32,6 @@ CREATE TABLE order_delivery (
     recieverName VARCHAR(50) NOT NULL,
     recieverTel VARCHAR(20) NOT NULL,
     recieverAddress VARCHAR(255) NOT NULL,
-    country VARCHAR(100) NOT NULL,
     FOREIGN KEY (orderIdx) REFERENCES orders_p(orderIdx)
 );
 

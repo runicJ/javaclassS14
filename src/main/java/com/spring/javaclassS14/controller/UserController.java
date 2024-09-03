@@ -2,7 +2,6 @@ package com.spring.javaclassS14.controller;
 
 import java.time.LocalDateTime;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -176,9 +175,9 @@ public class UserController {
 	// 로그인 처리
 	@RequestMapping(value="/userLogin", method=RequestMethod.POST)
 	public String userLoginPost(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@RequestParam(name="userId", defaultValue = "admin", required = false) String userId,
-			@RequestParam(name="userPwd", defaultValue = "1234", required = false) String userPwd,
-			@RequestParam(name="idSave", defaultValue="on", required = false) String idSave
+			@RequestParam(name="userId", defaultValue="admin", required = false) String userId,
+			@RequestParam(name="userPwd", defaultValue="1234", required = false) String userPwd,
+			@RequestParam(name="idSave", defaultValue="off", required = false) String idSave
 		) {
 		UserVO vo = userService.getUserIdCheck(userId);
 		
@@ -206,7 +205,7 @@ public class UserController {
 			if(idSave.equals("on")) {
 				Cookie cookieUid = new Cookie("cUid", userId);
 				cookieUid.setPath("/");
-				cookieUid.setMaxAge(60*60*24*7);
+				cookieUid.setMaxAge(60 * 60 * 24 * 7);
 				response.addCookie(cookieUid);
 			}
 			else {

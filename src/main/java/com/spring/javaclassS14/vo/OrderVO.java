@@ -9,10 +9,11 @@ public class OrderVO {
     private int orderIdx;
     private int userIdx;
     private int totalPrice;
-    private int couponIdx;
+    private Integer couponIdx;
     private int pointUse;
     private String orderStatus;
     private String orderDate;
+    private String orderNumber;
     
     // 주문 및 상품 정보
     private String productThumb;

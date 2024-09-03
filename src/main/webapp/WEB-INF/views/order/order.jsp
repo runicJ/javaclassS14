@@ -120,7 +120,6 @@
                     <tr align="center">
                         <td><img src="${ctp}/product/${vo.productThumb}" width="150px"/></td>
                         <td align="left">
-                            <p><br/>주문번호 : ${vo.orderIdx}</p>
                             <p class="text-center"><br/>
                                 모델명 : <span style="color:orange;font-weight:bold;">${vo.productName}</span><br/>
                                 &nbsp; <b><fmt:formatNumber value="${vo.productPrice}"/>원</b>
@@ -129,9 +128,6 @@
                             <c:set var="quantity" value="${fn:split(vo.quantity, ',')}"/>
                             <p>
                                 - 주문 옵션 내역 : 총 ${fn:length(optionNames)}개<br/>
-                                <c:forEach var="i" begin="1" end="${fn:length(optionNames)}">
-                                    &nbsp; &nbsp;ㆍ ${optionNames[i-1]} / <fmt:formatNumber value="${optionPrices[i-1]}"/>원 / ${optionNums[i-1]}개<br/>
-                                </c:forEach>
                             </p>
                         </td>
                         <td>
@@ -214,38 +210,18 @@
                                         <p>처리될 총 결제금액(테스트자료 10원)<span>*</span></p>
                                         <input type="text" name="amount" value="10" class="form-control" autofocus readonly />
                                     </div>
-                                    <div class="checkout__input__checkbox">
-                                        <p>결제수단<span>*</span></p>
-                                        <label for="acc1">
-                                            카드결제
-                                            <input type="checkbox" id="acc1">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label for="acc2">
-                                            계좌이체
-                                            <input type="checkbox" id="acc2">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                        <label for="acc3">
-                                            무통장입금
-                                            <input type="checkbox" id="acc3">
-                                            <span class="checkmark"></span>
-                                        </label>
-                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <!-- Nav tabs -->
                 <ul class="nav nav-tabs" role="tablist">
                     <li class="nav-item"><a class="nav-link active" data-toggle="tab" href="#card">카드결제</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#bank">은행결제</a></li>
                     <li class="nav-item"><a class="nav-link" data-toggle="tab" href="#telCheck">상담사연결</a></li>
                 </ul>
 
-                <!-- Tab panes -->
                 <div class="tab-content">
                     <div id="card" class="container tab-pane active"><br>
                         <h3>카드결제</h3>

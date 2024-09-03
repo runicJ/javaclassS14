@@ -132,7 +132,6 @@
         <div class="loader"></div>
     </div>
 
-    <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
@@ -212,9 +211,6 @@
 						    <input type="hidden" name="charge" id="charge"/>    
 						    <input type="hidden" name="couponIdx" id="hiddenCouponIdx"/>
 						    <input type="hidden" name="pointUse" id="hiddenPointUse"/>
-						
-						    <!-- 주문 버튼 -->
-						    <a href="#" class="primary-btn" onclick="order()">결제하기</a>
 						</form>
                     </div>
                     <div class="row">
@@ -233,7 +229,7 @@
                 <div class="col-lg-4">
                     <div class="cart__discount">
                         <h6>쿠폰/포인트 적용하기</h6>
-					    <form onsubmit="applyCouponAndPoints(); return false;">
+					    <form>
 					        <select class="form-control" name="couponIdx" id="couponIdx">
 					            <option value="">쿠폰내역</option>
 					            <!-- 가능한 쿠폰 목록을 동적으로 추가 -->
@@ -241,8 +237,10 @@
 					                <option value="${coupon.id}">${coupon.name} - 할인: ${coupon.discountAmount}원</option>
 					            </c:forEach>
 					        </select>
-					        <input type="text" name="pointUse" id="pointUse" placeholder="포인트">
-					        <button type="submit">적용하기</button>
+					        <div>
+						        <input type="text" class="form-control" name="pointUse" id="pointUse" placeholder="포인트">
+						        <button type="submit" class="form-control-append">적용하기</button>
+					        </div>
 					    </form>
                     </div>
                     <div class="cart__total">

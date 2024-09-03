@@ -14,7 +14,7 @@ public interface OrderDAO {
 	
     public OrderVO getOrderMaxIdx();
     public CartVO getCartIdx(@Param("cartIdx") int cartIdx);
-    public void setOrder(@Param("orderVO") OrderVO orderVO);
+    public int setOrder(OrderVO orderVO);
     public void setCartDeleteAll(@Param("cartIdx") int cartIdx);
     public void setDelivery(@Param("orderVO") OrderVO orderVO);
     public void setUserPointPlus(@Param("point") int point, @Param("userIdx") int userIdx);
@@ -25,6 +25,7 @@ public interface OrderDAO {
 	public List<OrderVO> getOrderList();
     public PaymentVO getPaymentByOrderIdx(@Param("orderIdx") String orderIdx);
 	public int totRecCntMyOrder(@Param("userIdx") int userIdx);
-    public List<OrderVO> getMyOrderStatus(int startIndexNo, int pageSize, int userIdx, String startOrder, String endOrder, String conditionOrderStatus);
+    public List<OrderVO> getMyOrderStatus(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("userIdx") int userIdx, @Param("startOrder") String startOrder, @Param("endOrder") String endOrder, @Param("conditionOrderStatus") String conditionOrderStatus);
+	public void setOrderProduct(@Param("orderVO") OrderVO orderVO);
 
 }

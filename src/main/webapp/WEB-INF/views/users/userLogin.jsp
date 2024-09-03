@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
@@ -55,7 +56,15 @@
   	</style>
   	<script>
   		'use strict';
-  		
+  		/*
+  		window.onload = function() {
+  			let cookieValue = getCookieValue('cUid');
+  			if (cookieValue) {
+  				document.getElementById('userId').value = cookieValue;
+  				document.getElementById('idSave').checked = true;
+  			}
+  		}
+  		*/
   		// 카카오 로그인(자바스크립트 앱키 등록)
      	Kakao.init("3fe3ad77eb298aac7a938386f756b9b1");
   	    
@@ -112,20 +121,24 @@
 							<label class="fw">아이디
 								<a onclick="popupFindId();" class="float-right" style="cursor:pointer;">아이디를 잊으셨나요?</a>
 							</label>
-							<input type="text" name="userId" id="userId" value="" class="form-control">
+							<input type="text" name="userId" id="userId" class="form-control" value="${cUid}">
 						</div>
 						<div class="form-group">
 							<label class="fw">비밀번호
 								<a onclick="popupFindPw();" class="float-right" style="cursor:pointer;">비밀번호를 잊으셨나요?</a>
 							</label>
-							<input type="password" name="userPwd" id="userPwd" value="" class="form-control">
+							<input type="password" name="userPwd" id="userPwd" class="form-control">
 						</div>
 						<div class="form-group text-right">
 							<button class="btn btn-primary btn-block" onclick="location.href='${ctp}/users/userLogin';">로그인</button>
 						</div>
 						<div class="form-group">
-				    		<input type="checkbox" id="idSave" name="idSave" checked /><span style="font-size:0.8em;"> 아이디 저장</span>
-							<p class="float-right"><span class="text-muted mr-2" style="font-size:0.8em;">아직 계정이 없으신가요? </span><a class="p-1" href="${ctp}/users/userPolicy" style="border:1px solid #ccc;box-shadow: 0px 0px 2px #444;background-color:#fff;">회원가입</a></p>
+				    		<input type="checkbox" id="idSave" name="idSave" checked />
+				    		<span style="font-size:0.8em;"> 아이디 저장</span>
+							<p class="float-right">
+								<span class="text-muted mr-2" style="font-size:0.8em;">아직 계정이 없으신가요? </span>
+								<a class="p-1" href="${ctp}/users/userPolicy" style="border:1px solid #ccc;box-shadow: 0px 0px 2px #444;background-color:#fff;">회원가입</a>
+							</p>
 						</div>
 						<p><br></p>
 						<div class="title-line">

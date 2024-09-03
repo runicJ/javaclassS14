@@ -107,7 +107,7 @@
           <p><b>총 주문액 : <font color="blue"><fmt:formatNumber value="${vo.totalPrice}"/>원</font></b></p>
           <p><input type="button" value="배송지정보" onclick="nWin('${vo.orderIdx}')"></p>
         </td>
-        <td style="text-align:center;"><br/><img src="${ctp}/data/dbShop/product/${vo.thumbImg}" class="thumb" width="100px"/></td>
+        <td style="text-align:center;"><br/><img src="${ctp}/product/${vo.productThumb}" class="thumb" width="100px"/></td>
         <td align="left">
 	        <p><br/>모델명 : <span style="color:orange;font-weight:bold;">${vo.productName}</span><br/> &nbsp; &nbsp; <fmt:formatNumber value="${vo.mainPrice}"/>원</p><br/>
 	        <c:set var="optionNames" value="${fn:split(vo.optionName,',')}"/>

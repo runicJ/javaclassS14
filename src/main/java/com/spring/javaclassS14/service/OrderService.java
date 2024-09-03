@@ -11,7 +11,7 @@ public interface OrderService {
 
     public OrderVO getOrderMaxIdx();
     public CartVO getCartIdx(int cartIdx);
-    public void setOrder(OrderVO orderVO);
+    public int setOrder(OrderVO orderVO);
     public void setCartDeleteAll(int cartIdx);
     public void setDelivery(OrderVO orderVO);
     public void setUserPointPlus(int point, int userIdx);
