@@ -15,4 +15,8 @@ public class SaveInterestVO {
 	private int likedIdx;
 	private int productIdx;
 	private String likedAddDate;
+	
+	private String productName;
+	private String productPrice;
+	private String productStock;
 }

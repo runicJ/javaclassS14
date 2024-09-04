@@ -122,7 +122,7 @@ public class OrderController {
         session.setAttribute("sPaymentVO", paymentVO);
         return "order/paymentOk";
     }
-
+    
     @Transactional
     @RequestMapping(value="/paymentResult", method=RequestMethod.GET)
     public String finalizeOrder(HttpSession session, Model model) {
@@ -134,37 +134,47 @@ public class OrderController {
         }
 
         try {
-            // 주문번호 생성 - 모든 OrderVO에 동일한 주문번호 사용
-            String orderNumber = generateOrderNumber(); // 예: 20240903-12345 (날짜 + 랜덤숫자)
+            // 주문번호 생성
+            String orderNumber = generateOrderNumber();
             System.out.println("Generated orderNumber: " + orderNumber);
-            
-            // 각 OrderVO에 대해 처리
+
+            // 전체 주문의 총 금액 계산
+            int totalOrderPrice = orderVOS.stream().mapToInt(vo -> vo.getPrice() * vo.getOrderQuantity()).sum();
+
+            // 대표 OrderVO에 총 금액과 주문번호를 설정하여 orders_p에 저장
+            OrderVO orderMeta = new OrderVO();
+            orderMeta.setOrderNumber(orderNumber);
+            orderMeta.setTotalPrice(totalOrderPrice);
+            orderMeta.setUserIdx(orderVOS.get(0).getUserIdx());
+            orderMeta.setCouponIdx(orderVOS.get(0).getCouponIdx());
+            orderMeta.setPointUse(orderVOS.get(0).getPointUse());
+
+            // orders_p에 총 금액 저장
+            int orderIdx = orderService.setOrder(orderMeta);
+            if (orderIdx <= 0) {
+                throw new RuntimeException("Failed to create order in orders_p.");
+            }
+
+            // 각 OrderVO에 대해 상품 정보 저장
             for (OrderVO vo : orderVOS) {
-                vo.setOrderNumber(orderNumber);  // 동일한 주문번호 설정
+                vo.setOrderNumber(orderNumber);
+                vo.setOrderIdx(orderIdx); // 저장된 orderIdx 설정
                 vo.setReceiverName(paymentVO.getBuyer_name());
                 vo.setReceiverTel(paymentVO.getBuyer_tel());
                 vo.setReceiverAddress(paymentVO.getBuyer_addr());
 
-                // 1. 주문 정보 저장하여 orderIdx 생성
-                int orderIdx = orderService.setOrder(vo);  // 각 OrderVO별로 orders_p에 저장하여 orderIdx 생성
-                if (orderIdx <= 0) {
-                    throw new RuntimeException("Failed to create order in orders_p.");
-                }
-
-                // 2. 생성된 orderIdx 설정 및 상품 정보 저장
-                vo.setOrderIdx(orderIdx);  // 생성된 orderIdx 설정
+                // 상품 정보 저장
                 System.out.println("Saving order product with orderIdx: " + orderIdx);
-                orderService.setOrderProduct(vo);  // 주문 상품 정보 저장
+                orderService.setOrderProduct(vo);
 
-                // 3. 배송 정보 저장
-                orderService.setDelivery(vo);  // 각 상품에 대해 배송 정보 저장
+                // 배송 정보 저장
+                orderService.setDelivery(vo);
 
-                // 4. 장바구니에서 주문된 상품 삭제
-                orderService.setCartDeleteAll(vo.getCartIdx());  // 해당 상품에 대해 장바구니에서 삭제 처리
+                // 장바구니에서 상품 삭제
+                orderService.setCartDeleteAll(vo.getCartIdx());
             }
 
-            // 총 주문 금액 계산 및 결제 금액 설정
-            int totalOrderPrice = orderVOS.stream().mapToInt(OrderVO::getTotalPrice).sum();
+            // 결제 금액 설정
             paymentVO.setAmount(totalOrderPrice < 50000 ? totalOrderPrice + 3000 : totalOrderPrice);
 
             // 유저 포인트 적립 처리
@@ -177,23 +187,17 @@ public class OrderController {
             return "redirect:/msg/paymentResultOk";  // 결제 성공 메시지 페이지로 리다이렉트
 
         } catch (Exception e) {
-            // 예외 발생 시 로그 출력 및 에러 페이지로 리다이렉트
             e.printStackTrace();
             return "redirect:/msg/paymentError";  // 에러 발생 시 에러 페이지로 리다이렉트
         }
     }
-    
+
     // 주문번호 생성 메서드
-    public String generateOrderNumber() {
-        // 현재 날짜와 시간을 "yyyyMMdd" 형식으로 포맷팅
+    public static String generateOrderNumber() {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyyMMdd");
         String datePart = LocalDateTime.now().format(formatter);
-        
-        // 5자리의 랜덤 숫자 생성
         Random random = new Random();
-        int randomNumber = 10000 + random.nextInt(90000); // 10000 ~ 99999 범위의 숫자 생성
-
-        // 날짜와 랜덤 숫자를 조합하여 주문번호 생성
+        int randomNumber = 10000 + random.nextInt(90000);
         return datePart + "-" + randomNumber;
     }
 
@@ -247,7 +251,7 @@ public class OrderController {
     }
     
     // 나의 주문 내역 및 상태 보기
-    @RequestMapping(value = "/myOrder", method = RequestMethod.GET)
+    @RequestMapping(value = "/myOrderList", method = RequestMethod.GET)
     public String getMyOrder(Model model, HttpServletRequest request, HttpSession session,
                              @RequestParam(required = false) String startOrder,
                              @RequestParam(required = false) String endOrder,

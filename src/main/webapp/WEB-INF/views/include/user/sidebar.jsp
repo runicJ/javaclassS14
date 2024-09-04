@@ -116,14 +116,9 @@
 							</div>
 							<div class="block sidenav">
 								<div class="block-body">
-								  <button class="dropdown-btn">주문정보
+								  <button class="dropdown-btn">주문배송조회
 								    <i class="fa fa-caret-down"></i>
 								  </button>
-								  <div class="dropdown-container">
-										<a href="${ctp}/user/myOrder">주문배송조회</a>
-										<a href="${ctp}/user/myOrderCancel">주문취소</a>
-										<a href="${ctp}/user/myOrderReturn">반품/환불</a>
-								  </div>
 								  <button class="dropdown-btn">등급별혜택
 								    <i class="fa fa-caret-down"></i>
 								  </button>

@@ -1,9 +1,11 @@
 package com.spring.javaclassS14.dao;
 
+import java.util.List;
 import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -52,4 +54,10 @@ public interface UserDAO {
 	public int getUserEmailCheck(@Param("email") String email);
 
 	public int setUpdateUser(@Param("vo") UserVO vo);
+
+	public List<OrderVO> getRecentOrders(@Param("userIdx") int userIdx);
+
+	public List<SaveInterestVO> getLikedProducts(@Param("userIdx") int userIdx);
+
+	public List<Map<String, Object>> getRecentViewProduct(@Param("userIdx") int userIdx);
 }

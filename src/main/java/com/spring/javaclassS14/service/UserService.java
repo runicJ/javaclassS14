@@ -1,7 +1,11 @@
 package com.spring.javaclassS14.service;
 
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -46,4 +50,10 @@ public interface UserService {
 	public int setUpdateUser(UserVO userVO);
 
 	boolean isLoggedIn(Integer userIdx);
+
+	public List<OrderVO> getRecentOrders(Integer userIdx);
+
+	public List<SaveInterestVO> getLikedProducts(Integer userIdx);
+
+	public List<Map<String, Object>> getRecentViewProduct(Integer userIdx);
 }

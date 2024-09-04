@@ -1,6 +1,7 @@
 package com.spring.javaclassS14.service;
 
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.UserDAO;
+import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -141,6 +143,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public int getUserEmailCheck(String email) {
 		return userDAO.getUserEmailCheck(email);
+	}
+
+	@Override
+	public List<OrderVO> getRecentOrders(Integer userIdx) {
+		return userDAO.getRecentOrders(userIdx);
+	}
+
+	@Override
+	public List<SaveInterestVO> getLikedProducts(Integer userIdx) {
+		return userDAO.getLikedProducts(userIdx);
+	}
+
+	@Override
+	public List<Map<String, Object>> getRecentViewProduct(Integer userIdx) {
+        return userDAO.getRecentViewProduct(userIdx);
 	}
 
 }

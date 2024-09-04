@@ -87,6 +87,21 @@
 	<select id="checkUserBookmark" resultType="int">
 	    select count(*) from bookmark where userIdx=#{userIdx} and partUrl=#{partUrl};
 	</select>
+	
+	<select id="getRecentOrders"  resultType="com.spring.javaclassS14.vo.OrderVO">
+	    select * from orders_p where userIdx=#{userIdx} order by orderIdx desc limit 5;
+	</select>
+	
+	<select id="getLikedProducts"  resultType="com.spring.javaclassS14.vo.SaveInterestVO">
+	    select l.*, p.productName, p.productPrice, p.productStock from liked_product l join product p on l.productIdx = p.productIdx where l.userIdx=#{userIdx} order by l.likedIdx desc limit 5;
+	</select>
+
+    <select id="getRecentViewProduct" resultType="map">
+        SELECT p.* FROM recent_view_product v
+        JOIN product p ON v.productIdx = p.productIdx
+        WHERE v.userIdx = #{userIdx}
+        ORDER BY v.viewIdx DESC LIMIT 5
+    </select>
 
 
 	<insert id="setUserRegisterOk">

@@ -121,7 +121,7 @@
 							<label class="fw">아이디
 								<a onclick="popupFindId();" class="float-right" style="cursor:pointer;">아이디를 잊으셨나요?</a>
 							</label>
-							<input type="text" name="userId" id="userId" class="form-control" value="${cUid}">
+							<input type="text" name="userId" id="userId" value="${userId}" class="form-control">
 						</div>
 						<div class="form-group">
 							<label class="fw">비밀번호

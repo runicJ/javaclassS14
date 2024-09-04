@@ -1,7 +1,9 @@
 package com.spring.javaclassS14.controller;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
@@ -25,6 +27,8 @@ import org.springframework.web.multipart.MultipartFile;
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
+import com.spring.javaclassS14.vo.CrawlingVO;
+import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -361,7 +365,17 @@ public class UserController {
 	
 	// 회원정보 페이지로 이동
 	@RequestMapping(value="/userMain", method=RequestMethod.GET)
-	public String userMainGet() {
+	public String userMainGet(HttpSession session, Model model) {
+		Integer userIdx = (Integer) session.getAttribute("sUidx");
+		
+		List<OrderVO> orderVOS = userService.getRecentOrders(userIdx);
+		List<SaveInterestVO> likedVOS = userService.getLikedProducts(userIdx);
+		List<Map<String, Object>> recentProducts = userService.getRecentViewProduct(userIdx);
+		
+		model.addAttribute("orderVOS", orderVOS);
+		model.addAttribute("likedVOS", likedVOS);
+		model.addAttribute("recentProducts", recentProducts);
+		
 		return "users/userMain";
 	}
 	
