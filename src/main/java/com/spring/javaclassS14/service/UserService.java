@@ -39,12 +39,6 @@ public interface UserService {
 
 	public int setUserUpdate(UserVO vo);
 
-	public SaveInterestVO getBookmarkList(Integer userIdx);
-
-	public boolean checkUserBookmark(Integer userIdx, String partUrl);
-
-	public void saveBookmarkToggle(Integer userIdx, String partUrl, boolean bookmark);
-
 	public int getUserEmailCheck(String email);
 
 	public int setUpdateUser(UserVO userVO);
@@ -56,4 +50,10 @@ public interface UserService {
 	public List<SaveInterestVO> getLikedProducts(Integer userIdx);
 
 	public List<Map<String, Object>> getRecentViewProduct(Integer userIdx);
+
+	public Integer getUserCouponCnt(Integer userIdx);
+
+	public Integer getUserPointCnt(Integer userIdx);
+
+	public Integer getLikedCnt(Integer userIdx);
 }

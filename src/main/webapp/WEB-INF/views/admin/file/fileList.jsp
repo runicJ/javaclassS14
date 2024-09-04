@@ -5,8 +5,9 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>fileList.jsp</title>
-  <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp"></jsp:include>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>fileList</title>
+  <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
   <script>
 	  // 전체선택
 	  $(function(){
@@ -59,33 +60,33 @@
 	  	});
 	  }
 	  
-    // 화살표클릭시 화면 상단으로 부드럽게 이동하기
-    $(window).scroll(function(){
-    	if($(this).scrollTop() > 100) {
-    		$("#topBtn").addClass("on");
-    	}
-    	else {
-    		$("#topBtn").removeClass("on");
-    	}
-    	
-    	$("#topBtn").click(function(){
-    		window.scrollTo({top:0, behavior: "smooth"});
-    	});
-    });
-  </script>
-  <style>
-		h6 {
-		  position: fixed;
-		  right: 1rem;
-		  bottom: -50px;
-		  transition: 0.7s ease;
-		}
-   	.on {
-		  opacity: 0.8;
-		  cursor: pointer;
-		  bottom: 0;
-		}
-  </style>
+	    // 화살표클릭시 화면 상단으로 부드럽게 이동하기
+	    $(window).scroll(function(){
+	    	if($(this).scrollTop() > 100) {
+	    		$("#topBtn").addClass("on");
+	    	}
+	    	else {
+	    		$("#topBtn").removeClass("on");
+	    	}
+	    	
+	    	$("#topBtn").click(function(){
+	    		window.scrollTo({top:0, behavior: "smooth"});
+	    	});
+	    });
+	  </script>
+	  <style>
+			h6 {
+			  position: fixed;
+			  right: 1rem;
+			  bottom: -50px;
+			  transition: 0.7s ease;
+			}
+	   	.on {
+			  opacity: 0.8;
+			  cursor: pointer;
+			  bottom: 0;
+			}
+	  </style>
 </head>
 <body>
 	<div class="preloader">
@@ -98,46 +99,50 @@
         <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
 		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <div class="page-wrapper">
-  <h2>서버 파일 리스트</h2>
-  <hr/>
-  <p>서버의 파일 경로 : ${ctp}/data/ckeditor/~~~파일명</p>
-  <hr/>
-  <form name="myform">
-	  <table class="table table-hover text-center">
-	    <tr>
-	      <td colspan="4">
-	        <input type="checkbox" id="checkAll" onclick="checkAllCheck()"/>전체선택/해제 &nbsp;&nbsp;
-	        <input type="checkbox" id="reversekAll" onclick="reverseAllCheck()"/>선택반전 &nbsp;&nbsp;
-	        <input type="button" value="선택항목삭제" onclick="selectDelCheck()" class="btn btn-danger btn-sm"/>
-	      </td>
-	    </tr>
-	    <tr class="table-dark text-dark">
-	      <th>선택</th><th>번호</th><th>파일명</th><th>그림파일</th>
-	    </tr>
-		  <c:forEach var="file" items="${files}" varStatus="st">
-		    <tr>
-		      <td>
-		        <c:if test="${file != 'board'}">
-		          <c:if test="${file == 'qna'}"><font color='red'>폴더명</font></c:if>
-		          <c:if test="${file != 'qna'}">
-		        	  <input type="checkbox" name="chk" class="chk" value="${file}"/>
-		        	</c:if>
-		        </c:if>
-		      </td>
-		      <td>${st.count}</td>
-		      <td>${file}</td>
-		      <td>
-          	<img src="${ctp}/data/ckeditor/${file}" width="150px"/>
-		      </td>
-		    </tr>
-		  </c:forEach>
-		  <tr><td colspan="4" class="m-0 p-0"></td></tr>
-	  </table>
-  </form>
-</div>
-</div>
+  		    <div class="card text-center p-5">
+	        	<div class="card-body">
+				  <h2 class="card-title mb-4">서버 파일 리스트</h2>
+				  <hr/>
+				  <p>서버의 파일 경로 : ${ctp}/data/ckeditor/~~~파일명</p>
+				  <hr/>
+				  <form name="myform">
+					  <table class="table table-hover text-center">
+					    <tr>
+					      <td colspan="4">
+					        <input type="checkbox" id="checkAll" onclick="checkAllCheck()"/>전체선택/해제 &nbsp;&nbsp;
+					        <input type="checkbox" id="reversekAll" onclick="reverseAllCheck()"/>선택반전 &nbsp;&nbsp;
+					        <input type="button" value="선택항목삭제" onclick="selectDelCheck()" class="btn btn-danger btn-sm"/>
+					      </td>
+					    </tr>
+					    <tr class="table-dark text-dark">
+					      <th>선택</th><th>번호</th><th>파일명</th><th>그림파일</th>
+					    </tr>
+						  <c:forEach var="file" items="${files}" varStatus="st">
+						    <tr>
+						      <td>
+						        <c:if test="${file != 'product'}">
+						          <c:if test="${file == 'notice'}"><font color='red'>폴더명</font></c:if>
+						          <c:if test="${file != 'notice'}">
+						        	  <input type="checkbox" name="chk" class="chk" value="${file}"/>
+						        	</c:if>
+						        </c:if>
+						      </td>
+						      <td>${st.count}</td>
+						      <td>${file}</td>
+						      <td>
+				          	<img src="${ctp}/data/ckeditor/${file}" width="150px"/>
+						      </td>
+						    </tr>
+						  </c:forEach>
+						  <tr><td colspan="4" class="m-0 p-0"></td></tr>
+					  </table>
+				  </form>
+				</div>
+			</div>
+		</div>
+	</div>
 <p><br/></p>
-<!-- 위로가기 버튼 -->
 <h6 id="topBtn" class="text-right mr-3"><img src="${ctp}/images/arrowTop.gif" title="위로이동"/></h6>
+<jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>
 </html>

@@ -1,5 +1,6 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 
 <style>
@@ -16,7 +17,7 @@
 	  font-family: 'Raleway', sans-serif;
 	}
 	
-	.sidenav a, .dropdown-btn {
+	.sidenav a, .dropdown-btn, .drop-btn {
 	  padding: 15px 16px;
 	  text-decoration: none;
 	  font-size: 18px;
@@ -30,7 +31,7 @@
 	  outline: none;
 	}
 	
-	.sidenav a:hover, .dropdown-btn:hover {
+	.sidenav a:hover, .dropdown-btn:hover, .drop-btn:hover {
 	  color: #000D35;
 	  background-color: #FEF4DB;
 	}
@@ -94,58 +95,46 @@
 									</a>
 								</div>
 								<div class="userItem">
-									<a href="#">
-										<div class="value">0</div>														
+									<a href="${ctp}/users/myOrderList">
+										<div class="value">${orderCount}</div>														
 										<div class="name">주문</div>
 									</a>
 								</div>
 							</div>
 							<div class="featured-author-count">
 								<div class="userItem">
-									<a href="#">
-										<div class="value">0</div>														
+									<a href="${ctp}/users/myCoupon">
+										<div class="value">${couponCount}</div>														
 										<div class="name">쿠폰</div>
 									</a>
 								</div>
 								<div class="userItem">
-									<a href="#">
-										<div class="value">0</div>														
+									<a href="${ctp}/users/myPoint">
+										<div class="value"><fmt:formatNumber value="${pointCount}" /></div>														
 										<div class="name">포인트</div>
 									</a>
 								</div>
 							</div>
 							<div class="block sidenav">
 								<div class="block-body">
-								  <button class="dropdown-btn">주문배송조회
-								    <i class="fa fa-caret-down"></i>
-								  </button>
-								  <button class="dropdown-btn">등급별혜택
+								  <button class="drop-btn" onclick="location.href='${ctp}/users/myOrderList';">주문배송 조회</button>
+								  <button class="dropdown-btn">회원 혜택
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
-										<a href="${ctp}/user/myCoupon">쿠폰 조회</a>
-										<a href="${ctp}/user/myPoint">포인트 현황</a>
+										<a href="${ctp}/users/myCoupon">쿠폰 조회</a>
+										<a href="${ctp}/users/myPoint">포인트 현황</a>
 										<a href="#">회원혜택 안내</a>
 								  </div>
-								  <button class="dropdown-btn">회원활동 내역
-								    <i class="fa fa-caret-down"></i>
-								  </button>
-								  <div class="dropdown-container">
-										<a href="#">1:1 문의</a>
-										<a href="#">상품 Q&A</a>
-										<a href="#">작성한 게시글</a>
-										<a href="#">작성한 리뷰글</a>
-								  </div>
+								  <button class="drop-btn" onclick="location.href='${ctp}/users/myPostList';">회원활동 내역</button>
 								  <button class="dropdown-btn">관심 목록
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
-										<a href="#">관심등록 제품</a>
-										<a href="#">게시글 북마크</a>
-										<a href="#">최근 관심 내역</a>
+										<a href="${ctp}/users/myLikedList">관심등록 제품</a>
 										<a href="#">재입고 알림 신청 내역</a>
 								  </div>
-								  <button class="dropdown-btn">회원정보
+								  <button class="dropdown-btn">회원 정보
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
@@ -168,7 +157,7 @@ window.onload = function() {
     dropdown[i].addEventListener("click", function() {
       this.classList.toggle("active");
       var dropdownContent = this.nextElementSibling;
-      if (dropdownContent.style.display === "block") {
+      if (dropdownContent.style.display == "block") {
         dropdownContent.style.display = "none";
       } else {
         dropdownContent.style.display = "block";

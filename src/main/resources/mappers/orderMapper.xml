@@ -61,6 +61,10 @@
     <select id="getPaymentByOrderIdx" parameterType="int" resultType="com.spring.javaclassS14.vo.PaymentVO">
         SELECT * FROM delivery_address WHERE orderIdx = #{orderIdx}
     </select>
+  
+    <select id="getUserOrderCnt" resultType="int">
+        SELECT count(*) FROM orders_p WHERE userIdx = #{userIdx}
+    </select>
 
     <!-- 특정 사용자의 주문 상태 조회 -->
     <select id="getMyOrderStatus" parameterType="map" resultType="com.spring.javaclassS14.vo.OrderVO">

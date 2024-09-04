@@ -125,22 +125,6 @@ public class UserServiceImpl implements UserService {
 	}
 
 	@Override
-	public SaveInterestVO getBookmarkList(Integer userIdx) {
-		return userDAO.getBookmarkList(userIdx);
-	}
-
-	@Override
-	public boolean checkUserBookmark(Integer userIdx, String partUrl) {
-		int count = userDAO.checkUserBookmark(userIdx, partUrl);
-        return count > 0;
-	}
-
-	@Override
-	public void saveBookmarkToggle(Integer userIdx, String partUrl, boolean bookmark) {
-		userDAO.saveBookmarkToggle(userIdx, partUrl, bookmark);
-	}
-
-	@Override
 	public int getUserEmailCheck(String email) {
 		return userDAO.getUserEmailCheck(email);
 	}
@@ -158,6 +142,21 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public List<Map<String, Object>> getRecentViewProduct(Integer userIdx) {
         return userDAO.getRecentViewProduct(userIdx);
+	}
+
+	@Override
+	public Integer getUserCouponCnt(Integer userIdx) {
+        return userDAO.getUserCouponCnt(userIdx);
+	}
+
+	@Override
+	public Integer getUserPointCnt(Integer userIdx) {
+        return userDAO.getUserPointCnt(userIdx);
+	}
+
+	@Override
+	public Integer getLikedCnt(Integer userIdx) {
+		return userDAO.getLikedCnt(userIdx);
 	}
 
 }

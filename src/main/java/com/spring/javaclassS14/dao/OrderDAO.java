@@ -27,5 +27,6 @@ public interface OrderDAO {
 	public int totRecCntMyOrder(@Param("userIdx") int userIdx);
     public List<OrderVO> getMyOrderStatus(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("userIdx") int userIdx, @Param("startOrder") String startOrder, @Param("endOrder") String endOrder, @Param("conditionOrderStatus") String conditionOrderStatus);
 	public void setOrderProduct(@Param("orderVO") OrderVO orderVO);
+	public Integer getUserOrderCnt(@Param("userIdx") int userIdx);
 
 }

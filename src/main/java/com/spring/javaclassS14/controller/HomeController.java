@@ -35,6 +35,7 @@ import com.spring.javaclassS14.service.CsworkService;
 import com.spring.javaclassS14.service.NotifyService;
 import com.spring.javaclassS14.service.RecentService;
 import com.spring.javaclassS14.service.ShopService;
+import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.AirVO;
 import com.spring.javaclassS14.vo.CrawlingVO;
 import com.spring.javaclassS14.vo.CsworkVO;
@@ -109,6 +110,9 @@ public class HomeController {
 	
 	@Autowired
 	CsworkService csworkService;
+	
+	@Autowired
+	UserService userService;
 	
     @RequestMapping(value = "/main", method = RequestMethod.GET)
     public String mainPost(HttpServletRequest request, Model model, HttpSession session) {
@@ -291,9 +295,13 @@ public class HomeController {
         Integer userIdx = (Integer) session.getAttribute("sUidx");  // userIdx를 Integer로 선언
         if (userIdx != null) {
             List<Map<String, Object>> recentProducts = recentService.getRecentViewProduct(userIdx);
+            Integer likedCount = userService.getLikedCnt(userIdx);
             model.addAttribute("recentProducts", recentProducts);
-        } else {
+            model.addAttribute("likedCount", likedCount);
+        } 
+        else {
             model.addAttribute("recentProducts", new ArrayList<>());  // null일 경우 빈 리스트 전달
+            model.addAttribute("likedCount", 0);
         }
         
         List<CsworkVO> noticeVOS = csworkService.getNoticeList();

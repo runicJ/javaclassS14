@@ -25,10 +25,13 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
+import com.spring.javaclassS14.pagination.PageProcess;
+import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.CrawlingVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -50,6 +53,12 @@ public class UserController {
 	
 	@Autowired
 	AllProvide allProvide;
+	
+	@Autowired
+	OrderService orderService;
+	
+    @Autowired
+    PageProcess pageProcess;
 	
 	// 아이디 중복확인 / 찾기
 	@ResponseBody
@@ -477,31 +486,40 @@ public class UserController {
 	public String userAddressGet() {
 		return "users/userAddress";
 	}
-	
-	// 회원 북마크 리스트
-	@RequestMapping(value="/userBookmarkList", method=RequestMethod.GET)
-	public String userBookmarkListGet(HttpSession session, Model model) {
-		Integer userIdx = (Integer) session.getAttribute("sUidx");
-		SaveInterestVO vo = userService.getBookmarkList(userIdx);
-		model.addAttribute("vo", vo);
-		return "users/userBookmarkList";
-	}
-	
-	// 북마크 등록
-	@RequestMapping(value="/saveBookmarkToggle", method=RequestMethod.POST)
-	public String saveBookmarkInputPost(HttpSession session, String partUrl) {
-	    Integer userIdx = (Integer) session.getAttribute("sUidx");
-	    
-	    boolean bookmarkExist = userService.checkUserBookmark(userIdx, partUrl);
-	    int res = 0;
-	    if (!bookmarkExist) {
-	        userService.saveBookmarkToggle(userIdx, partUrl, true);
-	        res = 1;
-	    } 
-	    else {
-	        userService.saveBookmarkToggle(userIdx, partUrl, false);
-	    }
-	    
-	    return String.valueOf(res);
-	}
+
+    // 나의 주문 내역 및 상태 보기
+    @RequestMapping(value = "/myOrderList", method = RequestMethod.GET)
+    public String getMyOrder(Model model, HttpServletRequest request, HttpSession session,
+                             @RequestParam(required = false) String startOrder,
+                             @RequestParam(required = false) String endOrder,
+                             @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
+                             @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
+                             @RequestParam(name = "conditionOrderStatus", defaultValue = "전체", required = false) String conditionOrderStatus) {
+
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
+        if (userIdx == null) {
+            model.addAttribute("msg", "로그인이 필요합니다. 다시 로그인 해주세요.");
+            return "redirect:/user/login";
+        }
+
+        // 조건을 '@'로 연결하여 검색 조건으로 사용
+        String searchString = (startOrder != null ? startOrder : "") + "@" + 
+                              (endOrder != null ? endOrder : "") + "@" + 
+                              conditionOrderStatus;
+
+        // 총 레코드 수 및 페이징 정보 계산
+        PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrderStatus", userIdx, searchString);
+
+        // 주문 목록 조회
+        List<OrderVO> vos = orderService.getMyOrderStatus(pageVO.getStartIndexNo(), pageSize, userIdx, startOrder, endOrder, conditionOrderStatus);
+        
+        // 모델에 조회된 결과 추가
+        model.addAttribute("vos", vos);
+        model.addAttribute("startOrder", startOrder);
+        model.addAttribute("endOrder", endOrder);
+        model.addAttribute("conditionOrderStatus", conditionOrderStatus);
+        model.addAttribute("pageVO", pageVO);
+
+        return "users/userOrderList";
+    }
 }

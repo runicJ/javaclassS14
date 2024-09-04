@@ -12,8 +12,10 @@ import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.handler.HandlerInterceptorAdapter;
 
 import com.spring.javaclassS14.service.CsworkService;
+import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.RecentService;
 import com.spring.javaclassS14.service.ShopService;
+import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -23,10 +25,13 @@ public class CommonDataInterceptor extends HandlerInterceptorAdapter {
     private ShopService shopService;
     
     @Autowired
-    private CsworkService introService;
+    private OrderService orderService;
     
     @Autowired
     private RecentService recentService;
+    
+    @Autowired
+    private UserService userService;
 
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
@@ -46,7 +51,13 @@ public class CommonDataInterceptor extends HandlerInterceptorAdapter {
             Integer userIdx = (Integer) session.getAttribute("sUidx");  // userIdx를 Integer로 선언
             if (userIdx != null) {
                 Integer cartCount = shopService.getUserCartCnt(userIdx);
+                Integer orderCount = orderService.getUserOrderCnt(userIdx);
+                Integer couponCount = userService.getUserCouponCnt(userIdx);
+                Integer pointCount = userService.getUserPointCnt(userIdx);
                 modelAndView.addObject("cartCount", cartCount != null ? cartCount : 0);
+                modelAndView.addObject("orderCount", orderCount != null ? orderCount : 0);
+                modelAndView.addObject("couponCount", couponCount != null ? couponCount : 0);
+                modelAndView.addObject("pointCount", pointCount != null ? pointCount : 0);
                 
                 // 최근 검색어와 최근 본 상품 추가
                 List<Map<String, Object>> recentSearch = recentService.getRecentSearch(userIdx, 5); // 최근 검색어 5개

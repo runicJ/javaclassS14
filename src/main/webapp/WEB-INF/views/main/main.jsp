@@ -149,6 +149,7 @@
             setInterval(countdown, 1000);
 	    };
 	    
+	    /*
 	    function toggleBookmark(productId) {
 	    	
 	        $.ajax({
@@ -163,6 +164,7 @@
 	            }
 	        });
 	    }
+	    */
 	    
 	    function updateAirQuality() {
 	        let stationName = $('#station').val();
@@ -192,7 +194,7 @@
 	                    icon = '${ctp}/images/soso.png';
 	                } else {
 	                    airQualityLevel = 'bad';
-	                    icon = '${ctp}/images/anger.png';
+	                    icon = '${ctp}/images/angry.png';
 	                }
 
 	                document.getElementById('airQualityIcon').src = icon;
@@ -278,10 +280,10 @@
 						</div>
 						<div class="owl-carousel owl-theme" id="headline">							
 							<div class="item">
-								<a href="#"><span class="badge">공지</span> 이벤트 공지</a>
+								<a href="${ctp}/cswork/notice/noticeList"><span class="badge">공지</span> 이벤트 공지</a>
 							</div>
 							<div class="item">
-								<a href="#"><span class="badge">주목</span> 홈페이지 오픈 기념 무료 배송</a>
+								<a href="${ctp}/cswork/notice/noticeList"><span class="badge">주목</span> 홈페이지 오픈 기념 무료 배송</a>
 							</div>
 						</div>
 					</div>
@@ -333,8 +335,10 @@
 												</c:choose>
 											</p>
 											<footer>
+											<!--
 												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark());">
 												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
+											  -->
 												<a class="btn btn-primary more" href="${ctp}/news/allergic1">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -370,8 +374,6 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
-												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic2">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -411,8 +413,6 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
-												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic3">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -448,8 +448,6 @@
 												</c:choose>
 											</p>
 											<footer>
-												<a href="javascript:void(0);" class="bookmark" onclick="toggleBookmark(${productVO.productIdx});">
-												<i class="fa-solid fa-bookmark"></i><div>0</div></a>
 												<a class="btn btn-primary more" href="${ctp}/news/allergic4">
 													<div>더보기</div>
 													<div><i class="ion-ios-arrow-thin-right"></i></div>
@@ -565,14 +563,14 @@
 										<div class="featured-author-count">
 											<div class="item">
 												<a href="#">
-													<div class="name">북마크</div>
+													<div class="name">알림</div>
 													<div class="value">0</div>														
 												</a>
 											</div>
 											<div class="item">
 												<a href="#">
 													<div class="name">좋아요</div>
-													<div class="value">0</div>														
+													<div class="value">${likedCount}</div>														
 												</a>
 											</div>
 											<div class="item">

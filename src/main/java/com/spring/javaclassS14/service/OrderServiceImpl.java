@@ -89,4 +89,9 @@ public class OrderServiceImpl implements OrderService {
 			String endOrder, String conditionOrderStatus) {
 		return orderDAO.getMyOrderStatus(startIndexNo, pageSize, userIdx, startOrder, endOrder, conditionOrderStatus);
 	}
+
+	@Override
+	public Integer getUserOrderCnt(Integer userIdx) {
+		return orderDAO.getUserOrderCnt(userIdx);
+	}
 }

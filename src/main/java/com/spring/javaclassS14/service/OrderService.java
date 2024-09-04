@@ -23,5 +23,6 @@ public interface OrderService {
 	public List<OrderVO> getOrderList();
 	public void setOrderProduct(OrderVO vo);
 	public PaymentVO getPaymentByOrderIdx(String orderIdx);
+	public Integer getUserOrderCnt(Integer userIdx);
 	
 }

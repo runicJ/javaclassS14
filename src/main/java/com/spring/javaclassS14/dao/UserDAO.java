@@ -41,12 +41,6 @@ public interface UserDAO {
 
 	public int setUserUpdate(@Param("vo") UserVO vo);
 
-	public SaveInterestVO getBookmarkList(@Param("userIdx") Integer userIdx);
-
-	public int checkUserBookmark(@Param("userIdx") int userIdx, @Param("partUrl") String partUrl);
-
-	public void saveBookmarkToggle(@Param("userIdx") int userIdx, @Param("partUrl") String partUrl, @Param("bookmark") boolean bookmark);
-
 	public int totRecCntKeyword(@Param("keyword") String keyword);
 
 	public int totRecCntOption(Map<String, Object> paramMap);
@@ -60,4 +54,10 @@ public interface UserDAO {
 	public List<SaveInterestVO> getLikedProducts(@Param("userIdx") int userIdx);
 
 	public List<Map<String, Object>> getRecentViewProduct(@Param("userIdx") int userIdx);
+
+	public Integer getUserCouponCnt(@Param("userIdx") int userIdx);
+
+	public Integer getUserPointCnt(@Param("userIdx") int userIdx);
+
+	public Integer getLikedCnt(@Param("userIdx") int userIdx);
 }

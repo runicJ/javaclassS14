@@ -102,6 +102,18 @@
         WHERE v.userIdx = #{userIdx}
         ORDER BY v.viewIdx DESC LIMIT 5
     </select>
+    
+    <select id="getUserCouponCnt"  resultType="int">
+	    select count(*) from userCoupon where userIdx=#{userIdx};
+	</select>	
+	
+	<select id="getUserPointCnt" resultType="int">
+	    select point from users where userIdx=#{userIdx};
+	</select>
+	
+	<select id="getLikedCnt" resultType="int">
+	    select count(*) from liked_product where userIdx=#{userIdx};
+	</select>
 
 
 	<insert id="setUserRegisterOk">
@@ -118,17 +130,6 @@
 	
     <insert id="">
         insert into delete_users (userId, email, deleteReason) values (#{userId}, #{email}, #{deleteReason});
-    </insert>
-    
-    <insert id="saveBookmarkToggle">
-    	<choose>
-    		<when test="bookmark">
-    			insert into bookmark (userIdx, partUrl) values (#{userIdx}, #{partUrl})
-    		</when>
-    		<otherwise>
-    			delete from bookmark where userIdx=#{userIdx} and partUrl=#{partUrl}
-    		</otherwise>
-    	</choose>
     </insert>
 
 	

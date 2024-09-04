@@ -51,7 +51,7 @@
 											</c:choose>
 										</table>
 										<footer>
-											<a class="btn btn-primary more" href="${ctp}/users/userOrderList">
+											<a class="btn btn-primary more" href="${ctp}/users/myOrderList">
 												<span>더보기</span>
 											</a>
 										</footer>
@@ -63,7 +63,7 @@
 							<article class="article col-md-12">
 								<div class="inner">
 									<div class="padding">
-										<h2 class="text-center"><a href="${ctp}/users/userLikedproduct">관심 제품</a></h2>
+										<h2 class="text-center"><a href="${ctp}/users/myLikedList">관심 제품</a></h2>
 										<table class="table table-hover">
 											<tr>
 												<th>상품명</th>
@@ -90,7 +90,7 @@
 											</c:choose>
 										</table>
 										<footer>
-											<a class="btn btn-primary more" href="${ctp}/users/userLikedproduct">
+											<a class="btn btn-primary more" href="${ctp}/users/myLikedList">
 												<span>더보기</span>
 											</a>
 										</footer>
@@ -113,7 +113,7 @@
 												<tr>
 													<td>
 										                <a href="${ctp}/shop/productDetails?productIdx=${recentProduct.productIdx}">
-										                    <img src="${ctp}/product/${recentProduct.productThumb}" alt="${recentProduct.productName}">
+										                    <img src="${ctp}/product/${recentProduct.productThumb}" alt="${recentProduct.productName}" width="100px" height="55px">
 										                </a>
 										            </td>
 									                <td>

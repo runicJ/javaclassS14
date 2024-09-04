@@ -250,39 +250,4 @@ public class OrderController {
         return "order/orderDelivery";
     }
     
-    // 나의 주문 내역 및 상태 보기
-    @RequestMapping(value = "/myOrderList", method = RequestMethod.GET)
-    public String getMyOrder(Model model, HttpServletRequest request, HttpSession session,
-                             @RequestParam(required = false) String startOrder,
-                             @RequestParam(required = false) String endOrder,
-                             @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
-                             @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
-                             @RequestParam(name = "conditionOrderStatus", defaultValue = "전체", required = false) String conditionOrderStatus) {
-
-        Integer userIdx = (Integer) session.getAttribute("sUidx");
-        if (userIdx == null) {
-            model.addAttribute("msg", "로그인이 필요합니다. 다시 로그인 해주세요.");
-            return "redirect:/user/login";
-        }
-
-        // 조건을 '@'로 연결하여 검색 조건으로 사용
-        String searchString = (startOrder != null ? startOrder : "") + "@" + 
-                              (endOrder != null ? endOrder : "") + "@" + 
-                              conditionOrderStatus;
-
-        // 총 레코드 수 및 페이징 정보 계산
-        PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrderStatus", userIdx, searchString);
-
-        // 주문 목록 조회
-        List<OrderVO> vos = orderService.getMyOrderStatus(pageVO.getStartIndexNo(), pageSize, userIdx, startOrder, endOrder, conditionOrderStatus);
-        
-        // 모델에 조회된 결과 추가
-        model.addAttribute("vos", vos);
-        model.addAttribute("startOrder", startOrder);
-        model.addAttribute("endOrder", endOrder);
-        model.addAttribute("conditionOrderStatus", conditionOrderStatus);
-        model.addAttribute("pageVO", pageVO);
-
-        return "order/myOrder";
-    }
 }

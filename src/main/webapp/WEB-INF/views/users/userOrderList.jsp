@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>dbMyOrder.jsp(회원 주문확인)</title>
+  <title>orderList</title>
   <jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
   <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
   <script>
@@ -19,18 +19,18 @@
     
     // 날짜기간에 따른 조건검색
     function myOrderStatus() {
-    	var startDateJumun = new Date(document.getElementById("startJumun").value);
-    	var endDateJumun = new Date(document.getElementById("endJumun").value);
+    	var startDateOrder = new Date(document.getElementById("startOrder").value);
+    	var endDateOrder = new Date(document.getElementById("endOrder").value);
     	var conditionOrderStatus = document.getElementById("conditionOrderStatus").value;
     	
-    	if((startDateJumun - endDateJumun) > 0) {
+    	if((startDateOrder - endDateOrder) > 0) {
     		alert("주문일자를 확인하세요!");
     		return false;
     	}
     	
-    	startJumun = moment(startDateJumun).format("YYYY-MM-DD");
-    	endJumun = moment(endDateJumun).format("YYYY-MM-DD");
-    	location.href="myOrderStatus?pag=${pageVO.pag}&startJumun="+startJumun+"&endJumun="+endJumun+"&conditionOrderStatus="+conditionOrderStatus;
+    	startOrder = moment(startDateOrder).format("YYYY-MM-DD");
+    	endOrder = moment(endDateOrder).format("YYYY-MM-DD");
+    	location.href="myOrderStatus?pag=${pageVO.pag}&startOrder="+startOrder+"&endOrder="+endOrder+"&conditionOrderStatus="+conditionOrderStatus;
     }
   </script>
 </head>
@@ -48,15 +48,15 @@
   <table class="table table-borderless">
     <tr>
       <td style="text-align:left;">날짜기간 및 조건검색 :
-        <c:if test="${startJumun == null}">
-          <c:set var="startJumun" value="<%=new java.util.Date() %>"/>
-	        <c:set var="startJumun"><fmt:formatDate value="${startJumun}" pattern="yyyy-MM-dd"/></c:set>
+        <c:if test="${startOrder == null}">
+          <c:set var="startOrder" value="<%=new java.util.Date() %>"/>
+	        <c:set var="startOrder"><fmt:formatDate value="${startOrder}" pattern="yyyy-MM-dd"/></c:set>
         </c:if>
-        <c:if test="${endJumun == null}">
-          <c:set var="endJumun" value="<%=new java.util.Date() %>"/>
-	        <c:set var="endJumun"><fmt:formatDate value="${endJumun}" pattern="yyyy-MM-dd"/></c:set>
+        <c:if test="${endOrder == null}">
+          <c:set var="endOrder" value="<%=new java.util.Date() %>"/>
+	        <c:set var="endOrder"><fmt:formatDate value="${endOrder}" pattern="yyyy-MM-dd"/></c:set>
         </c:if>
-        <input type="date" name="startJumun" id="startJumun" value="${startJumun}"/>~<input type="date" name="endJumun" id="endJumun" value="${endJumun}"/>
+        <input type="date" name="startOrder" id="startOrder" value="${startOrder}"/>~<input type="date" name="endOrder" id="endOrder" value="${endOrder}"/>
         <select name="conditionOrderStatus" id="conditionOrderStatus">
           <option value="전체" ${conditionOrderStatus == '전체' ? 'selected' : ''}>전체</option>
           <option value="결제완료" ${conditionOrderStatus == '결제완료' ? 'selected' : ''}>결제완료</option>
@@ -147,24 +147,24 @@
 			<c:if test="${pageVO.totPage == 0}"><p style="text-align:center"><b>자료가 없습니다.</b></p></c:if>
 			<c:if test="${pageVO.totPage != 0}">
 			  <c:if test="${pageVO.pag != 1}">
-			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=1&startJumun=${startJumun}&endJumun=${endJumun}&conditionOrderStatus=${conditionOrderStatus}" title="첫페이지" class="page-link text-secondary">◁◁</a></li>
+			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=1&startOrder=${startOrder}&endOrder=${endOrder}&conditionOrderStatus=${conditionOrderStatus}" title="첫페이지" class="page-link text-secondary">◁◁</a></li>
 			  </c:if>
 			  <c:if test="${pageVO.curBlock > 0}">
-			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&startJumun=${startJumun}&endJumun=${endJumun}&conditionOrderStatus=${conditionOrderStatus}" title="이전블록" class="page-link text-secondary">◀</a></li>
+			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=${(pageVO.curBlock-1)*pageVO.blockSize + 1}&startOrder=${startOrder}&endOrder=${endOrder}&conditionOrderStatus=${conditionOrderStatus}" title="이전블록" class="page-link text-secondary">◀</a></li>
 			  </c:if>
 			  <c:forEach var="i" begin="${(pageVO.curBlock*pageVO.blockSize)+1}" end="${(pageVO.curBlock*pageVO.blockSize)+pageVO.blockSize}">
 			    <c:if test="${i == pageVO.pag && i <= pageVO.totPage}">
-			      <li class="page-item active"><a href='${ctp}/dbShop/dbMyOrder?pag=${i}&startJumun=${startJumun}&endJumun=${endJumun}&conditionOrderStatus=${conditionOrderStatus}' class="page-link text-light bg-secondary border-secondary">${i}</a></li>
+			      <li class="page-item active"><a href='${ctp}/dbShop/dbMyOrder?pag=${i}&startOrder=${startOrder}&endOrder=${endOrder}&conditionOrderStatus=${conditionOrderStatus}' class="page-link text-light bg-secondary border-secondary">${i}</a></li>
 			    </c:if>
 			    <c:if test="${i != pageVO.pag && i <= pageVO.totPage}">
-			      <li class="page-item"><a href='${ctp}/dbShop/dbMyOrder?pag=${i}&startJumun=${startJumun}&endJumun=${endJumun}&conditionOrderStatus=${conditionOrderStatus}' class="page-link text-secondary">${i}</a></li>
+			      <li class="page-item"><a href='${ctp}/dbShop/dbMyOrder?pag=${i}&startOrder=${startOrder}&endOrder=${endOrder}&conditionOrderStatus=${conditionOrderStatus}' class="page-link text-secondary">${i}</a></li>
 			    </c:if>
 			  </c:forEach>
 			  <c:if test="${pageVO.curBlock < pageVO.lastBlock}">
-			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=${(pageVO.curBlock+1)*pageVO.blockSize + 1}&startJumun=${startJumun}&endJumun=${endJumun}&conditionOrderStatus=${conditionOrderStatus}" title="다음블록" class="page-link text-secondary">▶</a>
+			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=${(pageVO.curBlock+1)*pageVO.blockSize + 1}&startOrder=${startOrder}&endOrder=${endOrder}&conditionOrderStatus=${conditionOrderStatus}" title="다음블록" class="page-link text-secondary">▶</a>
 			  </c:if>
 			  <c:if test="${pageVO.pag != pageVO.totPage}">
-			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=${pageVO.totPage}&startJumun=${startJumun}&endJumun=${endJumun}&conditionOrderStatus=${conditionOrderStatus}" title="마지막페이지" class="page-link" style="color:#555">▷▷</a>
+			    <li class="page-item"><a href="${ctp}/dbShop/dbMyOrder?pag=${pageVO.totPage}&startOrder=${startOrder}&endOrder=${endOrder}&conditionOrderStatus=${conditionOrderStatus}" title="마지막페이지" class="page-link" style="color:#555">▷▷</a>
 			  </c:if>
 			</c:if>
 		</ul>

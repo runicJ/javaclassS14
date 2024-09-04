@@ -666,11 +666,13 @@ public class AdminController {
 	@RequestMapping(value = "/file/fileList", method = RequestMethod.GET)
 	public String fileListGet(HttpServletRequest request, Model model) {
 		String realPath = request.getRealPath("/resources/data/ckeditor/");
+	    String[] files = new File(realPath).list();
 		
-		String[] files = new File(realPath).list();
-		
+	    if (files == null) {
+	        files = new String[0]; // 폴더가 없거나 파일이 없을 때
+	    }
+	    
 		model.addAttribute("files", files);
-		
 		return "admin/file/fileList";
 	}
 	
