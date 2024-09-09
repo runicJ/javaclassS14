@@ -42,19 +42,25 @@ public class QnaController {
 		model.addAttribute("vos", vos);
 		model.addAttribute("pageVO", pageVO);
 		
-  	return "qna/qnaList";
+  	return "shop/productDetails";
   }
   
   // 질문글로 호출될때는 qnaSw가 'q'로, 답변글로 호출될때는 'a'로 qnaSw값에 담겨 넘어온다.
   @RequestMapping(value = "/qnaInput", method = RequestMethod.GET)
   public String qnaListGet(String qnaFlag, HttpSession session, Model model) {
-  	String mid = (String) session.getAttribute("sMid");
-  	String email = qnaService.getEmail(mid);
-  	
+  	Integer userIdx = (Integer) session.getAttribute("sUidx");
+
+    if (userIdx == null) {
+    	return "redirect:/msg/userLoginNo";  // 로그인 필요
+    }
+    
+  	String email = qnaService.getEmail(userIdx);
+  	System.out.println("qnaFlag : " + qnaFlag);
+  	System.out.println("email : " + email);
   	model.addAttribute("qnaFlag", qnaFlag);
   	model.addAttribute("email", email);
   	
-  	return "qna/qnaInput";
+  	return "shop/qnaInput";
   }
   
   // qna '글올리기'와 '답변글 올리기'에서 이곳을 모두 사용하고 있다. 
@@ -100,8 +106,13 @@ public class QnaController {
   // qna 작성글 보기(작성글보기 안에서 답글을 올릴경우 원본글의 title와 답변자의 email주소가 필요하기에 model로 보낸다.)
   @RequestMapping(value = "/qnaContent", method = RequestMethod.GET)
   public String qnaListGet(int idx, String title, int pag, HttpSession session, Model model) {
-  	String mid = (String) session.getAttribute("sMid");
-  	String email = qnaService.getEmail(mid);
+  	Integer userIdx = (Integer) session.getAttribute("sUidx");
+
+    if (userIdx == null) {
+    	return "redirect:/msg/userLoginNo";  // 로그인 필요
+    }
+    
+  	String email = qnaService.getEmail(userIdx);
   	
   	QnaVO vo = qnaService.getQnaContent(idx);
   	model.addAttribute("email", email);
@@ -109,7 +120,7 @@ public class QnaController {
   	model.addAttribute("pag", pag);
   	model.addAttribute("vo", vo);
   	
-  	return "qna/qnaContent";
+  	return "shop/qnaContent";
   }
   
   // qna 업데이트 폼 보기
@@ -123,7 +134,7 @@ public class QnaController {
    	}
   	
   	model.addAttribute("vo", vo);
-  	return "qna/qnaUpdate";
+  	return "shop/qnaUpdate";
   }
   
   // qna 업데이트 처리하기(임시그림폴더(ckeditor) 정리는 하지 않았음...)

@@ -8,7 +8,7 @@ import com.spring.javaclassS14.vo.QnaVO;
 
 public interface QnaDAO {
 
-	public String getEmail(@Param("mid") String mid);
+	public String getEmail(@Param("userIdx") int userIdx);
 
 	public int getCountIdx();
 

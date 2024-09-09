@@ -39,8 +39,6 @@
     		myform.content.focus();
     	}
     	else {
-	    	//if($("#pwdCheck").is(":checked")) myform.pwd.value = '1234';
-	    	//else myform.pwd.value = "";
 	    	if($("#pwdCheck").is(":checked") && pwd == "") {
 	    		alert("비밀번호를 입력하세요");
 	    		myform.pwd.focus();
@@ -116,16 +114,10 @@
         <td colspan="2" style="text-align:center">
           <input type="button" value="글올리기" onclick="fCheck()" class="btn btn-success"/> &nbsp;
           <input type="reset" value="다시쓰기" class="btn btn-warning"/> &nbsp;
-          <%-- 
-          <c:if test="${vo.nickName == sNickName}">
-          	<input type="button" value="글수정하기" onclick="fCheck()" class="btn btn-primary"/> &nbsp;
-          </c:if>
-           --%>
           <input type="button" value="돌아가기" onclick="location.href='qnaList';" class="btn btn-secondary"/>
         </td>
       </tr>
     </table>
-    <%-- <input type="hidden" name="qnaSw" value="${qnaSw}"/> --%>  <!-- get방식으로 넘어온 주소값에 'qnaSw=a'가 적혀 있기에 이곳에 다시 기술할필요가 없다. -->
     <c:if test="${qnaFlag == 'q'}"><input type="hidden" name="qnaSw" value="q"/></c:if>
     <c:if test="${qnaFlag != 'q'}">
       <input type="hidden" name="qnaSw" value="a"/>

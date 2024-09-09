@@ -6,7 +6,7 @@ import com.spring.javaclassS14.vo.QnaVO;
 
 public interface QnaService {
 
-	public String getEmail(String mid);
+	public String getEmail(Integer userIdx);
 
 	public int getMaxIdx();
 

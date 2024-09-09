@@ -324,6 +324,21 @@
                 alert("URL 복사에 실패했습니다.");
             });
         }
+        
+        function sChange() {
+        	searchForm.searchString.focus();
+        }
+        
+        function sCheck() {
+        	var searchString = searchForm.searchString.value;
+        	if(searchString == "") {
+        		alert("검색어를 입력하세요");
+        		searchForm.searchString.focus();
+        	}
+        	else {
+        		searchForm.submit();
+        	}
+        }
     </script>
     <style>
         .layer {
@@ -612,16 +627,19 @@
                                 </div>
                                 <div class="tab-pane" id="tabs-7" role="tabpanel">
                                     <div class="product__details__tab__content">
+                            			<p><br></p>
                                     	<h4 class="text-center">상품 문의</h4>
-                                    	<p><br></p>
-                                          <table class="table table-hover m-0 p-0 text-center">
-									    <tr class="table-dark text-dark">
-									      <th>번호</th>
-									      <th>아이디</th>
-									      <th>문의내용</th>
-									      <th>신청일</th>
-									      <th>답변상태</th>
-									    </tr>
+										<div style="text-align:right;padding:10px 0px">
+								        	<input type="button" value="글올리기" onclick="location.href='${ctp}/qna/qnaInput?qnaFlag=q';" class="btn btn-secondary"/>
+										</div>
+										<table class="table table-hover m-0 p-0 text-center">
+										    <tr class="table-dark text-dark">
+										      <th>번호</th>
+										      <th>아이디</th>
+										      <th>문의내용</th>
+										      <th>신청일</th>
+										      <th>답변상태</th>
+										    </tr>
 									    <c:set var="curScrStartNo" value="${pageVO.curScrStartNo}" />
 									    <c:forEach var="vo" items="${vos}" varStatus="st">
 										    <tr>

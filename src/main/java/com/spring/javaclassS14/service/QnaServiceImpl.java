@@ -15,8 +15,8 @@ public class QnaServiceImpl implements QnaService {
 	QnaDAO qnaDAO;
 
 	@Override
-	public String getEmail(String mid) {
-		return qnaDAO.getEmail(mid);
+	public String getEmail(Integer userIdx) {
+		return qnaDAO.getEmail(userIdx);
 	}
 
 	@Override

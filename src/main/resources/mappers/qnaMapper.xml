@@ -11,7 +11,7 @@
   </select>
   
   <select id="getEmail" resultType="String">
-    select email from member2 where mid = #{mid};
+    select email from users where userIdx = #{userIdx};
   </select>
   
   <select id="getCountIdx" resultType="int">
