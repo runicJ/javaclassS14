@@ -43,4 +43,6 @@ public interface AdminService {
 
 	public boolean sendCouponToUser(String userId);
 
+	public List<Map<String, Object>> getMonthlySale();
+
 }

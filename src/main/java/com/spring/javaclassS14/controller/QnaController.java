@@ -31,19 +31,6 @@ public class QnaController {
   
   @Autowired
   AllProvide allProvide;
-	
-  @RequestMapping(value = "/qnaList", method = RequestMethod.GET)
-  public String qnaListGet(
-  		@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
-			@RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize,
-			Model model) {
-  	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "qna", "", "");
-		List<QnaVO> vos = qnaService.getQnaList(pageVO.getStartIndexNo(), pageSize);
-		model.addAttribute("vos", vos);
-		model.addAttribute("pageVO", pageVO);
-		
-  	return "shop/productDetails";
-  }
   
   // 질문글로 호출될때는 qnaSw가 'q'로, 답변글로 호출될때는 'a'로 qnaSw값에 담겨 넘어온다.
   @RequestMapping(value = "/qnaInput", method = RequestMethod.GET)
@@ -55,8 +42,7 @@ public class QnaController {
     }
     
   	String email = qnaService.getEmail(userIdx);
-  	System.out.println("qnaFlag : " + qnaFlag);
-  	System.out.println("email : " + email);
+  	
   	model.addAttribute("qnaFlag", qnaFlag);
   	model.addAttribute("email", email);
   	

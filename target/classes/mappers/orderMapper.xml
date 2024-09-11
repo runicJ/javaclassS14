@@ -15,7 +15,7 @@
   </select>
   
   <select id="getOrderList" resultType="com.spring.javaclassS14.vo.OrderVO">
-    SELECT * FROM orders_p order by orderIdx desc;
+    SELECT o.*, u.userId FROM orders_p o,users u where o.userIdx = u.userIdx order by orderIdx desc;
   </select>
   
   <select id="getOrderDelivery" parameterType="String" resultType="com.spring.javaclassS14.vo.OrderVO">

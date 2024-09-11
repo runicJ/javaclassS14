@@ -7,7 +7,7 @@
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>popup.jsp(공지사항 팝업창)</title>
+  <title>popup</title>
   <%@ include file="/WEB-INF/views/include/admin/bs4.jsp" %>
   <script>
     function closePopup() {

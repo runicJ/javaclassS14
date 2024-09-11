@@ -38,6 +38,12 @@
     LIMIT #{startIndexNo}, #{pageSize};
 </select>
 
+	<select id="getMonthlySales" resultType="map">
+		select date_format(orderDate, '%Y-%m') as month, count(*) as saleCount from orders_p
+		where orderDate >= date_sub(now(), interval 4 month) group by month order by month
+	</select>
+
+
 <update id="updateUser">
     UPDATE users
     <set>

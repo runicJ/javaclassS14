@@ -64,12 +64,12 @@
 					                            <td>${st.count}</td>
 					                            <td>${orderVO.userId}</td>
 					                            <td><fmt:formatNumber value="${orderVO.totalPrice}"/>원</td>
-					                            <td>${orderVO.couponIdx !=0 ? 'Y' : 'N'}</td>
+					                            <td>${orderVO.couponIdx !=null ? 'Y' : 'N'}</td>
 					                            <td>${orderVO.pointUse !=0 ? 'Y' : 'N'}</td>
 					                            <td>${orderVO.orderStatus}</td>
 					                            <td>${fn:substring(orderVO.orderDate,0,19)}</td>
 					                 		         <td>
-					                           	<a type="button" class="badge badge-info text-light mr-1">완료</a>
+					                           	<a type="button" class="badge badge-info text-light mr-1">처리</a>
 					                           	<a type="button" class="badge badge-danger text-light" onclick="categoryTopDelete('${topVO.productTopIdx}')">취소</a>
 					                           </td>
 					                        </tr>

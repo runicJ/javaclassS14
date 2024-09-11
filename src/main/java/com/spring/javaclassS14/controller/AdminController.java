@@ -129,6 +129,11 @@ public class AdminController {
         model.addAttribute("mailUserVOS", mailUserVOS);
         
 		model.addAttribute("wayVOS", wayVOS);
+		
+		List<Map<String, Object>> monthlySales = adminService.getMonthlySale();
+		System.out.println("monthlySales : " + monthlySales);
+		model.addAttribute("monthlySales", monthlySales);
+		
 		return "admin/adminMain";
 	}
 	

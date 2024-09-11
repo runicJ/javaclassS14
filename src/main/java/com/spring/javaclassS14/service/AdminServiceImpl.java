@@ -186,4 +186,9 @@ public class AdminServiceImpl implements AdminService {
 
         return true;  // 성공적으로 메일 발송 완료
     }
+
+	@Override
+	public List<Map<String, Object>> getMonthlySale() {
+		return adminDAO.getMonthlySales();
+	}
 }

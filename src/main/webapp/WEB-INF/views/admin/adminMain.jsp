@@ -52,6 +52,8 @@
     </div>
     <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full"
         data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
+        <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
+		<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
         <header class="topbar" data-navbarbg="skin6">
             <nav class="navbar top-navbar navbar-expand-md">
                 <div class="navbar-header" data-logobg="skin6">
@@ -147,12 +149,14 @@
                                 data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                 <i data-feather="settings" class="svg-icon"></i>
                             </a>
+                            <!--
                             <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                 <a class="dropdown-item" href="#">Action</a>
                                 <a class="dropdown-item" href="#">Another action</a>
                                 <div class="dropdown-divider"></div>
                                 <a class="dropdown-item" href="#">Something else here</a>
                             </div>
+                              -->
                         </li>
                     </ul>
                     <ul class="navbar-nav float-right">
@@ -177,6 +181,7 @@
                             </a>
 							
                             <div class="dropdown-menu dropdown-menu-right user-dd animated flipInY">
+                            	<!--
                                 <a class="dropdown-item" href="javascript:void(0)"><i data-feather="user"
                                         class="svg-icon mr-2 ml-1"></i>
                                     My Profile</a>
@@ -191,11 +196,12 @@
                                         class="svg-icon mr-2 ml-1"></i>
                                     Account Setting</a>
                                 <div class="dropdown-divider"></div>
-                                <a class="dropdown-item" href="javascript:void(0)"><i data-feather="power"
+                                  -->
+                                <a class="dropdown-item" href="${ctp}/users/userLogout"><i data-feather="power"
                                         class="svg-icon mr-2 ml-1"></i>
                                     Logout</a>
                                 <div class="dropdown-divider"></div>
-                                <div class="pl-4 p-3"><a href="javascript:void(0)" class="btn btn-sm btn-info">관리자 메인으로</a></div>
+                                <div class="pl-4 p-3"><a href="${ctp}/admin/adminMain" class="btn btn-sm btn-info">관리자 메인으로</a></div>
                             </div>
                             
                         </li>
@@ -219,6 +225,7 @@
                             </nav>
                         </div>
                     </div>
+                    <!--
                     <div class="col-5 align-self-center">
                         <div class="customize-input float-right">
                             <select class="custom-select custom-select-set form-control bg-white border-0 custom-shadow custom-radius">
@@ -228,6 +235,7 @@
                             </select>
                         </div>
                     </div>
+                     -->
                 </div>
             </div>
 
@@ -318,10 +326,10 @@
                     <div class="col-lg-4 col-md-12">
                         <div class="card">
                             <div class="card-body">
-                                <h4 class="card-title">이번주 수익 내역</h4>
+                                <h4 class="card-title">월별 수익 내역</h4>
                                 <div class="net-income mt-4 position-relative" style="height:294px;"></div>
                                 <ul class="list-inline text-center mt-5 mb-2">
-                                    <li class="list-inline-item text-muted font-italic">Sales for this month</li>
+                                    <li class="list-inline-item text-muted font-italic">최근 4개월 판매 건수</li>
                                 </ul>
                             </div>
                         </div>
@@ -350,6 +358,7 @@
                         </div>
                     </div>
                 </div>
+                <!-- 
                 <div class="row">
                     <div class="col-md-6 col-lg-8">
                         <div class="card">
@@ -433,11 +442,9 @@
                         </div>
                     </div>
                 </div>
-
+				-->
             </div>
-
         </div>
-
     </div>
 
 <p><br/></p>
@@ -490,35 +497,35 @@
 	            console.warn("데이터 없음");
 	        }
 	        
-	        var e = {
+	        var monthlyLabels = [];
+	        var monthlyCounts = [];
+
+	        <c:forEach var="sale" items="${monthlySales}">
+	            monthlyLabels.push('${sale.month}');
+	            monthlyCounts.push(${sale.saleCount});
+	        </c:forEach>
+
+	        var monthlySalesData = {
+	            labels: monthlyLabels,
+	            series: [monthlyCounts]
+	        };
+
+	        var options = {
 	            axisX: {
-	                showGrid: !1
+	                showGrid: false
 	            },
-	            seriesBarDistance: 1,
-	            chartPadding: {
-	                top: 15,
-	                right: 15,
-	                bottom: 5,
-	                left: 0
+	            axisY: {
+	                onlyInteger: true,
+	                offset: 20
 	            },
 	            plugins: [Chartist.plugins.tooltip()],
-	            width: "100%"
+	            seriesBarDistance: 10,
+	            height: '294px'
 	        };
-	        new Chartist.Bar(".net-income", {
-	            labels: ["Jan", "Feb", "Mar", "Apr", "May", "Jun"],
-	            series: [
-	                [5, 4, 3, 7, 5, 10]
-	            ]
-	        }, e, [
-	            ["screen and (max-width: 640px)", {
-	                seriesBarDistance: 5,
-	                axisX: {
-	                    labelInterpolationFnc: function(e) {
-	                        return e[0]
-	                    }
-	                }
-	            }]
-	        ]), jQuery("#visitbylocate").vectorMap({
+
+	        new Chartist.Bar('.net-income', monthlySalesData, options);
+
+	        jQuery("#visitbylocate").vectorMap({
 	            map: "world_mill_en",
 	            backgroundColor: "transparent",
 	            borderColor: "#000",

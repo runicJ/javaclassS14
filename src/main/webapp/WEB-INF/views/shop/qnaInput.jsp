@@ -4,18 +4,19 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>qnaInput.jsp</title>
-  <script src="${ctp}/ckeditor/ckeditor.js"></script>
-  <jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
-  <style>
-    th {
-      text-align: center;
-      background-color: #eee;
-    }
-  </style>
-  <script>
-  
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>qnaInput</title>
+ 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
+	<script src="${ctp}/ckeditor/ckeditor.js"></script>
+	<style>
+		th {
+		  text-align: center;
+		  background-color: #eee;
+		}
+	</style>
+	<script>
+  		'use strict';
   
     function fCheck() {
 	  	CKupdate();
@@ -65,13 +66,17 @@
 	    	}
 	    });
     });
-  </script>
+	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp"/>
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp"/>
 <div class="container">
-  <p><br/></p>
+    <div id="preloder">
+        <div class="loader"></div>
+    </div>
+    <section class="shop-details">
+        <div class="product__details__pic">
   <form name="myform" method="post">
     <table class="table table-borderless">
       <tr>
@@ -93,15 +98,19 @@
       </tr>
       <tr>
         <th>글내용</th>
-        <td><textarea rows="6" name="content" id="CKEDITOR" class="form-control" required></textarea></td>
-        <script>
-          CKEDITOR.replace("content",{
-        	  height:500,
-        	  filebrowserUploadUrl:"${ctp}/imageUpload",
-        	  uploadUrl : "${ctp}/imageUpload"
-          });
-        </script>
-      </tr>
+        <td>
+        	<textarea rows="5" name="content" id="CKEDITOR" class="form-control" required></textarea>
+        </td>
+	  </tr>
+		<script>
+		    $(document).ready(function() {
+		        CKEDITOR.replace("CKEDITOR", {
+		            uploadUrl: "${ctp}/imageUpload",
+		            filebrowserUploadUrl: "${ctp}/imageUpload",
+		            height: 460
+		        });
+		    });
+		</script>
       <tr>
         <th>비밀번호</th>
         <td>
@@ -123,8 +132,10 @@
       <input type="hidden" name="qnaSw" value="a"/>
       <input type="hidden" name="qnaIdx" value="${vo.idx}"/>
     </c:if>
-    <input type="hidden" name="mid" value="${sMid}"/>
+    <input type="hidden" name="userId" value="${sUid}"/>
   </form>
+  </div>
+  </section>
   <p><br/></p>
 </div>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp"/>

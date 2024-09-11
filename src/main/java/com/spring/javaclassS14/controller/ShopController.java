@@ -17,12 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.OrderService;
+import com.spring.javaclassS14.service.QnaService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
+import com.spring.javaclassS14.vo.QnaVO;
 import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -38,6 +40,8 @@ public class ShopController {
     PageProcess pageProcess;
     @Autowired
     OrderService orderService;
+    @Autowired
+    QnaService qnaService;
 
     @RequestMapping(value="/productList", method=RequestMethod.GET)
     public String productListGet(Model model,
@@ -78,7 +82,10 @@ public class ShopController {
 	}
 
     @RequestMapping(value="/productDetails", method=RequestMethod.GET)
-    public String productDetailsGet(HttpSession session, Model model, int productIdx) {
+    public String productDetailsGet(HttpSession session, Model model, int productIdx,
+    		@RequestParam(name="pag", defaultValue = "1", required = false) int pag,
+            @RequestParam(name="pageSize", defaultValue = "10", required = false) int pageSize
+    		) {
         ShopVO productVO = shopService.getProduct(productIdx);            // 상품 1건의 정보를 불러온다.
         List<ShopVO> optionGroupVOS = shopService.getOptionGroup(productIdx);
         List<ShopVO> optionVOS = shopService.getAllOption(productIdx);    // 해당 상품의 모든 옵션 정보를 가져온다.
@@ -97,12 +104,17 @@ public class ShopController {
 			}
 		}
 		List<ShopVO> relatedVOS = shopService.getRelatedProducts(new ArrayList<>(tags));
-        
-        model.addAttribute("optionGroupVOS", optionGroupVOS);
+
+		model.addAttribute("optionGroupVOS", optionGroupVOS);
         model.addAttribute("productVO", productVO);
         model.addAttribute("optionVOS", optionVOS);
         model.addAttribute("reviewVOS", reviewVOS);
         model.addAttribute("relatedVOS", relatedVOS);
+
+    	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "qna", "", "");
+    	List<QnaVO> vos = qnaService.getQnaList(pageVO.getStartIndexNo(), pageSize);
+    	model.addAttribute("vos", vos);
+    	model.addAttribute("pageVO", pageVO);
 
         return "shop/productDetails";
     }

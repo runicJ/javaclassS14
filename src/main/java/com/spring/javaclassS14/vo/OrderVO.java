@@ -8,6 +8,7 @@ public class OrderVO {
 	// order_p
     private int orderIdx;
     private int userIdx;
+    private String userId;
     private int totalPrice;
     private Integer couponIdx;
     private int pointUse;

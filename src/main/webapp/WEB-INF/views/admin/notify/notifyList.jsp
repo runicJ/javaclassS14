@@ -12,7 +12,7 @@
   <script>
     $(document).ready(function() {
     	$(".popupSw").click(function() {
-    		var popupCheck = $(this).is(":checked");  // 결과는 True 또는 False 가 발생한다.
+    		var popupCheck = $(this).is(":checked");
     		var popupSw = popupCheck ? "Y" : "N";
     		var idx = $(this).next().val();
     		var query = {

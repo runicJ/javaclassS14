@@ -43,4 +43,6 @@ public interface AdminDAO {
 
 	public UserVO getUserById(String userId);
 
+	public List<Map<String, Object>> getMonthlySales();
+
 }
