@@ -115,11 +115,23 @@ margin-top: 20px;
 		    let minPrice = $("#hiddenMinPrice").val();
 		    let maxPrice = $("#hiddenMaxPrice").val();
 
-		    let url = '${ctp}/shop/productList?averageRating=${averageRating}&sort=${sort}&minPrice=${minPrice}&maxPrice=${maxPrice}';
+		    let url = "${ctp}/shop/productList?averageRating=" + averageRating + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
 
 		    window.location.href = url;
 		}
+		
+		function applySort() {
+		    let sort = document.getElementById("sort").value;
 
+		    // 현재 필터링된 값들을 가져옴
+		    let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
+		    let minPrice = $("#hiddenMinPrice").val();
+		    let maxPrice = $("#hiddenMaxPrice").val();
+
+		    // 정렬 URL 생성
+    		let url = "${ctp}/shop/productList?averageRating=" + averageRating + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
+		    window.location.href = url;
+		}
 	</script>
 </head>
 <body>
@@ -127,12 +139,10 @@ margin-top: 20px;
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
 <p><br></p>
 <div class="container">
-<!-- Page Preloder -->
     <div id="preloder">
         <div class="loader"></div>
     </div>
 
-    <!-- Breadcrumb Section Begin -->
     <section class="breadcrumb-option">
         <div class="container">
             <div class="row">
@@ -148,9 +158,7 @@ margin-top: 20px;
             </div>
         </div>
     </section>
-    <!-- Breadcrumb Section End -->
 
-    <!-- Shop Section Begin -->
     <section class="shop spad">
         <div>
             <div class="row">
@@ -159,7 +167,7 @@ margin-top: 20px;
                         <div class="shop__sidebar__search">
                             <form action="${ctp}/shop/productList">
                                 <input type="text" name="keyword" placeholder="Search...">
-                                <button type="submit"><span class="icon_search"></span></button>
+                                <button type="submit"><span><i class="fa-solid fa-magnifying-glass"></i></span></button>
                             </form>
                         </div>
                         <div class="shop__sidebar__accordion">
@@ -264,7 +272,7 @@ margin-top: 20px;
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
                                     <p>정렬순서</p>
-									<select name="sort" id="sort" onchange="applyFilter()">
+									<select name="sort" id="sort" onchange="applySort()">
 									    <option value="productIdx desc" ${sort == 'productIdx desc' ? 'selected' : ''}>최신등록순</option>
 									    <option value="likedCnt" ${sort == 'likedCnt' ? 'selected' : ''}>관심등록순</option>
 									    <option value="productPrice" ${sort == 'productPrice' ? 'selected' : ''}>가격낮은순</option>

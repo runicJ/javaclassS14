@@ -32,9 +32,11 @@ public class PageProcess {
             case "user":
                 if (searchString != null && !searchString.isEmpty()) {
                     totRecCnt = userDAO.totRecCntKeyword(searchString);
-                } else if (!paramMap.isEmpty()) {
+                } 
+                else if (!paramMap.isEmpty()) {
                     totRecCnt = userDAO.totRecCntOption(paramMap);
-                } else {
+                } 
+                else {
                     totRecCnt = userDAO.totRecCnt();
                 }
                 break;
@@ -42,7 +44,11 @@ public class PageProcess {
             case "product":
                 if (searchString != null && !searchString.isEmpty()) {
                     totRecCnt = shopDAO.totRecCntKeyword(searchString);
-                } else {
+                }
+                else if (!paramMap.isEmpty()) {
+                    totRecCnt = shopDAO.totRecCntOption(paramMap);
+                }
+                else {
                     totRecCnt = shopDAO.totRecCnt();
                 }
                 break;

@@ -2,7 +2,6 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 
-<!-- Start footer -->
 <footer class="footer">
 	<div class="container">
 		<div class="row">
@@ -22,16 +21,13 @@
 			</div>
 			<div class="col-md-4 col-sm-12">
 				<div class="block">
-					<h1 class="block-title">인기 태그(#) <span class="right"><a href="#">더보기 <i class="ion-ios-arrow-thin-right"></i></a></span></h1>
+					<h1 class="block-title">판매 인기 태그(#) <span class="right"><a href="#">더보기 <i class="ion-ios-arrow-thin-right"></i></a></span></h1>
 					<div class="block-body">
 						<ul class="tags">
-							<li><a href="#">#도도새</a></li>
-							<li><a href="#">#알레르기</a></li>
-							<li><a href="#">#알레르망</a></li>
-							<li><a href="#">#아이</a></li>
-							<li><a href="#">#아토피</a></li>
-							<li><a href="#">#비염</a></li>
-							<li><a href="#">#이불</a></li>
+							<%-- <c:out value="${topPickTags}" /> --%>
+							<c:forEach var="tag" items="${topPickTags}">
+								<li><a href="#">#${tag}</a></li>
+							</c:forEach>
 						</ul>
 					</div>
 				</div>
@@ -86,7 +82,6 @@
 		</div>
 	</div>
 </footer>
-<!-- End Footer -->
 <!-- JS -->
 <script src="${ctp}/js/jquery.migrate.js"></script>
 <script>var $target_end=$(".best-of-the-week");</script>

@@ -47,6 +47,10 @@ public class CommonDataInterceptor extends HandlerInterceptorAdapter {
             modelAndView.addObject("categoryTopVOS", categoryTopVOS);
             modelAndView.addObject("productTopMidVOS", productTopMidVOS);
 
+    		List<String> topPickTags = shopService.getTopPickTags();
+    		//System.out.println("topPickTags :: " + topPickTags);
+    		modelAndView.addObject("topPickTags", topPickTags);
+            
             HttpSession session = request.getSession();
             Integer userIdx = (Integer) session.getAttribute("sUidx");  // userIdx를 Integer로 선언
             if (userIdx != null) {

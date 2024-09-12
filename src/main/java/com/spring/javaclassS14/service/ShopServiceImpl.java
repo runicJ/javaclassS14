@@ -395,4 +395,9 @@ public class ShopServiceImpl implements ShopService {
         return shopDAO.getTopTags();
 
 	}
+
+	@Override
+	public List<String> getTopPickTags() {
+		return shopDAO.getTopPickTags();
+	}
 }

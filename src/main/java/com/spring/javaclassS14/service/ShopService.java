@@ -108,4 +108,6 @@ public interface ShopService {
 
 	public List<String> getTopTags();
 
+	public List<String> getTopPickTags();
+
 }

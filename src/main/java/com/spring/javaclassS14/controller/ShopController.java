@@ -46,14 +46,15 @@ public class ShopController {
     @RequestMapping(value="/productList", method=RequestMethod.GET)
     public String productListGet(Model model,
             @RequestParam(name="part", defaultValue = "전체", required = false) String part,
-            @RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
+            @RequestParam(name="sort", defaultValue = "productIdx desc", required = false) String sort,
             @RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice,
             @RequestParam(name="minPrice", defaultValue = "0", required = false) int minPrice,
             @RequestParam(name="maxPrice", defaultValue = "10000000", required = false) int maxPrice,
             @RequestParam(name="averageRating", defaultValue = "0", required = false) int averageRating,
             @RequestParam(name="pag", defaultValue = "1", required = false) int pag,
             @RequestParam(name="pageSize", defaultValue = "9", required = false) int pageSize) {
-
+    	
+    	System.out.println("sort" + sort);
 		model.addAttribute("part", part);
 		model.addAttribute("sort", sort);
 		model.addAttribute("averageRating", averageRating);
@@ -61,7 +62,7 @@ public class ShopController {
 		model.addAttribute("maxPrice", maxPrice);
 		
 		// 페이지네이션 처리
-		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "product", sort, ""); // section을 "product"로 설정
+		PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "product", part, ""); // section을 "product"로 설정
 		model.addAttribute("pageVO", pageVO);
 		
 		// 페이지네이션을 적용하여 제품 리스트 가져오기

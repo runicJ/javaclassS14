@@ -33,7 +33,7 @@
         <div class="navigation">
         
           <div class="logo home-link fade-down">
-           <a href="${ctp}/main">홈페이지 입장하기</a>
+           <a href="${ctp}/main" style="font-style:italic;font-size:30px;font-weight:bolder;">홈페이지 입장하기</a>
           </div>
         
           <div class="navigation-links">

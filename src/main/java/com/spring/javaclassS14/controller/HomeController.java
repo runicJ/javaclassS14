@@ -42,9 +42,6 @@ import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.NotifyVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
-/**
- * Handles requests for the application home page.
- */
 @Controller
 public class HomeController {
 	
@@ -53,9 +50,6 @@ public class HomeController {
 	@Autowired
 	NotifyService notifyService;
 	
-	/**
-	 * Simply selects the home view to render by returning its name.
-	 */
 	@RequestMapping(value = {"/","/h","/index"}, method = RequestMethod.GET)
 	public String home(Locale locale, Model model) {
 		logger.info("Welcome home! The client locale is {}.", locale);

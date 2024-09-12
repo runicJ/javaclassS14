@@ -125,4 +125,8 @@ public interface ShopDAO {
 
 	public List<String> getTopTags();
 
+	public List<String> getTopPickTags();
+
+	public int totRecCntOption(Map<String, Object> paramMap);
+
 }

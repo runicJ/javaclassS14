@@ -30,50 +30,50 @@
 		select * from product order by productIdx desc limit 1;
   	</select>
 	
-<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
-    SELECT p.*, 
-           COALESCE(pr.averageRating, 0) AS averageRating,
-           (SELECT COUNT(*) FROM product) AS productCnt 
-    FROM product p
-    LEFT JOIN (
-        SELECT productIdx, ROUND(AVG(star), 2) AS averageRating
-        FROM productReview
-        WHERE re_order = 1
-        GROUP BY productIdx
-    ) pr ON p.productIdx = pr.productIdx
-    <where>
-        <!-- 카테고리가 전체가 아닐 때만 part 조건을 추가 -->
-        <if test="part != '전체'">
-            p.productMidIdx = #{part}
-        </if>
-
-        <!-- 가격 범위 필터링 -->
-        <if test="minPrice != 0 or maxPrice != 0">
-            AND p.productPrice BETWEEN #{minPrice} AND #{maxPrice}
-        </if>
-
-        <!-- 별점 필터링 -->
-        <if test="averageRating > 0">
-            AND COALESCE(pr.averageRating, 0) >= #{averageRating}
-        </if>
-    </where>
-    GROUP BY p.productIdx
-    <choose>
-        <when test="sort == 'likedCnt'">
-            ORDER BY p.likedCnt DESC, p.productIdx desc
-        </when>
-        <when test="sort == 'productPrice'">
-            ORDER BY p.productPrice
-        </when>
-        <when test="sort == 'productPrice desc'">
-            ORDER BY p.productPrice DESC
-        </when>
-        <otherwise>
-            ORDER BY p.productIdx DESC
-        </otherwise>
-    </choose>
-    LIMIT #{startIndexNo}, #{pageSize};
-</select>
+	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
+	    SELECT p.*, 
+	           COALESCE(pr.averageRating, 0) AS averageRating,
+	           (SELECT COUNT(*) FROM product) AS productCnt 
+	    FROM product p
+	    LEFT JOIN (
+	        SELECT productIdx, ROUND(AVG(star), 2) AS averageRating
+	        FROM productReview
+	        WHERE re_order = 1
+	        GROUP BY productIdx
+	    ) pr ON p.productIdx = pr.productIdx
+	    <where>
+	        <!-- 카테고리가 전체가 아닐 때만 part 조건을 추가 -->
+	        <if test="part != '전체'">
+	            AND p.productMidIdx = #{part}
+	        </if>
+	
+	        <!-- 가격 범위 필터링 -->
+	        <if test="minPrice != 0 or maxPrice != 0">
+	            AND p.productPrice BETWEEN #{minPrice} AND #{maxPrice}
+	        </if>
+	
+	        <!-- 별점 필터링 -->
+	        <if test="averageRating > 0">
+	            AND COALESCE(pr.averageRating, 0) >= #{averageRating}
+	        </if>
+	    </where>
+	    GROUP BY p.productIdx
+	    <choose>
+	        <when test="sort == 'likedCnt'">
+	            ORDER BY p.likedCnt DESC, p.productIdx desc
+	        </when>
+	        <when test="sort == 'productPrice'">
+	            ORDER BY p.productPrice
+	        </when>
+	        <when test="sort == 'productPrice desc'">
+	            ORDER BY p.productPrice DESC
+	        </when>
+	        <otherwise>
+	            ORDER BY p.productIdx DESC
+	        </otherwise>
+	    </choose>
+	    LIMIT #{startIndexNo}, #{pageSize};
+	</select>
 
   	<select id="getProductNameOne" resultType="com.spring.javaclassS14.vo.ShopVO">
 		select * from product where productName=#{productName};
@@ -272,6 +272,76 @@
 	    ORDER BY COUNT(*) DESC
 	    LIMIT 6;
 	</select>
+	
+	<select id="getTopPickTags" resultType="String">
+		SELECT tag
+		FROM (
+		    SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(productTags, '#', numbers.n), '#', -1) AS tag
+		    FROM product
+		    INNER JOIN (
+		        SELECT p.productIdx
+		        FROM orders_p o 
+		        JOIN order_product p ON o.orderIdx = p.orderIdx
+		        GROUP BY p.productIdx
+		        ORDER BY COUNT(*) DESC
+		        LIMIT 5
+		    ) top_products ON product.productIdx = top_products.productIdx
+		    INNER JOIN (
+		        SELECT 1 n UNION ALL SELECT 2 UNION ALL SELECT 3
+		        UNION ALL SELECT 4 UNION ALL SELECT 5 UNION ALL SELECT 6
+		        UNION ALL SELECT 7
+		    ) numbers ON CHAR_LENGTH(productTags) - CHAR_LENGTH(REPLACE(productTags, '#', '')) >= numbers.n - 1
+		    WHERE productTags IS NOT NULL
+		) tagList
+		WHERE tag != ''
+		GROUP BY tag
+		ORDER BY COUNT(*) DESC
+		LIMIT 7;
+	</select>
+	
+	<select id="totRecCntOption" parameterType="map" resultType="int">
+	<choose>
+	    <when test="stringOption != null">
+	        <choose>
+	            <when test="stringOption == '정상'">
+	                select count(*) from users where userStatus = 'on'
+	            </when>
+	            <when test="stringOption == '탈퇴'">
+	                select count(*) from users where userStatus = 'off'
+	            </when>
+	            <when test="stringOption == '정지'">
+	                select count(*) from users where userStatus = 'stop'
+	            </when>
+	            <otherwise>
+	                select count(*) from users where 1=1
+	            </otherwise>
+	        </choose>
+	    </when>
+	    <when test="numericOption != null">
+	        <choose>
+	            <when test="numericOption == 3">
+	                select count(*) from users where level = 3
+	            </when>
+	            <when test="numericOption == 2">
+	                select count(*) from users where level = 2
+	            </when>
+	            <when test="numericOption == 1">
+	                select count(*) from users where level = 1
+	            </when>
+	            <when test="numericOption == 0.5">
+	                select count(*) from users where level = 0.5
+	            </when>
+	            <otherwise>
+	                select count(*) from users where 1=1
+	            </otherwise>
+	        </choose>
+	    </when>
+	    <otherwise>
+	        select count(*) from users where 1=1
+	    </otherwise>
+	</choose>
+	</select>
+	
 
     <insert id="recordProductView">
         INSERT INTO recent_view_product
