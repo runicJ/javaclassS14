@@ -164,6 +164,11 @@ margin-top: 20px;
             <div class="row">
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
+                        <div>
+                        	<form action="${ctp}/shop/productList">
+                            	<button type="submit" class="btn btn-primary">필터 초기화</button>
+                            </form>
+                        </div>
                         <div class="shop__sidebar__search">
                             <form action="${ctp}/shop/productList">
                                 <input type="text" name="keyword" placeholder="Search...">
@@ -252,7 +257,7 @@ margin-top: 20px;
  			                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
 											    <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
 											    <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
-										        <button type="submit" class="btn btn-primary">필터 적용</button>
+										        <button type="submit" class="btn btn-primary">가격 필터 적용</button>
 										    </form>
 			                            </div>
 			                        </div>
@@ -266,7 +271,7 @@ margin-top: 20px;
                         <div class="row">
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__left">
-                                    <p>Showing ${pageVO.startIndexNo + 1}–${pageVO.pageSize} of ${productCntVO.productCnt} results</p>
+                                    <p>총 ${pageVO.startIndexNo + 1}–${pageVO.startIndexNo + pageVO.pageSize > pageVO.totRecCnt ? pageVO.totRecCnt : pageVO.startIndexNo + pageVO.pageSize} of ${pageVO.totRecCnt} (건)</p>
                                 </div>
                             </div>
                             <div class="col-lg-6 col-md-6 col-sm-6">
@@ -360,33 +365,30 @@ margin-top: 20px;
 	<script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
 	<script src="${ctp}/js/shop/jquery.slicknav.js"></script>
 	<script src="${ctp}/js/shop/jquery-ui.min.js"></script>
-	<%-- <script src="${ctp}/js/shop/mixitup.min.js"></script> --%>
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 <script>
-/*-----------------------
-Price Range Slider
------------------------- */
-var rangeSlider = $(".price-range"),
-minamount = $("#minamount"),
-maxamount = $("#maxamount"),
-minPrice = rangeSlider.data('min'),
-maxPrice = rangeSlider.data('max');
-rangeSlider.slider({
-    range: true,
-    min: minPrice,
-    max: maxPrice,
-    values: [minPrice, maxPrice],
-    slide: function (event, ui) {
-        minamount.val('￦' + ui.values[0]);
-        maxamount.val('￦' + ui.values[1]);
-        // 숨겨진 입력 필드 업데이트
-        $("#hiddenMinPrice").val(ui.values[0]);
-        $("#hiddenMaxPrice").val(ui.values[1]);
-    }
-});
-minamount.val('￦' + rangeSlider.slider("values", 0));
-maxamount.val('￦' + rangeSlider.slider("values", 1));
+	/* Price Range Slider */
+	var rangeSlider = $(".price-range"),
+	minamount = $("#minamount"),
+	maxamount = $("#maxamount"),
+	minPrice = rangeSlider.data('min'),
+	maxPrice = rangeSlider.data('max');
+	rangeSlider.slider({
+	    range: true,
+	    min: minPrice,
+	    max: maxPrice,
+	    values: [minPrice, maxPrice],
+	    slide: function (event, ui) {
+	        minamount.val('￦' + ui.values[0]);
+	        maxamount.val('￦' + ui.values[1]);
+	        // 숨겨진 입력 필드 업데이트
+	        $("#hiddenMinPrice").val(ui.values[0]);
+	        $("#hiddenMaxPrice").val(ui.values[1]);
+	    }
+	});
+	minamount.val('￦' + rangeSlider.slider("values", 0));
+	maxamount.val('￦' + rangeSlider.slider("values", 1));
 </script>
 </body>
 </html>
