@@ -45,4 +45,8 @@ public interface CsworkService {
 
 	public List<BranchVO> getPurchaseList();
 
+	public CsworkVO getQnaById(int qnaIdx);
+
+	public boolean updateQnaAnswer(int qnaIdx, String qnaAnswerContent);
+
 }

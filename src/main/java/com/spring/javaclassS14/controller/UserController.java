@@ -508,17 +508,17 @@ public class UserController {
                               conditionOrderStatus;
 
         // 총 레코드 수 및 페이징 정보 계산
-        PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrderStatus", userIdx, searchString);
+        //PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrder", userIdx, searchString);
 
         // 주문 목록 조회
-        List<OrderVO> vos = orderService.getMyOrderStatus(pageVO.getStartIndexNo(), pageSize, userIdx, startOrder, endOrder, conditionOrderStatus);
+        //List<OrderVO> vos = orderService.getMyOrderStatus(pageVO.getStartIndexNo(), pageSize, userIdx, startOrder, endOrder, conditionOrderStatus);
         
         // 모델에 조회된 결과 추가
-        model.addAttribute("vos", vos);
+        //model.addAttribute("vos", vos);
         model.addAttribute("startOrder", startOrder);
         model.addAttribute("endOrder", endOrder);
         model.addAttribute("conditionOrderStatus", conditionOrderStatus);
-        model.addAttribute("pageVO", pageVO);
+        //model.addAttribute("pageVO", pageVO);
 
         return "users/userOrderList";
     }

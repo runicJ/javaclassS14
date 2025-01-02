@@ -6,11 +6,11 @@
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <html>
 <head>
-  <meta charset="UTF-8">
-  <title>orderList</title>
-  <jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
-  <script>
+ 	<meta charset="UTF-8">
+ 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+ 	<title>orderList</title>
+	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+	<script>
     // 배송지 정보보기
     function nWin(orderIdx) {
     	var url = "${ctp}/shop/orderDelivery?orderIdx="+orderIdx;
@@ -35,19 +35,22 @@
   </script>
 </head>
 <body>
-<jsp:include page="/WEB-INF/views/include/user/header.jsp"/>
-<jsp:include page="/WEB-INF/views/include/user/nav.jsp"/>
 <c:set var="conditionOrderStatus" value="${conditionOrderStatus}"/>
 <c:set var="orderStatus" value="${orderStatus}"/>
+<jsp:include page="/WEB-INF/views/include/user/header.jsp" />
+<jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
+<section class="myOrderList" style="padding-top: 245.125px;">
 <%-- <c:if test="${orderStatus eq ''}"><c:set var="orderStatus" value="전체"/></c:if> --%>
-<p><br/></p>
-<div class="container">
-  <c:set var="condition" value="전체 조회"/>
+	<div class="container">
+		<div class="row">
+		<jsp:include page="/WEB-INF/views/include/user/sidebar.jsp" />
+			<div class="col-xs-12 col-md-8">
+  			<c:set var="condition" value="전체 조회"/>
   <h2>주문/배송 확인(${condition})</h2>
   <hr/>
   <table class="table table-borderless">
     <tr>
-      <td style="text-align:left;">날짜기간 및 조건검색 :
+      <td style="text-align:left;">
         <c:if test="${startOrder == null}">
           <c:set var="startOrder" value="<%=new java.util.Date() %>"/>
 	        <c:set var="startOrder"><fmt:formatDate value="${startOrder}" pattern="yyyy-MM-dd"/></c:set>
@@ -68,8 +71,8 @@
         <input type="button" value="조회하기" onclick="myOrderStatus()"/>
       </td>
       <td style="text-align:right;">
-	      <a href="${ctp}/dbShop/dbCartList" class="btn btn-success btn-sm">장바구니조회</a>
-	      <a href="${ctp}/dbShop/dbProductList" class="btn btn-primary btn-sm">계속쇼핑하기</a>
+	      <a href="${ctp}/shop/productCart" class="btn btn-success btn-sm">장바구니조회</a>
+	      <a href="${ctp}/shop/productList" class="btn btn-primary btn-sm">계속쇼핑하기</a>
       </td>
     </tr>
   </table>
@@ -142,7 +145,7 @@
     <tr><td colspan="4" class="p-0"></td></tr>
   </table>
   <!-- 블록 페이징처리 시작(BS4 스타일적용) -->
-	<div class="container">
+	<div>
 		<ul class="pagination justify-content-center">
 			<c:if test="${pageVO.totPage == 0}"><p style="text-align:center"><b>자료가 없습니다.</b></p></c:if>
 			<c:if test="${pageVO.totPage != 0}">
@@ -170,8 +173,11 @@
 		</ul>
 	</div>
 	<!-- 블록 페이징처리 끝 -->
-<p><br/></p>
+		</div>
+	</div>
 </div>
-<jsp:include page="/WEB-INF/views/include/user/footer.jsp"/>
+</section>
+<p><br/></p>
+<jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 </body>
 </html>

@@ -10,6 +10,80 @@
     <title>Insert</title>
     <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
+    
+    <script>
+		function openResponseModal(qnaIdx) {
+		    console.log('openResponseModal 호출됨:', qnaIdx); 
+			
+		    $.ajax({
+		        url: '${ctp}/admin/info/getQnaDetails',
+		        type: 'GET',
+		        data: { qnaIdx: qnaIdx },
+		        success: function(response) {
+		            if (response.success) {
+		                $('#qnaTitle').val(response.qnaData.qnaTitle);
+		                $('#qnaContent').val(response.qnaData.qnaContent);
+		                $('#qnaIdx').val(response.qnaData.qnaIdx);
+		                
+		                $('#responseModal').modal('show');
+		            } else {
+		                alert('데이터를 가져오는 중 오류가 발생했습니다.');
+		            }
+		        },
+		        error: function() {
+		            alert('데이터를 가져오는 중 오류가 발생했습니다.');
+		            console.error('AJAX 요청 에러:', error); // 에러 상세 출력
+		        }
+		    });
+		}
+		
+		function sendResponse() {
+		    let qnaIdx = $('#qnaIdx').val();
+		    let qnaAnswerContent = $('#qnaAnswerContent').val();
+		    
+		    $.ajax({
+		        url: '${ctp}/admin/info/sendQnaResponse',
+		        type: 'POST',
+		        data: {
+		            qnaIdx: qnaIdx,
+		            qnaAnswerContent: qnaAnswerContent
+		        },
+		        success: function(response) {
+		            if (response.success) {
+		                alert('응답이 성공적으로 전송되었습니다.');
+		                $('#responseModal').modal('hide');
+		                location.reload();
+		            } else {
+		                alert('응답 전송 중 오류가 발생했습니다.');
+		            }
+		        },
+		        error: function(xhr, status, error) {
+		            alert('응답 전송 중 오류가 발생했습니다.');
+		        }
+		    });
+		}
+		
+		function deleteQna(qnaIdx) {
+		    if (confirm('정말 삭제하시겠습니까?')) {
+		        $.ajax({
+		            url: '${ctp}/admin/info/deleteQna',
+		            type: 'POST',
+		            data: { qnaIdx: qnaIdx },
+		            success: function(response) {
+		                if (response.success) {
+		                    alert('문의가 성공적으로 삭제되었습니다.');
+		                    location.reload();
+		                } else {
+		                    alert('문의 삭제 중 오류가 발생했습니다.');
+		                }
+		            },
+		            error: function(xhr, status, error) {
+		                alert('문의 삭제 중 오류가 발생했습니다.');
+		            }
+		        });
+		    }
+		}
+	</script>
 </head>
 <body>
     <div class="preloader">
@@ -37,9 +111,6 @@
                 </div>
             </div>
             <div class="container-fluid">
-                <!-- *************************************************************** -->
-                <!-- Start Top Leader Table -->
-                <!-- *************************************************************** -->
                 <div class="row">
                     <div class="col-12">
                         <div class="card p-3">
@@ -63,17 +134,16 @@
                                             <tr>
                                                 <td>${st.count}</td>
                                                 <td>${qnaVO.userId}</td>
-                                                <!-- Clickable title -->
                                                 <td>
-                                                    <a href="javascript:void(0);" onclick="openResponseModal('${qnaVO.qnaIdx}', '${fn:escapeXml(qnaVO.qnaTitle)}', '${fn:escapeXml(qnaVO.qnaContent)}')">
-                                                        ${qnaVO.qnaTitle}
-                                                    </a>
+												    <a href="javascript:void(0);" 
+												       onclick="javascript:openResponseModal('${qnaVO.qnaIdx}')">
+												        ${qnaVO.qnaTitle}
+												    </a>
                                                 </td>
                                                 <td>${fn:substring(qnaVO.qnaDate,0,19)}</td>
                                                 <td>${qnaVO.qnaAnswerFlag}</td>
                                                 <td>${qnaVO.qnaCategory}</td>
                                                 <td>
-                                                    <!-- Badge for deletion -->
                                                     <span class="badge badge-danger text-light" onclick="deleteQna('${qnaVO.qnaIdx}')">삭제</span>
                                                 </td>
                                             </tr>
@@ -89,7 +159,6 @@
         </div>
     </div>
 <p><br/></p>
-<!-- Modal -->
 <div class="modal fade" id="responseModal" tabindex="-1" role="dialog" aria-labelledby="responseModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
@@ -123,73 +192,6 @@
         </div>
     </div>
 </div>
-
-<!-- Include jQuery and Bootstrap JS -->
-<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
-
-<script>
-function openResponseModal(qnaIdx, qnaTitle, qnaContent) {
-    // Populate modal fields with question information
-    $('#qnaTitle').val(qnaTitle);
-    $('#qnaContent').val(qnaContent);
-    $('#qnaIdx').val(qnaIdx);
-    
-    // Show the modal
-    $('#responseModal').modal('show');
-}
-
-function sendResponse() {
-    // Get the response data
-    let qnaIdx = $('#qnaIdx').val();
-    let qnaAnswerContent = $('#qnaAnswerContent').val();
-    
-    // Perform AJAX request to send the response
-    $.ajax({
-        url: '${ctp}/admin/info/sendQnaResponse', // Update with your actual endpoint
-        type: 'POST',
-        data: {
-            qnaIdx: qnaIdx,
-            qnaAnswerContent: qnaAnswerContent
-        },
-        success: function(response) {
-            if (response.success) {
-                alert('응답이 성공적으로 전송되었습니다.');
-                $('#responseModal').modal('hide');
-                // Optionally, update the UI to reflect the new state
-                location.reload(); // Reload page to see changes
-            } else {
-                alert('응답 전송 중 오류가 발생했습니다.');
-            }
-        },
-        error: function(xhr, status, error) {
-            alert('응답 전송 중 오류가 발생했습니다.');
-        }
-    });
-}
-
-function deleteQna(qnaIdx) {
-    if (confirm('정말 삭제하시겠습니까?')) {
-        // Perform AJAX request to delete the QnA entry
-        $.ajax({
-            url: '${ctp}/admin/info/deleteQna', // Update with your actual endpoint
-            type: 'POST',
-            data: { qnaIdx: qnaIdx },
-            success: function(response) {
-                if (response.success) {
-                    alert('문의가 성공적으로 삭제되었습니다.');
-                    location.reload(); // Reload page to reflect the deletion
-                } else {
-                    alert('문의 삭제 중 오류가 발생했습니다.');
-                }
-            },
-            error: function(xhr, status, error) {
-                alert('문의 삭제 중 오류가 발생했습니다.');
-            }
-        });
-    }
-}
-</script>
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>
 </html>

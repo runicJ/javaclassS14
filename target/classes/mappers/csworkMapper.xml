@@ -65,6 +65,16 @@
 	    (SELECT * FROM station_list WHERE stationAddress NOT LIKE '%서울%' AND stationAddress NOT LIKE '%청주%' ORDER BY RAND() LIMIT 4)
 	    order by stationIdx
 	</select>
+        
+    <select id="findById" parameterType="int" resultType="com.spring.javaclassS14.vo.CsworkVO">
+        SELECT * FROM qna WHERE qnaIdx = #{qnaIdx}
+    </select>
+    
+    <!-- QnA 조회 쿼리 -->
+    <select id="getQnaById" parameterType="int" resultType="com.spring.javaclassS14.vo.CsworkVO">
+        SELECT * FROM qna WHERE qnaIdx = #{qnaIdx}
+    </select>
+    
     
     
     <!-- QnA 입력 -->
@@ -88,15 +98,13 @@
         INSERT INTO branch_store VALUES (default, #{branchVO.branchName}, #{branchVO.branchTel}, #{branchVO.branchLocation}, #{branchVO.latitude}, #{branchVO.longitude}, #{branchVO.createDate}, #{branchVO.qrCode});
     </insert>
     
-    <select id="findById" parameterType="int" resultType="com.spring.javaclassS14.vo.CsworkVO">
-        SELECT * FROM qna WHERE qnaIdx = #{qnaIdx}
-    </select>
+    
 
-    <update id="updateQna">
+    <!-- QnA 답변 업데이트 쿼리 -->
+    <update id="updateQnaAnswer">
         UPDATE qna
-        SET qnaAnswerContent = #{qnaAnswerContent},
-            qnaAnswerFlag = #{qnaAnswerFlag},
-            qnaAnswerDate = NOW()
+        SET qnaAnswerContent = #{qnaAnswerContent}, qnaAnswerFlag = 'y', qnaAnswerDate = NOW()
         WHERE qnaIdx = #{qnaIdx}
     </update>
+    
 </mapper>

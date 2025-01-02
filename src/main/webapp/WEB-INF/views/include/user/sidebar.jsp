@@ -117,6 +117,7 @@
 							</div>
 							<div class="block sidenav">
 								<div class="block-body">
+								  <button class="drop-btn" onclick="location.href='${ctp}/users/userMain';">내정보 메인</button>
 								  <button class="drop-btn" onclick="location.href='${ctp}/users/myOrderList';">주문배송 조회</button>
 								  <button class="dropdown-btn">회원 혜택
 								    <i class="fa fa-caret-down"></i>

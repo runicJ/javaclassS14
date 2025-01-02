@@ -24,7 +24,7 @@
 							<article class="article col-md-12">
 								<div class="inner">
 									<div class="padding">
-										<h2 class="text-center"><a href="${ctp}/user/myOrderList">최근 주문내역</a></h2>
+										<h2 class="text-center"><a href="${ctp}/users/myOrderList">최근 주문내역</a></h2>
 										<table class="table table-hover">
 											<tr>
 												<th>주문번호</th>

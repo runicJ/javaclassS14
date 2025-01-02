@@ -50,4 +50,8 @@ public interface CsworkDAO {
 
 	public List<BranchVO> getPurchaseList();
 
+	public CsworkVO getQnaById(@Param("qnaIdx") int qnaIdx);
+
+	public int updateQnaAnswer(@Param("qnaIdx") int qnaIdx, @Param("qnaAnswerContent") String qnaAnswerContent);
+
 }

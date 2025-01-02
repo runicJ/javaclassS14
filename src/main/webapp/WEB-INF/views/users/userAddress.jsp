@@ -12,8 +12,6 @@
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp" />
-<p><br></p>
-<p><br/></p>
 <section class="userAddress" style="padding-top: 245.125px;">
 	<div class="container">
 		<div class="row">

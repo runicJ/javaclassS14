@@ -131,7 +131,7 @@ public class AdminController {
 		model.addAttribute("wayVOS", wayVOS);
 		
 		List<Map<String, Object>> monthlySales = adminService.getMonthlySale();
-		System.out.println("monthlySales : " + monthlySales);
+		//System.out.println("monthlySales : " + monthlySales);
 		model.addAttribute("monthlySales", monthlySales);
 		
 		return "admin/adminMain";
@@ -623,6 +623,38 @@ public class AdminController {
 		return "admin/info/qnaList";
 	}
 	
+    // qnaIdx를 받아 해당 문의 내용을 가져오는 메소드
+    @GetMapping("/info/getQnaDetails")
+    public Map<String, Object> getQnaDetails(@RequestParam("qnaIdx") int qnaIdx) {
+    	System.out.println("qnaIdx :: " + qnaIdx);
+        Map<String, Object> response = new HashMap<>();
+        try {
+        	CsworkVO qnaData = csworkService.getQnaById(qnaIdx); // qnaIdx로 데이터 조회
+            response.put("success", true);
+            response.put("qnaData", qnaData);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "데이터를 가져오는 중 오류가 발생했습니다.");
+        }
+        return response;
+    }
+
+    // 사용자가 모달에서 작성한 답변을 데이터베이스에 저장하는 메소드
+    @PostMapping("/info/sendQnaResponse")
+    public Map<String, Object> sendQnaResponse(@RequestParam("qnaIdx") int qnaIdx,
+                                               @RequestParam("qnaAnswerContent") String qnaAnswerContent) {
+        Map<String, Object> response = new HashMap<>();
+        try {
+            // 답변 업데이트 로직 실행
+            boolean updateSuccess = csworkService.updateQnaAnswer(qnaIdx, qnaAnswerContent);
+            response.put("success", updateSuccess);
+        } catch (Exception e) {
+            response.put("success", false);
+            response.put("message", "응답 전송 중 오류가 발생했습니다.");
+        }
+        return response;
+    }
+	
 	@RequestMapping(value = "/info/faqInput", method = RequestMethod.GET)
 	public String faqInputGet() {
 		return "admin/info/faqInput";
@@ -699,19 +731,5 @@ public class AdminController {
 		
 		return "1";
 	}
-	
-    @PostMapping("/sendQnaResponse")
-    @ResponseBody
-    public Map<String, Object> sendQnaResponse(@RequestParam int qnaIdx, @RequestParam String qnaAnswerContent) {
-        Map<String, Object> response = new HashMap<>();
-        try {
-            csworkService.sendQnaResponse(qnaIdx, qnaAnswerContent);
-            response.put("success", true);
-        } catch (Exception e) {
-            response.put("success", false);
-            response.put("message", e.getMessage());
-        }
-        return response;
-    }
 
 }

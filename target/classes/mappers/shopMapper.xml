@@ -33,6 +33,7 @@
 	<select id="getProductList" resultType="com.spring.javaclassS14.vo.ShopVO">
 	    SELECT p.*, 
 	           COALESCE(pr.averageRating, 0) AS averageRating,
+	           COALESCE(lp.likedCnt, 0) AS likeCnt,
 	           (SELECT COUNT(*) FROM product) AS productCnt 
 	    FROM product p
 	    LEFT JOIN (
@@ -41,6 +42,11 @@
 	        WHERE re_order = 1
 	        GROUP BY productIdx
 	    ) pr ON p.productIdx = pr.productIdx
+	    LEFT JOIN (
+	    	SELECT productIdx, COUNT(*) AS likedCnt
+	    	FROM liked_product
+	    	GROUP BY productIdx
+	    ) lp ON p.productIdx = lp.productIdx
 	    <where>
 	        <!-- 카테고리가 전체가 아닐 때만 part 조건을 추가 -->
 	        <if test="part != '전체'">
@@ -60,7 +66,7 @@
 	    GROUP BY p.productIdx
 	    <choose>
 	        <when test="sort == 'likedCnt'">
-	            ORDER BY p.likedCnt DESC, p.productIdx desc
+	            ORDER BY likedCnt DESC, p.productIdx desc
 	        </when>
 	        <when test="sort == 'productPrice'">
 	            ORDER BY p.productPrice
@@ -247,12 +253,29 @@
         SELECT COUNT(*)
         FROM product
         WHERE productName LIKE CONCAT('%', #{keyword}, '%') 
-        -- Add more filters if necessary
     </select>
 
     <select id="totRecCnt" resultType="int">
         SELECT COUNT(*)
         FROM product
+    </select>
+    
+    <select id="totRecCntOption" parameterType="map" resultType="int">
+    	SELECT COUNT(*)
+    	FROM product
+    	WHERE 1=1
+    	<if test="part != null and part !='전체'">
+    		AND productMidIdx=#{part}
+    	</if>
+		<if test="keyword != null">
+        	AND productName LIKE CONCAT('%', #{keyword}, '%')
+    	</if>
+    	<if test="midPrice != null and maxPrice != null">
+    		AND productPrice BETWEEN #{minPrice} AND #{maxPrice}
+    	</if>
+    	<if test="averageRating > 0">
+    		AND anverageRating >= #{averageRating}
+    	</if>
     </select>
 
 	<select id="getTopTags" resultType="String">
@@ -297,51 +320,7 @@
 		GROUP BY tag
 		ORDER BY COUNT(*) DESC
 		LIMIT 7;
-	</select>
-	
-	<select id="totRecCntOption" parameterType="map" resultType="int">
-	<choose>
-	    <when test="stringOption != null">
-	        <choose>
-	            <when test="stringOption == '정상'">
-	                select count(*) from users where userStatus = 'on'
-	            </when>
-	            <when test="stringOption == '탈퇴'">
-	                select count(*) from users where userStatus = 'off'
-	            </when>
-	            <when test="stringOption == '정지'">
-	                select count(*) from users where userStatus = 'stop'
-	            </when>
-	            <otherwise>
-	                select count(*) from users where 1=1
-	            </otherwise>
-	        </choose>
-	    </when>
-	    <when test="numericOption != null">
-	        <choose>
-	            <when test="numericOption == 3">
-	                select count(*) from users where level = 3
-	            </when>
-	            <when test="numericOption == 2">
-	                select count(*) from users where level = 2
-	            </when>
-	            <when test="numericOption == 1">
-	                select count(*) from users where level = 1
-	            </when>
-	            <when test="numericOption == 0.5">
-	                select count(*) from users where level = 0.5
-	            </when>
-	            <otherwise>
-	                select count(*) from users where 1=1
-	            </otherwise>
-	        </choose>
-	    </when>
-	    <otherwise>
-	        select count(*) from users where 1=1
-	    </otherwise>
-	</choose>
-	</select>
-	
+	</select>	
 
     <insert id="recordProductView">
         INSERT INTO recent_view_product

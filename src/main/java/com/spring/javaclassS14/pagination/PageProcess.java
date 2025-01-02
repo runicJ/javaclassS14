@@ -56,6 +56,9 @@ public class PageProcess {
             case "myOrder":
                 totRecCnt = orderDAO.totRecCntMyOrder((Integer) parameter);
                 break;
+                
+            case "qna":
+            	break;
 
             default:
                 throw new IllegalArgumentException("Invalid section: " + section);
@@ -87,19 +90,14 @@ public class PageProcess {
 
     private Map<String, Object> prepareSortOption(Object parameter, String keyword) {
         Map<String, Object> paramMap = new HashMap<>();
+        
         if (keyword != null && !keyword.isEmpty()) {
             paramMap.put("keyword", keyword);
         }
 
-        if (parameter instanceof String) {
-            try {
-                Double numericSortOption = Double.valueOf((String) parameter);
-                paramMap.put("numericOption", numericSortOption);
-            } catch (NumberFormatException e) {
-                paramMap.put("stringOption", parameter);
-            }
+        if (parameter instanceof String && !"전체".equals(parameter)) {
+            paramMap.put("part", parameter);
         }
-        paramMap.put("sortOption", parameter);
 
         return paramMap;
     }

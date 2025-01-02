@@ -316,8 +316,19 @@ public class CsworkServiceImpl implements CsworkService {
         allProvide.mailSend(qna.getEmail(), "안녕하세요 '괄호 안 쉼표'에서 답변드립니다.", qnaAnswerContent);
     }
 
-@Override
-public List<BranchVO> getPurchaseList() {
-    return csworkDAO.getPurchaseList();
-}
+	@Override
+	public List<BranchVO> getPurchaseList() {
+	    return csworkDAO.getPurchaseList();
+	}
+	
+	@Override
+	public CsworkVO getQnaById(int qnaIdx) {
+	    return csworkDAO.getQnaById(qnaIdx);
+	}
+	
+	@Override
+	public boolean updateQnaAnswer(int qnaIdx, String qnaAnswerContent) {
+	    int result = csworkDAO.updateQnaAnswer(qnaIdx, qnaAnswerContent);
+	    return result > 0;
+	}
 }
