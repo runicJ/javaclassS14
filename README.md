@@ -100,7 +100,7 @@
        </li>
     </ul>
 </div>
-
+<br>
 <h1>이미지</h1>
 <div>
     <ul>
@@ -182,6 +182,10 @@
     </ul>
 </div>
 <br/>  
+
+<h2>LICENSE</h2>
+<p>이 프로젝트는 MIT License 에 따라 라이선스가 부여됩니다.</p>
+<br>
 
 <a href="https://github.com/runicJ/github-readme-stats">
     <img src="https://github-readme-stats.vercel.app/api/top-langs/?username=runicJ&layout=donut&show_icons=true&theme=material-palenight&hide_border=true&bg_color=20232a&icon_color=58A6FF&text_color=fff&title_color=58A6FF&count_private=true&exclude_repo=Face-Transfer-Application" width=38% />
