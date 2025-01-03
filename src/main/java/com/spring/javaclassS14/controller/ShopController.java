@@ -55,7 +55,7 @@ public class ShopController {
             @RequestParam(name="pag", defaultValue = "1", required = false) int pag,
             @RequestParam(name="pageSize", defaultValue = "9", required = false) int pageSize) {
     	
-//    	System.out.println("sort" + sort);
+    	//System.out.println("sort" + sort);
 		model.addAttribute("part", part);
 		model.addAttribute("sort", sort);
 		model.addAttribute("averageRating", averageRating);
