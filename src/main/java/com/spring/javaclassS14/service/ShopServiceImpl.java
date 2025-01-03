@@ -363,8 +363,8 @@ public class ShopServiceImpl implements ShopService {
 	}
 
 	@Override
-    public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice, int averageRating, int startIndexNo, int pageSize) {
-	    return shopDAO.getProductList(part, sort, productPrice, minPrice, maxPrice, averageRating, startIndexNo, pageSize);
+    public List<ShopVO> getProductList(String part, String sort, String keyword, String productPrice, int minPrice, int maxPrice, int averageRating, int startIndexNo, int pageSize) {
+	    return shopDAO.getProductList(part, sort, keyword, productPrice, minPrice, maxPrice, averageRating, startIndexNo, pageSize);
 	}
 
 	@Override

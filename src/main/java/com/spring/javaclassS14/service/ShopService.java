@@ -97,7 +97,7 @@ public interface ShopService {
 
 	public int imgCheckNoticeInput(MultipartFile file, CsworkVO csworkVO);
 
-	public List<ShopVO> getProductList(String part, String sort, String productPrice, int minPrice, int maxPrice, int averageRating, int startIndexNo, int pageSize);
+	public List<ShopVO> getProductList(String part, String sort, String keyword, String productPrice, int minPrice, int maxPrice, int averageRating, int startIndexNo, int pageSize);
 
 	public boolean canRecordProductView(Integer userIdx, int productIdx);
 

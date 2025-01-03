@@ -111,7 +111,7 @@ public interface ShopDAO {
 
 	public int setNoticeInput(@Param("csworkVO") CsworkVO csworkVO);
 
-	public List<ShopVO> getProductList(@Param("part") String part, @Param("sort") String sort, @Param("productPrice") String productPrice, @Param("minPrice") int minPrice, @Param("maxPrice") int maxPrice, @Param("averageRating") int averageRating, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+	public List<ShopVO> getProductList(@Param("part") String part, @Param("sort") String sort, @Param("keyword") String keyword, @Param("productPrice") String productPrice, @Param("minPrice") int minPrice, @Param("maxPrice") int maxPrice, @Param("averageRating") int averageRating, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
 	public int countProductViewsByUserAndDate(@Param("userIdx") Integer userIdx, @Param("date") Date date);
 

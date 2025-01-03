@@ -321,6 +321,7 @@ public class AdminController {
 	// 등록된 모든 상품 리스트 보기(관리자화면에서...)
 	@RequestMapping(value = "/shop/productList", method = RequestMethod.GET)
 	public String productListGet(Model model,
+			@RequestParam(name="keyword", required = false, defaultValue = "") String keyword,
 			@RequestParam(name="part", defaultValue = "전체", required = false) String part,
 			@RequestParam(name="sort", defaultValue = "전체", required = false) String sort,
 			@RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice,
@@ -336,7 +337,7 @@ public class AdminController {
         PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "product", sort, ""); // section을 "product"로 설정
         model.addAttribute("pageVO", pageVO);
         
-        List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice, minPrice, maxPrice, starRating, pageVO.getStartIndexNo(), pageSize);
+        List<ShopVO> productVOS = shopService.getProductList(part, sort, keyword, productPrice, minPrice, maxPrice, starRating, pageVO.getStartIndexNo(), pageSize);
 		model.addAttribute("productVOS", productVOS);
 		model.addAttribute("productPrice", productPrice);
 		

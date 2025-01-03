@@ -171,7 +171,7 @@ margin-top: 20px;
                         </div>
                         <div class="shop__sidebar__search">
                             <form action="${ctp}/shop/productList">
-                                <input type="text" name="keyword" placeholder="Search...">
+                                <input type="text" name="keyword" placeholder="검색어 입력" value="${keyword}">
                                 <button type="submit"><span><i class="fa-solid fa-magnifying-glass"></i></span></button>
                             </form>
                         </div>

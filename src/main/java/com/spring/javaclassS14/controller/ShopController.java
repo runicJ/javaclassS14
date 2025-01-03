@@ -45,6 +45,7 @@ public class ShopController {
 
     @RequestMapping(value="/productList", method=RequestMethod.GET)
     public String productListGet(Model model,
+            @RequestParam(name="keyword", required = false, defaultValue = "") String keyword,
             @RequestParam(name="part", defaultValue = "전체", required = false) String part,
             @RequestParam(name="sort", defaultValue = "productIdx desc", required = false) String sort,
             @RequestParam(name="productPrice", defaultValue = "0", required = false) String productPrice,
@@ -66,7 +67,7 @@ public class ShopController {
 		model.addAttribute("pageVO", pageVO);
 		
 		// 페이지네이션을 적용하여 제품 리스트 가져오기
-		List<ShopVO> productVOS = shopService.getProductList(part, sort, productPrice, minPrice, maxPrice, averageRating, pageVO.getStartIndexNo(), pageSize);
+		List<ShopVO> productVOS = shopService.getProductList(part, sort, keyword, productPrice, minPrice, maxPrice, averageRating, pageVO.getStartIndexNo(), pageSize);
 		model.addAttribute("productVOS", productVOS);
 		model.addAttribute("productPrice", productPrice);
 		
