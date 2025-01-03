@@ -52,7 +52,9 @@
 	        <if test="part != '전체'">
 	            AND p.productMidIdx = #{part}
 	        </if>
-	
+			<if test="keyword != null and keyword != ''">
+				AND p.productName Like CONCAT('%', #{keyword}, '%')
+			</if>
 	        <!-- 가격 범위 필터링 -->
 	        <if test="minPrice != 0 or maxPrice != 0">
 	            AND p.productPrice BETWEEN #{minPrice} AND #{maxPrice}

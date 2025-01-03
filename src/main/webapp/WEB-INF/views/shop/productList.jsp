@@ -108,8 +108,8 @@ margin-top: 20px;
 		    });
 		}
 	    
-		function applyFilter() {
-		    let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
+		function applyFilter(averageRating) {
+		    //let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
 		    let sort = document.getElementById("sort").value;
 
 		    let minPrice = $("#hiddenMinPrice").val();
@@ -117,19 +117,6 @@ margin-top: 20px;
 
 		    let url = "${ctp}/shop/productList?averageRating=" + averageRating + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
 
-		    window.location.href = url;
-		}
-		
-		function applySort() {
-		    let sort = document.getElementById("sort").value;
-
-		    // 현재 필터링된 값들을 가져옴
-		    let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
-		    let minPrice = $("#hiddenMinPrice").val();
-		    let maxPrice = $("#hiddenMaxPrice").val();
-
-		    // 정렬 URL 생성
-    		let url = "${ctp}/shop/productList?averageRating=" + averageRating + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
 		    window.location.href = url;
 		}
 	</script>
@@ -204,21 +191,11 @@ margin-top: 20px;
 								    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
 								        <div class="card-body">
 											<div class="shop__sidebar__size">
-											    <label for="all">별점 전체
-											        <input type="radio" name="averageRating" value="0" ${averageRating == 0 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="fourth">☆★★★★ 4점 이상
-											        <input type="radio" name="averageRating" value="4" ${averageRating == 4 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="third">☆☆★★★ 3점 이상
-											        <input type="radio" name="averageRating" value="3" ${averageRating == 3 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="second">☆☆☆★★ 2점 이상
-											        <input type="radio" name="averageRating" value="2" ${averageRating == 2 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="first">☆☆☆☆★ 1점 이상
-											        <input type="radio" name="averageRating" value="1" ${averageRating == 1 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
+											    <button class="btn btn-light" onclick="applyFilter(0)">별점 전체</button>
+								                <button class="btn btn-light" onclick="applyFilter(4)">☆★★★★ 4점 이상</button>
+								                <button class="btn btn-light" onclick="applyFilter(3)">☆☆★★★ 3점 이상</button>
+								                <button class="btn btn-light" onclick="applyFilter(2)">☆☆☆★★ 2점 이상</button>
+								                <button class="btn btn-light" onclick="applyFilter(1)">☆☆☆☆★ 1점 이상</button>
 											</div>
 								        </div>
 								    </div>
@@ -277,7 +254,7 @@ margin-top: 20px;
                             <div class="col-lg-6 col-md-6 col-sm-6">
                                 <div class="shop__product__option__right">
                                     <p>정렬순서</p>
-									<select name="sort" id="sort" onchange="applySort()">
+									<select name="sort" id="sort" onchange="applyFilter()">
 									    <option value="productIdx desc" ${sort == 'productIdx desc' ? 'selected' : ''}>최신등록순</option>
 									    <option value="likedCnt" ${sort == 'likedCnt' ? 'selected' : ''}>관심등록순</option>
 									    <option value="productPrice" ${sort == 'productPrice' ? 'selected' : ''}>가격낮은순</option>
@@ -288,6 +265,11 @@ margin-top: 20px;
                         </div>
                     </div>
                     <div class="row">
+                    	<c:if test="${empty productVOS}">
+                    		<div class="col-lg-12 text-center">
+                    			<p>검색 조건에 맞는 제품이 존재하지 않습니다.</p>
+                    		</div>
+                    	</c:if>
                     	<c:forEach var="productVO" items="${productVOS}">
                         <div class="col-lg-4 col-md-6 col-sm-6">
                             <div class="product__item sale">
