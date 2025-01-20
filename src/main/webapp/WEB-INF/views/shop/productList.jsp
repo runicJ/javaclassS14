@@ -9,128 +9,88 @@
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
 	<title>productList</title>
-	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
-    <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">
-    <link rel="stylesheet" href="${ctp}/css/shop/nice-select.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/jquery-ui.min.css" type="text/css">
-    <link rel="stylesheet" href="${ctp}/css/shop/slicknav.min.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 	<style>
-.price-range-wrap .range-slider {
-margin-top: 20px;
-}
-
-.price-range-wrap .range-slider .price-input {
-	position: relative;
-}
-
-.price-range-wrap .range-slider .price-input:after {
-	position: absolute;
-	left: 38px;
-	top: 13px;
-	height: 1px;
-	width: 5px;
-	background: #dd2222;
-	content: "";
-}
-
-.price-range-wrap .range-slider .price-input input {
-	font-size: 16px;
-	color: #dd2222;
-	font-weight: 700;
-	max-width: 20%;
-	border: none;
-	display: inline-block;
-}
-
-.price-range-wrap .price-range {
-	border-radius: 0;
-}
-
-.price-range-wrap .price-range.ui-widget-content {
-	border: none;
-	background: #ebebeb;
-	height: 5px;
-}
-
-.price-range-wrap .price-range.ui-widget-content .ui-slider-handle {
-	height: 13px;
-	width: 13px;
-	border-radius: 50%;
-	background: #ffffff;
-	border: none;
-	-webkit-box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
-	box-shadow: 0px 1px 10px rgba(0, 0, 0, 0.2);
-	outline: none;
-	cursor: pointer;
-}
-
-.price-range-wrap .price-range .ui-slider-range {
-	background: #dd2222;
-	border-radius: 0;
-}
-
-.price-range-wrap .price-range .ui-slider-range.ui-corner-all.ui-widget-header:last-child {
-	background: #dd2222;
-}
+        .price-range-wrap .price-range { height: 5px; background: #ebebeb; }
+        .price-range-wrap .price-input input { font-size: 16px; font-weight: 700; border: none; margin-top:15px; }
+		.price-range-wrap .price-range .ui-slider-range { background: #dd2222; }
 	</style>
 	<script>
 		'use strict';
 		
-		function productSort() {
-			let sort = $("#sort").val();
-			
-			location.href = "photoGalleryList?sort="+sort;
+		// URL 파라미터 가져오기
+		function getUrlParams() {
+		    const params = new URLSearchParams(window.location.search);
+		    return {
+		        sort: params.get("sort") || "product desc",
+		        averageRating: params.get("averageRating") || "0",
+		        minPrice: params.get("minPrice") || "0",
+		        maxPrice: params.get("maxPrice") || "999999999",
+		        keyword: params.get("keyword") || "",
+		        part: params.get("part") || ""
+		    };
+		}
+
+		// URL 파라미터 업데이트
+		function updateUrlParams(newParams) {
+		    const params = { ...getUrlParams(), ...newParams }; // 기존 파라미터와 새로운 파라미터 병합
+		    const queryString = Object.keys(params)
+		        .map(key => key + "=" + encodeURIComponent(params[key]))
+		        .join("&");
+		    window.location.href = "${ctp}/shop/productList?" + queryString; // 병합된 URL로 이동
+		}
+
+		// 필터 적용 (공통)
+		function applyFilter(type, value) {
+		    const params = {};
+		    params[type] = value; // 새 필터 값 추가
+		    updateUrlParams(params);
+		}
+
+		// 가격 필터 적용
+		function applyPriceFilter() {
+		    const minPrice = $("#hiddenMinPrice").val();
+		    const maxPrice = $("#hiddenMaxPrice").val();
+		    updateUrlParams({ minPrice, maxPrice });
+		}
+
+		// 정렬 적용
+		function applySort() {
+		    const sort = document.getElementById("sort").value;
+		    updateUrlParams({ sort });
+		}
+
+		// 별점 필터 적용 함수
+		function applyRatingFilter(rating) {
+		    updateUrlParams({ averageRating: rating }); // URL 파라미터에 별점 값 추가
+		}
+
+		// 검색어 적용
+		function applySearch() {
+		    const keyword = document.querySelector('input[name="keyword"]').value;
+		    updateUrlParams({ keyword });
 		}
 		
+		// 좋아요 토글
 		function toggleLiked(productIdx, element) {
 		    $.ajax({
 		        url: '${ctp}/recent/saveLikedProduct',
 		        type: 'POST',
-		        data: { productIdx: productIdx },
+		        data: { productIdx },
 		        success: function(response) {
-		            if (!response.success) {
-		                alert(response.message);
-		                return;
-		            }
-
-		            if (response.isInterested) {
-		                $(element).find('i').css('color', 'red');
+		            if (response.success) {
+		            	const icon = $(element).find('i');
+		            	icon.css('color', response.isInterested ? 'red' : '');
 		            } else {
-		                $(element).find('i').css('color', '');
+		            	alert(response.message);
 		            }
-		            alert(response.message);
 		        },
-		        error: function(xhr, status, error) {
+		        error: function() {
 		            alert("관심등록 처리 중 오류가 발생했습니다.");
 		        }
 		    });
-		}
-	    
-		function applyFilter() {
-		    let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
-		    let sort = document.getElementById("sort").value;
-
-		    let minPrice = $("#hiddenMinPrice").val();
-		    let maxPrice = $("#hiddenMaxPrice").val();
-
-		    let url = "${ctp}/shop/productList?averageRating=" + averageRating + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
-
-		    window.location.href = url;
-		}
-		
-		function applySort() {
-		    let sort = document.getElementById("sort").value;
-
-		    // 현재 필터링된 값들을 가져옴
-		    let averageRating = document.querySelector('input[name="averageRating"]:checked').value;
-		    let minPrice = $("#hiddenMinPrice").val();
-		    let maxPrice = $("#hiddenMaxPrice").val();
-
-		    // 정렬 URL 생성
-    		let url = "${ctp}/shop/productList?averageRating=" + averageRating + "&sort=" + sort + "&minPrice=" + minPrice + "&maxPrice=" + maxPrice;
-		    window.location.href = url;
 		}
 	</script>
 </head>
@@ -169,12 +129,12 @@ margin-top: 20px;
                             	<button type="submit" class="btn btn-primary">필터 초기화</button>
                             </form>
                         </div>
-                        <div class="shop__sidebar__search">
-                            <form action="${ctp}/shop/productList">
-                                <input type="text" name="keyword" placeholder="검색어 입력" value="${keyword}">
-                                <button type="submit"><span><i class="fa-solid fa-magnifying-glass"></i></span></button>
-                            </form>
-                        </div>
+						<div class="shop__sidebar__search">
+						    <form onsubmit="applySearch(); return false;">
+						        <input type="text" name="keyword" placeholder="검색어 입력" value="${keyword}">
+						        <button type="submit"><span><i class="fa-solid fa-magnifying-glass"></i></span></button>
+						    </form>
+						</div>
                         <div class="shop__sidebar__accordion">
                             <div class="accordion" id="accordionExample">
                             	<c:forEach var="categoryTopVO" items="${categoryTopVOS}" varStatus="st">
@@ -204,21 +164,11 @@ margin-top: 20px;
 								    <div id="collapseFour" class="collapse show" data-parent="#accordionExample">
 								        <div class="card-body">
 											<div class="shop__sidebar__size">
-											    <label for="all">별점 전체
-											        <input type="radio" name="averageRating" value="0" ${averageRating == 0 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="fourth">☆★★★★ 4점 이상
-											        <input type="radio" name="averageRating" value="4" ${averageRating == 4 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="third">☆☆★★★ 3점 이상
-											        <input type="radio" name="averageRating" value="3" ${averageRating == 3 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="second">☆☆☆★★ 2점 이상
-											        <input type="radio" name="averageRating" value="2" ${averageRating == 2 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
-											    <label for="first">☆☆☆☆★ 1점 이상
-											        <input type="radio" name="averageRating" value="1" ${averageRating == 1 ? 'checked' : ''} onclick="applyFilter()">
-											    </label>
+											    <button type="button" class="btn btn-light" onclick="applyRatingFilter(0)">별점 전체</button>
+											    <button type="button" class="btn btn-light" onclick="applyRatingFilter(4)">☆★★★★ 4점 이상</button>
+											    <button type="button" class="btn btn-light" onclick="applyRatingFilter(3)">☆☆★★★ 3점 이상</button>
+											    <button type="button" class="btn btn-light" onclick="applyRatingFilter(2)">☆☆☆★★ 2점 이상</button>
+											    <button type="button" class="btn btn-light" onclick="applyRatingFilter(1)">☆☆☆☆★ 1점 이상</button>
 											</div>
 								        </div>
 								    </div>
@@ -242,24 +192,24 @@ margin-top: 20px;
 	                                    <div class="card-heading">
 			                            	<h4>가격 상세설정</h4>
 			                            </div>
-			                            <div class="price-range-wrap">
-			                                <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="1000" data-max="5000000">
-			                                    <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
-			                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="background-color:#000d35;"></span>
-			                                    <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="background-color:#000d35;"></span>
-			                                </div>
-			                                <div class="range-slider">
-			                                    <div class="price-input">
-			                                        <input type="text" id="minamount" style="max-width:40%;">~
-			                                        <input type="text" id="maxamount" style="max-width:40%;">
-			                                    </div>
-			                                </div>
- 			                                <form id="priceRangeForm" method="get" action="${ctp}/shop/productList">
-											    <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
-											    <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
+										<div class="price-range-wrap">
+										    <div class="price-range ui-slider ui-corner-all ui-slider-horizontal ui-widget ui-widget-content" data-min="1000" data-max="5000000">
+										        <div class="ui-slider-range ui-corner-all ui-widget-header"></div>
+										        <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="background-color:#000d35;"></span>
+										        <span tabindex="0" class="ui-slider-handle ui-corner-all ui-state-default" style="background-color:#000d35;"></span>
+										    </div>
+										    <div class="range-slider">
+										        <div class="price-input">
+										            <input type="text" id="minamount" style="max-width:40%;">~
+										            <input type="text" id="maxamount" style="max-width:40%;">
+										        </div>
+										    </div>
+										    <form id="priceRangeForm" onsubmit="applyPriceFilter(); return false;">
+										        <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
+										        <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
 										        <button type="submit" class="btn btn-primary">가격 필터 적용</button>
 										    </form>
-			                            </div>
+										</div>
 			                        </div>
 		                        </div>
                             </div>
