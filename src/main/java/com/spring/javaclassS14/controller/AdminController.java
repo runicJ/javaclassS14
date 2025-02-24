@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.spring.javaclassS14.common.AllProvide;
@@ -692,6 +691,20 @@ public class AdminController {
 		}
 		else {
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("업데이트 실패");
+		}
+	}
+	
+	@PostMapping("/order/cancel")
+	public ResponseEntity<Map<String,String>> cancelOrder(@RequestParam("orderIdx") Integer orderIdx) {
+		boolean isCanceled = orderService.cancelOrder(orderIdx);
+		
+		Map<String, String> response = new HashMap<>();  // 응답 객체 생성(응답을 JSON 형식으로 만들기 위해 Map 사용)
+		if(isCanceled) {
+			response.put("message", "주문이 성공적으로 취소되었습니다.");
+			return ResponseEntity.ok(response);  // JSON 응답 반환
+		} else {
+			response.put("message", "주문 취소 실패");
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
 	}
 	

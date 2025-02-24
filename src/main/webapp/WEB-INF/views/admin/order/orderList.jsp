@@ -12,19 +12,49 @@
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
   	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
   	<script>
-  		function updateOrderStatus(orderIdx, currentStatus) {
-			if(!confirm("현재 상태: " + currentStatus + "\n주문 상태를 변경하시겠습니까?")) return;
+  		function updateOrderStatus(orderIdx, orderNumber, orderStatus) {
+			if(!confirm("현재 상태: " + orderStatus + "\n주문 상태를 변경하시겠습니까?")) return;
 			
 			$.ajax({
 				type: "POST",
 				url: "${ctp}/admin/order/updateStatus",
-				data: {orderIdx: orderIdx},
+				data: {
+					orderIdx: orderIdx,
+					orderNumber: orderNumber
+				},
 				success: function(response) {
-					alert(response);
+					alert(response.message);
 					location.reload();
 				},
 				error: function(xhr) {
-					alert("주문 상태 변경 실패: " + xhr.responseText);
+					try {
+						let errorResponse = Json.parse(xhr.responseText);					
+						alert("주문 상태 변경 실패: " + errorResponse.message);
+					} catch (e) {
+						alert("주문 상태 변경 실패: 서버 오류 발생");
+					}
+				}
+			});
+		}
+		
+		function cancelOrder(orderIdx) {
+			if(!confirm("주문을 취소하시겠습니까?")) return;
+			
+			$.ajax({
+				type: "POST",
+				url: "${ctp}/admin/order/cancel",
+				data: {orderIdx: orderIdx},
+				success: function(response) {
+					alert(response.message);
+					location.reload();
+				},
+				error: function(xhr) {
+					try {
+						let errorResponse = JSON.parse(xhr.responseText);
+						alert("주문 취소 실패: " + errorResponse.message);
+					} catch (e) {						
+						alert("주문 취소 실패: 서버 오류 발생");
+					}
 				}
 			});
 		}
@@ -86,9 +116,9 @@
 					                            <td>${orderVO.pointUse !=0 ? 'Y' : 'N'}</td>
 					                            <td>${orderVO.orderStatus}</td>
 					                            <td>${fn:substring(orderVO.orderDate,0,19)}</td>
-					                 		         <td>
-					                           	<a type="button" class="badge badge-info text-light mr-1" onclick="updateOrderStatus('${orderVO.orderIdx}', '${orderVO.orderStatus}')">처리</a>
-					                           	<a type="button" class="badge badge-danger text-light" onclick="categoryTopDelete('${orderVO.orderIdx}')">취소</a>
+					                 		    <td>
+						                           	<a type="button" class="badge badge-info text-light mr-1" onclick="updateOrderStatus('${orderVO.orderIdx}', '${orderVO.orderNumber}', '${fn:escapeXml(orderVO.orderStatus)}')">처리</a>
+						                           	<a type="button" class="badge badge-danger text-light" onclick="cancelOrder('${orderVO.orderIdx}')">취소</a>
 					                           </td>
 					                        </tr>
 					                        </c:forEach>

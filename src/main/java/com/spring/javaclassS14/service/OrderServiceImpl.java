@@ -147,4 +147,29 @@ public class OrderServiceImpl implements OrderService {
 		}
 	}
 
+	@Transactional
+	@Override
+	public boolean cancelOrder(Integer orderIdx) {
+		String currentStatus = orderDAO.getOrderStatus(orderIdx);
+		
+		if(currentStatus == null) {
+			throw new IllegalArgumentException("해당 주문이 존재하지 않습니다.");
+		}
+		
+		// 취소 가능한 상태인지 확인
+		if (!isCancellable(currentStatus)) {
+			throw new IllegalStateException("현재 상태에서는 주문을 취소할 수 없습니다.");
+		}
+		
+		// 주문 취소 (orderStatus = "취소됨"으로 변경)
+		int updateRows = orderDAO.cancelOrder(orderIdx);
+		
+		return updateRows > 0;  // 변경된 행이 1개 이상이면 true 반환
+	}
+	
+	// 취소 가능한 상태인지 확인하는 메서드
+	private boolean isCancellable(String currentStatus) {
+		return currentStatus.equals("주문") || currentStatus.equals("배송 준비 중");
+	}
+
 }

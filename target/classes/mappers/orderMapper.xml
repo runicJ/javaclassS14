@@ -155,6 +155,11 @@
 		UPDATE orders_p SET orderStatus = #{nextStatus}
 		WHERE orderNumber = #{orderNumber}
 	</update>
+	
+	<update id="cancelOrder">
+		UPDATE orders_p SET orderStatus = '취소'
+		WHERE orderIdx = #{orderIdx}
+	</update>
 
 
 
