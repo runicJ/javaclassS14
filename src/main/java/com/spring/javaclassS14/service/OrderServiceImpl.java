@@ -1,10 +1,11 @@
 package com.spring.javaclassS14.service;
 
 import java.util.List;
-import java.util.Map;
 
+import org.apache.ibatis.session.SqlSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.spring.javaclassS14.dao.OrderDAO;
 import com.spring.javaclassS14.vo.CartItem;
@@ -17,7 +18,7 @@ public class OrderServiceImpl implements OrderService {
 
 	@Autowired
 	OrderDAO orderDAO;
-
+	
     @Override
     public OrderVO getOrderMaxIdx() {
         return orderDAO.getOrderMaxIdx();
@@ -94,4 +95,56 @@ public class OrderServiceImpl implements OrderService {
 	public Integer getUserOrderCnt(Integer userIdx) {
 		return orderDAO.getUserOrderCnt(userIdx);
 	}
+
+	@Transactional
+	@Override
+	public boolean updateOrderStatus(Integer orderIdx, String orderNumber) {
+	    String currentStatus;
+	    
+	    // orderIdx 또는 orderNumber 중 하나를 기준으로 상태 조회
+	    if (orderIdx != null) {
+	        currentStatus = orderDAO.getOrderStatus(orderIdx);
+	    } else if (orderNumber != null) {
+	        currentStatus = orderDAO.getOrderStatusByNumber(orderNumber);
+	    } else {
+	        throw new IllegalArgumentException("orderIdx 또는 orderNumber 둘 중 하나는 필요합니다.");
+	    }
+
+	    if (currentStatus == null) {
+	        throw new IllegalArgumentException("해당 주문이 존재하지 않습니다.");
+	    }
+
+	    String nextStatus = getNextStatus(currentStatus);
+	    if (nextStatus == null) {
+	        throw new IllegalStateException("현재 상태에서는 더 이상 변경할 수 없습니다.");
+	    }
+		
+	    // DAO 호출 주문 상태 업데이트
+	    int updatedRows;
+	    if(orderIdx != null) {
+	    	updatedRows = orderDAO.updateOrderStatus(orderIdx, nextStatus);
+	    }
+	    else {
+	    	updatedRows = orderDAO.updateOrderStatusByNumber(orderNumber, nextStatus);
+	    }
+	    
+	    return updatedRows > 0;
+	}
+	
+	// 주문 상태 변경 흐름
+	private String getNextStatus(String currentStatus) {
+		switch(currentStatus) {
+			case "주문":
+				return "배송 준비 중";
+			case "배송 준비 중":
+				return "배송 중";
+			case "배송 중":
+				return "배송 완료";
+			case "배송 완료":
+				return "구매 확정";
+			default:
+				return null;
+		}
+	}
+
 }

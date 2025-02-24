@@ -11,6 +11,24 @@
 	<title>orderList</title>
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
   	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
+  	<script>
+  		function updateOrderStatus(orderIdx, currentStatus) {
+			if(!confirm("현재 상태: " + currentStatus + "\n주문 상태를 변경하시겠습니까?")) return;
+			
+			$.ajax({
+				type: "POST",
+				url: "${ctp}/admin/order/updateStatus",
+				data: {orderIdx: orderIdx},
+				success: function(response) {
+					alert(response);
+					location.reload();
+				},
+				error: function(xhr) {
+					alert("주문 상태 변경 실패: " + xhr.responseText);
+				}
+			});
+		}
+  	</script>
 </head>
 <body>
 	<div class="preloader">
@@ -69,8 +87,8 @@
 					                            <td>${orderVO.orderStatus}</td>
 					                            <td>${fn:substring(orderVO.orderDate,0,19)}</td>
 					                 		         <td>
-					                           	<a type="button" class="badge badge-info text-light mr-1">처리</a>
-					                           	<a type="button" class="badge badge-danger text-light" onclick="categoryTopDelete('${topVO.productTopIdx}')">취소</a>
+					                           	<a type="button" class="badge badge-info text-light mr-1" onclick="updateOrderStatus('${orderVO.orderIdx}', '${orderVO.orderStatus}')">처리</a>
+					                           	<a type="button" class="badge badge-danger text-light" onclick="categoryTopDelete('${orderVO.orderIdx}')">취소</a>
 					                           </td>
 					                        </tr>
 					                        </c:forEach>

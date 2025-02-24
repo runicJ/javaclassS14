@@ -24,5 +24,5 @@ public interface OrderService {
 	public void setOrderProduct(OrderVO vo);
 	public PaymentVO getPaymentByOrderIdx(String orderIdx);
 	public Integer getUserOrderCnt(Integer userIdx);
-	
+	public boolean updateOrderStatus(Integer orderIdx, String orderNumber);
 }

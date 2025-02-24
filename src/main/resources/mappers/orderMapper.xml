@@ -11,7 +11,7 @@
   </select>
   
   <select id="getOrderCheck" resultType="int">
-    SELECT * FROM order_p WHERE userIdx = #{userIdx} and productIdx = #{productIdx} limit 1;
+    SELECT * FROM orders_p WHERE userIdx = #{userIdx} and productIdx = #{productIdx} limit 1;
   </select>
   
   <select id="getOrderList" resultType="com.spring.javaclassS14.vo.OrderVO">
@@ -100,7 +100,14 @@
         ORDER BY o.orderDate DESC
         LIMIT #{startIndexNo}, #{pageSize}
     </select>
+    
+    <select id="getOrderStatus" parameterType="int" resultType="String">
+    	SELECT orderStatus FROM orders_p WHERE orderIdx = #{orderIdx}
+    </select>
 
+	<select id="getOrderStatusByNumber" parameterType="String" resultType="String">
+	    SELECT orderStatus FROM orders_p WHERE orderNumber = #{orderNumber}
+	</select>
 
 
 	<insert id="setOrder" parameterType="com.spring.javaclassS14.vo.OrderVO">
@@ -135,9 +142,19 @@
 
 
 
-  <update id="setUserPointPlus">
-    UPDATE users SET point = point + #{point} WHERE userIdx = #{userIdx}
-  </update>
+	<update id="setUserPointPlus">
+		UPDATE users SET point = point + #{point} WHERE userIdx = #{userIdx}
+	</update>
+  
+ 	<update id="updateOrderStatus">
+	  	UPDATE orders_p SET orderStatus = #{nextStatus}
+	  	WHERE orderIdx = #{orderIdx}
+	</update>
+  
+	<update id="updateOrderStatusByNumber">
+		UPDATE orders_p SET orderStatus = #{nextStatus}
+		WHERE orderNumber = #{orderNumber}
+	</update>
 
 
 

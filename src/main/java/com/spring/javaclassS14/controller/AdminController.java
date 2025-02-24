@@ -676,6 +676,25 @@ public class AdminController {
 		return "admin/order/orderList";
 	}
 	
+	@PostMapping("/order/updateStatus")
+	public ResponseEntity<String> updateOrderStatus(
+			@RequestParam(value = "orderIdx", required = false) Integer orderIdx, 
+			@RequestParam(value = "orderNumber", required = false) String orderNumber) {
+		
+		if(orderIdx == null && (orderNumber == null || orderNumber.trim().isEmpty())) {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+					.body("orderIdx 또는 orderNumber 둘 중 하나는 필수입니다.");
+		}
+		
+		boolean isUpdated = orderService.updateOrderStatus(orderIdx, orderNumber);
+		if(isUpdated) {
+			return ResponseEntity.ok("주문 상태가 업데이트되었습니다.");
+		}
+		else {
+			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("업데이트 실패");
+		}
+	}
+	
 	@RequestMapping(value = "/info/branchInput", method = RequestMethod.GET)
 	public String branchInputGet() {
 		

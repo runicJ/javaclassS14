@@ -1,7 +1,6 @@
 package com.spring.javaclassS14.dao;
 
 import java.util.List;
-import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
@@ -28,5 +27,8 @@ public interface OrderDAO {
     public List<OrderVO> getMyOrderStatus(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("userIdx") int userIdx, @Param("startOrder") String startOrder, @Param("endOrder") String endOrder, @Param("conditionOrderStatus") String conditionOrderStatus);
 	public void setOrderProduct(@Param("orderVO") OrderVO orderVO);
 	public Integer getUserOrderCnt(@Param("userIdx") int userIdx);
-
+	public String getOrderStatus(@Param("orderIdx") Integer orderIdx);
+	public String getOrderStatusByNumber(@Param("orderNumber") String orderNumber);
+    public int updateOrderStatus(@Param("orderIdx") Integer orderIdx, @Param("nextStatus") String nextStatus);
+    public int updateOrderStatusByNumber(@Param("orderNumber") String orderNumber, @Param("nextStatus") String nextStatus);
 }

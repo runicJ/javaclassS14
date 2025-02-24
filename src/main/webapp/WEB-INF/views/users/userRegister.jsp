@@ -18,7 +18,7 @@
     let timerInterval;
     
     function fCheck(event) {
-    	event.preventDefault();  // 페이지가 새로고침 되는 것을 막음?
+    	event.preventDefault();  // 기본 제출 동작 방지 (페이지 새로고침 X)
     	
     	let userId = myform.userId.value.trim();
     	let userPwd = myform.userPwd.value.trim();
@@ -151,6 +151,7 @@
 		myform.tel.value = tel;
 		
 		myform.submit();
+		// return true;  // 제출 허용 → 자동으로 폼이 제출됨
     }
 		
     function idCheck() {
@@ -379,6 +380,7 @@
 				<div class="box box-border">
 					<div class="box-body">
 						<h4 class="text-center">회 원 가 입</h4>
+<!-- 						<form name="myform" method="post" class="was-validated" enctype="multipart/form-data" onsubmit="return fCheck();"> -->
 						<form name="myform" method="post" class="was-validated" enctype="multipart/form-data">
 							<div class="form-group">
 								<label for="uid"><i class="fa-solid fa-caret-right"></i> 아이디</label>
