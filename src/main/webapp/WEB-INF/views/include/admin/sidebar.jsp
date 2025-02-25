@@ -30,8 +30,8 @@
       	            <ul aria-expanded="false" class="collapse first-level base-level-line">
                         <li class="sidebar-item"><a href="${ctp}/admin/order/orderList" class="sidebar-link">
                         <span class="hide-menu"> 주문 상세 목록 </span></a></li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/order/orderCancelList" class="sidebar-link">
-                        <span class="hide-menu"> 주문 상세 출력 관리 </span></a></li>
+                        <%-- <li class="sidebar-item"><a href="${ctp}/admin/order/orderCancelList" class="sidebar-link">
+                        <span class="hide-menu"> 주문 상세 출력 관리 </span></a></li> --%>
                     </ul>
                 </li>
                 
