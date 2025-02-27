@@ -32,4 +32,5 @@ public interface OrderDAO {
     public int updateOrderStatus(@Param("orderIdx") Integer orderIdx, @Param("nextStatus") String nextStatus);
     public int updateOrderStatusByNumber(@Param("orderNumber") String orderNumber, @Param("nextStatus") String nextStatus);
 	public int cancelOrder(@Param("orderIdx") Integer orderIdx);
+	public List<OrderVO> getOrderDetail(@Param("orderIdx") int orderIdx);
 }

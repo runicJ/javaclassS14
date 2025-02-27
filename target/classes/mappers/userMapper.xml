@@ -128,8 +128,8 @@
 		insert into user_log (userIdx, hostIp) values (#{userIdx},#{hostIp});
 	</insert>
 	
-    <insert id="">
-        insert into delete_users (userId, email, deleteReason) values (#{userId}, #{email}, #{deleteReason});
+    <insert id="insertDeletedUser">
+        insert into delete_users (userIdx, email, deleteReason) values (#{userIdx}, #{email}, #{deleteReason});
     </insert>
 
 	
@@ -143,7 +143,14 @@
 	</update>
  
      <update id="updateDeletedUser">
-        update delete_users set userId = concat('delete_', userId), email = concat('delete_', email) where userId = #{userId} and deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH);
+        update users 
+        set userId = concat('delete_', userId), 
+        	userPwd = 'deleted_password',
+        	name = '탈퇴한 회원',
+        	email = concat('delete_', userIdx, '@deleted.com'),
+        	tel = '000-0000-0000',
+        	userStatus = 'delete',
+        where userIdx IN (SELECT userIdx FROm delete_users WHERE deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH));
         delete from users where userId = #{userId};
     </update>
     

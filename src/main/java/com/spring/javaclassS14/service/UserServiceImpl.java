@@ -77,10 +77,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public int setUserDelete(String userId, String email, String deleteReason) {
-        int res = userDAO.setUserDelete(userId, deleteReason);
+    public int setUserDelete(int userIdx, String email, String deleteReason) {
+        int res = userDAO.setUserDelete(userIdx, deleteReason);
         if (res != 0) {
-            userDAO.insertDeletedUser(userId, email, deleteReason);
+            userDAO.insertDeletedUser(userIdx, email, deleteReason);
         }
         return res;
     }

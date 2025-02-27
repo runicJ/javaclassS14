@@ -4,6 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -706,6 +708,30 @@ public class AdminController {
 			response.put("message", "주문 취소 실패");
 			return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(response);
 		}
+	}
+	
+//	@GetMapping("/order/getOrderDetail")
+//	public String getOrderDetail(@RequestParam("orderIdx") int orderIdx, Model model) {
+//		OrderVO order = orderService.getOrderDetail(orderIdx);
+//		model.addAttribute("order", order);
+//		return "admin/orderDetail";  //jsp로 데이터를 전달
+//	}
+	
+	@GetMapping("/order/getOrderDetail")
+	public ResponseEntity<Map<String,Object>> getOrderDetail(@RequestParam("orderIdx") int orderIdx) {
+		List<OrderVO> orderList = orderService.getOrderDetail(orderIdx);  // 리스트 형태로 반환
+		
+		if(orderList.isEmpty()) {
+			return ResponseEntity.status(HttpStatus.NOT_FOUND)
+					.body(Collections.singletonMap("message", "주문 정보를 찾을 수 없습니다."));
+		}
+		OrderVO order = orderList.get(0);
+		
+		Map<String, Object> response = new HashMap<>();
+		response.put("order", order);
+		response.put("items", orderList);  // 주문 상품 리스트 반환
+		
+		return ResponseEntity.ok(response);  // JSON 데이터 반환
 	}
 	
 	@RequestMapping(value = "/info/branchInput", method = RequestMethod.GET)

@@ -27,13 +27,13 @@ public interface UserService {
 
 	public void setUserPwdUpdate(String userId, String tempPwd);
 
-	public int setUserDelete(String userId, String email, String deleteReason);
+	public int setUserDelete(int userIdx, String email, String deleteReason);
 	
 	//public int deleteUserWithReason(String userId, String deleteReason);
 
 	public void setUserLog(Integer userIdx, String hostIp);
 	
-	public void updateDeletedUser(String userId);
+	public void updateDeletedUser(String userIdx);
 	
 	public void cancelUserDelete(String userId);
 

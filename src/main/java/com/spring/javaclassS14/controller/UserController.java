@@ -23,6 +23,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
@@ -190,9 +191,15 @@ public class UserController {
 	public String userLoginPost(HttpServletRequest request, HttpServletResponse response, HttpSession session,
 			@RequestParam(name="userId", defaultValue="admin", required = false) String userId,
 			@RequestParam(name="userPwd", defaultValue="1234", required = false) String userPwd,
-			@RequestParam(name="idSave", defaultValue="off", required = false) String idSave
-		) {
+			@RequestParam(name="idSave", defaultValue="off", required = false) String idSave,
+			RedirectAttributes redirectAttributes) {
 		UserVO vo = userService.getUserIdCheck(userId);
+		
+		// 탈퇴한 상태인지 확인
+		if(vo != null && "delete".equals(vo.getUserStatus())) {
+			redirectAttributes.addFlashAttribute("error", "이 계정은 탈퇴된 계정입니다.");
+			return "redirect:/users/userLogin";
+		}
 		
 		if(vo != null && passwordEncoder.matches(userPwd, vo.getUserPwd())) {
 	        // 탈퇴 요청 상태 확인
@@ -463,20 +470,40 @@ public class UserController {
 	// 회원탈퇴 페이지로 이동
 	@RequestMapping(value="/userDelete", method=RequestMethod.GET)
 	public String userDeleteGet(HttpSession session, Model model) {
-		String userId = (String) session.getAttribute("sUid");
+		String userId = (String) session.getAttribute("sUid");  // 세션에서 로그인한 사용자 ID 가져오기
 		UserVO vo = userService.getUserIdCheck(userId);
 		
-		model.addAttribute("vo", vo);
+		if(vo == null) {
+			session.invalidate();  // 세션 초기화 (자동 로그아웃)
+			
+			return "redirect:/msg/userNotFound";  // 사용자가 존재하지 않는 경우 리다이렉트
+		}
 		
+		model.addAttribute("vo", vo);
 		return "users/userDelete";
 	}
 	
 	// 회원탈퇴 신청
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
-	public String userDeletePost(HttpSession session, @RequestParam("deleteReason") String deleteReason) {
+	public String userDeletePost(HttpSession session, 
+								@RequestParam("deleteReason") String deleteReason,
+								@RequestParam("userPwd") String userPwd,
+								RedirectAttributes RedirectAttributes) {
 	    String userId = (String) session.getAttribute("sUid");
 	    UserVO userVO = userService.getUserIdCheck(userId);
-	    int res = userService.setUserDelete(userId, userVO.getEmail(), deleteReason);
+	    
+	    if (userVO == null) {
+	    	return "redirect:/msg/userNotFound";  // 사용자가 존재하지 않는 경우
+	    }
+		
+	    // 비밀번호 검증
+	    if (passwordEncoder.matches(userPwd, userVO.getUserPwd())) {
+	    	RedirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+	    	return "redirect:/users/userDelete";
+	    }
+	    
+	    // 탈퇴 처리
+	    int res = userService.setUserDelete(userVO.getUserIdx(), userVO.getEmail(), deleteReason);
 		
 		return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
 	}

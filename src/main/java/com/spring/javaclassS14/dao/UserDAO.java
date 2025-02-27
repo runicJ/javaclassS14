@@ -25,7 +25,7 @@ public interface UserDAO {
 
 	public void setUserPwdUpdate(@Param("userId") String userId, @Param("userPwd") String tempPwd);
 
-	public int setUserDelete(@Param("userId") String userId, @Param("deleteReason") String deleteReason);
+	public int setUserDelete(@Param("userIdx") int userIdx, @Param("deleteReason") String deleteReason);
 
 	public int totRecCnt();
 
@@ -33,7 +33,7 @@ public interface UserDAO {
 	
 	public void setUserLog(@Param("userIdx") int userIdx, @Param("hostIp") String hostIp);
 
-	public void insertDeletedUser(@Param("userId") String userId, @Param("email") String email, @Param("deleteReason") String deleteReason);
+	public void insertDeletedUser(@Param("userIdx") int userIdx, @Param("email") String email, @Param("deleteReason") String deleteReason);
 
 	public void updateDeletedUser(@Param("userId") String userId);
 

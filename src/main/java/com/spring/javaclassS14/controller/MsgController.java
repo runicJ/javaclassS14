@@ -75,6 +75,10 @@ public class MsgController {
 			model.addAttribute("msg", "회원탈퇴 실패! \\n 확인 후에 다시 시도해 주세요.");
 			model.addAttribute("url", "/users/userDelete");
 		}
+		else if(msgFlag.equals("userNotFound")) {
+			model.addAttribute("msg", "회원 정보를 찾을 수 없습니다. \\n 다시 로그인해 주세요.");
+			model.addAttribute("url", "/users/userLogin");
+		}
 		else if(msgFlag.equals("userLogout")) {
 			model.addAttribute("msg", uid+" 님 로그아웃이 정상적으로 처리되었습니다.");
 			model.addAttribute("url", "/users/userLogin");

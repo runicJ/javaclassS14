@@ -26,4 +26,5 @@ public interface OrderService {
 	public Integer getUserOrderCnt(Integer userIdx);
 	public boolean updateOrderStatus(Integer orderIdx, String orderNumber);
 	public boolean cancelOrder(Integer orderIdx);
+	public List<OrderVO> getOrderDetail(int orderIdx);
 }

@@ -67,6 +67,9 @@
 			let startDate = $("#startDate").val();
 			let endDate = $("#endDate").val();
 			
+			console.log("검색 타입: ", searchType);
+			console.log("검색어: ", searchKeyword);
+			
 			location.href = "${ctp}/admin/order/orderList?searchType=" + searchType
 					+ "&searchKeyword=" + searchKeyword
 					+ "&orderStatus=" + orderStatus
@@ -118,6 +121,27 @@
 				}
 			});
 		});
+		
+		$(document).ready(function() {
+			let today = new Date().toISOString().split("T")[0];  // 오늘 날짜 가져오기
+			$("#startDate").val(today);
+			$("#endDate").val(today);
+		});
+		
+		function openOrderDetail(orderIdx) {
+			$.ajax({
+				type: "GET",
+				url: "{ctp}/admin/order/getOrderDetail",
+				data: {orderIdx: orderIdx},
+				success: function(response) {
+					$("#orderDetailContent").html(response);
+					$("#orderDetailModal").modal("show");  // 모달 표시
+				},
+				error: function(xhr) {
+					alert("주문 상세 정보를 불러오는데 실패했습니다.");
+				}
+			});
+		}
   	</script>
 </head>
 <body>
@@ -217,13 +241,39 @@
 					                    <tbody>
 					                    	<c:forEach var="orderVO" items="${orderVOS}" varStatus="st">
 					                        <tr>
-					                        	<td></td>
+					                        	<td><input type="checkbox" id="orderCheckbox"></td>
 					                            <td>${orderVO.orderIdx}</td>
+					                           	<td>
+					                           		<a href="javascript:void(0);" onclick="openOrderDetail('${orderVO.orderIdx}');" class="text-primary font-weight-bold">
+					                           			${orderVO.orderNumber}
+					                           		</a> 
+					                           	</td>
 					                            <td>${orderVO.userId}</td>
 					                            <td><fmt:formatNumber value="${orderVO.totalPrice}"/>원</td>
 					                            <%-- <td>${orderVO.couponIdx !=null ? 'Y' : 'N'}</td>
 					                            <td>${orderVO.pointUse !=0 ? 'Y' : 'N'}</td> --%>
-					                            <td>${orderVO.orderStatus}</td>
+					                            <td>
+					                            	<c:choose>
+					                            		<c:when test="${orderVO.orderStatus == '주문'}">
+					                            			<span class="badge badge-primary">${orderVO.orderStatus}</span>
+					                            		</c:when>
+					                            		<c:when test="${orderVO.orderStatus == '배송 준비 중'}">
+					                            			<span class="badge badge-warning">${orderVO.orderStatus}</span>
+					                            		</c:when>
+					                            		<c:when test="${orderVO.orderStatus == '배송 중'}">
+					                            			<span class="badge badge-info">${orderVO.orderStatus}</span>
+					                            		</c:when>
+					                            		<c:when test="${orderVO.orderStatus == '배송 완료'}">
+					                            			<span class="badge badge-success">${orderVO.orderStatus}</span>
+					                            		</c:when>
+					                            		<c:when test="${orderVO.orderStatus == '취소'}">
+					                            			<span class="badge badge-danger">${orderVO.orderStatus}</span>
+					                            		</c:when>
+					                            		<c:otherwise>
+					                            			<span class="badge badge-secondary">${orderVO.orderStatus}</span>
+					                            		</c:otherwise>
+					                            	</c:choose>
+					                            </td>
 					                            <td>${fn:substring(orderVO.orderDate,0,19)}</td>
 					                 		    <td>
 						                           	<a type="button" class="badge badge-info text-light mr-1" onclick="updateOrderStatus('${orderVO.orderIdx}', '${orderVO.orderNumber}', '${fn:escapeXml(orderVO.orderStatus)}')">처리</a>
@@ -242,6 +292,21 @@
 		</div>
 	</div>
 <p><br/></p>
+	<div class="modal fade" id="orderDetailModal" tabindex="-1"	role="dialog">
+		<div class="modal-dialog modal-lg" role="document">
+			<div class="modal-content">
+				<div class="modal-header">
+					<h5 calss="modal-title">주문 상세 정보</h5>
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+				</div>
+				<div class="modal-body">
+					<div id="orderDetailContent">
+						
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
 </body>
 </html>

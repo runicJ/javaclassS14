@@ -172,4 +172,9 @@ public class OrderServiceImpl implements OrderService {
 		return currentStatus.equals("주문") || currentStatus.equals("배송 준비 중");
 	}
 
+	@Override
+	public List<OrderVO> getOrderDetail(int orderIdx) {
+		return orderDAO.getOrderDetail(orderIdx);
+	}
+
 }
