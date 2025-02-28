@@ -2,6 +2,7 @@ package com.spring.javaclassS14.controller;
 
 import java.time.LocalDateTime;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -14,10 +15,12 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -31,6 +34,7 @@ import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.CrawlingVO;
+import com.spring.javaclassS14.vo.DeliveryAddressVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
@@ -510,8 +514,40 @@ public class UserController {
 	
 	// 회원 배송지 리스트
 	@RequestMapping(value="/userAddress", method=RequestMethod.GET)
-	public String userAddressGet() {
+	public String userAddressGet(HttpSession session, Model model) {
+		String userId = (String) session.getAttribute("sUid");
+		
+		// 회원 정보 가져오기
+		UserVO userVO = userService.getUserIdCheck(userId);
+		
+		// 배송지 목록 가져오기
+		List<DeliveryAddressVO> addressList = userService.getUserDeliveryAddresses(userVO.getUserIdx());
+		
+		model.addAttribute("userVO", userVO);
+		model.addAttribute("addressList", addressList);
+		
 		return "users/userAddress";
+	}
+	
+	@RequestMapping(value="/userAddressInput", method=RequestMethod.POST)
+	@ResponseBody
+	public ResponseEntity<?> insertUserAddress(@ModelAttribute DeliveryAddressVO address, HttpSession session) {
+		String userId = (String) session.getAttribute("sUid");
+		UserVO userVO = userService.getUserIdCheck(userId);
+		
+		if(userVO == null) {
+			return ResponseEntity.badRequest().body(Collections.singletonMap("msg", "회원 정보를 찾을 수 없습니다."));
+		}
+		
+		address.setUserIdx(userVO.getUserIdx());
+		
+		int result = userService.insertAddress(address);
+		
+		if(result > 0) {
+			return ResponseEntity.ok(Collections.singletonMap("msg", "배송지가 추가되었습니다."));
+		} else {
+			return ResponseEntity.badRequest().body(Collections.singletonMap("msg", "배송지 추가에 실패했습니다."));
+		}
 	}
 
     // 나의 주문 내역 및 상태 보기

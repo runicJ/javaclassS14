@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.apache.ibatis.annotations.Param;
 
+import com.spring.javaclassS14.vo.DeliveryAddressVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
@@ -60,4 +61,8 @@ public interface UserDAO {
 	public Integer getUserPointCnt(@Param("userIdx") int userIdx);
 
 	public Integer getLikedCnt(@Param("userIdx") int userIdx);
+
+	public List<DeliveryAddressVO> getUserDeliveryAddresses(@Param("userIdx") int userIdx);
+
+	public int insertAddress(DeliveryAddressVO address);
 }

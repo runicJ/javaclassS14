@@ -114,6 +114,10 @@
 	<select id="getLikedCnt" resultType="int">
 	    select count(*) from liked_product where userIdx=#{userIdx};
 	</select>
+	
+	<select id="getUserDeliveryAddresses" parameterType="int" resultType="com.spring.javaclassS14.vo.DeliveryAddressVO">
+		SELECT * FROM delivery_address WHERE userIdx=#{userIdx}
+	</select>
 
 
 	<insert id="setUserRegisterOk">
@@ -130,6 +134,10 @@
 	
     <insert id="insertDeletedUser">
         insert into delete_users (userIdx, email, deleteReason) values (#{userIdx}, #{email}, #{deleteReason});
+    </insert>
+    
+    <insert id="insertAddress">
+    	INSERT INTO delivery_address (userIdx, recipientName, address1)
     </insert>
 
 	

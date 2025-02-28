@@ -11,6 +11,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.UserDAO;
+import com.spring.javaclassS14.vo.DeliveryAddressVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
@@ -157,6 +158,16 @@ public class UserServiceImpl implements UserService {
 	@Override
 	public Integer getLikedCnt(Integer userIdx) {
 		return userDAO.getLikedCnt(userIdx);
+	}
+
+	@Override
+	public List<DeliveryAddressVO> getUserDeliveryAddresses(int userIdx) {
+		return userDAO.getUserDeliveryAddresses(userIdx);
+	}
+
+	@Override
+	public int insertAddress(DeliveryAddressVO address) {
+		return userDAO.insertAddress(address);
 	}
 
 }

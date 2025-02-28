@@ -5,6 +5,7 @@ import java.util.Map;
 
 import org.springframework.web.multipart.MultipartFile;
 
+import com.spring.javaclassS14.vo.DeliveryAddressVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
@@ -56,4 +57,8 @@ public interface UserService {
 	public Integer getUserPointCnt(Integer userIdx);
 
 	public Integer getLikedCnt(Integer userIdx);
+
+	public List<DeliveryAddressVO> getUserDeliveryAddresses(int userIdx);
+
+	public int insertAddress(DeliveryAddressVO address);
 }
