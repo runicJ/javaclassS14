@@ -101,32 +101,15 @@ public class UserController {
 	
 	// 이메일 인증코드 확인하기
 	@ResponseBody
-	@RequestMapping(value = "/confirmCodeCheck", method = RequestMethod.GET)
-	public String emailConfirmCheckGet(String checkKey, HttpSession session) {
-	    // 요청이 들어왔는지 확인하는 로그
-	    System.out.println("[서버] /confirmCodeCheck 요청 도착!");
-
-	    // 세션에서 인증 코드 가져오기
+	@RequestMapping(value = "/confirmCodeCheck", method = RequestMethod.POST)
+	public String emailConfirmCheckPost(@RequestParam("checkKey") String checkKey, HttpSession session) {
 	    String emailKey = (String) session.getAttribute("sEmailKey");
 
-	    // 🔥 서버 로그 확인
-	    System.out.println("[서버] 세션에 저장된 인증 코드: " + emailKey);
-	    System.out.println("[서버] 사용자가 입력한 인증 코드: " + checkKey);
-
-	    // 세션이 만료되었거나 값이 없을 경우
 	    if (emailKey == null || emailKey.isEmpty()) {
-	        System.out.println("[서버] 세션에 인증 코드 없음. 인증 실패.");
-	        return "0";  
+	        return "0";  // 세션이 만료되었거나 인증 코드 없음
 	    }
 
-	    // 인증 코드 비교
-	    if (checkKey.trim().equals(emailKey.trim())) {
-	        System.out.println("[서버] 인증 코드 일치! 인증 성공!");
-	        return "1";  // 성공
-	    } else {
-	        System.out.println("[서버] 인증 코드 불일치. 인증 실패!");
-	        return "0";  // 실패
-	    }
+	    return checkKey.equals(emailKey) ? "1" : "0"; // 인증 코드 일치 여부 확인
 	}
 
 	//return checkKey.trim().equals(emailKey) ? "1" : "0";

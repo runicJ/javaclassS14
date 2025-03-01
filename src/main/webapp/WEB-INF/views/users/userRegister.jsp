@@ -280,37 +280,25 @@
             return;
         }
 
-        // 🔥 서버로 전송할 데이터 확인
         console.log("전송할 checkKey:", checkKey);
 		console.log("${ctp}")
         
         $.ajax({
-            url: "{ctp}/users/confirmCodeCheck",
-            type: "GET",
+            url: "${ctp}/users/confirmCodeCheck",
+            type: "POST",
             data: { checkKey: checkKey },
-            beforeSend: function() {
-                console.log("AJAX 요청 시작! /confirmCodeCheck");
-            },
             success: function(res) {
-                console.log("서버 응답:", res); // 서버 응답 확인
-
-                if (!res || res.trim() === "") {  
-                    alert("서버 응답이 비어 있습니다. 다시 시도해 주세요.");
-                    return;
-                }
-
-                if (res.trim() === "1") {
+                if (res === "1") {
                     alert("이메일 인증이 완료되었습니다.");
-                    clearInterval(timerInterval); // 타이머 정지
+                    clearInterval(timerInterval);
                     document.getElementById("confirmCodeSection").style.display = 'none';
-                } 
-                else {
+                } else {
                     alert("인증 코드가 일치하지 않습니다. 다시 확인해 주세요.");
                 }
             },
             error: function(xhr, status, error) {
-                console.error("AJAX 요청 실패:", error);
-                alert("전송 오류 발생! 다시 시도해 주세요.");
+                console.error("AJAX 요청 실패:", xhr.status, error);
+                alert("서버 연결 실패! 다시 시도해 주세요.");
             }
         });
     }
