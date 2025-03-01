@@ -33,6 +33,7 @@
 	    <exclude-mapping path="/users/uidCheck"/>
 	    <exclude-mapping path="/users/nickCheck"/>
 	    <exclude-mapping path="/users/emailCheck"/>
+	    <exclude-mapping path="/users/confirmCodeCheck"/>
 	    <exclude-mapping path="/users/userFindId"/>
 	    <exclude-mapping path="/users/userFindPw"/>
 	    <exclude-mapping path="/users/userLogout"/>

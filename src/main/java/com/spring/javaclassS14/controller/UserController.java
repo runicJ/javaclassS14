@@ -1,7 +1,6 @@
 package com.spring.javaclassS14.controller;
 
 import java.time.LocalDateTime;
-import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -33,10 +32,8 @@ import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
-import com.spring.javaclassS14.vo.CrawlingVO;
 import com.spring.javaclassS14.vo.DeliveryAddressVO;
 import com.spring.javaclassS14.vo.OrderVO;
-import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -93,6 +90,9 @@ public class UserController {
 	        String emailKey = uuid.toString().substring(0, 6);
 	        session.setAttribute("sEmailKey", emailKey);
 
+	        // 디버깅용(인증 코드 출력)
+	        System.out.println("생성된 이메일 인증 코드: " + emailKey);
+	        
 	        // 이메일로 인증 코드 전송
 	        allProvide.mailSend(email, "이메일 인증 코드", "인증 코드: " + emailKey);
 	        return "0";
@@ -103,9 +103,33 @@ public class UserController {
 	@ResponseBody
 	@RequestMapping(value = "/confirmCodeCheck", method = RequestMethod.GET)
 	public String emailConfirmCheckGet(String checkKey, HttpSession session) {
-		String emailKey = (String) session.getAttribute("sEmailKey");
-		return checkKey.equals(emailKey) ? "1" : "0";
+	    // 요청이 들어왔는지 확인하는 로그
+	    System.out.println("[서버] /confirmCodeCheck 요청 도착!");
+
+	    // 세션에서 인증 코드 가져오기
+	    String emailKey = (String) session.getAttribute("sEmailKey");
+
+	    // 🔥 서버 로그 확인
+	    System.out.println("[서버] 세션에 저장된 인증 코드: " + emailKey);
+	    System.out.println("[서버] 사용자가 입력한 인증 코드: " + checkKey);
+
+	    // 세션이 만료되었거나 값이 없을 경우
+	    if (emailKey == null || emailKey.isEmpty()) {
+	        System.out.println("[서버] 세션에 인증 코드 없음. 인증 실패.");
+	        return "0";  
+	    }
+
+	    // 인증 코드 비교
+	    if (checkKey.trim().equals(emailKey.trim())) {
+	        System.out.println("[서버] 인증 코드 일치! 인증 성공!");
+	        return "1";  // 성공
+	    } else {
+	        System.out.println("[서버] 인증 코드 불일치. 인증 실패!");
+	        return "0";  // 실패
+	    }
 	}
+
+	//return checkKey.trim().equals(emailKey) ? "1" : "0";
 	
 	@RequestMapping(value = "/userPolicy", method = RequestMethod.GET)
 	public String userPolicyGet() {
