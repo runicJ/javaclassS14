@@ -15,11 +15,15 @@ import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -27,6 +31,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import com.mysql.fabric.Response;
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.OrderService;
@@ -497,9 +502,9 @@ public class UserController {
 	// 회원탈퇴 신청
 	@RequestMapping(value="/userDelete", method=RequestMethod.POST)
 	public String userDeletePost(HttpSession session, 
+			@RequestParam("userPwd") String userPwd,
 								@RequestParam("deleteReason") String deleteReason,
-								@RequestParam("userPwd") String userPwd,
-								RedirectAttributes RedirectAttributes) {
+								RedirectAttributes redirectAttributes) {
 	    String userId = (String) session.getAttribute("sUid");
 	    UserVO userVO = userService.getUserIdCheck(userId);
 	    
@@ -508,15 +513,31 @@ public class UserController {
 	    }
 		
 	    // 비밀번호 검증
-	    if (passwordEncoder.matches(userPwd, userVO.getUserPwd())) {
-	    	RedirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
-	    	return "redirect:/users/userDelete";
+	    if (!passwordEncoder.matches(userPwd, userVO.getUserPwd())) {
+	    	//redirectAttributes.addFlashAttribute("error", "비밀번호가 일치하지 않습니다.");
+	    	return "0";
 	    }
 	    
 	    // 탈퇴 처리
-	    int res = userService.setUserDelete(userVO.getUserIdx(), userVO.getEmail(), deleteReason);
+	    int res = userService.setUserDelete(userVO.getUserIdx(), deleteReason);
 		
-		return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
+	    if(res != 0) {
+	    	sendDeleteConfirmationEmail(userVO.getEmail());
+	    }
+	    
+		//return res != 0 ? "redirect:/msg/userDeleteOk" : "redirect:/msg/userDeleteNo";
+	    return res != 0 ? "1" : "0";
+	}
+	
+	private void sendDeleteConfirmationEmail(String email) {
+		SimpleMailMessage message = new SimpleMailMessage();
+		message.setTo(email);
+		message.setSubject("회원 탈퇴 신청 완료 안내");
+		message.setText("안녕하세요.\n\n회원님의 탈퇴 신청이 완료되었습니다.\n"
+				+ "30일 이내에 로그인하면 탈퇴 신청이 자동으로 취소됩니다.\n"
+				+ "30일 후에는 회원 정보가 영구적으로 삭제됩니다.\n\n"
+				+ "감사합니다.");
+		mailSender.send(message);
 	}
 	
 	// 회원 배송지 리스트
@@ -536,25 +557,48 @@ public class UserController {
 		return "users/userAddress";
 	}
 	
-	@RequestMapping(value="/userAddressInput", method=RequestMethod.POST)
-	@ResponseBody
-	public ResponseEntity<?> insertUserAddress(@ModelAttribute DeliveryAddressVO address, HttpSession session) {
+	// 배송지 추가하기
+	@PostMapping("/userAddressInput")
+	public ResponseEntity<Map<String, String>> addUserAddress(@RequestBody DeliveryAddressVO addressVO, HttpSession session) {
 		String userId = (String) session.getAttribute("sUid");
-		UserVO userVO = userService.getUserIdCheck(userId);
+	    UserVO userVO = userService.getUserIdCheck(userId);
 		
-		if(userVO == null) {
-			return ResponseEntity.badRequest().body(Collections.singletonMap("msg", "회원 정보를 찾을 수 없습니다."));
+	    if(userVO == null) {
+	    	return ResponseEntity.badRequest().body(Map.of("msg", "로그인이 필요합니다."));
+	    }
+	    
+	    addressVO.setUserIdx(userVO.getUserIdx());
+	    
+	    // 로그 출력해서 확인 (디버깅)
+	    System.out.println("받은 데이터: userIdx=" + addressVO.getUserIdx() + ", address=" + addressVO.getAddress() + ", defaultAddress=" + addressVO.getDefaultAddress());
+	    
+		boolean success = userService.addAddress(addressVO);
+		if(!success) {
+			return ResponseEntity.badRequest().body(Map.of("msg", "최대 3개의 주소만 저장할 수 있습니다."));
 		}
+		return ResponseEntity.ok(Map.of("msg", "배송지가 저장되었습니다."));
+	}
+	
+	// 배송지 삭제
+	@PostMapping("/deleteAddress/{id}")
+	public ResponseEntity<Map<String, String>> deleteUserAddress(@PathVariable int id) {
+		boolean res = userService.deleteAddress(id);
+		System.out.println("삭제된 행 수 : " + res);
 		
-		address.setUserIdx(userVO.getUserIdx());
-		
-		int result = userService.insertAddress(address);
-		
-		if(result > 0) {
-			return ResponseEntity.ok(Collections.singletonMap("msg", "배송지가 추가되었습니다."));
-		} else {
-			return ResponseEntity.badRequest().body(Collections.singletonMap("msg", "배송지 추가에 실패했습니다."));
+		if (!res) {
+			return ResponseEntity.badRequest().body(Map.of("msg", "배송지 삭제 실패"));
 		}
+		return ResponseEntity.ok(Map.of("msg", "삭제되었습니다."));
+	}
+	
+	// 대표 배송지 설정
+	@PostMapping("/setDefaultAddress/{id}")
+	public ResponseEntity<Map<String, String>> setDefaultAddress(@PathVariable int id) {
+		boolean success = userService.setDefaultAddress(id);
+		if(!success) {
+			return ResponseEntity.badRequest().body(Map.of("msg", "대표 배송지 설정 실패"));
+		}
+		return ResponseEntity.ok(Map.of("msg", "대표 배송지가 설정되었습니다."));
 	}
 
     // 나의 주문 내역 및 상태 보기

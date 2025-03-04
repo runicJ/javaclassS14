@@ -29,8 +29,14 @@ public class CommunityServiceImpl implements CommunityService {
         return communityDAO.getHospitalById(hospitalIdx);
     }
 
-    @Override
-    public void setHospitalComment(CommunityVO cVO) {
-        communityDAO.insertHospitalComment(cVO);
-    }
+	@Override
+	public boolean insertHospitalComment(CommunityVO comment) {
+        int result = communityDAO.insertHospitalComment(comment);
+        return result > 0;
+	}
+
+	@Override
+	public List<CommunityVO> getHospitalComments() {
+	    return communityDAO.getHospitalComments();
+	}
 }

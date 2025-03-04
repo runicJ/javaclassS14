@@ -11,11 +11,14 @@ public class CommunityVO {
     private String userId;
     private String hospitalCommentTitle;
     private String hospitalComment;
-    private int star; // 별점
-    private int waiting_time; // 대기 시간
+    private int starRating; // 별점
+    private int waitingTime; // 대기 시간
 	
     private String hospitalName;
     private String hospitalCategory;
     private String hospitalRegion;
     
+    private String maskedUserId;
+    
+    private String createdAt;
 }

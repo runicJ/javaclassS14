@@ -28,9 +28,7 @@ public interface UserService {
 
 	public void setUserPwdUpdate(String userId, String tempPwd);
 
-	public int setUserDelete(int userIdx, String email, String deleteReason);
-	
-	//public int deleteUserWithReason(String userId, String deleteReason);
+	public int setUserDelete(int userIdx, String deleteReason);
 
 	public void setUserLog(Integer userIdx, String hostIp);
 	
@@ -60,5 +58,9 @@ public interface UserService {
 
 	public List<DeliveryAddressVO> getUserDeliveryAddresses(int userIdx);
 
-	public int insertAddress(DeliveryAddressVO address);
+	public boolean addAddress(DeliveryAddressVO addressVO);
+
+	public boolean deleteAddress(int id);
+
+	public boolean setDefaultAddress(int id);
 }

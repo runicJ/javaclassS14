@@ -70,7 +70,7 @@
 						<a href="#">커뮤니티<i class="ion-ios-arrow-right"></i></a>
 						<ul class="dropdown-menu">
 							<li><a href="${ctp}/community/hospitalList">알레르기 전문병원</a></li>
-							<li><a href="${ctp}/main">병원 후기</a></li>
+							<li><a href="${ctp}/community/hospitalComments">병원 후기</a></li>
 							<li><a href="${ctp}/community/userChat">정보를 나눠요(유저채팅)</a></li>
 						</ul>
 					</li>

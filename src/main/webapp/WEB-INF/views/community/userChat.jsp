@@ -168,8 +168,8 @@
 		<input type="text" name="user" value="${sNickName}" id="user" class="form-control m-0" readonly />
     </div>
     <div class="col-5">
-      <input type="button" value="연결" id="btnConnect" class="btn btn-success btn-sm m-0"/>
-      <input type="button" value="종료" id="btnDisconnect" class="btn btn-warning btn-sm m-0" disabled />
+      <input type="button" value="입장" id="btnConnect" class="btn btn-success btn-sm m-0"/>
+      <input type="button" value="퇴장" id="btnDisconnect" class="btn btn-danger btn-sm m-0" disabled />
       <input type="color" name="chatColor" id="chatColor" title="글자색 변경" class="p-0"/>
     </div>
   </div>

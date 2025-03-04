@@ -10,5 +10,6 @@ public interface CommunityDAO {
     public List<CommunityVO> searchHospitals(@Param("key") String key, @Param("keyword") String keyword);
     public List<CommunityVO> getAllHospitals();
     public CommunityVO getHospitalById(@Param("hospitalIdx") int hospitalIdx);
-    public void insertHospitalComment(@Param("cVO") CommunityVO cVO);
+    public int insertHospitalComment(CommunityVO comment);
+	public List<CommunityVO> getHospitalComments();
 }

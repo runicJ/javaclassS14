@@ -33,11 +33,19 @@
         WHERE hospitalIdx = #{hospitalIdx}
     </select>
 
+	<select id="getHospitalComments" parameterType="int" resultType="com.spring.javaclassS14.vo.CommunityVO">
+		SELECT hc.*, u.userId
+		FROM hospital_comment hc
+		JOIN users u ON hc.userIdx = u.userIdx
+		ORDER BY hc.created_at DESC
+	</select>
+	
+
     <!-- 병원 댓글 삽입 -->
     <insert id="insertHospitalComment" parameterType="com.spring.javaclassS14.vo.CommunityVO">
         INSERT INTO hospital_comment 
-        (hospitalIdx, userId, hospitalCommentTitle, hospitalComment, starRating, waitingTime)
-        VALUES (#{hospitalIdx}, #{userId}, #{hospitalCommentTitle}, #{hospitalComment}, #{starRating}, #{waitingTime})
+        (hospitalIdx, userIdx, hospitalCommentTitle, hospitalComment, starRating, waitingTime, created_at)
+        VALUES (#{hospitalIdx}, #{userIdx}, #{hospitalCommentTitle}, #{hospitalComment}, #{starRating}, #{waitingTime}, NOW());
     </insert>
     
 </mapper>

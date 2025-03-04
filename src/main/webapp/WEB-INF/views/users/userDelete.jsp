@@ -83,17 +83,67 @@
         
         function deleteCheck() {
             let userPwd = $("#userPwd").val().trim();
+            let deleteReason = $("input[name='deleteReason']:checked").val();
+            let etcReason = $("#wdEtc").val().trim();
+            
             if (userPwd === "") {
-                alert("현재 비밀번호를 입력하세요!");
+                alert("비밀번호를 입력하세요!");
                 $("#userPwd").focus();
-            } else {
-                let ans = confirm("회원 탈퇴 신청을 하시겠습니까?");
-                if (ans) {
-                    ans = confirm("회원 탈퇴하시면 1개월간 같은 아이디 및 이메일로 가입하실 수 없습니다.\n계속 진행하시겠습니까?");
-                    if (ans) myForm.submit();
-                }
+                return;
             }
+            
+            if(!deleteReason) {
+            	alert("탈퇴 사유를 선택하세요!");
+            	return;
+            }
+            
+            if (deleteReason === "기타") { 
+            	if(etcReason === "") {
+	            	alert("기타 사유를 입력하세요!");
+	            	$("#wdEtc").focus();
+            		return;
+            	}
+            	deleteReason = etcReason;
+            }
+                
+            if (!confirm("회원 탈퇴 신청을 하시겠습니까?")) return;
+            if (!confirm("회원 탈퇴하시면 1개월간 같은 아이디 및 이메일로 가입하실 수 없습니다.\n계속 진행하시겠습니까?")) return;
+            
+            $.ajax({
+            	url: '${ctp}/users/userDelete',
+            	type: 'POST',
+            	data: {
+            		userPwd: userPwd,
+            		deleteReason: deleteReason === "기타" ? etcReason : deleteReason
+            	},
+            	success: function(res) {
+            		if(res == "1") {
+            			alert("탈퇴 신청이 완료되었습니다.");
+            			location.href = '${ctp}/users/userMain';
+            		} else {
+            			alert("비밀번호가 일치하지 않습니다.");
+            			$("#userPwd").focus();
+            		}
+            	},
+            	error: function() {
+            		alert("탈퇴 신청 중 오류가 발생했습니다.");
+            	}
+            });
         }
+        
+        $('input[name="deleteReason"]').change(function() {
+        	if ($(this).val() === "기타") {
+        		$('#wdEtc').prop('disabled', false);
+        	} else {
+        		$('#wdEtc').prop('disabled', true).val('');
+        	}
+        });
+        
+        $('#email2').change(function() {
+        	let email1 = $('#email1').val();
+        	let email2 = $(this).val();
+        	$('#email1').val(email1 + '@' + email2);
+        });
     </script>
 </head>
 <body>
@@ -109,11 +159,11 @@
                             <div class="titleSection subTitle withdrawal">
                                 <h4 class="text-center mb-3">- 회원탈퇴 안내 -</h4>
                                 <ol class="guide alert alert-light">
-                                    <li><span>1. </span>회원님의 정보는 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 관리됩니다.</li>
-                                    <li><span>2. </span>회원님의 쿠폰 및 포인트는 모두 삭제되며 환급은 불가능합니다.</li>
-                                    <li><span>3. </span>탈퇴한 아이디 및 이메일은 1개월 동안 사용 불가합니다.</li>
-                                    <li><span>4. </span>주문정보 및 게시글은 보관될 수 있습니다.</li>
-                                    <li><span>5. </span>회원탈퇴는 신청일 후 7일 이후에 삭제되며, 중간에 접속하시면 취소 가능합니다.</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i>회원님의 정보는 전자상거래 등에서의 소비자 보호에 관한 법률에 따라 관리됩니다.</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i>회원님의 쿠폰 및 포인트는 모두 삭제되며 환급은 불가능합니다.</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i>탈퇴한 아이디 및 이메일은 1개월 동안 사용 불가합니다.</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i>주문정보 및 게시글은 보관될 수 있습니다.</li>
+                                    <li><i class="fas fa-exclamation-triangle text-warning"></i>회원탈퇴는 신청일 후 7일 이후에 삭제되며, 중간에 접속하시면 취소 가능합니다.</li>
                                 </ol>
                             </div>
                             <div class="mySection">
@@ -178,7 +228,7 @@
                                                         <input type="password" name="userPwd" id="userPwd" class="form-control mb-2">
                                                     </td>
                                                 </tr>
-                                                <tr>
+<!--                                                 <tr>
                                                     <th scope="row" class="ct"><label for="certificate">본인확인</label></th>
                                                     <td>
                                                         <div class="form-group">
@@ -193,7 +243,7 @@
                                                             </div>
                                                         </div>
                                                     </td>
-                                                </tr>
+                                                </tr> -->
                                             </tbody>
                                         </table>
                                     </fieldset>

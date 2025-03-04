@@ -8,5 +8,6 @@ public interface CommunityService {
 	public List<CommunityVO> searchHospitals(String key, String keyword);
 	public List<CommunityVO> getAllHospitals();
 	public CommunityVO getHospitalById(int hospitalIdx);
-    public void setHospitalComment(CommunityVO cVO);
+	public boolean insertHospitalComment(CommunityVO comment);
+	public List<CommunityVO> getHospitalComments();
 }

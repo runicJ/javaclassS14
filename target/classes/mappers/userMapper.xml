@@ -118,7 +118,22 @@
 	<select id="getUserDeliveryAddresses" parameterType="int" resultType="com.spring.javaclassS14.vo.DeliveryAddressVO">
 		SELECT * FROM delivery_address WHERE userIdx=#{userIdx}
 	</select>
+	
+	<!-- user 배송지 갯수 확인 -->
+	<select id="countUserAddresses" resultType="int">
+		SELECT COUNT(*) FROM delivery_address WHERE userIdx = #{userIdx}
+	</select>
+	
+	<!-- 배송지 목록 조회 -->
+	<select id="getUserAddresses" resultType="com.spring.javaclassS14.vo.DeliveryAddressVO">
+		SELECT * FROM delivery_address WHERE userIdx=#{userIdx} ORDER BY defaultAddress DESC;
+	</select>
 
+	<!-- 특정 주소 ID로 userIdx 조회 -->
+	<select id="getUserIdxByAddressId" resultType="int">
+		SELECT userIdx FROM delivery_address WHERE deliveryAddressIdx=#{addressId}
+	</select>
+	
 
 	<insert id="setUserRegisterOk">
 		insert into users values (default,#{vo.userId},#{vo.userPwd},#{vo.name},#{vo.nickName},#{vo.gender},#{vo.email},#{vo.tel},#{vo.userImage},#{vo.registerWay},default,#{vo.policyFlag},default,default,default,default);
@@ -133,11 +148,13 @@
 	</insert>
 	
     <insert id="insertDeletedUser">
-        insert into delete_users (userIdx, email, deleteReason) values (#{userIdx}, #{email}, #{deleteReason});
+        insert into delete_users (userIdx, deleteDate, deleteReason) values (#{userIdx}, NOW(), #{deleteReason});
     </insert>
     
+    <!-- 배송지 추가 -->
     <insert id="insertAddress">
-    	INSERT INTO delivery_address (userIdx, recipientName, address1)
+    	INSERT INTO delivery_address (userIdx, address, defaultAddress)
+    	VALUE (#{userIdx}, #{address}, #{defaultAddress})
     </insert>
 
 	
@@ -146,24 +163,25 @@
 	</update>
 	
 	<update id="setUserDelete">
-	    update users set level=999, userStatus='off' where userId=#{userId};
-	    insert into delete_users (userId, email, deleteReason, deleteDate) values (#{userId}, #{email}, #{deleteReason}, NOW());
+	    update users set level=999, userStatus='off' where userIdx=#{userIdx};
 	</update>
- 
-     <update id="updateDeletedUser">
-        update users 
-        set userId = concat('delete_', userId), 
-        	userPwd = 'deleted_password',
-        	name = '탈퇴한 회원',
-        	email = concat('delete_', userIdx, '@deleted.com'),
-        	tel = '000-0000-0000',
-        	userStatus = 'delete',
-        where userIdx IN (SELECT userIdx FROm delete_users WHERE deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH));
-        delete from users where userId = #{userId};
-    </update>
+	
+	<update id="updateDeletedUser">
+	    UPDATE users 
+	    SET userId = CONCAT('delete_', userId), 
+	        userPwd = 'deleted_password',
+	        name = '탈퇴한 회원',
+	        email = CONCAT('delete_', userIdx, '@deleted.com'),
+	        tel = '000-0000-0000',
+	        userStatus = 'delete'
+	    WHERE userIdx IN (
+	        SELECT userIdx FROM delete_users 
+	        WHERE deleteDate <![CDATA[ < ]]> DATE_SUB(NOW(), INTERVAL 1 MONTH)
+	    );
+	</update>
     
     <update id="cancelUserDelete">
-	    update users set level=1, userStatus='active', deleteRequested=false, deleteRequestDate=null where userId=#{userId};
+	    update users set level=1, userStatus='on' where userId=#{userId};
 	</update>
 	
 	<update id="setUserUpdate">
@@ -186,44 +204,34 @@
 	<update id="setUpdateUser">
 	    UPDATE users
 	    <set>
-	        <if test="vo.userPwd != null">
-	            userPwd = #{vo.userPwd},
-	        </if>
-	        <if test="vo.name != null">
-	            name = #{vo.name},
-	        </if>
-	        <if test="vo.nickName != null">
-	            nickName = #{vo.nickName},
-	        </if>
-	        <if test="vo.gender != null">
-	            gender = #{vo.gender},
-	        </if>
-	        <if test="vo.email != null">
-	            email = #{vo.email},
-	        </if>
-	        <if test="vo.tel != null">
-	            tel = #{vo.tel},
-	        </if>
-	        <if test="vo.userImage != null">
-	            userImage = #{vo.userImage},
-	        </if>
-	        <if test="vo.registerWay != null">
-	            registerWay = #{vo.registerWay},
-	        </if>
-	        <if test="vo.point != null">
-	            point = #{vo.point},
-	        </if>
-	        <if test="vo.policyFlag != null">
-	            policyFlag = #{vo.policyFlag},
-	        </if>
-	        <if test="vo.level != null">
-	            level = #{vo.level},
-	        </if>
-	        <if test="vo.userStatus != null">
-	            userStatus = #{vo.userStatus},
-	        </if>
+	        <if test="vo.userPwd != null">userPwd = #{vo.userPwd},</if>
+	        <if test="vo.name != null">name = #{vo.name},</if>
+	        <if test="vo.nickName != null">nickName = #{vo.nickName},</if>
+	        <if test="vo.gender != null">gender = #{vo.gender},</if>
+	        <if test="vo.email != null">email = #{vo.email},</if>
+	        <if test="vo.tel != null">tel = #{vo.tel},</if>
+	        <if test="vo.userImage != null">userImage = #{vo.userImage},</if>
+	        <if test="vo.registerWay != null">registerWay = #{vo.registerWay},</if>
+	        <if test="vo.policyFlag != null">policyFlag = #{vo.policyFlag}</if>
 	    </set>
 	    WHERE userId = #{vo.userId}
 	</update>
+	
+	<!-- 기존 대표 배송지 해제 -->
+	<update id="resetDefaultAddress">
+		UPDATE delivery_address SET defaultAddress = 'N' WHERE userIdx=#{userIdx};
+	</update>
+	
+    <!-- 대표 배송지 설정 -->
+    <update id="setDefaultAddress">
+    	UPDATE delivery_address SET defaultAddress = 'Y' WHERE deliveryAddressIdx=#{addressId}
+    </update>
     
+    <delete id="deleteAddress">
+    	DELETE FROM delivery_address WHERE deliveryAddressIdx=#{addressId}
+    </delete>
+    
+    <delete id="deleteOldUsers">
+	    DELETE FROM users WHERE userId = #{userId};
+	</delete>
 </mapper>

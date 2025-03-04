@@ -34,7 +34,7 @@ public interface UserDAO {
 	
 	public void setUserLog(@Param("userIdx") int userIdx, @Param("hostIp") String hostIp);
 
-	public void insertDeletedUser(@Param("userIdx") int userIdx, @Param("email") String email, @Param("deleteReason") String deleteReason);
+	public void insertDeletedUser(@Param("userIdx") int userIdx, @Param("deleteReason") String deleteReason);
 
 	public void updateDeletedUser(@Param("userId") String userId);
 
@@ -62,7 +62,22 @@ public interface UserDAO {
 
 	public Integer getLikedCnt(@Param("userIdx") int userIdx);
 
-	public List<DeliveryAddressVO> getUserDeliveryAddresses(@Param("userIdx") int userIdx);
+	public List<DeliveryAddressVO> getUserDeliveryAddresses(@Param("userIdx") int userIdx);  // 배송지 목록 가져오기
 
-	public int insertAddress(DeliveryAddressVO address);
+	public int countUserAddresses(int userIdx);  // 배송지 갯수 확인
+
+	public void resetDefaultAddress(int userIdx);  // 기존 대표 배송지 해제
+
+	public boolean insertAddress(DeliveryAddressVO addressVO);  // 배송지 추가
+
+	public DeliveryAddressVO findAddressById(Long addressId);  // 특정 배송지 조회
+
+	public boolean deleteAddress(int addressId);  // 배송지 삭제
+
+	public boolean setDefaultAddress(int addressId);  // 대표 배송지 설정
+
+	public int getUserIdxByAddressId(int addressId);
+
+	public List<DeliveryAddressVO> getUserAddresses(int userIdx);
+
 }

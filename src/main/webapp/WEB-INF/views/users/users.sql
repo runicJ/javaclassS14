@@ -43,7 +43,7 @@ CREATE TABLE delete_users (
     deleteIdx INT AUTO_INCREMENT NOT NULL PRIMARY KEY,
     userIdx INT NOT NULL,
     deleteDate TIMESTAMP DEFAULT CURRENT_TIMESTAMP NOT NULL,
-    deleteReason TEXT,
+    deleteReason TEXT
     --FOREIGN KEY (userIdx) REFERENCES users(userIdx)
 );
 

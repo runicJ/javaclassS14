@@ -37,7 +37,7 @@
 	    function fCheck() {
 	    	let productTopIdx = myform.productTopIdx.value;
 	    	let productMidIdx = myform.productMidIdx.value;
-	    	let productCode = myform.productCode.value;
+	    	// let productCode = myform.productCode.value;
 	    	let productName = myform.productName.value;
 			let productPrice = myform.productPrice.value;
 			let productDetails = myform.productDetails.value;
@@ -54,10 +54,10 @@
 				alert("상품명을 입력하세요!");
 				return false;
 			}
-			else if(productCode == "") {
+/* 			else if(productCode == "") {
 				alert("상품코드를 입력하세요!");
 				return false;
-			}
+			} */
 			else if(file == "") {
 				alert("상품 메인 이미지를 등록하세요");
 				return false;
@@ -121,14 +121,14 @@
                         </div>
                     </div>
                     
-                    <div class="form-group row">
+<!--                     <div class="form-group row">
                         <label class="col-md-3"><i class="fa-solid fa-tag"></i> 제품 코드</label>
                         <div class="col-md-9">
                             <div class="custom-text">
 	                            <input type="text" class="form-control" name="productCode" id="productCode" placeholder="제품코드를 입력하세요" required>
                             </div>
                         </div>
-                    </div> 
+                    </div>  -->
                     
                     <div class="form-group row">
                         <label class="col-md-3"><i class="fa-solid fa-tag"></i> 제품명</label>

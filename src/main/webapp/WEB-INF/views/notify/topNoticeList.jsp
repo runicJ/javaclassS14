@@ -2,12 +2,13 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn" %>
 <% pageContext.setAttribute("newLine", "\n"); %>
+<%-- <c:set var="content" value="${fn:replace(fn:replace(vo.content, '\r\n', '<br/>'), '\n', '<br/>')}"/> --%>
 <c:set var="ctp" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html>
 <head>
   <meta charset="UTF-8">
-  <title>topNoticeList.jsp</title>
+  <title>NoticeList</title>
   <jsp:include page="/WEB-INF/views/include/user/bs4.jsp"/>
 </head>
 <body>
@@ -17,7 +18,7 @@
 <div class="container">
   <table class="table table-borderless">
     <tr>
-      <td align="center" colspan=2><font size=5><b>공 지 사 항 리 스 트</b></font></td>
+      <td align="center" colspan=2><font size=5><b>📢 공지사항 리스트</b></font></td>
     </tr>
   </table>
   <div id="notifyContent">

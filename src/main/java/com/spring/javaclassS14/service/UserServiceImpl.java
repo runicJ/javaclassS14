@@ -78,10 +78,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     @Transactional
-    public int setUserDelete(int userIdx, String email, String deleteReason) {
+    public int setUserDelete(int userIdx, String deleteReason) {
         int res = userDAO.setUserDelete(userIdx, deleteReason);
         if (res != 0) {
-            userDAO.insertDeletedUser(userIdx, email, deleteReason);
+            userDAO.insertDeletedUser(userIdx, deleteReason);
         }
         return res;
     }
@@ -165,9 +165,55 @@ public class UserServiceImpl implements UserService {
 		return userDAO.getUserDeliveryAddresses(userIdx);
 	}
 
+	// 배송지 추가
 	@Override
-	public int insertAddress(DeliveryAddressVO address) {
-		return userDAO.insertAddress(address);
+	public boolean addAddress(DeliveryAddressVO addressVO) {
+		// user 기존 배송지 갯수
+		int count = userDAO.countUserAddresses(addressVO.getUserIdx());
+		if(count >= 3) {
+			return false;
+		}
+		
+		// 대표 배송지 설정 시 기존 대표 주소 해제
+		if("Y".equals(addressVO.getDefaultAddress())) {
+			userDAO.resetDefaultAddress(addressVO.getUserIdx());
+		}
+		
+		// 새 배송지 저장
+		return userDAO.insertAddress(addressVO);
+	}
+
+    // 배송지 삭제
+    @Override
+    public boolean deleteAddress(int addressId) {
+    	Integer userIdx = userDAO.getUserIdxByAddressId(addressId);
+        
+        if (userIdx == null) {
+            return false;
+        }
+
+        boolean success = userDAO.deleteAddress(addressId);
+
+        // 대표 배송지가 삭제되면 남은 주소 중 하나를 대표로 설정
+        if (success) {
+            List<DeliveryAddressVO> addresses = userDAO.getUserAddresses(userIdx);
+            if (!addresses.isEmpty()) {
+            	userDAO.setDefaultAddress(addresses.get(0).getDeliveryAddressIdx());
+            }
+        }
+
+        return success;
+    }
+
+	@Override
+	public boolean setDefaultAddress(int addressId) {
+		int userIdx = userDAO.getUserIdxByAddressId(addressId);
+		
+		// 기존 대표 배송지 해제
+		userDAO.resetDefaultAddress(userIdx);
+		
+		// 새로운 대표 배송지 설정
+		return userDAO.setDefaultAddress(addressId);
 	}
 
 }

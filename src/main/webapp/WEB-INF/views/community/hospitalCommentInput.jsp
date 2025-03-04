@@ -56,8 +56,14 @@
         .rating:not(:checked) label:hover ~ label {
             color: #ffc700;
         }
+        
+        .button-container {
+        	margin-top: 20px;
+        }
     </style>
-	
+	<script>
+		'use strict'
+	</script>
 </head>
 <body>
 <jsp:include page="/WEB-INF/views/include/user/header.jsp" />
@@ -66,32 +72,34 @@
 <section class="page">
 <div class="container">
     <h2>${hospital.hospitalName} 후기 작성</h2>
-    <form action="${ctp}/community/hospitalComment" method="post">
-        <input type="hidden" name="hospitalIdx" value="${hospital.hospitalIdx}">
-        <div>
-            <label for="title">제목:</label>
-            <input type="text" id="title" name="hospitalCommentTitle" required>
-        </div>
-        <div>
-            <label for="comment">내용:</label>
-            <textarea id="comment" row="5" name="hospitalComment" required></textarea>
-        </div>
-        <div>
-            <label for="star">별점:</label>
-            <select id="star" name="star">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-            </select>
-        </div>
-        <div>
-            <label for="waiting_time">대기 시간:</label>
-            <input type="number" id="waiting_time" name="waiting_time" min="0" max="60" value="10">
-        </div>
-        <input type="button" class="btn btn-success" value="작성" />
-    </form>
+	<form action="${ctp}/community/hospitalComment" method="post">
+	    <input type="hidden" name="hospitalIdx" value="${hospital.hospitalIdx}">
+	    <div>
+	        <label for="title">제목:</label>
+	        <input type="text" id="title" name="hospitalCommentTitle" required>
+	    </div>
+	    <div>
+	        <label for="comment">내용:</label>
+	        <textarea id="comment" row="5" name="hospitalComment" required></textarea>
+	    </div>
+	    <div>
+	        <label for="starRating">별점:</label>
+	        <select id="starRating" name="starRating">
+	            <option value="1">1</option>
+	            <option value="2">2</option>
+	            <option value="3">3</option>
+	            <option value="4">4</option>
+	            <option value="5">5</option>
+	        </select>
+	    </div>
+	    <div>
+	        <label for="waitingTime">대기 시간:</label>
+	        <input type="number" id="waitingTime" name="waitingTime" min="0" max="60" value="10">
+	    </div>
+	    <div class="button-container">
+	        <input type="submit" class="btn btn-success" value="작성" />
+	    </div>
+	</form>
 </div>
 </section>
 <p><br></p>

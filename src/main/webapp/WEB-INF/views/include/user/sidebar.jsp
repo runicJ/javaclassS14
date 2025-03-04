@@ -119,14 +119,14 @@
 								<div class="block-body">
 								  <button class="drop-btn" onclick="location.href='${ctp}/users/userMain';">내정보 메인</button>
 								  <button class="drop-btn" onclick="location.href='${ctp}/users/myOrderList';">주문배송 조회</button>
-								  <button class="dropdown-btn">회원 혜택
+<%-- 								  <button class="dropdown-btn">회원 혜택
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
 										<a href="${ctp}/users/myCoupon">쿠폰 조회</a>
 										<a href="${ctp}/users/myPoint">포인트 현황</a>
 										<a href="#">회원혜택 안내</a>
-								  </div>
+								  </div> --%>
 								  <button class="drop-btn" onclick="location.href='${ctp}/users/myPostList';">회원활동 내역</button>
 								  <button class="dropdown-btn">관심 목록
 								    <i class="fa fa-caret-down"></i>
