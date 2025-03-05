@@ -6,77 +6,70 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Survey Answer</title>
+    <title>설문 응답하기</title>
     <jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
     <script>
         'use strict';
 
         function submitAnswer() {
             let userIdx = $("#userIdx").val();
-            let empty = false;
             let answerList = [];
+            let errors = [];
 
             // 설문 데이터를 수집
             $('#surv_quests_tbl tbody tr').each(function() {
-                let questionId = $(this).find('input, textarea, select').attr('id');
-                let questionType = $(this).data('type'); // 질문의 유형을 data-type에서 가져옴
+                let $input = $(this).find('input, textarea, select');
+                let questionId = $input.attr('id') || $input.attr('name'); 
+                let questionType = $(this).data('type'); 
                 let answerObj = { qustNo: questionId, userIdx: userIdx, answCont: "", answLong: "" };
 
                 if (questionType === 'long') {
                     let answLong = $(this).find('textarea').val().trim();
-                    if (!answLong) {
-                        empty = true;
-                        alert('질문 번호 ' + questionId + '에 응답이 없습니다.');
-                        return false; // loop exit
-                    }
+                    if (!answLong) errors.push(`질문 ${questionId}에 응답이 없습니다.`);
                     answerObj.answLong = answLong;
                 } else if (['check', 'radio'].includes(questionType)) {
                     let checkedOptions = $(this).find('input:checked');
-                    if (checkedOptions.length === 0) {
-                        empty = true;
-                        alert('질문 번호 ' + questionId + '에 체크된 옵션이 없습니다.');
-                        return false; // loop exit
-                    }
+                    if (checkedOptions.length === 0) errors.push(`질문 ${questionId}에 체크된 옵션이 없습니다.`);
                     checkedOptions.each(function() {
-                        let optionAnswer = $.extend({}, answerObj, { answCont: $(this).val() });
+                        let optionAnswer = { ...answerObj, answCont: $(this).val() };
                         answerList.push(optionAnswer);
                     });
                 } else if (questionType === 'short') {
                     let answCont = $(this).find('input').val().trim();
-                    if (!answCont) {
-                        empty = true;
-                        alert('질문 번호 ' + questionId + '에 응답이 없습니다.');
-                        return false; // loop exit
-                    }
+                    if (!answCont) errors.push(`질문 ${questionId}에 응답이 없습니다.`);
                     answerObj.answCont = answCont;
                 } else if (questionType === 'select') {
                     let selectedValue = $(this).find('select').val();
-                    if (!selectedValue) {
-                        empty = true;
-                        alert('질문 번호 ' + questionId + '에서 선택된 값이 없습니다.');
-                        return false; // loop exit
-                    }
+                    if (!selectedValue) errors.push(`질문 ${questionId}에서 선택된 값이 없습니다.`);
                     answerObj.answCont = selectedValue;
                 }
+
                 answerList.push(answerObj);
             });
 
-            if (empty) {
-                return; // 모든 문항에 응답을 받지 못한 경우
+            if (errors.length > 0) {
+                alert(errors.join("\n"));
+                return;
             }
 
             // 서버로 데이터 전송
             $.ajax({
-                url: '/survey/surveyAnswer', // 서버의 URL을 설정합니다
+                url: '/survey/surveyAnswer',
                 type: 'POST',
                 contentType: 'application/json; charset=utf-8',
-                data: JSON.stringify({ answerList: answerList }),
+                data: JSON.stringify({ answerList }),
                 success: function(response) {
-                    alert('등록 완료');
-                    window.location.href = '/survey/surveyEventList'; // 리디렉션 URL 설정
+                    if (response === "이미 응답한 설문입니다.") {
+                        alert(response);
+                        return;
+                    }
+                    alert('설문 응답이 성공적으로 제출되었습니다.');
+                    window.location.href = '/survey/surveyEventList';
                 },
-                error: function(xhr, status, error) {
-                    alert('전송 오류!');
+                error: function() {
+                    alert('응답 제출 중 오류가 발생했습니다.');
                 }
             });
         }
@@ -90,7 +83,7 @@
             <h2><i class="fa-solid fa-comment-dots"></i> 설문 응답하기</h2>
             <input type="hidden" id="userIdx" value="${surveyVO.userId}"/>
             <div class="surv-container">
-                <!-- 설문 기본정보 START -->
+                <!-- 설문 기본정보 -->
                 <div class="form-table-title-container">
                     <table class="form-tbl">
                         <tr>
@@ -103,9 +96,8 @@
                         </tr>
                     </table>
                 </div>
-                <!-- 설문 기본정보 END -->
 
-                <!-- 설문지 소개 START -->
+                <!-- 설문지 소개 -->
                 <div class="form-table-intro-container">
                     <table class="form-tbl">
                         <tr>
@@ -114,77 +106,52 @@
                         </tr>
                     </table>
                 </div>
-                <!-- 설문지 소개 END -->
 
-                <!-- 설문지 질문 START -->
+                <!-- 설문지 질문 -->
                 <table id="surv_quests_tbl" class="form-tbl">
                     <thead>
-                        <tr>
-                            <th class="form-tbl-col">질문</th>
-                        </tr>
+                        <tr><th class="form-tbl-col">질문</th></tr>
                     </thead>
                     <tbody>
                         <c:forEach var="quest" items="${surveyVO.questList}">
-                            <tr>
+                            <tr data-type="${quest.questType}">
                                 <td>
-                                    <!-- 단답형 -->
-                                    <c:if test="${quest.questType == 'short'}">
-                                        <div class="surv_opt_box">
-                                            <span><i class="fa-solid fa-map-pin"></i> </span><span>${quest.questContent}</span>
-                                            <br/><br/>
-                                            <input id="${quest.questIdx}" size="137"/>
-                                        </div>
-                                    </c:if>
-                                    <!-- 장문형 -->
-                                    <c:if test="${quest.questType == 'long'}">
-                                        <div class="surv_opt_box">
-                                            <span><i class="fa-solid fa-map-pin"></i> </span><span>${quest.questContent}</span>
-                                            <br/><br/>
-                                            <textarea id="${quest.questIdx}" cols="140" rows="7" style="resize:none"></textarea>
-                                        </div>
-                                    </c:if>
-                                    <!-- 셀렉트형 -->
-                                    <c:if test="${quest.questType == 'select'}">
-                                        <div class="surv_opt_box">
-                                            <span><i class="fa-solid fa-map-pin"></i> </span><span>${quest.questContent}</span>
-                                            <br/><br/>
-                                            <select id="${quest.questIdx}">
+                                    <span><i class="fa-solid fa-map-pin"></i> </span><span>${quest.questContent}</span>
+                                    <br/><br/>
+                                    <c:choose>
+                                        <c:when test="${quest.questType == 'short'}">
+                                            <input id="${quest.questIdx}" name="${quest.questIdx}" type="text" size="137"/>
+                                        </c:when>
+                                        <c:when test="${quest.questType == 'long'}">
+                                            <textarea id="${quest.questIdx}" name="${quest.questIdx}" cols="140" rows="7"></textarea>
+                                        </c:when>
+                                        <c:when test="${quest.questType == 'select'}">
+                                            <select id="${quest.questIdx}" name="${quest.questIdx}">
                                                 <c:forEach var="opt" items="${quest.options}">
                                                     <option value="${opt.optContent}">${opt.optContent}</option>
                                                 </c:forEach>
                                             </select>
-                                        </div>
-                                    </c:if>
-                                    <!-- 라디오 -->
-                                    <c:if test="${quest.questType == 'radio'}">
-                                        <div class="surv_opt_box">
-                                            <span><i class="fa-solid fa-map-pin"></i> </span><span>${quest.questContent}</span>
-                                            <br/><br/>
+                                        </c:when>
+                                        <c:when test="${quest.questType == 'radio'}">
                                             <c:forEach var="opt" items="${quest.options}">
                                                 <input type="radio" name="${quest.questIdx}" value="${opt.optContent}"/> ${opt.optContent}<br/>
                                             </c:forEach>
-                                        </div>
-                                    </c:if>
-                                    <!-- 체크박스 -->
-                                    <c:if test="${quest.questType == 'check'}">
-                                        <div class="surv_opt_box">
-                                            <span><i class="fa-solid fa-map-pin"></i> </span><span>${quest.questContent}</span>
-                                            <br/><br/>
+                                        </c:when>
+                                        <c:when test="${quest.questType == 'check'}">
                                             <c:forEach var="opt" items="${quest.options}">
                                                 <input type="checkbox" name="${quest.questIdx}" value="${opt.optContent}"/> ${opt.optContent}<br/>
                                             </c:forEach>
-                                        </div>
-                                    </c:if>
+                                        </c:when>
+                                    </c:choose>
                                 </td>
                             </tr>
                         </c:forEach>
                     </tbody>
                 </table>
-                <!-- 설문지 질문 END -->
             </div>
             <br/>
-            <input type="button" class="btn btn-success mr-3" onclick="submitAnswer()" value="제출하기" />
-            <input type="button" onclick="location.href='${ctp}/survey/surveyEventList';" value="목록보기" class="btn btn-warning">
+            <input type="button" class="btn btn-success" onclick="submitAnswer()" value="제출하기" />
+            <input type="button" onclick="location.href='/survey/surveyEventList';" value="목록보기" class="btn btn-warning">
         </div>
     </section>
     <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />

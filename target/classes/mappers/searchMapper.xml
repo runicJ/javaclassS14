@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.SearchDAO">
+
+    <select id="searchProducts" resultType="com.spring.javaclassS14.vo.ShopVO">
+        SELECT * FROM product 
+        WHERE productName LIKE CONCAT('%', #{keyword}, '%')
+        OR productDetails LIKE CONCAT('%', #{keyword}, '%')
+        OR productBrand LIKE CONCAT('%', #{keyword}, '%')
+        OR productTags LIKE CONCAT('%#', #{keyword}, '#%')
+    </select>
+
+    <!-- 포토리뷰 검색 (제목 또는 내용 포함) -->
+	<select id="searchPhotoReviews" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
+        SELECT * FROM photoreview
+        WHERE title LIKE CONCAT('%', #{keyword}, '%')
+        OR content LIKE CONCAT('%', #{keyword}, '%')
+    </select>
+	
+</mapper>

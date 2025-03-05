@@ -138,3 +138,17 @@
         supportMultipleDensities: true,
       });
     </script>
+        <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            let searchForm = document.querySelector(".search");
+            if (searchForm) {
+                searchForm.addEventListener("submit", function(event) {
+                    let keyword = document.querySelector("input[name='keyword']").value.trim();
+                    if (keyword === "") {
+                        alert("검색어를 입력하세요!");
+                        event.preventDefault(); // 검색 요청 막기
+                    }
+                });
+            }
+        });
+    </script>

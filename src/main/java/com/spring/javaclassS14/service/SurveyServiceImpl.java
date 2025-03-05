@@ -1,15 +1,17 @@
 package com.spring.javaclassS14.service;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.List;
 import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.multipart.MultipartFile;
 
-import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.dao.SurveyDAO;
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
 import com.spring.javaclassS14.vo.SurveyOptionVO;
@@ -21,124 +23,81 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Autowired
     SurveyDAO surveyDAO;
-    
-    @Autowired
-    AllProvide allProvide;
 
     @Transactional
     @Override
-    public int setSurveyInput(MultipartFile fName, SurveyVO surveyVO) {
+    public int setSurveyInput(MultipartFile fName, SurveyVO surveyVO, HttpServletRequest request) {
         int res = 0;
-
         try {
+            // 저장 경로 설정
+            String realPath = request.getSession().getServletContext().getRealPath("/resources/data/survey/");
+            System.out.println("파일 저장 경로: " + realPath);
+
+            File uploadDir = new File(realPath);
+            if (!uploadDir.exists()) uploadDir.mkdirs(); // 디렉토리 없으면 생성
+
             // 파일 저장 처리
-            String originalFilename = fName.getOriginalFilename();
-            if (originalFilename != null && !originalFilename.isEmpty()) {
-                String saveFileName = UUID.randomUUID().toString() + originalFilename.substring(originalFilename.lastIndexOf("."));
-                allProvide.writeFile(fName, saveFileName, "survey");
-                surveyVO.setSurveyThumb(saveFileName);
+            if (fName != null && !fName.isEmpty()) {
+                String saveFileName = System.currentTimeMillis() + "_" + fName.getOriginalFilename();
+                File saveFile = new File(realPath, saveFileName);
+                fName.transferTo(saveFile); // 파일 저장
+                System.out.println("파일 저장 성공: " + saveFile.getAbsolutePath());
+                surveyVO.setSurveyThumb(saveFileName); // 저장된 파일명을 DB에 저장
             } else {
-                return res; // 파일이 없으면 0 반환
+                surveyVO.setSurveyThumb("noImage.png"); // 기본 썸네일 설정
             }
 
-            // 설문조사 입력
+            // 설문 정보 DB 저장
             res = surveyDAO.setSurveyInput(surveyVO);
 
-            if (res > 0) {
-                // 설문조사 ID 업데이트
-                int surveyIdx = surveyVO.getSurveyIdx();
-                List<SurveyQuestionVO> questList = surveyVO.getQuestList();
-                
-                if (questList != null && !questList.isEmpty()) {
-                    for (SurveyQuestionVO question : questList) {
-                        question.setSurveyIdx(surveyIdx);
-                        surveyDAO.setQuestionInput(question);  // 질문 삽입
-                        
-                        List<SurveyOptionVO> options = question.getOptions();
-                        if (options != null && !options.isEmpty()) {
-                            for (SurveyOptionVO option : options) {
-                                option.setQuestIdx(question.getQuestIdx());
-                                surveyDAO.setOptionInput(option);  // 선택지 삽입
-                            }
-                        }
-                    }
-                } else {
-                    System.out.println("No questions found to insert.");
-                }
-            } else {
-                System.out.println("Survey insert failed.");
-            }
-
-        } catch (IOException e) {
+        } catch (Exception e) { // Exception으로 변경
             e.printStackTrace();
-            return res; // 파일 저장 오류 발생 시 0 반환
+            return 0; // 파일 저장 실패 시 0 반환
         }
 
         return res;
     }
 
-    // 설문조사 폼 열기
+
     @Override
     public SurveyVO getSurveyForm(int surveyIdx) {
-        System.out.println("===getSurvey ServiceImpl START===");
         SurveyVO surveyVO = surveyDAO.getSurveyForm(surveyIdx);
-        List<SurveyQuestionVO> surveyQuestVOS = surveyDAO.getSurveyQuestList(surveyIdx);
-        surveyVO.setQuestList(surveyQuestVOS);
+        List<SurveyQuestionVO> questions = surveyDAO.getSurveyQuestList(surveyIdx);
+        surveyVO.setQuestList(questions);
 
-        for (SurveyQuestionVO SurveyQuestionVO : surveyQuestVOS) {
-            List<SurveyOptionVO> options = surveyDAO.getQuestOptList(SurveyQuestionVO.getQuestIdx());
-            SurveyQuestionVO.setOptions(options);
+        for (SurveyQuestionVO question : questions) {
+            question.setOptions(surveyDAO.getQuestOptList(question.getQuestIdx()));
         }
-        System.out.println("===getSurvey ServiceImpl END===");
         return surveyVO;
     }
 
     @Override
-    public void delOneSurvey(int survNo) {
-        System.out.println("delSurvey Service START");
-        surveyDAO.delOneSurvey(survNo);
-        System.out.println("delSurvey Service END");
+    public int setSurveyAnswerInputBatch(List<SurveyAnswerVO> answerList) {
+        return surveyDAO.setSurveyAnswerInputBatch(answerList);
     }
 
     @Override
-    public void delOldSurvey(int survNo) {
-        System.out.println("delOldSurv Service START");
-        surveyDAO.delQustopt(survNo);
-        surveyDAO.delAnswer(survNo);
-        surveyDAO.delSurvqust(survNo);
-        System.out.println("delOldSurv Service END");
+    public void delOneSurvey(int surveyIdx) {
+        surveyDAO.delOneSurvey(surveyIdx);
     }
 
+    // 설문 결과 조회
     @Override
-    public void insertNewSurv(SurveyVO surveyDto) {
-        System.out.println("===insertNewSurv ServiceImpl START===");
-        surveyDAO.updateNewSurv(surveyDto);
-        List<SurveyQuestionVO> survqustList = surveyDto.getQuestList();
+    public SurveyVO getSurvRslt(int surveyIdx) {
+        SurveyVO survey = surveyDAO.getOneSurv(surveyIdx);
 
-        for (SurveyQuestionVO question : survqustList) {
-        	question.setSurveyIdx(surveyDto.getSurveyIdx());
-            surveyDAO.insertNewSurvqust(question);
+        if (survey == null) return null;
 
-            List<SurveyOptionVO> options = question.getOptions();
-
-            for (SurveyOptionVO option : options) {
-                option.setQuestIdx(question.getQuestIdx());
-                surveyDAO.setOptionInput(option);
-            }
+        // 질문 목록 가져오기
+        List<SurveyQuestionVO> questions = surveyDAO.getSurveyQuestList(surveyIdx);
+        for (SurveyQuestionVO question : questions) {
+            // 각 질문의 응답 데이터 가져오기
+            List<SurveyAnswerVO> answers = surveyDAO.getSurveyAnswerStats(question.getQuestIdx());
+            question.setAnswerList(answers);
         }
-        System.out.println("===insertNewSurv ServiceImpl END===");
-    }
 
-    @Override
-    public int setSurveyAnswerInput(List<SurveyAnswerVO> answerList) {
-        System.out.println("서비스에서 list" + answerList);
-        int res = 0;
-        
-        for (SurveyAnswerVO answer : answerList) {
-            System.out.println("서비스에서 하나씩" + answer);
-            res = surveyDAO.setSurveyAnswerInput(answer);
-        }
-		return res;
+        survey.setQuestList(questions);
+        return survey;
     }
 
     @Override
@@ -147,13 +106,28 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public List<SurveyVO> getSurveyEventList() {
-        return surveyDAO.getSurveyEventList();
+    public void updateSurvey(SurveyVO surveyVO) {
+        surveyDAO.updateSurvey(surveyVO);
     }
 
     @Override
-    public int getSurveyCnt() {
-        return surveyDAO.getSurveyCnt();
+    public List<SurveyVO> getSurveyEventListPaged(int currentPage, int cntPerPage) {
+        return surveyDAO.getSurveyEventListPaged(currentPage, cntPerPage);
+    }
+
+    @Override
+    public SurveyVO getOneSurvey(int surveyIdx) {
+        return surveyDAO.getOneSurv(surveyIdx);
+    }
+
+    @Override
+    public void delOldSurvey(int surveyIdx) {
+        surveyDAO.delOldSurvey(surveyIdx);
+    }
+
+    @Override
+    public void insertNewSurv(SurveyVO surveyVO) {
+        surveyDAO.insertNewSurv(surveyVO);
     }
 
     @Override
@@ -162,37 +136,8 @@ public class SurveyServiceImpl implements SurveyService {
     }
 
     @Override
-    public SurveyVO getSurvRslt(int survNo) {
-        SurveyVO surveyDto = surveyDAO.getOneSurv(survNo);
-
-        if (surveyDto.getSurveyDesc() != null)
-            surveyDto.setSurveyDesc(surveyDto.getSurveyDesc().replace("\n", "<br>"));
-
-        List<SurveyQuestionVO> survqust = surveyDAO.getSurvQust(survNo);
-
-        for (SurveyQuestionVO question : survqust) {
-            if ("long".equals(question.getQuestType())) {
-                List<SurveyAnswerVO> answer = surveyDAO.getLongAnswer(question.getQuestIdx());
-
-                for (SurveyAnswerVO answ : answer) {
-                    answ.setAnswLong(answ.getAnswLong().replace("\n", "<br>"));
-                }
-
-                question.setAnswerList(answer);
-            } else {
-                question.setAnswerList(surveyDAO.getAnswer(question.getQuestIdx()));
-            }
-        }
-
-        surveyDto.setQuestList(survqust);
-        return surveyDto;
+    public List<SurveyVO> getSurveyEventList() {
+        return surveyDAO.getSurveyEventList(); // DAO 호출하여 데이터 가져오기
     }
-
-	@Override
-	public SurveyVO getOneSurvey(String nickName, int survNo) {
-        SurveyVO surveyDto = surveyDAO.getOneSurv(survNo);
-        surveyDto.setNickName(nickName);
-        return surveyDto;
-	}
 
 }

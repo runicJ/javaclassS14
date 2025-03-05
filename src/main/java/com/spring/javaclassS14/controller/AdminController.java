@@ -21,6 +21,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -466,24 +467,23 @@ public class AdminController {
 	}
 	
 	
-    // 설문 만들기 View (ADMIN과 MANAGER만 접근 가능)
-    @RequestMapping(value="/survey/surveyInput", method = RequestMethod.GET)
+    // 1. 설문 생성 페이지 (Admin만 접근 가능)
+    @GetMapping("/survey/surveyInput")
     public String surveyInputGet(HttpSession session) {
         String userId = (String) session.getAttribute("sUid");
-        if (userId.equals("admin")) {
+        if ("admin".equals(userId)) {
             return "admin/survey/surveyInput";
-        } 
-        else {
-            return "redirect:/msg/userAdminNo";
         }
+        return "redirect:/msg/userAdminNo";
     }
-    
+
+    // 2. 설문 저장 (Admin만 가능)
     @ResponseBody
     @PostMapping("/survey/surveyInput")
     public String surveyInputPost(
             @RequestParam("fName") MultipartFile fName,
             @RequestParam("surveyVOJson") String surveyVOJson,
-            HttpSession session) {
+            HttpSession session, HttpServletRequest request) {
 
         Integer userIdx = (Integer) session.getAttribute("sUidx");
 
@@ -491,12 +491,15 @@ public class AdminController {
             ObjectMapper objectMapper = new ObjectMapper();
             SurveyVO surveyVO = null;
             try {
+                // JSON 데이터를 Map으로 변환
                 Map<String, Object> jsonMap = objectMapper.readValue(surveyVOJson, Map.class);
                 surveyVO = new SurveyVO();
                 surveyVO.setSurveyTitle((String) jsonMap.get("surveyTitle"));
                 surveyVO.setSurveyDesc((String) jsonMap.get("surveyDesc"));
                 surveyVO.setUseFlag((String) jsonMap.get("useFlag"));
+                surveyVO.setUserIdx(userIdx);
 
+                // 질문 리스트 설정
                 List<Map<String, Object>> questListMap = (List<Map<String, Object>>) jsonMap.get("questList");
                 List<SurveyQuestionVO> questList = new ArrayList<>();
                 for (Map<String, Object> questMap : questListMap) {
@@ -505,6 +508,7 @@ public class AdminController {
                     questionVO.setQuestType((String) questMap.get("questType"));
                     questionVO.setQuestContent((String) questMap.get("questContent"));
 
+                    // 옵션 리스트 설정
                     List<Map<String, Object>> optionsMap = (List<Map<String, Object>>) questMap.get("options");
                     List<SurveyOptionVO> options = new ArrayList<>();
                     for (Map<String, Object> optionMap : optionsMap) {
@@ -517,94 +521,86 @@ public class AdminController {
                     questList.add(questionVO);
                 }
                 surveyVO.setQuestList(questList);
-                surveyVO.setUserIdx(userIdx);
             } catch (IOException e) {
                 e.printStackTrace();
+                return "error";
             }
 
-            int res = surveyService.setSurveyInput(fName, surveyVO);
-
-            return res + "";
+            int res = surveyService.setSurveyInput(fName, surveyVO, request);
+            return String.valueOf(res);
         } else {
             return "redirect:/msg/adminNo";
         }
     }
 
-
-	// My Survey 접속
-    @RequestMapping(value = "/survey/surveyList", method=RequestMethod.GET)
+    // 3. 관리자용 설문 목록 조회 (My Survey)
+    @GetMapping("/survey/surveyList")
     public ModelAndView surveyListGet(
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
             @RequestParam(value = "cntPerPage", required = false, defaultValue = "9") int cntPerPage,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "9") int pageSize,
             HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
+
         ModelAndView mv = new ModelAndView();
-        
-        // Id 세팅
         Integer userIdx = (Integer) session.getAttribute("sUidx");
-        
+
         request.setCharacterEncoding("utf-8");
-
         mv.addObject("survList", surveyService.getSurveyList(userIdx));
-
-        //mv.addObject("pagination", searchVo);
-        
         mv.setViewName("admin/survey/surveyList");
-        
+
         return mv;
     }
 
-    // 설문 삭제하기 (ADMIN만 접근 가능)
-    @RequestMapping(value="/survey/deleteSurvey", method=RequestMethod.POST)
-    public String delSurv(@RequestParam("survNo") int survNo, HttpSession session) {
+    // 4. 설문 삭제 (Admin만 가능)
+    @PostMapping("/survey/deleteSurvey")
+    public String delSurv(@RequestParam("surveyIdx") int surveyIdx, HttpSession session) {
         String userId = (String) session.getAttribute("sUid");
-        if (userId.equals("admin")) {
-            //System.out.println("delSurv Controller START");
-
-            surveyService.delOneSurvey(survNo);
-
+        if ("admin".equals(userId)) {
+            surveyService.delOneSurvey(surveyIdx);
             return "redirect:/admin/survey/surveyList";
-        } else {
-            return "redirect:/msg/adminNo";
         }
+        return "redirect:/msg/adminNo";
     }
-/*
-    // 설문 수정하기 (ADMIN과 MANAGER만 접근 가능)
-    @RequestMapping(value="/survey/updateSurv", method=RequestMethod.POST)
+
+    // 5. 설문 수정 (Admin만 가능)
+    @PostMapping("/survey/updateSurvey")
     @ResponseBody
-    public void updateSurv(@RequestBody SurveyVO surveyDto, HttpSession session) {
+    public void updateSurv(@RequestBody SurveyVO surveyVO, HttpSession session) {
         String userId = (String) session.getAttribute("sUid");
-        if (userId.equals("admin")) {
-            System.out.println("updateSurv Controller START");
-
-            surveyService.delOldSurvey(surveyDto.getSurvNo());
-            surveyService.insertNewSurv(surveyDto);
-
-            System.out.println("updateSurv Controller END");
+        if ("admin".equals(userId)) {
+            surveyService.delOldSurvey(surveyVO.getSurveyIdx());
+            surveyService.insertNewSurv(surveyVO);
         }
     }
 
-    // My Survey > 설문 수정하기 View (ADMIN과 MANAGER만 접근 가능)
-    @RequestMapping(value="/survey/modSurvForm", method=RequestMethod.GET)
-    public String modSurv(@RequestParam(value="survNo") Integer survNo, HttpSession session, Model model) {
+    // 6. 설문 수정 페이지 (Admin만 접근 가능)
+    @GetMapping("/survey/modSurvForm")
+    public String modSurv(@RequestParam(value = "surveyIdx") Integer surveyIdx, HttpSession session, Model model) {
         String userId = (String) session.getAttribute("sUid");
-        if (userId.equals("admin")) {
-            System.out.println("===modSurv Controller START===");
-
-            SurveyVO surveyDto = surveyService.getSurvey(survNo);
-            model.addAttribute("surveyDto", surveyDto);
-
-            System.out.println("===modSurv Controller END===");
+        if ("admin".equals(userId)) {
+            SurveyVO surveyVO = surveyService.getOneSurvey(surveyIdx);
+            model.addAttribute("surveyVO", surveyVO);
             return "admin/survey/modSurv";
-        } else {
-            return "redirect:/accessDenied";
         }
+        return "redirect:/accessDenied";
     }
-    */
     
 	@RequestMapping(value = "/info/noticeInput", method=RequestMethod.GET)
 	public String noticeInputGet() {
 		return "admin/info/noticeInput";
+	}
+	
+	// 설문 결과 조회 페이지 (관리자 전용)
+	@GetMapping("/survey/surveyResult")
+	public String getSurveyResult(@RequestParam("surveyIdx") int surveyIdx, Model model) {
+	    SurveyVO surveyVO = surveyService.getSurvRslt(surveyIdx);
+	    
+	    if (surveyVO == null) {
+	        model.addAttribute("errorMessage", "해당 설문을 찾을 수 없습니다.");
+	        return "admin/survey/surveyList"; // 목록 페이지로 리디렉트
+	    }
+	    
+	    model.addAttribute("survey", surveyVO);
+	    return "admin/survey/surveyResult"; // 결과 페이지로 이동
 	}
 
 	// 공지 등록 처리하기

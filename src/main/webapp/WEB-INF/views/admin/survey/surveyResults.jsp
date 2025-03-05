@@ -7,218 +7,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.8.0/chart.min.js"></script>
-    <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <title>설문 결과</title>
+
     <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
+
     <style>
-        body {
-            font-family: Arial, sans-serif;
-        }
         h2, h3 {
             margin: 20px 0;
         }
-        #survInfo, #rslt {
+        .result-table {
             width: 100%;
-            padding: 20px;
             border-collapse: collapse;
+            margin-top: 20px;
         }
-        #survInfo th, #survInfo td, #rslt th, #rslt td {
+        .result-table th, .result-table td {
             padding: 10px;
-            border-bottom: 2px solid #EEEEEE;
+            border-bottom: 1px solid #ddd;
         }
-        #survInfo th, #rslt th {
-            text-align: center;
-            background-color: #EEEEEE;
-        }
-        .descNull {
-            color: grey;
-            text-align: center;
-            font-style: italic;
-        }
-        .survdesc, .answLong, .answShort {
-            overflow: auto;
-            max-height: 300px;
-        }
-        #rslt .canvas {
-            max-height: 500px;
-            padding: 30px;
-        }
-        button {
-            margin: 10px;
-            padding: 0.5rem 1rem;
-            font-size: 1rem;
-            border: none;
-            border-radius: 4px;
-            cursor: pointer;
-        }
-        button:hover {
-            background-color: black;
+        .result-table th {
+            background-color: #6C757D;
             color: white;
+            text-align: center;
+        }
+        .chart-container {
+            width: 100%;
+            max-width: 600px;
+            margin: 30px auto;
         }
     </style>
 </head>
 <body>
-    <h2>📋 설문 결과</h2>
-    <div class="body">
-        <table id="survInfo">
-            <tr>
-                <th>설문 제목</th>
-                <td colspan="5" class="survtitle">${survey.survTitle}</td>
-            </tr>
-            <tr>
-                <th>등록 날짜</th>
-                <td class="regdate">${survey.regDate}</td>
-                <th>수정 날짜</th>
-                <td class="moddate">${survey.modDate}</td>
-                <th>사용 여부</th>
-                <td class="useYn">
-                    <c:choose>
-                        <c:when test="${survey.useYn == 'Y'}">사용중</c:when>
-                        <c:otherwise>사용 안함</c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-            <tr>
-                <th colspan="6">설문 설명</th>
-            </tr>
-            <tr>
-                <td colspan="6">
-                    <c:choose>
-                        <c:when test="${survey.survDesc != null}">
-                            <div class="survdesc">${survey.survDesc}</div>
-                        </c:when>
-                        <c:otherwise class="descNull">[설문 설명 없음]</c:otherwise>
-                    </c:choose>
-                </td>
-            </tr>
-        </table>
-        <div style="float:right;">
-            <button id="list" onclick="goList(${pagination.currentPage}, ${pagination.cntPerPage}, ${pagination.pageSize}, '${pagination.srchTyp}', '${pagination.keyword}')">목록 보기</button>
-        </div>
-        <br>
-        <h3>📊 응답 결과</h3>
-        <table id="rslt">
-            <c:forEach var="qust" items="${survey.survqustList}">
-                <tr>
-                    <th>${qust.qustCont}</th>
-                </tr>
+
+<jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
+<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
+
+<div class="container">
+    <h2><i class="fa-solid fa-chart-bar"></i> 설문 결과</h2>
+
+    <table class="result-table">
+        <tr>
+            <th>설문 제목</th>
+            <td>${survey.surveyTitle}</td>
+        </tr>
+        <tr>
+            <th>등록 날짜</th>
+            <td>${survey.createDate}</td>
+            <th>수정 날짜</th>
+            <td>${survey.modDate}</td>
+        </tr>
+        <tr>
+            <th colspan="4">설문 설명</th>
+        </tr>
+        <tr>
+            <td colspan="4">
                 <c:choose>
-                    <c:when test="${qust.qustType == 'long'}">
-                        <tr>
-                            <td>응답 ${fn:length(qust.answerList)}개</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="answLong">
-                                    <c:forEach var="answ" items="${qust.answerList}">
-                                        <p>${answ.answLong}</p>
-                                    </c:forEach>
-                                </div>
-                            </td>
-                        </tr>
+                    <c:when test="${not empty survey.surveyDesc}">
+                        ${survey.surveyDesc}
                     </c:when>
-                    <c:when test="${qust.qustType == 'short'}">
-                        <tr>
-                            <td>응답 <span id="${qust.qustNo}total"></span>개</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <div class="answShort">
-                                    <c:forEach var="answ" items="${qust.answerList}">
-                                        <p>
-                                            ${answ.answCont} (${answ.count})
-                                        </p>
-                                    </c:forEach>
-                                </div>
-                            </td>
-                        </tr>
-                    </c:when>
-                    <c:otherwise>
-                        <tr>
-                            <td>응답 <span id="${qust.qustNo}total"></span>개</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <canvas id="${qust.qustNo}" class="canvas"></canvas>
-                            </td>
-                        </tr>
-                    </c:otherwise>
+                    <c:otherwise>[설명 없음]</c:otherwise>
                 </c:choose>
-            </c:forEach>
-        </table>
-    </div>
-    
-    <!-- JavaScript to handle Chart.js integration -->
-    <script type="text/javascript">
-        document.addEventListener('DOMContentLoaded', function () {
-            // Assuming 'qustList' is populated in a format compatible with JavaScript
-            const qustList = ${fn:escapeXml(qustListJson)};
+            </td>
+        </tr>
+    </table>
 
-            qustList.forEach(qust => {
-                const total = qust.answerList.reduce((acc, answ) => acc + answ.count, 0);
-                if (qust.qustType !== 'long') {
-                    document.getElementById(qust.qustNo + "total").innerText = total;
-                }
+    <h3>📊 응답 결과</h3>
 
-                if (qust.qustType !== 'long' && qust.qustType !== 'short' && total !== 0) {
-                    const ctx = document.getElementById(qust.qustNo).getContext('2d');
-                    const labels = qust.answerList.map(answ => answ.answCont);
-                    const data = qust.answerList.map(answ => answ.count);
+    <c:forEach var="question" items="${survey.questList}">
+        <div class="question-container">
+            <h4>${question.questContent}</h4>
 
-                    const chartType = qust.qustType === 'check' ? 'bar' : 'pie';
-                    new Chart(ctx, {
-                        type: chartType,
-                        data: {
-                            labels: labels,
-                            datasets: [{
-                                label: qust.qustCont,
-                                data: data,
-                                backgroundColor: [
-                                    'rgba(255, 99, 132, 0.4)',
-                                    'rgba(54, 162, 235, 0.4)',
-                                    'rgba(255, 206, 86, 0.4)',
-                                    'rgba(75, 192, 192, 0.4)',
-                                    'rgba(153, 102, 255, 0.4)',
-                                    'rgba(255, 159, 64, 0.4)',
-                                    'rgba(201, 203, 207, 0.4)'
-                                ],
-                                borderColor: [
-                                    'rgba(255, 99, 132)',
-                                    'rgba(54, 162, 235)',
-                                    'rgba(255, 206, 86)',
-                                    'rgba(75, 192, 192)',
-                                    'rgba(153, 102, 255)',
-                                    'rgba(255, 159, 64)',
-                                    'rgb(201, 203, 207)'
-                                ],
-                                borderWidth: 1
-                            }]
-                        },
-                        options: {
-                            scales: chartType === 'bar' ? {
-                                y: {
-                                    beginAtZero: true,
-                                    ticks: {
-                                        callback: function(value) { if (value % 1 === 0) { return value; } }
-                                    }
-                                }
-                            } : {},
-                            plugins: {
-                                legend: {
-                                    position: 'right',
+            <c:choose>
+                <c:when test="${question.questType == 'long'}">
+                    <table class="result-table">
+                        <tr>
+                            <th>응답 내용</th>
+                        </tr>
+                        <c:forEach var="answer" items="${question.answerList}">
+                            <tr>
+                                <td>${answer.answLong}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:when>
+
+                <c:when test="${question.questType == 'short'}">
+                    <table class="result-table">
+                        <tr>
+                            <th>응답 내용</th>
+                            <th>응답 횟수</th>
+                        </tr>
+                        <c:forEach var="answer" items="${question.answerList}">
+                            <tr>
+                                <td>${answer.answCont}</td>
+                                <td>${answer.count}</td>
+                            </tr>
+                        </c:forEach>
+                    </table>
+                </c:when>
+
+                <c:otherwise>
+                    <div class="chart-container">
+                        <canvas id="chart-${question.questIdx}"></canvas>
+                    </div>
+                </c:otherwise>
+            </c:choose>
+        </div>
+    </c:forEach>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        let questions = ${fn:escapeXml(questListJson)};
+
+        questions.forEach(question => {
+            if (question.questType !== 'long' && question.questType !== 'short') {
+                let ctx = document.getElementById("chart-" + question.questIdx).getContext('2d');
+                let labels = question.answerList.map(answ => answ.answCont);
+                let data = question.answerList.map(answ => answ.count);
+
+                new Chart(ctx, {
+                    type: question.questType === 'check' ? 'bar' : 'pie',
+                    data: {
+                        labels: labels,
+                        datasets: [{
+                            label: question.questContent,
+                            data: data,
+                            backgroundColor: [
+                                'rgba(255, 99, 132, 0.4)',
+                                'rgba(54, 162, 235, 0.4)',
+                                'rgba(255, 206, 86, 0.4)',
+                                'rgba(75, 192, 192, 0.4)',
+                                'rgba(153, 102, 255, 0.4)',
+                                'rgba(255, 159, 64, 0.4)',
+                                'rgba(201, 203, 207, 0.4)'
+                            ],
+                            borderColor: [
+                                'rgba(255, 99, 132)',
+                                'rgba(54, 162, 235)',
+                                'rgba(255, 206, 86)',
+                                'rgba(75, 192, 192)',
+                                'rgba(153, 102, 255)',
+                                'rgba(255, 159, 64)',
+                                'rgb(201, 203, 207)'
+                            ],
+                            borderWidth: 1
+                        }]
+                    },
+                    options: {
+                        scales: question.questType === 'check' ? {
+                            y: {
+                                beginAtZero: true,
+                                ticks: {
+                                    callback: function(value) { if (value % 1 === 0) { return value; } }
                                 }
                             }
+                        } : {},
+                        plugins: {
+                            legend: {
+                                position: 'right',
+                            }
                         }
-                    });
-                }
-            });
+                    }
+                });
+            }
         });
+    });
+</script>
 
-        function goList(currentPage, cntPerPage, pageSize, srchTyp, keyword) {
-            let url = `${ctp}/myList?currentPage=${currentPage}&cntPerPage=${cntPerPage}&pageSize=${pageSize}&srchTyp=${srchTyp}&keyword=${keyword}`;
-            location.href = url;
-        }
-    </script>
+<jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
+
 </body>
 </html>

@@ -108,13 +108,8 @@
                                     class="hide-menu"> 설문조사 등록
                                 </span></a>
                         </li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/survey/#" class="sidebar-link"><span
+                        <li class="sidebar-item"><a href="${ctp}/admin/survey/surveyList" class="sidebar-link"><span
                                     class="hide-menu"> 설문조사 리스트
-                                </span></a>
-                        </li>
-                        <li class="sidebar-item"><a href="${ctp}/admin/survey/#" class="sidebar-link"><span
-                                    class="hide-menu">
-                                    설문별 통계 현황
                                 </span></a>
                         </li>
                     </ul>

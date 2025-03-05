@@ -4,10 +4,8 @@ import lombok.Data;
 
 @Data
 public class SurveyOptionVO {
-	
-    private int optionIdx;       // 제공 답변 번호
-    private int questIdx;     // 설문 질문 번호
-    private String optContent; // 답변 내용
-    private int optOrder;    // 표기 순서
-    
+    private int optionIdx;      // 옵션 ID
+    private int questIdx;       // 해당 옵션이 속한 질문 ID
+    private String optContent;  // 옵션 내용 (예: "예", "아니오", "보통")
+    private int optOrder;       // 옵션 표시 순서
 }

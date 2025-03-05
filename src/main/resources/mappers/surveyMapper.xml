@@ -2,110 +2,111 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.SurveyDAO">
 
+    <!-- 설문 저장 -->
+    <insert id="setSurveyInput" useGeneratedKeys="true" keyProperty="surveyIdx">
+        INSERT INTO survey (surveyTitle, surveyDesc, surveyThumb, useFlag, delFlag, userIdx, createDate, modDate)
+        VALUES (#{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, #{surveyVO.surveyThumb}, #{surveyVO.useFlag}, 'N', #{surveyVO.userIdx}, NOW(), NOW());
+    </insert>
+
+    <!-- 설문 질문 저장 -->
+    <insert id="setQuestionInput" useGeneratedKeys="true" keyProperty="questIdx">
+        INSERT INTO surveyquest (surveyIdx, questContent, questType, questOrder)
+        VALUES (#{questionVO.surveyIdx}, #{questionVO.questContent}, #{questionVO.questType}, #{questionVO.questOrder});
+    </insert>
+
+    <!-- 설문 질문의 선택지 저장 -->
+    <insert id="setOptionInput" useGeneratedKeys="true" keyProperty="optionIdx">
+        INSERT INTO surveyOption (questIdx, optContent, optOrder)
+        VALUES (#{optionVO.questIdx}, #{optionVO.optContent}, #{optionVO.optOrder});
+    </insert>
+
+    <!-- 특정 설문 정보 조회 -->
     <select id="getSurveyForm" resultType="com.spring.javaclassS14.vo.SurveyVO">
         SELECT * FROM survey WHERE surveyIdx = #{surveyIdx};
     </select>
 
+    <!-- 특정 설문에 대한 질문 목록 조회 -->
     <select id="getSurveyQuestList" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        SELECT * FROM surveyQuest WHERE surveyIdx = #{surveyIdx};
+        SELECT * FROM surveyquest WHERE surveyIdx = #{surveyIdx} ORDER BY questOrder;
     </select>
 
+    <!-- 특정 질문의 선택지 목록 조회 -->
     <select id="getQuestOptList" resultType="com.spring.javaclassS14.vo.SurveyOptionVO">
-        SELECT * FROM surveyOption WHERE questIdx = #{questIdx};
+        SELECT * FROM surveyOption WHERE questIdx = #{questIdx} ORDER BY optOrder;
     </select>
-    
-    <select id="resSurveyFlag" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="int">
-        SELECT COUNT(*)
-        FROM (SELECT questIdx FROM surveyQuest WHERE surveyIdx = #{surveyIdx}) AS qust
-        INNER JOIN (SELECT questIdx FROM surveyAnswer WHERE userIdx = #{userIdx}) AS answ
-        ON qust.questIdx = answ.questIdx;
-    </select>
-    
-    
-	<insert id="setSurveyInput" useGeneratedKeys="true" keyProperty="surveyIdx">
-	    INSERT INTO survey VALUES (default, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, #{surveyVO.surveyThumb}, #{surveyVO.useFlag}, default, #{surveyVO.userIdx}, default, default);
-	</insert>
-	
-	<insert id="setQuestionInput" useGeneratedKeys="true" keyProperty="questIdx">
-	    INSERT INTO surveyQuest VALUES (default, #{questionVO.surveyIdx}, #{questionVO.questContent}, #{questionVO.questType}, #{questionVO.questOrder});
-	</insert>
-	
-	<insert id="setOptionInput" useGeneratedKeys="true" keyProperty="optionIdx">
-	    INSERT INTO surveyOption VALUES (default, #{optionVO.questIdx}, #{optionVO.optContent}, #{optionVO.optOrder});
-	</insert>
 
-    <insert id="insertNewSurvqust" parameterType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        INSERT INTO survQuest (questIdx, surveyIdx, questOrder, questContent, questType)
-        VALUES (#{questIdx}, #{surveyIdx}, #{questOrder}, #{questContent}, #{questType});
+    <!-- 특정 질문에 대한 응답 통계 조회 -->
+    <select id="getSurveyAnswerStats" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
+        SELECT answerContent, COUNT(*) as count
+        FROM surveyAnswer
+        WHERE questNo = #{questIdx}
+        GROUP BY answerContent
+    </select>
+
+    <!-- 설문 응답 저장 (Batch Insert) -->
+    <insert id="setSurveyAnswerInputBatch">
+        INSERT INTO surveyAnswer (questIdx, userIdx, answerContent, answLong, answDate)
+        VALUES
+        <foreach collection="answerList" item="answer" separator=",">
+            (#{answer.questNo}, #{answer.userIdx}, #{answer.answerContent}, #{answer.answLong}, NOW())
+        </foreach>
     </insert>
 
-    <insert id="setSurveyAnswerInput" parameterType="int">
-        INSERT INTO surveyAnswer VALUES (default, #{questIdx}, #{userIdx}, #{answerContent}, #{answerLong}, default);
+    <!-- 설문 삭제 (delFlag = 'Y' 업데이트) -->
+    <update id="delOneSurvey">
+        UPDATE survey SET delFlag = 'Y' WHERE surveyIdx = #{surveyIdx};
+    </update>
+
+    <!-- 특정 설문의 전체 결과 조회 -->
+    <select id="getOneSurv" resultType="com.spring.javaclassS14.vo.SurveyVO">
+        SELECT * FROM survey WHERE surveyIdx = #{surveyIdx};
+    </select>
+
+    <!-- 특정 사용자의 설문 응답 여부 확인 -->
+    <select id="resSurvYn" resultType="int">
+        SELECT COUNT(*) FROM surveyAnswer 
+        WHERE userIdx = #{surveyVO.userIdx} AND questIdx IN 
+        (SELECT questIdx FROM surveyquest WHERE surveyIdx = #{surveyVO.surveyIdx});
+    </select>
+
+    <!-- 설문 수정 -->
+    <update id="updateSurvey">
+        UPDATE survey 
+        SET surveyTitle = #{surveyVO.surveyTitle}, 
+            surveyDesc = #{surveyVO.surveyDesc}, 
+            modDate = NOW() 
+        WHERE surveyIdx = #{surveyVO.surveyIdx};
+    </update>
+
+    <!-- 페이징 적용된 설문 리스트 조회 -->
+    <select id="getSurveyEventListPaged" resultType="com.spring.javaclassS14.vo.SurveyVO">
+        SELECT * FROM survey WHERE delFlag = 'N' ORDER BY surveyIdx DESC
+        LIMIT #{cntPerPage} OFFSET #{currentPage} - 1;
+    </select>
+
+    <!-- 설문 수정 시 기존 데이터 삭제 -->
+    <delete id="delOldSurvey">
+        DELETE FROM surveyquest WHERE surveyIdx = #{surveyIdx};
+        DELETE FROM surveyOption WHERE questIdx IN (SELECT questIdx FROM surveyquest WHERE surveyIdx = #{surveyIdx});
+        DELETE FROM surveyAnswer WHERE questIdx IN (SELECT questIdx FROM surveyquest WHERE surveyIdx = #{surveyIdx});
+    </delete>
+
+    <!-- 새로운 설문 데이터 삽입 -->
+    <insert id="insertNewSurv">
+        INSERT INTO survey (surveyIdx, surveyTitle, surveyDesc, surveyThumb, useFlag, delFlag, userIdx, createDate, modDate)
+        VALUES (#{surveyVO.surveyIdx}, #{surveyVO.surveyTitle}, #{surveyVO.surveyDesc}, #{surveyVO.surveyThumb}, #{surveyVO.useFlag}, 'N', #{surveyVO.userIdx}, NOW(), NOW());
     </insert>
 
-
-    <update id="delOneSurvey" parameterType="int">
-        UPDATE Survey SET delFlag = 'Y', useFlag = 'N' WHERE surveyIdx = #{surveyIdx};
-    </update>
-
-    <update id="updateNewSurv" parameterType="com.spring.javaclassS14.vo.SurveyVO">
-        UPDATE Survey 
-        SET surveyTitle = #{surveyTitle}, surveyDesc = #{surveyDesc}, userIdx = #{userIdx}, useFlag = #{useFlag}, delFlag = #{delFlag}, modDate = NOW()
-        WHERE surveyIdx = #{surveyIdx};
-    </update>
-
-
-    <delete id="delSurvqust" parameterType="int">
-        DELETE FROM surveyQuest WHERE surveyIdx = #{surveyIdx};
-    </delete>
-
-    <delete id="delQustopt" parameterType="int">
-        DELETE FROM surveyOption WHERE questIdx IN (SELECT questIdx FROM survQuest WHERE surveyIdx = #{surveyIdx});
-    </delete>
-
-    <delete id="delAnswer" parameterType="int">
-        DELETE FROM surveyAnswer WHERE questIdx IN (SELECT questIdx FROM survQuest WHERE surveyIdx = #{surveyIdx});
-    </delete>
-
-
+    <!-- 특정 관리자의 설문 목록 조회 -->
+    <select id="getSurveyList" resultType="com.spring.javaclassS14.vo.SurveyVO">
+        SELECT * FROM survey WHERE userIdx = #{userIdx} AND delFlag = 'N' ORDER BY surveyIdx DESC;
+    </select>
+    
     <select id="getSurveyEventList" resultType="com.spring.javaclassS14.vo.SurveyVO">
-	    SELECT * FROM survey WHERE delFlag = 'n' ORDER BY surveyIdx DESC;
-    </select>
-
-    <select id="getSurveyCnt" resultType="int">
-        SELECT COUNT(*) FROM Survey WHERE useFlag = 'y' AND delFlag = 'n'
-    </select>
-
-	<select id="getSurveyList" resultType="com.spring.javaclassS14.vo.SurveyVO">
-	    SELECT * FROM survey WHERE userIdx = #{userIdx} AND delFlag = 'n' ORDER BY surveyIdx DESC;
+	    SELECT surveyIdx, surveyTitle, surveyDesc, surveyThumb, useFlag, delFlag, createDate, modDate
+	    FROM survey
+	    WHERE delFlag = 'N'
+	    ORDER BY surveyIdx DESC;
 	</select>
-
-    <select id="getOneSurv" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyVO">
-        SELECT * FROM Survey WHERE surveyIdx = #{surveyIdx};
-    </select>
-
-    <select id="getSurvQust" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyQuestionVO">
-        SELECT * FROM survQuest WHERE surveyIdx = #{surveyIdx};
-    </select>
-
-    <select id="getAnswer" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
-        SELECT COUNT(*) AS count, answerContent
-        FROM surveyAnswer
-        WHERE questIdx = #{questIdx}
-        GROUP BY answerContent;
-    </select>
-
-    <select id="getLongAnswer" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
-        SELECT answerLong
-        FROM surveyAnswer
-        WHERE questIdx = #{questIdx};
-    </select>
-
-    <select id="getRegNick" parameterType="com.spring.javaclassS14.vo.SurveyVO" resultType="String">
-        SELECT u.nickName
-        FROM Survey s
-        LEFT JOIN users u ON s.userIdx = u.userIdx
-        WHERE s.userIdx = #{userIdx} AND s.surveyIdx = #{surveyIdx};
-    </select>
 
 </mapper>

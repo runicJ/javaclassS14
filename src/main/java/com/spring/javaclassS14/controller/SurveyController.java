@@ -1,141 +1,83 @@
 package com.spring.javaclassS14.controller;
 
-import java.io.UnsupportedEncodingException;
 import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
+import org.springframework.web.bind.annotation.*;
 
 import com.google.gson.Gson;
 import com.spring.javaclassS14.service.SurveyService;
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
-import com.spring.javaclassS14.vo.SurveyQuestionVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 
 @Controller
 @RequestMapping("/survey")
 public class SurveyController {
-    
+
     @Autowired
     SurveyService surveyService;
 
-    // 설문 리스트 접속
-    @RequestMapping(value = "/surveyEventList", method=RequestMethod.GET)
-    public ModelAndView surveyEventListGet(
-            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-            HttpServletRequest request) throws UnsupportedEncodingException {
-        ModelAndView mv = new ModelAndView();
-        
-        request.setCharacterEncoding("utf-8");
-        
-        int surveyCnt = surveyService.getSurveyCnt();
-        
-        mv.addObject("surveyCnt", surveyCnt);
-        
-        if(surveyCnt != 0) {
-            mv.addObject("surveyVOS", surveyService.getSurveyEventList());
-        } 
-        else {
-            mv.addObject("surveyVOS", null);
-        }
-        //mv.addObject("pagination", searchVo);
-        
-        mv.setViewName("survey/surveyEventList");
-        
-        return mv;
+    // 1. 설문 리스트 조회
+    @GetMapping("/surveyEventList")
+    public String surveyEventList(Model model) {
+        List<SurveyVO> surveyList = surveyService.getSurveyEventList();
+        model.addAttribute("surveyList", surveyList);
+        return "survey/surveyEventList";
     }
-    
-    // 리스트 응답 폼 보여주기 View
+
+    // 2. 특정 설문조사 조회 (설문 응답 페이지)
     @GetMapping("/surveyAnswer")
-    public String resForm(int surveyIdx, HttpServletRequest request, HttpSession session, Model model) {
+    public String getSurveyForm(@RequestParam("surveyIdx") int surveyIdx, HttpSession session, Model model) {
         SurveyVO surveyVO = surveyService.getSurveyForm(surveyIdx);
-        
         String userId = (String) session.getAttribute("userId");
         surveyVO.setUserId(userId);
-        if(surveyVO.getSurveyDesc() != null) {
-        	surveyVO.setSurveyDesc(surveyVO.getSurveyDesc().replace("\n","<br>"));
+
+        if (surveyVO.getSurveyDesc() != null) {
+            surveyVO.setSurveyDesc(surveyVO.getSurveyDesc().replace("\n", "<br>"));
         }
-        model.addAttribute("questListJson", new Gson().toJson(surveyVO.getQuestList()));
+
         model.addAttribute("surveyVO", surveyVO);
-        
+        model.addAttribute("questListJson", new Gson().toJson(surveyVO.getQuestList()));
+
         return "survey/surveyAnswer";
     }
 
-    // 응답하기 
+    // 3. 설문 응답 저장 (Batch Insert)
     @ResponseBody
     @PostMapping("/surveyAnswer")
-    public String resSurv(@RequestBody List<SurveyAnswerVO> answerList) {
-        int res = surveyService.setSurveyAnswerInput(answerList);
-        return res + "";
+    public String saveSurveyAnswer(@RequestBody List<SurveyAnswerVO> answerList) {
+        int result = surveyService.setSurveyAnswerInputBatch(answerList);
+        return String.valueOf(result);
     }
 
-    // 설문 결과 접속
-    @RequestMapping("/survRslt")
-    public ModelAndView survRslt(@RequestParam(value = "survNo") int survNo,
-            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-            HttpServletRequest request) { 
-        
-        ModelAndView mv = new ModelAndView();
-        mv.setViewName("survey/survRslt");
-        
-        //mv.addObject("pagination", searchVo);
-        
-        SurveyVO surveyDto = surveyService.getSurvRslt(survNo);
-        
-        mv.addObject("survey", surveyDto);
-        
-        return mv;
+    // 4. 설문 결과 조회
+    @GetMapping("/survRslt")
+    public String getSurveyResult(@RequestParam("surveyIdx") int surveyIdx, Model model) {
+        SurveyVO surveyVO = surveyService.getSurvRslt(surveyIdx);
+        model.addAttribute("survey", surveyVO);
+        return "survey/survRslt";
     }
-    
-    // 해당 설문 응답 여부 확인
-    @PostMapping(value="/checkRes")
+
+    // 5. 설문 응답 여부 확인 (사용자가 응답했는지 체크)
     @ResponseBody
-    public int checkRes(SurveyVO surveyDto) { 
-        System.out.println(surveyDto);
-        int cnt = surveyService.resSurvYn(surveyDto);
-        return cnt;
+    @PostMapping("/checkRes")
+    public int checkSurveyResponse(@RequestBody SurveyVO surveyDto) { 
+        return surveyService.resSurvYn(surveyDto);
     }
-    /*
-    // 설문 정보 접속
-    @RequestMapping(value = "/survInfo", method=RequestMethod.GET)
-    public ModelAndView survInfo(
-            @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
-            @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
-            @RequestParam(value = "pageSize", required = false, defaultValue = "10") int pageSize,
-            @RequestParam(value = "survNo") int survNo,
-            HttpServletRequest request, HttpSession session) throws UnsupportedEncodingException {
-        ModelAndView mv = new ModelAndView();
+
+    // 6. 페이징을 고려한 설문 리스트 조회
+    @GetMapping("/surveyEventListPaged")
+    public String surveyEventListPaged(
+        @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
+        @RequestParam(value = "cntPerPage", required = false, defaultValue = "10") int cntPerPage,
+        Model model) {
         
-        String nickName = (String) session.getAttribute("sNickName");
-        
-        //mv.addObject("pagination", searchVo);
-        
-        SurveyVO surveyVO = surveyService.getOneSurvey(nickName, survNo);
-        
-        surveyVO.setSurveyDesc(surveyVO.getSurveyDesc().replace("\n", "<br>"));
-        
-        mv.addObject("surveyVO", surveyVO);
-        mv.addObject("userId", session.getAttribute("sUid"));
-        
-        mv.setViewName("survey/survInfo");
-        
-        return mv;
+        List<SurveyVO> surveyList = surveyService.getSurveyEventListPaged(currentPage, cntPerPage);
+        model.addAttribute("surveyList", surveyList);
+        model.addAttribute("currentPage", currentPage);
+        return "survey/surveyEventList";
     }
-    */
 }
