@@ -207,8 +207,8 @@ public class UserController {
 	// 로그인 처리
 	@RequestMapping(value="/userLogin", method=RequestMethod.POST)
 	public String userLoginPost(HttpServletRequest request, HttpServletResponse response, HttpSession session,
-			@RequestParam(name="userId", defaultValue="admin", required = false) String userId,
-			@RequestParam(name="userPwd", defaultValue="1234", required = false) String userPwd,
+			@RequestParam(name="userId", required = false) String userId,
+			@RequestParam(name="userPwd", required = false) String userPwd,
 			@RequestParam(name="idSave", defaultValue="off", required = false) String idSave,
 			RedirectAttributes redirectAttributes) {
 		UserVO vo = userService.getUserIdCheck(userId);

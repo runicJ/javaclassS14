@@ -24,9 +24,18 @@ public class SurveyController {
     @GetMapping("/surveyEventList")
     public String surveyEventList(Model model) {
         List<SurveyVO> surveyList = surveyService.getSurveyEventList();
+
+        // 디버깅용
+		/*
+		 * System.out.println("설문 리스트 크기: " + surveyList.size()); for (SurveyVO survey :
+		 * surveyList) { System.out.println("설문 ID: " + survey.getSurveyIdx() + ", 제목: "
+		 * + survey.getSurveyTitle()); }
+		 */
+
         model.addAttribute("surveyList", surveyList);
         return "survey/surveyEventList";
     }
+
 
     // 2. 특정 설문조사 조회 (설문 응답 페이지)
     @GetMapping("/surveyAnswer")

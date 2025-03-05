@@ -59,4 +59,6 @@ public interface SurveyDAO {
 
     // 특정 질문에 대한 응답 통계 조회
     public List<SurveyAnswerVO> getSurveyAnswerStats(@Param("questIdx") int questIdx);
+
+	public int getTotalSurveys(@Param("userIdx") int userIdx);
 }

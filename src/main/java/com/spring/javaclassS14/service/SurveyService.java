@@ -49,4 +49,7 @@ public interface SurveyService {
 
     // 관리자 전용 - 특정 관리자 설문 목록 조회
     public List<SurveyVO> getSurveyList(Integer userIdx);
+
+    // 설문지 갯수
+	public int getTotalSurveys(int userIdx);
 }

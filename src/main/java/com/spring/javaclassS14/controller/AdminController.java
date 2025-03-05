@@ -533,7 +533,7 @@ public class AdminController {
         }
     }
 
-    // 3. 관리자용 설문 목록 조회 (My Survey)
+    // 3. 관리자용 설문 목록 조회
     @GetMapping("/survey/surveyList")
     public ModelAndView surveyListGet(
             @RequestParam(value = "currentPage", required = false, defaultValue = "1") int currentPage,
@@ -544,9 +544,17 @@ public class AdminController {
         Integer userIdx = (Integer) session.getAttribute("sUidx");
 
         request.setCharacterEncoding("utf-8");
-        mv.addObject("survList", surveyService.getSurveyList(userIdx));
-        mv.setViewName("admin/survey/surveyList");
+        
+        // 전체 설문 개수 조회
+        int totalSurveys = surveyService.getTotalSurveys(userIdx);
 
+        // 설문 목록 조회
+        List<SurveyVO> surveyList = surveyService.getSurveyList(userIdx);
+
+        // ModelAndView에 데이터 추가
+        mv.addObject("total", totalSurveys); // 전체 설문 개수
+        mv.addObject("survList", surveyList); // 설문 목록
+        
         return mv;
     }
 
@@ -583,11 +591,6 @@ public class AdminController {
         }
         return "redirect:/accessDenied";
     }
-    
-	@RequestMapping(value = "/info/noticeInput", method=RequestMethod.GET)
-	public String noticeInputGet() {
-		return "admin/info/noticeInput";
-	}
 	
 	// 설문 결과 조회 페이지 (관리자 전용)
 	@GetMapping("/survey/surveyResult")
@@ -603,6 +606,11 @@ public class AdminController {
 	    return "admin/survey/surveyResult"; // 결과 페이지로 이동
 	}
 
+	@RequestMapping(value = "/info/noticeInput", method=RequestMethod.GET)
+	public String noticeInputGet() {
+		return "admin/info/noticeInput";
+	}
+	
 	// 공지 등록 처리하기
 	@RequestMapping(value = "/info/noticeInput", method=RequestMethod.POST)
 	public String noticeInputPost(MultipartFile file, CsworkVO csworkVO) {

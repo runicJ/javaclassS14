@@ -137,7 +137,13 @@ public class SurveyServiceImpl implements SurveyService {
 
     @Override
     public List<SurveyVO> getSurveyEventList() {
-        return surveyDAO.getSurveyEventList(); // DAO 호출하여 데이터 가져오기
+        return surveyDAO.getSurveyEventList();
     }
+
+
+	@Override
+	public int getTotalSurveys(int userIdx) {
+        return surveyDAO.getTotalSurveys(userIdx);
+	}
 
 }

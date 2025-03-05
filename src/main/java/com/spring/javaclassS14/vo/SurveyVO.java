@@ -17,5 +17,5 @@ public class SurveyVO {
     private String createDate;   // 생성 날짜
     private String modDate;      // 수정 날짜
     
-    private List<SurveyQuestionVO> questList; // ✅ 설문에 포함된 질문 목록 (1:N 관계)
+    private List<SurveyQuestionVO> questList; // 설문에 포함된 질문 목록 (1:N 관계)
 }
