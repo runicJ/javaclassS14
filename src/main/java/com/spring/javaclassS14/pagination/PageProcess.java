@@ -66,6 +66,7 @@ public class PageProcess {
 
         int totPage = (totRecCnt % pageSize) == 0 ? (totRecCnt / pageSize) : (totRecCnt / pageSize) + 1;
         int startIndexNo = (pag - 1) * pageSize;
+        if (startIndexNo < 0) startIndexNo = 0;
         int curScrStartNo = totRecCnt - startIndexNo;
 
         int blockSize = 5;

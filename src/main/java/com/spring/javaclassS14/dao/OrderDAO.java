@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.Param;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.PaymentVO;
 
 public interface OrderDAO {
@@ -33,4 +34,6 @@ public interface OrderDAO {
     public int updateOrderStatusByNumber(@Param("orderNumber") String orderNumber, @Param("nextStatus") String nextStatus);
 	public int cancelOrder(@Param("orderIdx") Integer orderIdx);
 	public List<OrderVO> getOrderDetail(@Param("orderIdx") int orderIdx);
+	public List<OrderVO> getUserOrderList(int userIdx, String startOrder, String endOrder, String conditionOrderStatus,
+			PageVO pageVO);
 }

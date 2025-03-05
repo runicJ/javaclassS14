@@ -17,37 +17,37 @@
     	location.href = "photoGalleryList?part="+part+"&choice="+choice;
     }
     
-    
-    // 무한 스크롤 구현(aJax처리)
     let lastScroll = 0;
     let curPage = 1;
-    
-    $(document).scroll(function(){
-    	let currentScroll = $(this).scrollTop();			// 스크롤바 위쪽시작 위치, 처음은 0이다.
-    	let documentHeight = $(document).height();		// 화면에 표시되는 전체 문서의 높이
-    	let nowHeight = $(this).scrollTop() + $(window).height();	// 현재 화면상단 + 현재 화면높이
-    	
-    	// 스크롤이 아래로 내려갔을때 이벤트 처리..
-    	if(currentScroll > lastScroll) {
-    		if(documentHeight < (nowHeight + (documentHeight*0.1))) {
-    			console.log("다음페이지 가져오기");
-    			curPage++;
-    			//getList(curPage);
-    			$.ajax({
-  	    		url  : "photoGalleryListPaging",
-  	    		type : "post",
-  	    		data : {
-  	    			pag : curPage,
-  	    			part : '${part}',
-  	    			choice: '${choice}'
-  	    		},
-  	    		success:function(res) {
-  	    			$("#list-wrap").append(res);
-  	    		}
-  	    	});
-    		}
-    	}
-    	lastScroll = currentScroll;
+    let isFetching = false;  // 중복 요청 방지
+
+    $(document).scroll(function() {
+        let currentScroll = $(this).scrollTop();
+        let documentHeight = $(document).height();
+        let nowHeight = $(this).scrollTop() + $(window).height();
+
+        if (currentScroll > lastScroll && documentHeight < (nowHeight + (documentHeight * 0.1)) && !isFetching) {
+            isFetching = true;
+            curPage++;
+
+            $.ajax({
+                url: "photoReviewListPaging",
+                type: "POST",
+                data: {
+                    pag: curPage,
+                    part: '${part}',
+                    choice: '${choice}'
+                },
+                success: function(res) {
+                    $("#list-wrap").append(res);
+                    isFetching = false;
+                },
+                error: function() {
+                    isFetching = false;
+                }
+            });
+        }
+        lastScroll = currentScroll;
     });
     
     // 리스트 불러오기 함수(ajax처리)
@@ -145,14 +145,14 @@
 	    <div class="card mb-5" style="width:220px;">
 		    <%-- <div class="card-body m-0 p-2"><img src="${ctp}/photoGallery/${vo.FSName}" width="100%" height="150px" title="${vo.title}" class="m-0" /></div> --%> 
 		    <div class="card-body m-0 p-2 text-center">
-		      <a href="photoGalleryContent?idx=${vo.idx}">
-		        <img src="${ctp}/photoGallery/${vo.thumbnail}" width="200px" height="150px" title="${vo.title}" class="m-0" />
+				<a href="${ctp}/photoReview/photoReviewContent?photoReviewIdx=${vo.photoReviewIdx}">
+					<img src="${ctp}/resources/data/photoReview/${vo.thumbnail}" width="200px" height="150px" title="${vo.title}" class="m-0" />
 		      </a>
 		    </div> 
 		    <div class="card-footer">
 		      <div class="row text-center" style="font-size:11px">
 		        <div class="col p-0"><i class="fa-regular fa-pen-to-square" title="댓글수"></i> ${vo.replyCnt}</div>
-		        <div class="col p-0"><i class="fa-regular fa-face-grin-hearts" title="좋아요"></i> ${vo.goodCount}</div>
+				<div class="col p-0"><i class="fa-regular fa-face-grin-hearts" title="좋아요"></i> <c:out value="${vo.likeCnt}" default="0"/></div>
 		        <div class="col p-0"><i class="fa-regular fa-eye" title="조회수"></i> ${vo.readNum}</div>
 		        <div class="col p-0"><i class="fa-solid fa-layer-group" title="사진수"></i> ${vo.photoCount}</div>
 		      </div>

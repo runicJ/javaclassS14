@@ -12,4 +12,5 @@ public interface CommunityDAO {
     public CommunityVO getHospitalById(@Param("hospitalIdx") int hospitalIdx);
     public int insertHospitalComment(CommunityVO comment);
 	public List<CommunityVO> getHospitalComments();
+	public CommunityVO getHospitalCommentById(int hospitalCommentIdx);
 }

@@ -64,9 +64,9 @@ public interface UserDAO {
 
 	public List<DeliveryAddressVO> getUserDeliveryAddresses(@Param("userIdx") int userIdx);  // 배송지 목록 가져오기
 
-	public int countUserAddresses(int userIdx);  // 배송지 갯수 확인
+	public int countUserAddresses(@Param("userIdx") int userIdx);  // 배송지 갯수 확인
 
-	public void resetDefaultAddress(int userIdx);  // 기존 대표 배송지 해제
+	public void resetDefaultAddress(@Param("userIdx") int userIdx);  // 기존 대표 배송지 해제
 
 	public boolean insertAddress(DeliveryAddressVO addressVO);  // 배송지 추가
 
@@ -78,6 +78,8 @@ public interface UserDAO {
 
 	public int getUserIdxByAddressId(int addressId);
 
-	public List<DeliveryAddressVO> getUserAddresses(int userIdx);
+	public List<DeliveryAddressVO> getUserAddresses(@Param("userIdx") int userIdx);
+
+	public List<Map<String, Object>> getUserActivity(@Param("userIdx") int userIdx);
 
 }

@@ -63,4 +63,6 @@ public interface UserService {
 	public boolean deleteAddress(int id);
 
 	public boolean setDefaultAddress(int id);
+
+	public List<Map<String, Object>> getUserActivity(int userIdx);
 }

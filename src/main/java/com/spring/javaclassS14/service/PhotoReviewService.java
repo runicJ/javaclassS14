@@ -7,26 +7,39 @@ import com.spring.javaclassS14.vo.PhotoReviewVO;
 
 public interface PhotoReviewService {
 
-	public int imgCheck(PhotoReviewVO vo, String realPath);
+    //public int imgCheck(PhotoReviewVO vo, String realPath);
 
-	public List<PhotoReviewVO> getPhotoReviewList(int startIndexNo, int pageSize, String part, String choice);
+    public List<PhotoReviewVO> getPhotoReviewList(int startIndexNo, int pageSize, String part, String choice);
 
-	public void setPhotoReviewReadNumPlus(int idx);
+    public void setPhotoReviewReadNumPlus(int photoReviewIdx);
 
-	public PhotoReviewVO getPhotoReviewIdxSearch(int idx);
+    public PhotoReviewVO getPhotoReviewIdxSearch(int photoReviewIdx);
 
-	public ArrayList<PhotoReviewVO> getPhotoReviewReply(int idx);
+    public ArrayList<PhotoReviewVO> getPhotoReviewReply(int photoReviewIdx);
 
-	public List<String> getPhotoReviewPhotoList(String content);
+    public List<String> getPhotoReviewPhotoList(String content);
 
-	public int setPhotoReviewReplyInput(PhotoReviewVO vo);
+    public int setPhotoReviewReplyInput(PhotoReviewVO vo);
 
-	public int setPhotoReviewReplyDelete(int idx);
+    public int setPhotoReviewReplyDelete(int photoReplyIdx);
 
-	public void setPhotoReviewGoodPlus(int idx);
+    public void setPhotoReviewGoodPlus(int photoReviewIdx);
 
-	public int setPhotoReviewDelete(int idx);
+    public int setPhotoReviewDelete(int photoReviewIdx);
 
-	public List<PhotoReviewVO> setPhotoReviewSingle(int startIndexNo, int pageSize);
+    public List<PhotoReviewVO> setPhotoReviewSingle(int startIndexNo, int pageSize);
 
+    public boolean hasUserLiked(Integer userIdx, int photoReviewIdx);
+
+    public boolean removeLike(int userIdx, int photoReviewIdx);
+
+    public boolean addLike(int userIdx, int photoReviewIdx);
+
+    public int getLikeCount(int photoReviewIdx);
+
+	public int photoReviewInput(PhotoReviewVO vo);
+
+	public int deletePhotoReviewReply(int photoReviewReplyIdx, int userIdx);
+
+	public int insertPhotoReviewReply(int userIdx, int photoReviewIdx, String content);
 }

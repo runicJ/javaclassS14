@@ -34,10 +34,23 @@
     </select>
 
 	<select id="getHospitalComments" parameterType="int" resultType="com.spring.javaclassS14.vo.CommunityVO">
-		SELECT hc.*, u.userId
+	    SELECT hc.hospitalCommentIdx, hc.hospitalIdx, u.userId, 
+	           hc.hospitalCommentTitle, hc.hospitalComment, 
+	           hc.starRating, hc.waitingTime, hc.created_at AS createdAt
 		FROM hospital_comment hc
 		JOIN users u ON hc.userIdx = u.userIdx
 		ORDER BY hc.created_at DESC
+	</select>
+	
+	<select id="getHospitalCommentById" parameterType="int" resultType="com.spring.javaclassS14.vo.CommunityVO">
+	    SELECT hc.hospitalCommentIdx, hc.hospitalIdx, u.userId, 
+	    	hc.hospitalCommentTitle, hc.hospitalComment, 
+	        hc.starRating, hc.waitingTime, hc.created_at AS createdAt,
+	        h.hospitalName, h.hospitalCategory, h.hospitalRegion
+	    FROM hospital_comment hc
+	    JOIN users u ON hc.userIdx = u.userIdx
+	    JOIN hospital_info h ON hc.hospitalIdx = h.hospitalIdx
+	    WHERE hc.hospitalCommentIdx = #{hospitalCommentIdx}
 	</select>
 	
 

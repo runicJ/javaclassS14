@@ -11,6 +11,7 @@ import com.spring.javaclassS14.dao.OrderDAO;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.PaymentVO;
 
 @Service
@@ -175,6 +176,12 @@ public class OrderServiceImpl implements OrderService {
 	@Override
 	public List<OrderVO> getOrderDetail(int orderIdx) {
 		return orderDAO.getOrderDetail(orderIdx);
+	}
+
+	@Override
+	public List<OrderVO> getUserOrderList(int userIdx, String startOrder, String endOrder, String conditionOrderStatus,
+			PageVO pageVO) {
+        return orderDAO.getUserOrderList(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO);
 	}
 
 }

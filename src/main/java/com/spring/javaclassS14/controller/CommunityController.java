@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import com.spring.javaclassS14.service.CommunityService;
@@ -87,5 +88,22 @@ public class CommunityController {
     	
     	int length = userId.length();
     	return userId.substring(0, 2) + "*".repeat(length - 3) + userId.charAt(length - 1);
+    }
+    
+    @GetMapping("/hospitalCommentView")
+    @ResponseBody
+    public String getHospitalCommentDetail(@RequestParam("hospitalCommentIdx") int hospitalCommentIdx) {
+		CommunityVO comment = communityService.getHospitalCommentById(hospitalCommentIdx);
+		
+		if(comment == null) {
+			return "<p class='text-danger'>후기를 찾을 수 없습니다.</p>";
+		}
+		
+		// 후기를 HTML 변환해서 JSP에 삽입
+		return "<div>"
+				+ "<p>" + comment.getHospitalComment() + "</p>"
+	            + "<small class='text-muted'>⭐ 별점: " + comment.getStarRating() + " | ⏳ 대기 시간: " + comment.getWaitingTime() + "분</small><br>"
+	            + "<small class='text-muted'>📝 작성자: " + comment.getMaskedUserId() + " | 📅 작성일: " + comment.getCreatedAt() + "</small>"
+	            + "</div>";
     }
 }

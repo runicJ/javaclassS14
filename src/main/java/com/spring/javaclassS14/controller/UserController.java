@@ -20,6 +20,7 @@ import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -39,6 +40,7 @@ import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.DeliveryAddressVO;
 import com.spring.javaclassS14.vo.OrderVO;
+import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -634,6 +636,41 @@ public class UserController {
         model.addAttribute("conditionOrderStatus", conditionOrderStatus);
         //model.addAttribute("pageVO", pageVO);
 
+        return "users/userOrderList";
+    }
+    
+    @GetMapping("/userActivity")
+    public String getUserActivity(HttpSession session, Model model) {
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
+        if (userIdx == null) {
+			return "redirect:/msg/userLoginNo";
+        }
+
+        // 회원 활동 내역 조회 (Map으로 데이터를 전달)
+        List<Map<String, Object>> activities = userService.getUserActivity(userIdx);
+        model.addAttribute("activities", activities);
+        return "users/userActivity";
+    }
+    
+    @GetMapping("/userOrderList")
+    public String getOrderList(
+        @RequestParam(value = "pag", defaultValue = "1") int pag,
+        @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
+        @RequestParam(name = "conditionOrderStatus", required = false) String conditionOrderStatus,
+        @RequestParam(value = "startOrder", required = false) String startOrder,
+        @RequestParam(value = "endOrder", required = false) String endOrder,
+        Model model, HttpSession session) {
+
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
+        if (userIdx == null) {
+			return "redirect:/msg/userLoginNo";
+        }
+
+        PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrder", userIdx, "");
+        List<OrderVO> orderList = orderService.getUserOrderList(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO);
+
+        model.addAttribute("orderList", orderList);
+        model.addAttribute("pageVO", pageVO);
         return "users/userOrderList";
     }
 }

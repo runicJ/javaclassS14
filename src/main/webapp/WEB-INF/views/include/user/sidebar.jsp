@@ -127,7 +127,7 @@
 										<a href="${ctp}/users/myPoint">포인트 현황</a>
 										<a href="#">회원혜택 안내</a>
 								  </div> --%>
-								  <button class="drop-btn" onclick="location.href='${ctp}/users/myPostList';">회원활동 내역</button>
+								  <button class="drop-btn" onclick="location.href='${ctp}/users/userActivity';">회원활동 내역</button>
 								  <button class="dropdown-btn">관심 목록
 								    <i class="fa fa-caret-down"></i>
 								  </button>

@@ -1,7 +1,10 @@
 package com.spring.javaclassS14.controller;
 
+import java.io.File;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
@@ -9,10 +12,12 @@ import javax.servlet.http.HttpSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.spring.javaclassS14.common.AllProvide;
@@ -44,7 +49,7 @@ public class PhotoReviewController {
 		int startIndexNo = (pag - 1) * pageSize;
 		
 		String imsiChoice = "";
-		if(choice.equals("최신순")) imsiChoice = "idx";
+		if(choice.equals("최신순")) imsiChoice = "photoReviewIdx";
 		else if(choice.equals("추천순")) imsiChoice = "goodCount";
 		else if(choice.equals("조회순")) imsiChoice = "readNum";
 		else if(choice.equals("댓글순")) imsiChoice = "replyCnt";	
@@ -70,7 +75,7 @@ public class PhotoReviewController {
 		int startIndexNo = (pag - 1) * pageSize;
 		
 		String imsiChoice = "";
-		if(choice.equals("최신순")) imsiChoice = "idx";
+		if(choice.equals("최신순")) imsiChoice = "photoReviewIdx";
 		else if(choice.equals("추천순")) imsiChoice = "goodCount";
 		else if(choice.equals("조회순")) imsiChoice = "readNum";
 		else if(choice.equals("댓글순")) imsiChoice = "replyCnt";	
@@ -123,85 +128,183 @@ public class PhotoReviewController {
 		return "photoReview/photoReviewInput";
 	}
 	
-	// 포토갤러리 사진 등록처리
 	@RequestMapping(value = "/photoReviewInput", method = RequestMethod.POST)
-	public String photoReviewInputPost(PhotoReviewVO vo, HttpServletRequest request) {
-		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/");
-		int res = photoReviewService.imgCheck(vo, realPath);
-		if(res != 0) return "redirect:/message/photoReviewInputOk";
-		else return "redirect:/message/photoReviewInputNo";
+	public String photoReviewInputPost(PhotoReviewVO vo, HttpSession session,
+	                                   @RequestParam("uploadFiles") MultipartFile[] uploadFiles, 
+	                                   HttpServletRequest request) {
+	    Integer userIdx = (Integer) session.getAttribute("sUidx");
+	    vo.setUserIdx(userIdx);
+	    
+	    System.out.println("photoReviewInputPost 실행 - vo: " + vo);
+
+	    // 저장 경로 설정
+	    String realPath = request.getSession().getServletContext().getRealPath("/resources/data/photoReview/");
+	    System.out.println("파일 저장 경로: " + realPath);
+
+	    File uploadDir = new File(realPath);
+	    if (!uploadDir.exists()) uploadDir.mkdirs();
+
+	    List<String> fileNames = new ArrayList<>();
+
+	    try {
+	        for (MultipartFile file : uploadFiles) {
+	            if (!file.isEmpty()) {
+	                String saveFileName = System.currentTimeMillis() + "_" + file.getOriginalFilename();
+	                File saveFile = new File(realPath, saveFileName);
+	                file.transferTo(saveFile);
+	                System.out.println("파일 저장 성공: " + saveFile.getAbsolutePath());
+	                fileNames.add(saveFileName);
+	            }
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	        return "redirect:/msg/photoReviewInputNo";
+	    }
+
+	    // 파일이 업로드된 경우, 첫 번째 이미지를 썸네일로 지정
+	    if (!fileNames.isEmpty()) {
+	        vo.setThumbnail(fileNames.get(0)); // 첫 번째 이미지를 썸네일로 설정
+	    } else {
+	        vo.setThumbnail("noImage.png"); // 기본 썸네일 설정
+	    }
+
+	    // 업로드된 사진 개수 저장
+	    vo.setPhotoCount(fileNames.size());
+
+	    // 사진 파일명을 content 필드에 저장 (쉼표 구분)
+	    vo.setContent(String.join(",", fileNames));
+
+	    System.out.println("DB 저장 전 VO 값: " + vo);
+
+	    // MyBatis를 이용한 DB 저장
+	    int res = photoReviewService.photoReviewInput(vo);
+	    System.out.println("DB 저장 결과: " + res);
+
+	    if (res != 0) return "redirect:/msg/photoReviewInputOk";
+	    else return "redirect:/msg/photoReviewInputNo";
 	}
 	
 	// 개별항목 상세보기
 	@SuppressWarnings("unchecked")
 	@RequestMapping(value = "/photoReviewContent", method = RequestMethod.GET)
-	public String photoReviewContentGet(HttpSession session, int idx, Model model, HttpServletRequest request) {
-		// 게시글 조회수 1씩 증가시키기(중복방지)
-		ArrayList<String> contentReadNum = (ArrayList<String>) session.getAttribute("sContentIdx");
-		if(contentReadNum == null) contentReadNum = new ArrayList<String>();
-		String imsiContentReadNum = "photoReview" + idx;
-		if(!contentReadNum.contains(imsiContentReadNum)) {
-			photoReviewService.setPhotoReviewReadNumPlus(idx);
-			contentReadNum.add(imsiContentReadNum);
-		}
-		session.setAttribute("sContentIdx", contentReadNum);
+	public String photoReviewContentGet(HttpSession session, 
+			@RequestParam("photoReviewIdx") int photoReviewIdx, Model model, HttpServletRequest request) {
+		
+		// 게시글 조회수 1씩 증가시키기(세션 활용한 중복방지)
+	    ArrayList<String> contentReadNum = (ArrayList<String>) session.getAttribute("sContentIdx");
+	    if (contentReadNum == null) contentReadNum = new ArrayList<>();
+	    
+	    String imsiContentReadNum = "photoReview" + photoReviewIdx;
+	    if (!contentReadNum.contains(imsiContentReadNum)) {
+	        photoReviewService.setPhotoReviewReadNumPlus(photoReviewIdx);
+	        contentReadNum.add(imsiContentReadNum);
+	    }
+	    session.setAttribute("sContentIdx", contentReadNum);
 
-		// 조회자료 1건 담아서 내용보기로 보낼 준비
-		PhotoReviewVO vo = photoReviewService.getPhotoReviewIdxSearch(idx);
-		model.addAttribute("vo", vo);
+	    // 게시글 상세 정보 조회
+	    PhotoReviewVO vo = photoReviewService.getPhotoReviewIdxSearch(photoReviewIdx);
+	    model.addAttribute("vo", vo);
 		
-		// ckeditor의 사진정보만 뽑아서 넘겨주기(content화면에서 여러장의 사진을 보이고자 함)
-		List<String> photoList = photoReviewService.getPhotoReviewPhotoList(vo.getContent());
-		//model.addAttribute("photoList", photoList);
-		request.setAttribute("photoList", photoList);
+	    // CKEditor 사진 목록 가져오기
+	    List<String> photoList = photoReviewService.getPhotoReviewPhotoList(vo.getContent());
+	    request.setAttribute("photoList", photoList);
+		//request.setAttribute("photoList", photoList);
 		
-		// 댓글 처리
-		ArrayList<PhotoReviewVO> replyVos = photoReviewService.getPhotoReviewReply(idx);
-		model.addAttribute("replyVos", replyVos);
+	    // 댓글 리스트 가져오기
+	    ArrayList<PhotoReviewVO> replyVos = photoReviewService.getPhotoReviewReply(photoReviewIdx);
+	    model.addAttribute("replyVos", replyVos);
 		
 		return "photoReview/photoReviewContent";
 	}
 
 	// 댓글달기
+	@PostMapping("/photoReview/photoReviewReplyInput")
 	@ResponseBody
-	@RequestMapping(value = "/photoReviewReplyInput", method = RequestMethod.POST)
-	public String photoReviewReplyInputPost(PhotoReviewVO vo) {
-		return photoReviewService.setPhotoReviewReplyInput(vo) + "";
+	public String submitReply(
+	        @RequestParam("photoReviewIdx") int photoReviewIdx,
+	        @RequestParam("content") String content,
+	        HttpSession session) {
+
+	    Integer userIdx = (Integer) session.getAttribute("userIdx"); // 세션에서 userIdx 가져오기
+
+	    if (userIdx == null) {
+	        return "not_logged_in"; // 로그인하지 않은 사용자
+	    }
+
+	    int result = photoReviewService.insertPhotoReviewReply(userIdx, photoReviewIdx, content);
+	    return result > 0 ? "1" : "0"; // 성공 시 "1", 실패 시 "0" 반환
 	}
 	
 	// 댓글 삭제
+	@PostMapping("/photoReview/photoReviewReplyDelete")
 	@ResponseBody
-	@RequestMapping(value = "/photoReviewReplyDelete", method = RequestMethod.POST)
-	public String photoReviewReplyDeletePost(int idx) {
-		return photoReviewService.setPhotoReviewReplyDelete(idx) + "";
+	public String deletePhotoReviewReply(@RequestParam("photoReviewReplyIdx") int photoReviewReplyIdx, HttpSession session) {
+	    Integer userIdx = (Integer) session.getAttribute("userIdx");
+
+	    if (userIdx == null) {
+	        return "not_logged_in"; // 로그인하지 않은 사용자
+	    }
+
+	    int result = photoReviewService.deletePhotoReviewReply(photoReviewReplyIdx, userIdx);
+	    return result > 0 ? "1" : "0"; // 성공 시 "1", 실패 시 "0" 반환
 	}
 	
-	// 좋아요수 증가
-	@SuppressWarnings("unchecked")
-	@ResponseBody
-	@RequestMapping(value = "/photoReviewGoodCheck", method = RequestMethod.POST)
-	public String photoReviewGoodCheckPost(HttpSession session, int idx) {
-		String res = "0";
-		// 좋아요 클릭수 1씩 증가시키기(중복방지)
-		ArrayList<String> contentReadNum = (ArrayList<String>) session.getAttribute("sContentGood");
-		if(contentReadNum == null) contentReadNum = new ArrayList<String>();
-		String imsiContentReadNum = "photoReview" + idx;
-		if(!contentReadNum.contains(imsiContentReadNum)) {
-			photoReviewService.setPhotoReviewGoodPlus(idx);
-			contentReadNum.add(imsiContentReadNum);
-			res = "1";
-		}
-		session.setAttribute("sContentGood", contentReadNum);
-		return res;
-	}
+	/*
+	 * // 좋아요수 증가
+	 * 
+	 * @SuppressWarnings("unchecked")
+	 * 
+	 * @ResponseBody
+	 * 
+	 * @RequestMapping(value = "/photoReviewGoodCheck", method = RequestMethod.POST)
+	 * public String photoReviewGoodCheckPost(HttpSession session, int idx) { String
+	 * res = "0"; // 좋아요 클릭수 1씩 증가시키기(중복방지) ArrayList<String> contentReadNum =
+	 * (ArrayList<String>) session.getAttribute("sContentGood"); if(contentReadNum
+	 * == null) contentReadNum = new ArrayList<String>(); String imsiContentReadNum
+	 * = "photoReview" + idx; if(!contentReadNum.contains(imsiContentReadNum)) {
+	 * photoReviewService.setPhotoReviewGoodPlus(idx);
+	 * contentReadNum.add(imsiContentReadNum); res = "1"; }
+	 * session.setAttribute("sContentGood", contentReadNum); return res; }
+	 */
 
 	// 내용 삭제하기
 	@RequestMapping(value = "/photoReviewDelete", method = RequestMethod.GET)
 	public String photoReviewDeleteGet(int idx) {
 		int res = photoReviewService.setPhotoReviewDelete(idx);
-	  if(res != 0) return "redirect:/message/photoReviewDeleteOk";
-	  else return "redirect:/message/photoReviewDeleteNo";
+	  if(res != 0) return "redirect:/msg/photoReviewDeleteOk";
+	  else return "redirect:/msg/photoReviewDeleteNo";
 	}
 
-	
+	@ResponseBody
+	@RequestMapping(value="/photoReviewLikeCheck", method=RequestMethod.POST)
+	public Map<String, Object> photoReviewLikeCheckPost(HttpSession session,  @RequestParam("photoReviewIdx") int photoReviewIdx) {
+
+	    Map<String, Object> response = new HashMap<>();
+	    Integer userIdx = (Integer) session.getAttribute("sUid");
+
+	    if (userIdx == null) {
+	        response.put("status", "not_logged_in");
+	        return response;
+	    }
+	    
+	    boolean hasLiked = photoReviewService.hasUserLiked(userIdx, photoReviewIdx);
+
+	    boolean success;
+	    if (hasLiked) {
+	        success = photoReviewService.removeLike(userIdx, photoReviewIdx);
+	        response.put("status", "unliked");
+	    } else {
+	        success = photoReviewService.addLike(userIdx, photoReviewIdx);
+	        response.put("status", "liked");
+	    }
+
+	    if (!success) {
+	        response.put("status", "error");
+	        response.put("message", "좋아요 처리 중 오류가 발생했습니다.");
+	        return response;
+	    }
+
+	    response.put("likeCount", photoReviewService.getLikeCount(photoReviewIdx));
+	    return response;
+	}
 }

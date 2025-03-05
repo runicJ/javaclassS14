@@ -134,6 +134,27 @@
 		SELECT userIdx FROM delivery_address WHERE deliveryAddressIdx=#{addressId}
 	</select>
 	
+	<select id="getUserActivity" resultType="map">
+		SELECT type, id, title, link, created_at 
+		FROM ( 
+		    -- 포토리뷰 가져오기
+		    SELECT '포토리뷰' AS type, p.photoReviewIdx AS id, p.title, 
+		           CONCAT('/photoReview/photoReviewContent?photoReviewIdx=', p.photoReviewIdx) AS link, p.reviewDate AS created_at 
+		    FROM photoreview p 
+		    WHERE p.userIdx = #{userIdx} 
+		    
+		    UNION ALL 
+		    
+		    -- 상품리뷰 가져오기
+		    SELECT '상품리뷰' AS type, pr.reviewIdx AS id, pr.reviewContent AS title, 
+		           CONCAT('/shop/productDetails?productIdx=', pr.productIdx) AS link, pr.reviewDate AS created_at 
+		    FROM productreview pr 
+		    WHERE pr.userId = (SELECT userId FROM users WHERE userIdx = #{userIdx})
+		) AS activities 
+		ORDER BY created_at DESC;
+	</select>
+
+	
 
 	<insert id="setUserRegisterOk">
 		insert into users values (default,#{vo.userId},#{vo.userPwd},#{vo.name},#{vo.nickName},#{vo.gender},#{vo.email},#{vo.tel},#{vo.userImage},#{vo.registerWay},default,#{vo.policyFlag},default,default,default,default);

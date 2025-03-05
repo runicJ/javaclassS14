@@ -86,7 +86,7 @@ public class QnaController {
   	if(vo.getQnaSw().equals("q"))	qnaService.qnaAdminInputOk(vo.getQnaIdx());
   	else if(vo.getQnaSw().equals("a") && level == 0) qnaService.qnaAdminAnswerUpdateOk(vo.getQnaIdx());
   	
-  	return "redirect:/message/qnaInputOk";
+  	return "redirect:/msg/qnaInputOk";
   }
   
   // qna 작성글 보기(작성글보기 안에서 답글을 올릴경우 원본글의 title와 답변자의 email주소가 필요하기에 model로 보낸다.)
@@ -137,7 +137,7 @@ public class QnaController {
    	}
   	// 이미지에대한 모든 작업(복사, 이름변경)이 끝나면, 변경된 사항을 DB에 저장한다.
   	qnaService.setQnaContentUpdate(vo);
-  	return "redirect:/message/qnaUpdateOk";
+  	return "redirect:/msg/qnaUpdateOk";
   }
   
   // qna글 삭제하기
@@ -155,7 +155,7 @@ public class QnaController {
    	if(vo.getQnaSw().equals("a") || (vo.getQnaSw().equals("q") && qnaCheckVO.size() == 1)) qnaService.setQnaDelete(idx);
    	else qnaService.setQnaCheckUpdate(idx, "<font size='2' color='#ccc'>현재 삭제된 글입니다.</font>");
   	
-  	return "redirect:/message/qnaDeleteOk";
+  	return "redirect:/msg/qnaDeleteOk";
   }
   
 }

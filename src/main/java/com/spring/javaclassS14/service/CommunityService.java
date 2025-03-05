@@ -10,4 +10,5 @@ public interface CommunityService {
 	public CommunityVO getHospitalById(int hospitalIdx);
 	public boolean insertHospitalComment(CommunityVO comment);
 	public List<CommunityVO> getHospitalComments();
+	public CommunityVO getHospitalCommentById(int hospitalCommentIdx);
 }

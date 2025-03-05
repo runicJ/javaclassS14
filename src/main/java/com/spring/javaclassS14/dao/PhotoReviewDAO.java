@@ -9,26 +9,42 @@ import com.spring.javaclassS14.vo.PhotoReviewVO;
 
 public interface PhotoReviewDAO {
 
-	public int photoReviewInput(@Param("vo") PhotoReviewVO vo);
+    public int photoReviewInput(@Param("vo") PhotoReviewVO vo);
 
-	public List<PhotoReviewVO> getPhotoReviewList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("part") String part, @Param("choice") String choice);
+    public List<PhotoReviewVO> getPhotoReviewList(
+        @Param("startIndexNo") int startIndexNo, 
+        @Param("pageSize") int pageSize, 
+        @Param("part") String part, 
+        @Param("choice") String choice
+    );
 
-	public void setPhotoReviewReadNumPlus(@Param("idx") int idx);
+    public void setPhotoReviewReadNumPlus(@Param("photoReviewIdx") int photoReviewIdx);
 
-	public PhotoReviewVO getPhotoReviewIdxSearch(@Param("idx") int idx);
+    public PhotoReviewVO getPhotoReviewIdxSearch(@Param("photoReviewIdx") int photoReviewIdx);
 
-	public ArrayList<PhotoReviewVO> getPhotoReviewReply(@Param("idx") int idx);
+    public ArrayList<PhotoReviewVO> getPhotoReviewReply(@Param("photoReviewIdx") int photoReviewIdx);
 
-	public int setPhotoReviewReplyInput(@Param("vo") PhotoReviewVO vo);
+    public int setPhotoReviewReplyInput(@Param("vo") PhotoReviewVO vo);
 
-	public int setPhotoReviewReplyDelete(@Param("idx") int idx);
+    public int setPhotoReviewReplyDelete(@Param("photoReplyIdx") int photoReplyIdx);
 
-	public void setPhotoReviewGoodPlus(@Param("idx") int idx);
+    public void setPhotoReviewGoodPlus(@Param("photoReviewIdx") int photoReviewIdx);
 
-	public int setPhotoReviewDelete(@Param("idx") int idx);
+    public int setPhotoReviewDelete(@Param("photoReviewIdx") int photoReviewIdx);
 
-	public int[] getPhotoReviewIdxList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+    public int[] getPhotoReviewIdxList(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
 
-	public PhotoReviewVO setPhotoReviewSingle(@Param("idx") int idx);
+    public PhotoReviewVO setPhotoReviewSingle(@Param("photoReviewIdx") int photoReviewIdx);
 
+    public int checkUserLike(@Param("userIdx") Integer userIdx, @Param("photoReviewIdx") int photoReviewIdx);
+
+    public void insertUserLike(@Param("userIdx") int userIdx, @Param("photoReviewIdx") int photoReviewIdx);
+
+    public void deleteUserLike(@Param("userIdx") int userIdx, @Param("photoReviewIdx") int photoReviewIdx);
+
+    public int getLikeCount(@Param("photoReviewIdx") int photoReviewIdx);
+
+	public int insertPhotoReviewReply(@Param("userIdx") int userIdx, @Param("photoReviewIdx") int photoReviewIdx, @Param("content") String content);
+
+	public int deletePhotoReviewReply(@Param("photoReviewReplyIdx") int photoReviewReplyIdx, @Param("userIdx") int userIdx);
 }

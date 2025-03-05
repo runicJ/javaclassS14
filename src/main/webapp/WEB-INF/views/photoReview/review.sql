@@ -1,7 +1,7 @@
 show tables;
 
 CREATE TABLE photoReview (
-  idx         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  /* 고유번호 */
+  photoReviewIdx         INT NOT NULL AUTO_INCREMENT PRIMARY KEY,  /* 고유번호 */
   userIdx     INT NOT NULL,                             /* 포토갤러리에 올린이의 고유번호 */
   part        VARCHAR(10) NOT NULL,                     /* 분류(풍경/인물/학습/사물/기타) */
   title       VARCHAR(100) NOT NULL,                    /* 제목 */
@@ -16,12 +16,12 @@ CREATE TABLE photoReview (
 );
 
 CREATE TABLE photoReply (
-  idx      INT NOT NULL AUTO_INCREMENT PRIMARY KEY,     /* 댓글 고유번호 */
+  photoReplyIdx      INT NOT NULL AUTO_INCREMENT PRIMARY KEY,     /* 댓글 고유번호 */
   userIdx  INT NOT NULL,                                /* 포토갤러리에 댓글 올린이의 고유번호 */
   photoIdx INT NOT NULL,                                /* 포토갤러리 고유번호 */
   content  TEXT NOT NULL,                               /* 포토갤러리 댓글 내용 */
   prDate   DATETIME DEFAULT NOW(),                      /* 댓글 입력일자 */
-  FOREIGN KEY(photoIdx) REFERENCES photoReview(idx),
+  FOREIGN KEY(photoIdx) REFERENCES photoReview(photoReplyIdx),
   FOREIGN KEY(userIdx) REFERENCES users(userIdx)
 );
 
@@ -46,4 +46,15 @@ create table productReview (
 	foreign key(productIdx) references product(productIdx)
 	on update cascade
 	on delete restrict
+);
+
+CREATE TABLE photoLikes (
+    photoLikesIdx INT(11) NOT NULL AUTO_INCREMENT,
+    userIdx INT(11) NOT NULL,
+    photoIdx INT(11) NOT NULL,
+    likeDate DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+    PRIMARY KEY (photoLikesIdx),
+    UNIQUE KEY unique_like (userIdx, photoIdx),
+    FOREIGN KEY (userIdx) REFERENCES users (userIdx) ON DELETE CASCADE,
+    FOREIGN KEY (photoIdx) REFERENCES photo_review (photoReviewIdx) ON DELETE CASCADE
 );

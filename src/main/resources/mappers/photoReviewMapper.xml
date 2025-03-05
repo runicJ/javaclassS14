@@ -1,53 +1,125 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.spring.javaclassS14.dao.PhotoReviewDAO">
+
+	<!-- 포토리뷰 목록 조회 -->
 	<select id="getPhotoReviewList" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
-    select *,(select count(*) from photoReply where photoIdx = p.idx) as replyCnt from photoReview p <if test='part !="전체"'> where part = #{part}</if> order by ${choice} desc limit #{startIndexNo},#{pageSize};
+	    SELECT p.*, 
+           (SELECT COUNT(*) FROM photoReply WHERE photoReviewIdx = p.photoReviewIdx) AS replyCnt,
+           (SELECT COUNT(*) FROM photoLikes WHERE photoIdx = p.photoReviewIdx) AS likeCnt
+	    FROM photoReview p 
+	    <if test='part !="전체"'> WHERE part = #{part} </if> 
+	    ORDER BY ${choice} DESC 
+	    LIMIT #{startIndexNo}, #{pageSize};
 	</select>
-	
+
+	<!-- 특정 포토리뷰 조회 -->
 	<select id="getPhotoReviewIdxSearch" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
-	  <!-- select * from photoReview2 where idx = #{idx}; -->
-	  select pg.*,(select count(*) from photoReply where photoIdx = #{idx}) as replyCnt from photoReview pg where idx = #{idx};
+	    SELECT p.*, 
+	           (SELECT COUNT(*) FROM photoReply WHERE photoReviewIdx = #{photoReviewIdx}) AS replyCnt,
+	           (SELECT COUNT(*) FROM photoLikes WHERE photoIdx = #{photoReviewIdx}) AS likeCnt
+	    FROM photoReview p 
+	    WHERE photoReviewIdx = #{photoReviewIdx};
 	</select>
-	
+
+	<!-- 특정 포토리뷰의 댓글 조회 -->
 	<select id="getPhotoReviewReply" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
-	  select *,idx as replyIdx from photoReply where photoIdx = #{idx} order by idx desc;
+	    SELECT *, photoReplyIdx
+	    FROM photoReply 
+	    WHERE photoReviewIdx = #{photoReviewIdx} 
+	    ORDER BY photoReplyIdx DESC;
 	</select>
-	
+
+	<!-- 포토리뷰 목록에서 특정 개수만 가져오기 -->
 	<select id="getPhotoReviewIdxList" resultType="int">
-	  select idx from photoReview order by idx desc limit #{startIndexNo},#{pageSize};
+	    SELECT photoReviewIdx 
+	    FROM photoReview 
+	    ORDER BY photoReviewIdx DESC 
+	    LIMIT #{startIndexNo}, #{pageSize};
 	</select>
-	
+
+	<!-- 특정 포토리뷰 단일 조회 -->
 	<select id="setPhotoReviewSingle" resultType="com.spring.javaclassS14.vo.PhotoReviewVO">
-	  select *,(select count(*) from photoReply where photoIdx = p.idx) as replyCnt from photoReview p where idx = #{idx} order by idx desc;
+	    SELECT *, 
+	    (SELECT COUNT(*) FROM photoReply WHERE photoReviewIdx = p.photoReviewIdx) AS replyCnt
+	    FROM photoReview p 
+	    WHERE photoReviewIdx = #{photoReviewIdx} 
+	    ORDER BY photoReviewIdx DESC;
 	</select>
-	
-	
+
 	<insert id="photoReviewInput">
-	  insert into photoReview values (default,#{vo.mid},#{vo.part},#{vo.title},#{vo.content},#{vo.thumbnail},#{vo.photoCount},#{vo.hostIp},default,default,default);
+	    INSERT INTO photoReview (userIdx, part, title, content, thumbnail, photoCount, hostIp, reviewDate, readNum)
+	    VALUES (#{vo.userIdx}, #{vo.part}, #{vo.title}, #{vo.content}, 
+	            #{vo.thumbnail}, #{vo.photoCount}, #{vo.hostIp}, DEFAULT, DEFAULT);
 	</insert>
-	
+
+	<!-- 포토리뷰 댓글 입력 -->
 	<insert id="setPhotoReviewReplyInput">
-	  insert into photoReply values (default,#{vo.mid},#{vo.photoIdx},#{vo.content},default)
+	    INSERT INTO photoReply 
+	    VALUES (DEFAULT, #{vo.userIdx}, #{vo.photoReviewIdx}, #{vo.content}, DEFAULT);
 	</insert>
-	
-	
+
+	<insert id="insertPhotoReviewReply" parameterType="map">
+	    INSERT INTO photo_review_reply (userIdx, photoReviewIdx, content, replyDate)
+	    VALUES (#{userIdx}, #{photoReviewIdx}, #{content}, NOW())
+	</insert>
+
+
+	<!-- 포토리뷰 조회수 증가 -->
 	<update id="setPhotoReviewReadNumPlus">
-	  update photoReview set readNum = readNum + 1 where idx = #{idx};
+	    UPDATE photoReview 
+	    SET readNum = readNum + 1 
+	    WHERE photoReviewIdx = #{photoReviewIdx};
 	</update>
-	
+
+	<!-- 포토리뷰 좋아요 증가 -->
 	<update id="setPhotoReviewGoodPlus">
-	  update photoReview set goodCount = goodCount + 1 where idx = #{idx};
+	    UPDATE photoReview 
+	    SET goodCount = goodCount + 1 
+	    WHERE photoReviewIdx = #{photoReviewIdx};
 	</update>
-	
-	
+
+	<!-- 포토리뷰 댓글 삭제 -->
 	<delete id="setPhotoReviewReplyDelete">
-	  delete from photoReply where idx = #{idx};
+	    DELETE FROM photoReply 
+	    WHERE photoReplyIdx = #{photoReplyIdx};
 	</delete>
-	
+
+	<!-- 포토리뷰 삭제 (댓글도 함께 삭제) -->
 	<delete id="setPhotoReviewDelete">
-	  delete from photoReply where photoIdx = #{idx};
-	  delete from photoReview where idx = #{idx};
+	    DELETE FROM photoReply WHERE photoReviewIdx = #{photoReviewIdx};
+	    DELETE FROM photoReview WHERE photoReviewIdx = #{photoReviewIdx};
 	</delete>
-	
+
+	<!-- 사용자가 이미 좋아요를 눌렀는지 확인 -->
+	<select id="checkUserLike" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM photoLikes 
+	    WHERE userIdx = #{userIdx} AND photoReviewIdx = #{photoReviewIdx};
+	</select>
+
+	<!-- 좋아요 추가 -->
+	<insert id="insertUserLike">
+	    INSERT INTO photoLikes (userIdx, photoReviewIdx) 
+	    VALUES (#{userIdx}, #{photoReviewIdx});
+	</insert>
+
+	<!-- 좋아요 취소 -->
+	<delete id="deleteUserLike">
+	    DELETE FROM photoLikes 
+	    WHERE userIdx = #{userIdx} AND photoReviewIdx = #{photoReviewIdx};
+	</delete>
+
+	<!-- 특정 포토리뷰의 좋아요 개수 가져오기 -->
+	<select id="getLikeCount" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM photoLikes 
+	    WHERE photoReviewIdx = #{photoReviewIdx};
+	</select>
+
+
+	<delete id="deletePhotoReviewReply" parameterType="map">
+	    DELETE FROM photo_review_reply 
+	    WHERE photoReviewReplyIdx = #{photoReviewReplyIdx} AND userIdx = #{userIdx}
+	</delete>
 </mapper>

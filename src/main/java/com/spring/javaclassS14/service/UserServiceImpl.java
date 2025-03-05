@@ -216,4 +216,9 @@ public class UserServiceImpl implements UserService {
 		return userDAO.setDefaultAddress(addressId);
 	}
 
+	@Override
+	public List<Map<String, Object>> getUserActivity(int userIdx) {
+		return userDAO.getUserActivity(userIdx);
+	}
+
 }

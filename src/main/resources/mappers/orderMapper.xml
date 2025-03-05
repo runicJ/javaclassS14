@@ -114,6 +114,37 @@
 		FROM orders_p o JOIN users u ON o.userIdx = u.userIdx 
 		WHERE o.orderIdx = #{orderIdx}
 	</select>
+	
+	<select id="getUserOrderList" parameterType="map" resultType="com.spring.javaclassS14.vo.OrderVO">
+	    SELECT 
+	        o.orderIdx AS orderId,  
+	        o.userIdx AS userId,  
+	        o.totalPrice AS orderTotal,  
+	        o.orderStatus,  
+	        o.orderDate,
+	        p.productIdx,  
+	        p.productName,  
+	        p.productThumb,  
+	        p.productPrice,  
+	        p.productDiscount,
+	        op.orderQuantity,  
+	        op.price AS orderPrice,
+	        COALESCE(opt.optionName, '기본 옵션') AS optionName,
+	        COALESCE(opt.optionPrice, 0) AS optionPrice
+	    FROM orders_p o
+	    JOIN order_product op ON o.orderIdx = op.orderIdx
+	    JOIN product p ON op.productIdx = p.productIdx
+	    LEFT JOIN product_option opt ON op.optionIdx = opt.optionIdx
+	    WHERE o.userIdx = #{userIdx}
+	    ORDER BY o.orderDate DESC
+	    LIMIT #{startIndex}, #{pageSize};
+	</select>
+	
+	<select id="totRecCntMyOrder" parameterType="int" resultType="int">
+	    SELECT COUNT(*) 
+	    FROM orders_p 
+	    WHERE userIdx = #{userIdx}
+	</select>
 
 
 	<insert id="setOrder" parameterType="com.spring.javaclassS14.vo.OrderVO">

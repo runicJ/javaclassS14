@@ -203,6 +203,14 @@ public class MsgController {
 			model.addAttribute("msg", "유효하지 않은 결제 정보입니다.");
 			model.addAttribute("url", "/shop/productList");
 		}
+		else if(msgFlag.equals("photoReviewInputOk")) {
+		    model.addAttribute("msg", "포토리뷰가 정상적으로 등록되었습니다!");
+		    model.addAttribute("url", "/photoReview/photoReviewList");
+		}
+		else if(msgFlag.equals("photoReviewInputNo")) {
+		    model.addAttribute("msg", "포토리뷰 등록에 실패하였습니다. 다시 시도해주세요.");
+		    model.addAttribute("url", "/photoReview/photoReviewInput");
+		}
 		
 	return "include/msg";
 	}

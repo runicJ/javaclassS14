@@ -29,110 +29,60 @@ public class PhotoReviewServiceImpl implements PhotoReviewService {
 	@Autowired
 	AllProvide allProvide;
 	
+	/*
+	 * @Override public int imgCheck(PhotoReviewVO vo, String realPath) { int res =
+	 * 0; if (!vo.getContent().contains("src=\"/")) return res;
+	 * 
+	 * int position = 31, photoCount = 0; boolean firstSw = true; String firstFile =
+	 * "";
+	 * 
+	 * String nextImg = vo.getContent().substring(vo.getContent().indexOf("src=\"/")
+	 * + position);
+	 * 
+	 * while (true) { photoCount++; String imgFile = nextImg.substring(0,
+	 * nextImg.indexOf("\""));
+	 * 
+	 * if (firstSw) { firstFile = imgFile; vo.setThumbnail(firstFile); firstSw =
+	 * false; }
+	 * 
+	 * String oriFilePath = realPath + "ckeditor/" + imgFile; String copyFilePath =
+	 * realPath + "photoReview/" + imgFile;
+	 * 
+	 * File oriFile = new File(oriFilePath); if (oriFile.exists()) {
+	 * allProvide.fileCopyCheck(oriFilePath, copyFilePath); }
+	 * 
+	 * if (!nextImg.contains("src=\"/")) break; nextImg =
+	 * nextImg.substring(nextImg.indexOf("src=\"/") + position); }
+	 * 
+	 * vo.setPhotoCount(photoCount);
+	 * vo.setContent(vo.getContent().replace("/data/ckeditor/",
+	 * "/data/photoReview/"));
+	 * 
+	 * try { String fileExt = firstFile.substring(firstFile.lastIndexOf(".") + 1);
+	 * String uploadPath = realPath + "photoReview/" + firstFile;
+	 * 
+	 * BufferedImage srcImg = ImageIO.read(new File(uploadPath)); int ow =
+	 * srcImg.getWidth(); int oh = srcImg.getHeight();
+	 * 
+	 * int tw = 200, th = 150; int rw = ow, rh = (ow * th) / tw;
+	 * 
+	 * if (rh > oh) { rh = oh; rw = (oh * tw) / th; }
+	 * 
+	 * BufferedImage resizeImg = Scalr.resize(Scalr.crop(srcImg, (ow - rw) / 2, (oh
+	 * - rh) / 2, rw, rh), tw, th); String thumbnail = firstFile.substring(0,
+	 * firstFile.lastIndexOf(".")) + "_S." + fileExt;
+	 * 
+	 * File tFileName = new File(realPath + "photoReview/" + thumbnail);
+	 * ImageIO.write(resizeImg, fileExt, tFileName);
+	 * 
+	 * vo.setThumbnail(thumbnail); } catch (IOException e) { e.printStackTrace(); }
+	 * 
+	 * res = photoReviewDAO.photoReviewInput(vo); return res; }
+	 */
+	
 	@Override
-	public int imgCheck(PhotoReviewVO vo, String realPath) {
-		int res = 0;
-		if(vo.getContent().indexOf("src=\"/") == -1) return res; // content안에 그림파일이 없으면 작업을 수행하지 않는다.
-		//            0         1         2         3         4         5         6
-		//            01234567890123456789012345678901234567890123456789012345678901234567890
-		//<img alt="" src="/javaclassS/data/ckeditor/210201125255+0900_m13.jpg" style="height:400px; width:600px" />
-		//<img alt="" src="/javaclassS/data/photoReview/210201125255+0900_m13.jpg" style="height:400px; width:600px" />
-		
-		int position = 31, photoCount = 0;	// photoCount는 그림파일 개수
-		boolean sw = true, firstSw = true;
-		String firstFile = "";	// 첫번째 파일명을 저장하기위해 사용
-		
-		String nextImg = vo.getContent().substring(vo.getContent().indexOf("src=\"/")+position);
-		
-		while(sw) {
-			photoCount++;
-			String imgFile = nextImg.substring(0, nextImg.indexOf("\""));  // 순수한 그림파일만 가져온다.
-			
-			// 첫번째 그림을 thumbnail로 저장하기위해 파일명을 변수에 저장시켜두었다.
-			if(firstSw) {
-				firstFile = imgFile;
-				vo.setThumbnail(firstFile);		// 첫번째파일명을 저장시켰다.
-				firstSw = false;
-			}
-			
-			// 아래로 그림파일을 photoReview폴더로 복사하는 작업이다. 
-			String oriFilePath = realPath + "ckeditor/" + imgFile;  // 원본파일이 있는 경로명과 파일명
-			String copyFilePath = realPath + "photoReview/" + imgFile;  // 복사될파일이 있는 경로명과 파일명
-			
-			 allProvide.fileCopyCheck(oriFilePath, copyFilePath);  // data/ckeditor/폴더에서 data/photoReview/폴더로 파일 복사작업처리
-			
-			if(nextImg.indexOf("src=\"/") == -1) {	// nextImg변수안에 또다른 'src="/'문구가 있는지를 검색하여, 있다면 다시 앞의 작업을 반복수행한다.
-				sw = false;
-			}
-			else {
-				nextImg = nextImg.substring(nextImg.indexOf("src=\"/")+position);
-			}
-		}
-		vo.setPhotoCount(photoCount);
-		
-		// content필드에 'style=~~~~~' 을 찾아서 모두 삭제처리한다.
-		String tempContent = "";
-		sw = true;
-		String nextContent = vo.getContent();
-		while(nextContent.indexOf("style=\"") != -1) {
-			sw = false;
-			tempContent += nextContent.substring(0,nextContent.indexOf("style=\""));
-			tempContent += nextContent.substring(nextContent.indexOf("px\"")+4);
-			if(tempContent.indexOf("style=\"")==-1) {
-				break;
-			}
-			else {
-				nextContent = tempContent;
-				tempContent = "";
-			}
-		}
-		// content필드안에 있는 'style=~~~~'문구들을 모두 삭제시켰다. 그후 다시 content에 set시켜준다.
-		if(!sw)	vo.setContent(tempContent);
-		
-  	// 파일이 정상적으로 src폴더에 복사되었으면 DB에 저장되는 실제경로를 src폴더로 변경시켜준다.
-		vo.setContent(vo.getContent().replace("/data/ckeditor/", "/data/photoReview/")); // 실제로 서버에 저장되는 경로
-		
-		// 아래로, 일반파일의 모든 복사작업이 끝나면 /photoReview/폴더의 첫번째 그림파일을 썸네일파일로 복사작업처리한다.
-		try {
-			String fileExt = firstFile.substring(firstFile.lastIndexOf(".")+1); // 확장자 구하기
-			
-			// 썸네일 이미지 만들어 저장하기(이미지를 필요한 크기로 잘라서 저장한다.)
-			String uploadPath = realPath + "/photoReview/" + firstFile;
-			BufferedImage srcImg = ImageIO.read(new File(uploadPath));
-			
-			int ow = srcImg.getWidth();
-			int oh = srcImg.getHeight();
-			
-			int tw = 200, th = 150;
-			
-			int rw = ow;
-			int rh = (ow * th) / tw;
-			
-			if(rh > oh) {
-				rh = oh;
-				rw =(oh * tw) / th;
-			}
-			Scalr.crop(srcImg, (ow-rw)/2, (oh-rh)/2, rw, rh);
-			
-			// 잘라낸 그림파일의 정보를 다시 읽어온다.
-			BufferedImage resizeImg = Scalr.resize(srcImg, tw, th);
-			
-			// 새롭게 재 계산처리되어 잘라진 썸네일을 저장한다.
-			String thumbnail = firstFile.substring(0,firstFile.lastIndexOf(".")) + "_S." + fileExt;
-			File tFileName = new File(realPath + "photoReview/" + thumbnail);
-			ImageIO.write(resizeImg, fileExt, tFileName);  // 썸네일 이미지 저장처리
-			
-			// 이미지 잘라서 저장작업을 마친후 DB에 저장하기 위해서 VO에 작업된 내용을 담는다.
-			//System.out.println("thumbnail : " + thumbnail);
-			vo.setThumbnail(thumbnail);
-		} catch (IOException e) {
-			e.printStackTrace();
-		}
-		
-  	// 잘 정비된 vo를 DB에 저장한다.
-		//System.out.println("vo : " + vo);
-		res = photoReviewDAO.photoReviewInput(vo);
-		return res;
+	public int photoReviewInput(PhotoReviewVO vo) {
+	    return photoReviewDAO.photoReviewInput(vo);
 	}
 
 	@Override
@@ -141,18 +91,18 @@ public class PhotoReviewServiceImpl implements PhotoReviewService {
 	}
 
 	@Override
-	public void setPhotoReviewReadNumPlus(int idx) {
-		photoReviewDAO.setPhotoReviewReadNumPlus(idx);
+	public void setPhotoReviewReadNumPlus(int photoReviewIdx) {
+	    photoReviewDAO.setPhotoReviewReadNumPlus(photoReviewIdx);
 	}
 
 	@Override
-	public PhotoReviewVO getPhotoReviewIdxSearch(int idx) {
-		return photoReviewDAO.getPhotoReviewIdxSearch(idx);
+	public PhotoReviewVO getPhotoReviewIdxSearch(int photoReviewIdx) {
+	    return photoReviewDAO.getPhotoReviewIdxSearch(photoReviewIdx);
 	}
 
 	@Override
-	public ArrayList<PhotoReviewVO> getPhotoReviewReply(int idx) {
-		return photoReviewDAO.getPhotoReviewReply(idx);
+	public ArrayList<PhotoReviewVO> getPhotoReviewReply(int photoReviewIdx) {
+	    return photoReviewDAO.getPhotoReviewReply(photoReviewIdx);
 	}
 
 	@Override
@@ -179,69 +129,108 @@ public class PhotoReviewServiceImpl implements PhotoReviewService {
 
 	@Override
 	public int setPhotoReviewReplyInput(PhotoReviewVO vo) {
-		return photoReviewDAO.setPhotoReviewReplyInput(vo);
+	    return photoReviewDAO.setPhotoReviewReplyInput(vo);
 	}
 
 	@Override
-	public int setPhotoReviewReplyDelete(int idx) {
-		return photoReviewDAO.setPhotoReviewReplyDelete(idx);
+	public int setPhotoReviewReplyDelete(int photoReplyIdx) {
+	    return photoReviewDAO.setPhotoReviewReplyDelete(photoReplyIdx);
 	}
 
 	@Override
-	public void setPhotoReviewGoodPlus(int idx) {
-		photoReviewDAO.setPhotoReviewGoodPlus(idx);
+	public void setPhotoReviewGoodPlus(int photoReviewIdx) {
+	    photoReviewDAO.setPhotoReviewGoodPlus(photoReviewIdx);
 	}
 
 	@Transactional
 	@Override
-	public int setPhotoReviewDelete(int idx) {
-		PhotoReviewVO vo = photoReviewDAO.getPhotoReviewIdxSearch(idx);
-		
-		HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
-		String realPath = request.getSession().getServletContext().getRealPath("/resources/data/photoReview/");
+	public int setPhotoReviewDelete(int photoReviewIdx) {
+	    PhotoReviewVO vo = photoReviewDAO.getPhotoReviewIdxSearch(photoReviewIdx);
 
-		//            0         1         2         3         4         5         6
-		//            01234567890123456789012345678901234567890123456789012345678901234567890
-		//<img alt="" src="/javaclassS/data/photoReview/210201125255+0900_m13.jpg" style="height:400px; width:600px" />
-		
-		int position = 35;	// photoCount는 그림파일 개수
-		
-		String nextImg = vo.getContent().substring(vo.getContent().indexOf("src=\"/")+position);
-		
-		while(true) {
-			String imgFile = nextImg.substring(0, nextImg.indexOf("\""));  // 순수한 그림파일만 가져온다.
-			
-			// 서버에 존재하는 파일을 삭제한다.
-			new File(realPath + imgFile).delete();
-			
-			if(nextImg.indexOf("src=\"/") == -1) break;
-			else nextImg = nextImg.substring(nextImg.indexOf("src=\"/")+position);
-		}
-		// 서버의 그림파일을 모두 삭제하였으면 현재 내역을 DB에서 포토갤러리의 정보를 삭제한다.
-		return photoReviewDAO.setPhotoReviewDelete(idx);
+	    HttpServletRequest request = ((ServletRequestAttributes) RequestContextHolder.currentRequestAttributes()).getRequest();
+	    String realPath = request.getSession().getServletContext().getRealPath("/resources/data/photoReview/");
+
+	    int position = 35; // 경로 내 파일명 위치
+
+	    if (vo != null && vo.getContent() != null && vo.getContent().contains("src=\"/")) {
+	        String nextImg = vo.getContent().substring(vo.getContent().indexOf("src=\"/") + position);
+
+	        while (true) {
+	            String imgFile = nextImg.substring(0, nextImg.indexOf("\""));
+	            File file = new File(realPath + imgFile);
+	            
+	            if (file.exists()) {
+	                file.delete();
+	            }
+
+	            if (nextImg.indexOf("src=\"/") == -1) break;
+	            else nextImg = nextImg.substring(nextImg.indexOf("src=\"/") + position);
+	        }
+	    }
+	    
+	    return photoReviewDAO.setPhotoReviewDelete(photoReviewIdx);
+	}
+	
+	@Override
+	public List<PhotoReviewVO> setPhotoReviewSingle(int startIndexNo, int pageSize) {
+	    List<PhotoReviewVO> vos = new ArrayList<>();
+	    int[] idxs = photoReviewDAO.getPhotoReviewIdxList(startIndexNo, pageSize);
+
+	    for (int photoReviewIdx : idxs) {
+	        PhotoReviewVO photoVo = photoReviewDAO.setPhotoReviewSingle(photoReviewIdx);
+	        PhotoReviewVO vo = new PhotoReviewVO();
+
+	        vo.setPhotoReviewIdx(photoVo.getPhotoReviewIdx());
+	        vo.setPart(photoVo.getPart());
+	        vo.setTitle(photoVo.getTitle());
+	        vo.setPhotoCount(photoVo.getPhotoCount());
+	        vo.setContent(photoVo.getContent());
+	        
+	        vos.add(vo);
+	    }
+	    return vos;
 	}
 
 	@Override
-	public List<PhotoReviewVO> setPhotoReviewSingle(int startIndexNo, int pageSize) {
-		List<PhotoReviewVO> vos = new ArrayList<PhotoReviewVO>();
-		int[] idxs = photoReviewDAO.getPhotoReviewIdxList(startIndexNo, pageSize);
-		
-		PhotoReviewVO photoVo = null;
-		PhotoReviewVO vo = null;
-		for(int idx : idxs) {
-			photoVo = photoReviewDAO.setPhotoReviewSingle(idx);
-			//System.out.println(idx + ".photoVo" + photoVo);
-			
-			vo = new PhotoReviewVO();
-			vo.setIdx(photoVo.getIdx());
-			vo.setPart(photoVo.getPart());
-			vo.setTitle(photoVo.getTitle());
-			vo.setPhotoCount(photoVo.getPhotoCount());
-			vo.setContent(photoVo.getContent());
-			vos.add(vo);
-		}
-		//System.out.println("vos : " + vos.get(0));
-		return vos;
+	public boolean hasUserLiked(Integer userIdx, int photoReviewIdx) {
+	    return photoReviewDAO.checkUserLike(userIdx, photoReviewIdx) > 0;
 	}
-	
+
+	/** 좋아요 추가 */
+	@Override
+	public boolean addLike(int userIdx, int photoReviewIdx) {
+	    try {
+	        photoReviewDAO.insertUserLike(userIdx, photoReviewIdx);
+	        return true;
+	    } catch (Exception e) {
+	        return false;
+	    }
+	}
+
+	/** 좋아요 취소 */
+	@Override
+	public boolean removeLike(int userIdx, int photoReviewIdx) {
+	    try {
+	        photoReviewDAO.deleteUserLike(userIdx, photoReviewIdx);
+	        return true;
+	    } catch (Exception e) {
+	        return false;
+	    }
+	}
+
+	/** 특정 게시글의 좋아요 개수 가져오기 */
+	@Override
+	public int getLikeCount(int photoReviewIdx) {
+	    return photoReviewDAO.getLikeCount(photoReviewIdx);
+	}
+
+	@Override
+	public int deletePhotoReviewReply(int photoReviewReplyIdx, int userIdx) {
+	    return photoReviewDAO.deletePhotoReviewReply(photoReviewReplyIdx, userIdx);
+	}
+
+	@Override
+	public int insertPhotoReviewReply(int userIdx, int photoReviewIdx, String content) {
+	    return photoReviewDAO.insertPhotoReviewReply(userIdx, photoReviewIdx, content);
+	}	
 }

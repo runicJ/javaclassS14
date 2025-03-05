@@ -15,19 +15,43 @@
   		background-color: #f8f8fa;
   		padding: 15px;
   		border-left: 3px solid #007aff;
+  		max-width: 100%;
+  		min-height: 100px;
   	}
   </style>
   <script>
   	'use strict';
   	
   	$(document).ready(function() {
-  		$("toggle-comment").click(function(e){
+  		$(".toggle-comment").click(function(e){
   			e.preventDefault();
   			
   			var commentId = $(this).data("id");
+  			var contentDiv = $("#content-" + commentId);
+  			var commentRow = $("#comment-" + commentId);
+  			
+  			if (commentRow.is(":visible")) {
+  				commentRow.hide();  // 후기가 열려있으면 닫기
+  			} else {
+  				$(".comment-details-row").hide();  // 다른 후기 닫기
+  				commentRow.show();  // 후기 열기
+  				
+  				if(contentDiv.is(":empty")) {
+  					$.ajax({
+  						url: "${ctp}/community/hospitalCommentView",
+  						type: "GET",
+  						data: {hospitalCommentIdx: commentId},
+  						success: function(data) {
+  							contentDiv.html(data);
+  						},
+  						error: function() {
+  							contentDiv.html("<p class='text-danger'>후기를 불러오지 못했습니다.</p>");
+  						}
+  					});
+  				}
+  			}
   		});
-  		
-  	})
+  	});
   </script>
 </head>
 <body>
@@ -64,10 +88,10 @@
           <td>${fn:substring(comment.createdAt,0,10)}</td>
         </tr>
         
-        <tr class="comment-details-row" id=comment-${comment.hospitalCommentIdx} stype="display=none;">
+        <tr class="comment-details-row" id="comment-${comment.hospitalCommentIdx}" style="display:none;">
         	<td colspan="7">
-        		<div class="comment-details" id="content-${comment-hospitalCommentIdx}">
-        		
+        		<div class="comment-details" id="content-${comment.hospitalCommentIdx}">
+        			${fn:replace(comment.hospitalComment, newLine, '<br/>')}
         		</div>
         	</td>
         </tr>

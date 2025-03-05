@@ -39,4 +39,9 @@ public class CommunityServiceImpl implements CommunityService {
 	public List<CommunityVO> getHospitalComments() {
 	    return communityDAO.getHospitalComments();
 	}
+
+	@Override
+	public CommunityVO getHospitalCommentById(int hospitalCommentIdx) {
+	    return communityDAO.getHospitalCommentById(hospitalCommentIdx);
+	}
 }
