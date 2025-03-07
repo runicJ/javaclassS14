@@ -1,35 +1,39 @@
 <img src="https://capsule-render.vercel.app/api?type=waving&color=0:E34C26,10:DA5B0B,30:C6538C,75:3572A5,100:A371F7&height=100&section=header&text=&fontSize=0" width="100%"/>
 
-<h2>Spring 프로젝트</h2>
-<h4>괄호 안 쉼표 { , }</h4>
-<hr>
-> 알레르기 정보 + 알러지프리 제품 판매 사이트 제작<br>
-> 기간: 2024.06.28. ~ 2024.08.05.<br>
+# Spring 프로젝트: 괄호 안 쉼표 { , }
+
+### 프로젝트 개요
+이 프로젝트는 알레르기 정보 커뮤니티와 쇼핑몰을 구현하기 위해 개발되었습니다.
+<br>
+> 알레르기 정보 제굥 + 알러지프리 제품 판매 사이트 제작<br>
+> 기간: 2024.06.28. ~ 2024.08.05.(약 1달) => 2025.03 ~ 수정 중<br>
 > 인원: 1명
 
-##### 사이트 링크 : http://49.142.157.251:9090/cjgreen/
+### 사이트 링크: http://49.142.157.251:9090/javaclassS14/
 <hr>
-<h2>사용 기술 스택</h2>
-<ul>
-    <li>
-        <img src="https://img.shields.io/badge/java-%23ED8B00.svg?style=for-the-badge&logo=openjdk&logoColor=white">
-        <img src="https://img.shields.io/badge/spring-%236DB33F.svg?style=for-the-badge&logo=spring&logoColor=white">
-    </li>
-    <li>
-      <img src="https://img.shields.io/badge/apache%20tomcat-%23F8DC75.svg?style=for-the-badge&logo=apache-tomcat&logoColor=black">
-      <img src="https://img.shields.io/badge/mysql-4479A1.svg?style=for-the-badge&logo=mysql&logoColor=white">
-    </li>
-    <li>
-      <img src="https://img.shields.io/badge/jquery-%230769AD.svg?style=for-the-badge&logo=jquery&logoColor=white">
-      <img src="https://img.shields.io/badge/javascript-%23323330.svg?style=for-the-badge&logo=javascript&logoColor=%23F7DF1E">
-      <img src="https://img.shields.io/badge/css3-%231572B6.svg?style=for-the-badge&logo=css3&logoColor=white"> 
-      <img src="https://img.shields.io/badge/html5-%23E34F26.svg?style=for-the-badge&logo=html5&logoColor=white">
-      <img src="https://img.shields.io/badge/bootstrap-%238511FA.svg?style=for-the-badge&logo=bootstrap&logoColor=white">
-    </li>
-    <li>
-        Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
-    </li>
-</ul>
+
+## 🛠 기술 스택
+
+### 🔹 Backend
+![Java](https://img.shields.io/badge/Java-007396?style=flat-square&logo=Java&logoColor=white)
+![Spring](https://img.shields.io/badge/Spring-6DB33F?style=flat-square&logo=Spring&logoColor=white)
+
+### 🔹 Frontend
+![JSP](https://img.shields.io/badge/JSP-007396?style=flat-square&logo=java&logoColor=white)
+![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
+![CSS3](https://img.shields.io/badge/CSS3-1572B6?style=flat-square&logo=css3&logoColor=white)
+![JavaScript](https://img.shields.io/badge/JavaScript-F7DF1E?style=flat-square&logo=javascript&logoColor=black)
+
+### 🔹 Database
+![MySQL](https://img.shields.io/badge/MySQL-4479A1?style=flat-square&logo=mysql&logoColor=white)
+
+### 🔹 DevOps & Tools
+![Maven](https://img.shields.io/badge/Maven-C71A36?style=flat-square&logo=apache-maven&logoColor=white)
+![Apache Tomcat](https://img.shields.io/badge/Tomcat-F8DC75?style=flat-square&logo=apache-tomcat&logoColor=black)
+
+#### 🔹 기타
+Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
+
 <hr>
 <h1>구현 기능</h1>
 <div>
