@@ -33,6 +33,7 @@
 
 #### 🔹 기타
 Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
+<br>
 
 ## 🚀 주요 기능
 
@@ -51,6 +52,7 @@ Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
 ### 🌐 알레르기 정보 제공
 - 네이버, 구글, 네이처 알레르기 뉴스 크롤링
 - 알레르기 유형 크롤링
+- 환경공단 API 미세먼지 정보 제공
 - 유저 커뮤니티 채팅방 제공
 - 병원 검색 및 후기 작성
 
@@ -79,9 +81,21 @@ Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
 <hr>
 <br>
 <h1>이미지</h1>
-<img src="https://github.com/user-attachments/assets/515078e5-c555-4fcb-aeaa-7442b6aed6c5" width="500px">
-<img src="https://github.com/user-attachments/assets/b7470e84-7edc-4f75-9ec2-667ad2e26579" width="500px">
-<img src="https://github.com/user-attachments/assets/022d0de5-ce98-4326-b6fd-5a157d61a9ba" width="500px">
+
+#### 홈 화면
+![도입부](https://github.com/user-attachments/assets/ce97ccca-8b19-4f0b-a2ce-bde35912a754)
+
+#### 메인 페이지
+![메인](https://github.com/user-attachments/assets/301fc8f6-101f-4946-961e-481b4fc2f537)
+
+#### 상품 목록
+![상품 목록](https://github.com/user-attachments/assets/ce0ef15c-a921-4b97-9f4e-92f678a6639b)
+
+#### 관리자 페이지
+![관리자](https://github.com/user-attachments/assets/3c0ee7bf-2f4b-4f51-aff4-3eaea8ae205a)
+
+#### 관련 뉴스 크롤링
+![뉴스기사](https://github.com/user-attachments/assets/454e3b16-2d54-42ad-af6c-6ae5ff6f99d9)
 
 <br/>  
 
