@@ -5,7 +5,7 @@
 ### 프로젝트 개요
 이 프로젝트는 알레르기 정보 커뮤니티와 쇼핑몰을 구현하기 위해 개발되었습니다.
 <br>
-> 알레르기 정보 제굥 + 알러지프리 제품 판매 사이트 제작<br>
+> 알레르기 정보 제공 + 알러지프리 제품 판매 사이트 제작<br>
 > 기간: 2024.06.28. ~ 2024.08.05.(약 1달) => 2025.03 ~ 수정 중<br>
 > 인원: 1명
 
@@ -34,157 +34,56 @@
 #### 🔹 기타
 Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
 
+## 🚀 주요 기능
+
+### 👤 회원 관리
+- 회원 가입, 로그인, 로그아웃  
+- 회원 정보 수정 및 비밀번호 변경  
+- 관리자 페이지에서 회원 목록 조회 및 관리
+- 탈퇴 처리 시 별도 탈퇴회원 테이블과 관리자 승인 처리
+
+### 🛒 상품 및 리뷰 관리
+- 상품 필터 조회 및 상세 정보 제공
+- 상품 댓글 작성 및 대댓글 기능
+- 태그 기반 추천 시스템(태그 연관 제품 추천)
+- 최근 본 제품 & 관심 제품 기능
+
+### 알레르기 정보 제공
+- 네이버, 구글, 네이처 알레르기 뉴스 크롤링
+- 알레르기 유형 크롤링
+- 유저 커뮤니티 채팅방 제공
+- 병원 검색 및 후기 작성
+
+### ❓ QnA 및 고객 지원
+- 사용자 QnA 작성 및 관리  
+- 관리자 답변 기능  
+- 접속이 오래된 회원 이메일로 쿠폰 발송 기능
+- 지점별 지도 및 qr코드를 통한 정보 제공
+
+### 🔧 관리자 기능 (Admin Panel)
+- 사용자 계정 관리 (회원 정보 조회, 정지 등)  
+- 상품, 리뷰, QnA 관리, 설문조사 등록, 지점 관리
+- 사이트 운영 관련 대시보드 제공(가입 목적, 판매 그래프)
+- 덤프 파일 관리  
+
+### 📊 데이터 분석 및 로그 기록
+- 사용자 활동 로그 기록
+- 통계 데이터 시각화
+- 관리자가 데이터 확인 가능하도록 대시보드 제공  
+
+### 🔐 보안 및 접근 권한 설정
+- 회원과 관리자의 접근 권한 차별화  
+- 회원 정책 동의 전 회원가입 창으로 이동 불가
+- 비밀번호 암호화
+
 <hr>
-<h1>구현 기능</h1>
-<div>
-    <ul>
-        <li>
-            <strong>회원 관련</strong>
-            <ul>
-                <li>로그인,로그아웃,회원가입,회원탈퇴</li>
-                <li>ID찾기</li>
-                <li>비밀번호 재발급 - 이메일 전송</li>
-            </ul>
-        </li><br/>
-        <li>
-            <strong>알레르기 정보</strong>
-            <ul>
-                <li>뉴스리스트</li>
-                <li>정보 크롤링</li>
-            </ul>
-        </li><br/>
-        <li>
-           <strong>알러지프리 제품 판매</strong>
-           <ul>
-               <li>제품 목록</li>
-               <li>제품 필터화</li>
-               <li>제품 정렬</li>
-               <li>댓글, 대댓글</li>
-           </ul>
-        </li><br/>    
-        <li>
-            <strong>설문조사</strong>
-            <ul>
-                <li>설문조사 등록</li>
-            </ul>
-        </li><br/>
-        <li>
-            <strong>장바구니</strong>
-            <ul>
-                <li>추가, 개별주문, 선택주문</li>
-                <li>'매거진 상품, 매거진 정기구독, 컬렉션 상품' 분류 노출</li>
-            </ul>
-        </li><br/>
-        <li>
-            <strong>결제 - 포트원 결제모듈 사용, KG 이니시스</strong>
-            <ul>
-                <li>배송 주소록 (최대 5개)</li>    
-                <li>포인트 사용 가능</li>
-            </ul>
-        </li><br/>
-        <li>
-           <strong>커뮤니티 관련</strong>
-           <ul>
-               <li>병원 검색 기능</li>
-               <li>병원 후기 작성</li>
-               <li>유저 채팅(웹소캣)</li>
-           </ul>
-        </li><br/>
-        <li>
-           <strong>관리자 페이지 관련</strong>
-           <ul>
-               <li>통계 (차트 통계, 일반 통게)</li>
-               <li>회원 관리</li>
-               <li>제품 관리</li>
-               <li>공지/문의 관리</li>
-               <li>지점 관리</li>
-               <li>설문조사 관리</li>
-               <li>파일 관리</li>
-           </ul>
-       </li>
-    </ul>
-</div>
 <br>
 <h1>이미지</h1>
-<div>
-    <ul>
-        <li>
-            <strong>메인 페이지</strong>
-            <ul>
-                <li>싱단 : 최신 or 고정 공지사항(최대 3건) / 임시 비밀번호 변경유도</li>
-                <li>신규 매거진(20개)</li>
-                <li>랜덤도서 추출기 / 최신 문장수집</li>
-                <li>뉴스레터 구독 신청</li>
-                  <img src="https://github.com/user-attachments/assets/515078e5-c555-4fcb-aeaa-7442b6aed6c5" width="500px">
-                    <img src="https://github.com/user-attachments/assets/b7470e84-7edc-4f75-9ec2-667ad2e26579" width="500px">
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>로그인 / 회원가입 / 아이디찾기 / 비밀번호찾기</strong>
-            <ul>
-                <li>회원가입 유효성 검사</li>
-                <li>SMTP이용 - 임시비밀번호 발송</li>
-                  <img src="https://github.com/user-attachments/assets/022d0de5-ce98-4326-b6fd-5a157d61a9ba" width="500px">
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>MyPage</strong>
-            <ul>
-                <li>주문내역조회 / 회원정보 / 관심상품,</li>
-                <li>포인트 / 문의</li>
-                <li>배송주소록관리 / 구독관리</li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>주문내역 조회</strong>
-            <ul>
-                <li>분류검색 / 정보검색 / 기간검색</li>
-                <li>버튼 페이징</li>
-                <li>(상세창)주문 상세정보 확인 가능</li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>알러지프리 제품</strong>
-            <ul>
-                <li>분류검색</li>
-                <li>버튼 페이징</li>
-                <li>관심 저장, 장바구니</li>
-                <li>상품 문의</li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>장바구니</strong>
-            <ul>
-                <li>제품 삭제, 선택 주문</li>
-                <li>하단 관련 제품 출력</li>
-            </ul>
-        </li>
-        <br/>
-        <li>
-            <strong>주문</strong>
-            <ul>
-                <li>배송주소록</li>
-                <li>포인트 사용</li>
-                <li>결제 - 포트원 결제 API 사용</li>
-            </ul>
-        </li>
-        <br/>     
-        <li>
-            <strong>문의 / 공지사항</strong>
-            <ul>
-                <li>버튼 페이징</li>
-                <li>문의 (공개 여부 선택, 비회원 비밀번호)</li>
-                <li>문의 (답변 완료 시 알림 - 이메일 전송)</li>
-            </ul>
-        </li>
-        <br/>    
-    </ul>
-</div>
+
+<img src="https://github.com/user-attachments/assets/515078e5-c555-4fcb-aeaa-7442b6aed6c5" width="500px">
+<img src="https://github.com/user-attachments/assets/b7470e84-7edc-4f75-9ec2-667ad2e26579" width="500px">
+<img src="https://github.com/user-attachments/assets/022d0de5-ce98-4326-b6fd-5a157d61a9ba" width="500px">
+
 <br/>  
 
 <h2>LICENSE</h2>
