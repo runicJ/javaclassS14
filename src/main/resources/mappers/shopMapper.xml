@@ -231,7 +231,7 @@
     </select>
     
 	<select id="getProductParentReviewCheck" resultType="com.spring.javaclassS14.vo.ReviewVO">
-	  select * from productReview where productIdx = #{productIdx} order by idx desc limit 1;
+	  select * from productReview where productIdx = #{productIdx} order by reviewIdx desc limit 1;
 	</select>
     
 	<select id="getRelatedProducts" parameterType="map" resultType="com.spring.javaclassS14.vo.ShopVO">
@@ -323,6 +323,22 @@
 		ORDER BY COUNT(*) DESC
 		LIMIT 7;
 	</select>	
+	
+    <!-- 유저가 좋아요한 상품 목록 가져오기 -->
+    <select id="getLikedProducts" parameterType="int" resultType="com.spring.javaclassS14.vo.ShopVO">
+        SELECT p.*
+        FROM liked_product lp
+        JOIN product p ON lp.productIdx = p.productIdx
+        WHERE lp.userIdx = #{userIdx}
+        ORDER BY lp.likedAddDate DESC
+    </select>
+
+    <!-- 좋아요 취소 -->
+    <delete id="removeLike" parameterType="map">
+        DELETE FROM liked_product
+        WHERE userIdx = #{userIdx} AND productIdx = #{productIdx}
+    </delete>
+
 
     <insert id="recordProductView">
         INSERT INTO recent_view_product

@@ -129,4 +129,8 @@ public interface ShopDAO {
 
 	public int totRecCntOption(Map<String, Object> paramMap);
 
+	public List<ShopVO> getLikedProducts(@Param("userIdx") int userIdx);
+
+	public int removeLike(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
+
 }

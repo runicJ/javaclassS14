@@ -110,4 +110,8 @@ public interface ShopService {
 
 	public List<String> getTopPickTags();
 
+	public List<ShopVO> getLikedProducts(int userIdx);
+
+	public int removeLike(int userIdx, int productIdx);
+
 }

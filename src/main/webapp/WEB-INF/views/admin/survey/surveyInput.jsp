@@ -1,244 +1,241 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<c:set var="ctp" value="${pageContext.request.contextPath}" />
+<%@ taglib uri="http://java.sun.com/jsp/jstl/fmt" prefix="fmt" %>
+<c:set var="contextPath" value="${pageContext.request.contextPath}" />
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>adminSurveyInput</title>
-
+    <title>설문 등록</title>
+    <link rel="icon" type="image/png" href="${contextPath}/images/favicon-mark.png">
     <jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
-
     <style>
-	    .page-wrapper {
-		    display: flex;
-		    justify-content: center;
-		    align-items: center;
-		    min-height: 100vh;
-		}
-		
-		.container-fluid {
-		    max-width: 1200px; /* 최대 너비 조정 */
-		}
-		
-		.card {
-		    background-color: #ffffff;
-		    padding: 30px;
-		    border-radius: 10px;
-		    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
-		}
-		
-		.surv-container {
-		    width: 100%;
-		    max-width: 800px;
-		    margin: auto;
-		}
-    
         h2 {
-            margin: 20px 0;
+            margin-top: 5px;
+            margin-bottom: 30px;
         }
         .form-group {
             margin-bottom: 20px;
         }
         .form-group label {
-            font-weight: bold;
             display: block;
+            font-weight: bold;
             margin-bottom: 5px;
         }
-        .form-group input, .form-group textarea, .form-group select {
+        .form-group input[type="text"], .form-group textarea, .form-group select, .form-group input[type="file"] {
             width: 100%;
             padding: 10px;
             border: 1px solid #c1b6a3;
             border-radius: 5px;
         }
-        #addQuestRow, #regSurvBtn {
-            height: 40px;
-            width: 120px;
-            font-size: 14px;
-            font-weight: bold;
-            cursor: pointer;
+		#addQuestionBtn, #submitSurveyBtn {
+		    background-color: #007bff;
+		    color: white;
+		    border: none;
+		    border-radius: 5px;
+		    padding: 10px 20px;
+		    font-size: 14px;
+		    font-weight: bold;
+		    cursor: pointer;
+		}
+		#addQuestionBtn:hover, #submitSurveyBtn:hover {
+		    background-color: #0056b3;
+		}
+        .survey-container button:hover {
+            background-color: black;
+            color: white;
         }
-        .quest-container {
-            border: 2px solid #c1b6a3;
-            padding: 15px;
-            margin-bottom: 20px;
-        }
-        .quest-options {
-            margin-top: 10px;
-        }
-        .quest-options li {
-            list-style-type: decimal;
-            margin-bottom: 5px;
-        }
-    </style>
+	.question-container {
+	    border: 2px solid #c1b6a3;
+	    padding: 15px;
+	    margin-bottom: 20px;
+	    border-radius: 10px;
+	    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.1);
+	    background-color: #fafafa;
+	}
 
+    </style>
     <script>
     $(function () {
-        $("#regDate").text(getToday());
-
-        $("#addQuestRow").click(function() {
-            addNewQuestion();
+        $("#registrationDate").text(getCurrentDate());
+        $("#addQuestionBtn").click(function() {
+            addQuestion();
         });
+    });
 
-        $("#regSurvBtn").click(function() {
-            registerSurvey();
+    function getCurrentDate() {
+        let today = new Date();
+        return today.getFullYear() + "-" + ("0" + (today.getMonth() + 1)).slice(-2) + "-" + ("0" + today.getDate()).slice(-2);
+    }
+
+    function addQuestion() {
+        let questionNumber = $(".question-container").length + 1;
+        let questionHtml = `
+        <div class="question-container">
+            <div class="form-group">
+                <span class="questionNo">질문 \${questionNumber}</span>
+                <button type="button" onclick="removeQuestion(this)">삭제</button>
+            </div>
+            <div class="form-group">
+                <label for="questionType">질문 유형</label>
+                <select name="questionType" class="questionType" onchange="updateQuestionInput(this)">
+                    <option value="short">단답형</option>
+                    <option value="long">장문형</option>
+                    <option value="select">드롭다운형</option>
+                    <option value="radio">라디오버튼형</option>
+                    <option value="check">체크박스형</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="questionContent">질문 내용</label>
+                <input type="text" name="questionContent" placeholder="질문을 입력해주세요">
+                <div class="options-container"></div>
+            </div>
+        </div>`;
+
+        $("#questionnaire").append(questionHtml);
+    }
+
+    function updateQuestionInput(selectElement) {
+        let container = $(selectElement).closest(".question-container").find(".options-container");
+        container.empty();
+        let type = $(selectElement).val();
+
+        if (type === "select" || type === "radio" || type === "check") {
+            container.append(`<button type="button" onclick="addOption(this)">옵션 추가</button>
+                              <ul class="options-list"></ul>`);
+        }
+    }
+
+    function addOption(button) {
+        $(button).siblings(".options-list").append(`<li><input type="text" name="options[]" placeholder="옵션 입력"><button type="button" onclick="removeOption(this)">삭제</button></li>`);
+    }
+
+    function removeOption(button) {
+        $(button).closest("li").remove();
+    }
+
+    function removeQuestion(element) {
+        $(element).closest('.question-container').remove();
+        updateQuestionNumbers();
+    }
+
+    function updateQuestionNumbers() {
+        $('.question-container').each(function(index) {
+            $(this).find('.questionNo').text('질문 ' + (index + 1));
         });
+    }
+    
+    $(function () {
+        $("#submitSurveyBtn").click(function(event) {
+            event.preventDefault(); // 기본 제출 방지
+            submitSurvey();
+        });
+    });
 
-        function getToday() {
-            let date = new Date();
-            return date.getFullYear() + "-" + ("0" + (date.getMonth() + 1)).slice(-2) + "-" + ("0" + date.getDate()).slice(-2);
+    function submitSurvey() {
+        let formData = new FormData();
+        let surveyTitle = $("#surveyTitle").val().trim();
+        let surveyDesc = $("#surveyDescription").val().trim();
+        let fileInput = $("#surveyImage")[0].files[0];
+
+        if (!surveyTitle) {
+            alert("설문 제목을 입력하세요.");
+            return;
+        }
+        if (!fileInput) {
+            alert("설문 대표 이미지를 등록하세요.");
+            return;
         }
 
-        function addNewQuestion() {
-            let newItemNo = $('.quest-container').length + 1;
+        // JSON 데이터 구성
+        let surveyData = {
+            surveyTitle: surveyTitle,
+            surveyDesc: surveyDesc,
+            useFlag: "y", // 기본값
+            questList: []
+        };
 
-            let str = `
-            <div class="quest-container">
-                <div class="form-group">
-                    <span class="questNo">질문 ${newItemNo}</span>
-                </div>
-                <div class="form-group">
-                    <label>질문 유형</label>
-                    <select name="questType" class="questType" onchange="showQuest(this)">
-                        <option value="short">단답형</option>
-                        <option value="long">장문형</option>
-                        <option value="select">드롭다운형</option>
-                        <option value="radio">라디오버튼형</option>
-                        <option value="check">체크박스형</option>
-                    </select>
-                </div>
-                <div class="form-group">
-                    <label>질문 내용</label>
-                    <div class="surv-opt-box">
-                        <input type="text" name="questContent" placeholder="질문을 입력해주세요">
-                    </div>
-                </div>
-            </div>`;
+        $(".question-container").each(function(index) {
+            let questType = $(this).find(".questionType").val();
+            let questContent = $(this).find("input[name='questionContent']").val().trim();
+            let options = [];
 
-            $(".questionnaire").append(str);
-        }
-
-        function registerSurvey() {
-            let surveyTitle = $("#survTitle").val().trim();
-            let useFlag = $("#useFlag").val();
-            let surveyDesc = $("#surveyDesc").val().trim();
-
-            if (!surveyTitle) {
-                alert("설문 제목을 입력하세요.");
-                return;
+            if (questType === "select" || questType === "radio" || questType === "check") {
+                $(this).find(".options-list li").each(function(optIndex) {
+                    let optContent = $(this).find("input").val().trim();
+                    if (optContent) {
+                        options.push({
+                            optionIdx: optIndex + 1,
+                            optContent: optContent
+                        });
+                    }
+                });
             }
 
-            let survQustList = [];
-            $(".quest-container").each(function(index) {
-                let survQustObj = {
-                    questIdx: index + 1,
-                    questType: $(this).find(".questType").val(),
-                    questContent: $(this).find(".surv-opt-box input").val().trim()
-                };
-
-                survQustList.push(survQustObj);
+            surveyData.questList.push({
+                questIdx: index + 1,
+                questType: questType,
+                questContent: questContent,
+                options: options
             });
+        });
 
-            let formData = new FormData();
-            formData.append("surveyVOJson", JSON.stringify({
-                surveyTitle: surveyTitle,
-                useFlag: useFlag,
-                surveyDesc: surveyDesc,
-                questList: survQustList
-            }));
+        // JSON 데이터 출력 (콘솔에서 확인)
+        console.log("보낼 데이터:", JSON.stringify(surveyData));
 
-            $.ajax({
-                url: '${ctp}/admin/survey/surveyInput',
-                type: 'POST',
-                data: formData,
-                processData: false,
-                contentType: false,
-                success: function(res) {
-                    if (res != "0") {
-                        alert('설문이 등록되었습니다.');
-                        location.href = '${ctp}/admin/survey/surveyList';
-                    } else {
-                        alert("등록 실패!");
-                    }
-                },
-                error: function() {
-                    alert('전송 오류!');
+        formData.append("fName", fileInput);
+        formData.append("surveyVOJson", JSON.stringify(surveyData));
+
+        $.ajax({
+            url: '${contextPath}/admin/survey/surveyInput',
+            type: 'POST',
+            data: formData,
+            processData: false,
+            contentType: false,
+            success: function(response) {
+                if (response !== "0") {
+                    alert("설문이 성공적으로 등록되었습니다.");
+                    location.href = '${contextPath}/admin/survey/surveyList';
+                } else {
+                    alert("등록 실패!");
                 }
-            });
-        }
-    });
+            },
+            error: function() {
+                alert("설문 등록 중 오류 발생!");
+            }
+        });
+    }
     </script>
 </head>
 <body>
-
 <div id="main-wrapper" data-theme="light" data-layout="vertical" data-navbarbg="skin6" data-sidebartype="full" data-sidebar-position="fixed" data-header-position="fixed" data-boxed-layout="full">
     <jsp:include page="/WEB-INF/views/include/admin/header.jsp" />
-	<jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
+    <jsp:include page="/WEB-INF/views/include/admin/sidebar.jsp" />
     <div class="page-wrapper">
-        <div class="container-fluid">
-        <div class="row">
-        <div class="col-md-10 offset-md-1">
         <div class="card p-5">
-            <h2><i class="fa-solid fa-pencil"></i> 설문 만들기</h2>
-            <div class="surv-container">
-                <form id="surveyForm" method="post" action="${ctp}/admin/survey/surveyInput">
-                    <div class="form-group">
-                        <label>제목</label>
-                        <input id="survTitle" name="surveyTitle" type="text" placeholder="제목을 입력해주세요">
-                    </div>
-                    <div class="form-group">
-                        <label>등록일자</label>
-                        <span id="regDate"></span>
-                    </div>
-                    <div class="form-group">
-                        <label>사용 여부</label>
-                        <select id="useFlag" name="useFlag">
-                            <option value="y">예</option>
-                            <option value="n">아니오</option>
-                        </select>
-                    </div>
-                    <div class="form-group">
-                        <label>설문지 소개</label>
-                        <textarea id="surveyDesc" name="surveyDesc"></textarea>
-                    </div>
-
-                    <div class="questionnaire">
-                        <div class="quest-container">
-                            <div class="form-group">
-                                <span class="questNo">질문 1</span>
-                            </div>
-                            <div class="form-group">
-                                <label>질문 유형</label>
-                                <select name="questType" class="questType">
-                                    <option value="short">단답형</option>
-                                    <option value="long">장문형</option>
-                                    <option value="select">드롭다운형</option>
-                                    <option value="radio">라디오버튼형</option>
-                                    <option value="check">체크박스형</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label>질문 내용</label>
-                                <div class="surv-opt-box">
-                                    <input type="text" name="questContent" placeholder="질문을 입력해주세요">
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <button id="addQuestRow" type="button">질문 추가</button>
-                    <button id="regSurvBtn" type="submit">등록</button>
-                </form>
-            </div>
+            <h2>설문 등록</h2>
+            <form id="surveyForm" method="post" enctype="multipart/form-data">
+                <div class="form-group">
+                    <label for="surveyTitle">설문 제목</label>
+                    <input id="surveyTitle" name="title" type="text" placeholder="제목을 입력해주세요(최대30자)" required />
+                </div>
+                <div class="form-group">
+                    <label for="surveyImage">설문 대표 이미지</label>
+                    <input type="file" name="fName" id="surveyImage" required />
+                </div>
+                <div class="form-group">
+                    <label for="surveyDescription">설문 설명</label>
+                    <textarea id="surveyDescription" name="description"></textarea>
+                </div>
+                <div id="questionnaire"></div>
+                <button id="addQuestionBtn" type="button">질문 추가</button>
+                <button id="submitSurveyBtn" type="submit">등록</button>
+            </form>
         </div>
     </div>
-    </div>
-    </div>
-    </div>
 </div>
-
 <jsp:include page="/WEB-INF/views/include/admin/footer.jsp" />
-
 </body>
 </html>

@@ -118,7 +118,7 @@
 							<div class="block sidenav">
 								<div class="block-body">
 								  <button class="drop-btn" onclick="location.href='${ctp}/users/userMain';">내정보 메인</button>
-								  <button class="drop-btn" onclick="location.href='${ctp}/users/myOrderList';">주문배송 조회</button>
+								  <button class="drop-btn" onclick="location.href='${ctp}/users/userOrderList';">주문배송 조회</button>
 <%-- 								  <button class="dropdown-btn">회원 혜택
 								    <i class="fa fa-caret-down"></i>
 								  </button>
@@ -132,7 +132,7 @@
 								    <i class="fa fa-caret-down"></i>
 								  </button>
 								  <div class="dropdown-container">
-										<a href="${ctp}/users/myLikedList">관심등록 제품</a>
+										<a href="${ctp}/users/userLiked">관심등록 제품</a>
 										<a href="#">재입고 알림 신청 내역</a>
 								  </div>
 								  <button class="dropdown-btn">회원 정보

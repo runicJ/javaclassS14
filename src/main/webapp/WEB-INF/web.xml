@@ -50,4 +50,18 @@
 		<!-- 예외가 있으면 안됨 /* => 파일명 포함 -->	
 	</filter-mapping>
 	
+	<error-page>
+	    <error-code>404</error-code>
+	    <location>/WEB-INF/views/errorPage/error404.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <error-code>500</error-code>
+	    <location>/WEB-INF/views/errorPage/error500.jsp</location>
+	</error-page>
+	
+	<error-page>
+	    <exception-type>java.lang.Exception</exception-type>
+	    <location>/WEB-INF/views/#</location>
+	</error-page>
 </web-app>

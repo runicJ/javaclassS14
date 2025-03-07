@@ -34,6 +34,5 @@ public interface OrderDAO {
     public int updateOrderStatusByNumber(@Param("orderNumber") String orderNumber, @Param("nextStatus") String nextStatus);
 	public int cancelOrder(@Param("orderIdx") Integer orderIdx);
 	public List<OrderVO> getOrderDetail(@Param("orderIdx") int orderIdx);
-	public List<OrderVO> getUserOrderList(int userIdx, String startOrder, String endOrder, String conditionOrderStatus,
-			PageVO pageVO);
+	public List<OrderVO> getUserOrderList(int userIdx, String conditionOrderStatus, PageVO pageVO);
 }

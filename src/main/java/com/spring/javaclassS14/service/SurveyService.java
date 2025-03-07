@@ -7,6 +7,8 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.vo.SurveyAnswerVO;
+import com.spring.javaclassS14.vo.SurveyOptionVO;
+import com.spring.javaclassS14.vo.SurveyQuestionVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 
 public interface SurveyService {
@@ -25,9 +27,6 @@ public interface SurveyService {
 
     // 설문 결과 조회
     public SurveyVO getSurvRslt(int surveyIdx);
-
-    // 설문 응답 여부 확인
-    public int resSurvYn(SurveyVO surveyDto);
 
     // 설문 수정 (제목/설명 수정 가능)
     public void updateSurvey(SurveyVO surveyVO);
@@ -52,4 +51,9 @@ public interface SurveyService {
 
     // 설문지 갯수
 	public int getTotalSurveys(int userIdx);
+
+	public boolean checkUserSurveyAnswered(int userIdx, int surveyIdx);
+
+    // 설문 응답 여부 확인
+	public int resSurvYn(int userIdx, int surveyIdx);
 }

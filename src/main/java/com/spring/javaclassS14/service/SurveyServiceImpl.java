@@ -27,55 +27,118 @@ public class SurveyServiceImpl implements SurveyService {
     @Transactional
     @Override
     public int setSurveyInput(MultipartFile fName, SurveyVO surveyVO, HttpServletRequest request) {
-        int res = 0;
-        try {
-            // 저장 경로 설정
-            String realPath = request.getSession().getServletContext().getRealPath("/resources/data/survey/");
-            System.out.println("파일 저장 경로: " + realPath);
+        // 파일 저장 처리
+        String realPath = request.getSession().getServletContext().getRealPath("/resources/data/survey/");
+        File uploadDir = new File(realPath);
+        if (!uploadDir.exists()) uploadDir.mkdirs();
 
-            File uploadDir = new File(realPath);
-            if (!uploadDir.exists()) uploadDir.mkdirs(); // 디렉토리 없으면 생성
-
-            // 파일 저장 처리
-            if (fName != null && !fName.isEmpty()) {
+        if (fName != null && !fName.isEmpty()) {
+            try {
                 String saveFileName = System.currentTimeMillis() + "_" + fName.getOriginalFilename();
                 File saveFile = new File(realPath, saveFileName);
-                fName.transferTo(saveFile); // 파일 저장
-                System.out.println("파일 저장 성공: " + saveFile.getAbsolutePath());
-                surveyVO.setSurveyThumb(saveFileName); // 저장된 파일명을 DB에 저장
-            } else {
-                surveyVO.setSurveyThumb("noImage.png"); // 기본 썸네일 설정
+                fName.transferTo(saveFile);
+                surveyVO.setSurveyThumb(saveFileName);
+            } catch (IOException e) {
+                e.printStackTrace();
+                throw new RuntimeException("파일 저장 실패!");
             }
-
-            // 설문 정보 DB 저장
-            res = surveyDAO.setSurveyInput(surveyVO);
-
-        } catch (Exception e) { // Exception으로 변경
-            e.printStackTrace();
-            return 0; // 파일 저장 실패 시 0 반환
+        } else {
+            surveyVO.setSurveyThumb("noImage.png");
         }
 
-        return res;
-    }
+        // 설문 저장 후 surveyIdx 가져오기
+        int surveyIdx = surveyDAO.setSurveyInput(surveyVO);
+        if (surveyVO.getSurveyIdx() == 0) {  // MyBatis가 surveyVO에 값을 채우지 못한 경우
+            surveyIdx = surveyDAO.getLastSurveyId();
+        } else {
+            surveyIdx = surveyVO.getSurveyIdx();
+        }
+        //System.out.println("surveyIdx: " + surveyIdx);
 
+        // 질문 & 옵션 저장 (바로 DAO 호출)
+        int order = 1;
+        for (SurveyQuestionVO question : surveyVO.getQuestList()) {
+            question.setSurveyIdx(surveyIdx);  // surveyIdx 설정
+            question.setQuestOrder(order++);   // questOrder 값 설정 (1부터 증가)
+
+            int result = surveyDAO.saveSurveyQuestion(question);
+            if (result <= 0) {
+                throw new RuntimeException("질문 저장 실패!");
+            }
+
+            int questIdx = surveyDAO.getLastQuestId(); // INSERT 후 LAST_INSERT_ID()로 ID 가져오기
+            question.setQuestIdx(questIdx); // 올바른 questIdx 설정
+
+            System.out.println("Saved Question - questIdx: " + questIdx + ", surveyIdx: " + surveyIdx);
+
+            // 옵션 저장
+            if (question.getOptions() != null && !question.getOptions().isEmpty()) {
+                int optOrder = 1; // 옵션 순서 초기화
+                for (SurveyOptionVO option : question.getOptions()) {
+                    option.setQuestIdx(questIdx);
+                    //option.setOptOrder(optOrder++); // 옵션 순서 증가
+                    option.setOptOrder(optOrder); // 명확하게 optOrder 설정
+                    System.out.println("Saving option - questIdx: " + questIdx + ", optOrder: " + optOrder);
+                    
+                    int optRes = surveyDAO.saveSurveyOption(option);
+                    if (optRes <= 0) {
+                        throw new RuntimeException("옵션 저장 실패! (questIdx: " + questIdx + ")");
+                    }
+                    optOrder++; // 옵션 순서 증가
+                }
+            }
+        }
+        return surveyIdx;
+    }
 
     @Override
     public SurveyVO getSurveyForm(int surveyIdx) {
         SurveyVO surveyVO = surveyDAO.getSurveyForm(surveyIdx);
-        List<SurveyQuestionVO> questions = surveyDAO.getSurveyQuestList(surveyIdx);
-        surveyVO.setQuestList(questions);
+        
+        if (surveyVO != null) {
+            List<SurveyQuestionVO> questions = surveyDAO.getSurveyQuestList(surveyIdx);
 
-        for (SurveyQuestionVO question : questions) {
-            question.setOptions(surveyDAO.getQuestOptList(question.getQuestIdx()));
+            // 각 질문에 옵션을 추가
+            for (SurveyQuestionVO question : questions) {
+                List<SurveyOptionVO> options = surveyDAO.getQuestOptList(question.getQuestIdx());
+                question.setOptions(options); // 옵션 추가
+            }
+
+            surveyVO.setQuestList(questions);
         }
         return surveyVO;
     }
 
+	/*
+	 * @Transactional
+	 * 
+	 * @Override public int setSurveyAnswerInputBatch(List<SurveyAnswerVO>
+	 * answerList) { System.out.println("저장할 응답 개수: " + answerList.size());
+	 * 
+	 * if (answerList == null || answerList.isEmpty()) { throw new
+	 * RuntimeException("응답 데이터가 없습니다."); }
+	 * 
+	 * System.out.println("저장할 응답 개수: " + answerList.size()); for (SurveyAnswerVO
+	 * answer : answerList) { System.out.println("질문 번호: " + answer.getQuestIdx());
+	 * System.out.println("사용자 ID: " + answer.getUserIdx());
+	 * System.out.println("응답 내용: " + answer.getAnswerContent());
+	 * System.out.println("장문 응답: " + answer.getAnswerLong());
+	 * surveyDAO.setSurveyAnswerInputBatch(answer); } public boolean
+	 * checkDuplicateAnswer(int userIdx, int questIdx) { return
+	 * surveyDAO.checkDuplicateAnswer(userIdx, questIdx) > 0; } }
+	 */
+    
+    @Transactional
     @Override
     public int setSurveyAnswerInputBatch(List<SurveyAnswerVO> answerList) {
-        return surveyDAO.setSurveyAnswerInputBatch(answerList);
+        return surveyDAO.insertSurveyAnswersBatch(answerList);
     }
 
+    @Override
+    public boolean checkUserSurveyAnswered(int userIdx, int surveyIdx) {
+        return surveyDAO.countUserSurveyAnswers(userIdx, surveyIdx) > 0;
+    }
+    
     @Override
     public void delOneSurvey(int surveyIdx) {
         surveyDAO.delOneSurvey(surveyIdx);
@@ -98,11 +161,6 @@ public class SurveyServiceImpl implements SurveyService {
 
         survey.setQuestList(questions);
         return survey;
-    }
-
-    @Override
-    public int resSurvYn(SurveyVO surveyDto) {
-        return surveyDAO.resSurvYn(surveyDto);
     }
 
     @Override
@@ -144,6 +202,11 @@ public class SurveyServiceImpl implements SurveyService {
 	@Override
 	public int getTotalSurveys(int userIdx) {
         return surveyDAO.getTotalSurveys(userIdx);
+	}
+
+	@Override
+	public int resSurvYn(int userIdx, int surveyIdx) {
+		return surveyDAO.resSurvYn(userIdx, surveyIdx);
 	}
 
 }

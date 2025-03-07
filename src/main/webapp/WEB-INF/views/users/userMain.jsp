@@ -90,7 +90,7 @@
 											</c:choose>
 										</table>
 										<footer>
-											<a class="btn btn-primary more" href="${ctp}/users/myLikedList">
+											<a class="btn btn-primary more" href="${ctp}/users/userLiked">
 												<span>더보기</span>
 											</a>
 										</footer>

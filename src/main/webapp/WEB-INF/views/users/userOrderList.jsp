@@ -8,7 +8,7 @@
 <head>
  	<meta charset="UTF-8">
  	<meta name="viewport" content="width=device-width, initial-scale=1.0">
- 	<title>orderList</title>
+ 	<title>userOrderList</title>
 	<jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
 	<script>
     // 배송지 정보보기
@@ -18,21 +18,24 @@
     }
     
     // 날짜기간에 따른 조건검색
-	function myOrderStatus() {
-	    var startDateOrder = moment(document.getElementById("startOrder").value);
-	    var endDateOrder = moment(document.getElementById("endOrder").value);
-	    var conditionOrderStatus = document.getElementById("conditionOrderStatus").value;
-	
-	    if(startDateOrder.isAfter(endDateOrder)) {
-	        alert("주문일자를 확인하세요!");
-	        return false;
-	    }
-	
-	    var startOrder = startDateOrder.format("YYYY-MM-DD");
-	    var endOrder = endDateOrder.format("YYYY-MM-DD");
-	
-	    location.href = "myOrderStatus?pag=${pageVO.pag}&startOrder=" + startOrder + "&endOrder=" + endOrder + "&conditionOrderStatus=" + conditionOrderStatus;
-	}
+    function myOrderStatus() {
+        //var startDateOrder = document.getElementById("startOrder").value;
+        //var endDateOrder = document.getElementById("endOrder").value;
+        var conditionOrderStatus = document.getElementById("conditionOrderStatus").value;
+
+        // 날짜 유효성 검사
+/*         if (!startDateOrder || !endDateOrder) {
+            alert("날짜를 입력하세요.");
+            return;
+        }
+        if (new Date(startDateOrder) > new Date(endDateOrder)) {
+            alert("시작 날짜가 종료 날짜보다 클 수 없습니다.");
+            return;
+        } */
+
+        //location.href = "${ctp}/users/userOrderList?pag=${pageVO.pag}&startOrder=" + startDateOrder + "&endOrder=" + endDateOrder + "&conditionOrderStatus=" + conditionOrderStatus;
+        location.href = "${ctp}/users/userOrderList?pag=${pageVO.pag}&conditionOrderStatus=" + conditionOrderStatus;
+    }
   </script>
 </head>
 <body>
@@ -52,24 +55,25 @@
   <table class="table table-borderless">
     <tr>
       <td style="text-align:left;">
-        <c:if test="${startOrder == null}">
-          <c:set var="startOrder" value="<%=new java.util.Date() %>"/>
+<%--         <c:if test="${startOrder == null}">
+           <c:set var="startOrder" value="<%=new java.util.Date() %>"/>
 	        <c:set var="startOrder"><fmt:formatDate value="${startOrder}" pattern="yyyy-MM-dd"/></c:set>
         </c:if>
         <c:if test="${endOrder == null}">
           <c:set var="endOrder" value="<%=new java.util.Date() %>"/>
 	        <c:set var="endOrder"><fmt:formatDate value="${endOrder}" pattern="yyyy-MM-dd"/></c:set>
         </c:if>
-        <input type="date" name="startOrder" id="startOrder" value="${startOrder}"/>~<input type="date" name="endOrder" id="endOrder" value="${endOrder}"/>
-        <select name="conditionOrderStatus" id="conditionOrderStatus">
-          <option value="전체" ${conditionOrderStatus == '전체' ? 'selected' : ''}>전체</option>
-          <option value="결제완료" ${conditionOrderStatus == '결제완료' ? 'selected' : ''}>결제완료</option>
-          <option value="배송중"  ${conditionOrderStatus == '배송중' ? 'selected' : ''}>배송중</option>
-          <option value="배송완료"  ${conditionOrderStatus == '배송완료' ? 'selected' : ''}>배송완료</option>
-          <option value="구매완료"  ${conditionOrderStatus == '구매완료' ? 'selected' : ''}>구매완료</option>
-          <option value="반품처리"  ${conditionOrderStatus == '반품처리' ? 'selected' : ''}>반품처리</option>
-        </select>
-        <input type="button" value="조회하기" onclick="myOrderStatus()"/>
+<input type="date" name="startOrder" id="startOrder" value="${startOrder}"/> ~ 
+    <input type="date" name="endOrder" id="endOrder" value="${endOrder}"/> --%>
+    <select name="conditionOrderStatus" id="conditionOrderStatus">
+        <option value="전체" ${conditionOrderStatus == '전체' ? 'selected' : ''}>전체</option>
+        <option value="결제완료" ${conditionOrderStatus == '결제완료' ? 'selected' : ''}>결제완료</option>
+        <option value="배송중" ${conditionOrderStatus == '배송중' ? 'selected' : ''}>배송중</option>
+        <option value="배송완료" ${conditionOrderStatus == '배송완료' ? 'selected' : ''}>배송완료</option>
+        <option value="구매완료" ${conditionOrderStatus == '구매완료' ? 'selected' : ''}>구매완료</option>
+        <option value="반품처리" ${conditionOrderStatus == '반품처리' ? 'selected' : ''}>반품처리</option>
+    </select>
+    <input type="button" value="조회하기" onclick="myOrderStatus()"/>
       </td>
       <td style="text-align:right;">
 	      <a href="${ctp}/shop/productCart" class="btn btn-success btn-sm">장바구니조회</a>
@@ -85,11 +89,11 @@
       <th>주문일시</th>
     </tr>
     <tr>
-    	<td colspan="4" class="text-center"><c:if test="${empty orderList}">오늘 구매하신 상품이 없습니다.</c:if></td>
+    	<td colspan="4" class="text-center"><c:if test="${empty orderList}">구매하신 상품이 없습니다.</c:if></td>
     </tr>
     <c:set var="sw" value="0"/>
     <c:set var="tempOrderIdx" value="0"/>
-    <c:forEach var="vo" items="${vos}" varStatus="st">
+    <c:forEach var="vo" items="${orderList}" varStatus="st">
     	<!-- 같은 주문상품은 한번에 총 금액을 출력처리한다. -->
       <c:if test="${tempOrderIdx != vo.orderIdx}">
         <c:if test="${sw != 0}">

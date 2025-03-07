@@ -136,6 +136,9 @@
 	    JOIN product p ON op.productIdx = p.productIdx
 	    LEFT JOIN product_option opt ON op.optionIdx = opt.optionIdx
 	    WHERE o.userIdx = #{userIdx}
+	    <if test="conditionOrderStatus != null and conditionOrderStatus != '전체'">
+	        AND o.orderStatus = #{conditionOrderStatus}
+	    </if>
 	    ORDER BY o.orderDate DESC
 	    LIMIT #{startIndex}, #{pageSize};
 	</select>

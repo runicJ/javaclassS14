@@ -215,7 +215,7 @@ public class ShopController {
     @RequestMapping(value="/productReviewInput", method=RequestMethod.POST)
     public String productReviewInputPost(ReviewVO reviewVO) {
     	ReviewVO reviewParentVO = shopService.getProductParentReviewCheck(reviewVO.getProductIdx());
-    	OrderVO orderCheckVO = orderService.getOrderCheck(reviewVO.getUserId(),reviewVO.getProductIdx());
+    	//OrderVO orderCheckVO = orderService.getOrderCheck(reviewVO.getUserId(),reviewVO.getProductIdx());
     	
     	if(reviewParentVO == null) {
     		reviewVO.setRe_order(1);
@@ -224,9 +224,9 @@ public class ShopController {
     		reviewVO.setRe_order(reviewParentVO.getRe_order() + 1);
     	}
     	reviewVO.setRe_step(0);
-    	reviewVO.setOrderIdx(orderCheckVO.getOrderIdx());
+    	//reviewVO.setOrderIdx(orderCheckVO.getOrderIdx());
     	
-    	int res = orderCheckVO == null ? 0 : shopService.setProductReviewInput(reviewVO);
+    	int res = shopService.setProductReviewInput(reviewVO);
     	
     	return res + "";
     }

@@ -5,7 +5,6 @@
 <head>
 	<meta charset="UTF-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<title>userLogin</title>
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
   	<%@ include file = "/WEB-INF/views/include/user/bs4.jsp"%>
   	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>

@@ -1,7 +1,9 @@
 package com.spring.javaclassS14.controller;
 
+import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
 import java.util.Collections;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -42,6 +44,7 @@ import com.spring.javaclassS14.vo.DeliveryAddressVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
+import com.spring.javaclassS14.vo.ShopVO;
 import com.spring.javaclassS14.vo.UserVO;
 
 @Controller
@@ -657,20 +660,59 @@ public class UserController {
         @RequestParam(value = "pag", defaultValue = "1") int pag,
         @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
         @RequestParam(name = "conditionOrderStatus", required = false) String conditionOrderStatus,
-        @RequestParam(value = "startOrder", required = false) String startOrder,
-        @RequestParam(value = "endOrder", required = false) String endOrder,
+        //@RequestParam(value = "startOrder", required = false) String startOrder,
+        //@RequestParam(value = "endOrder", required = false) String endOrder,
         Model model, HttpSession session) {
 
         Integer userIdx = (Integer) session.getAttribute("sUidx");
         if (userIdx == null) {
-			return "redirect:/msg/userLoginNo";
+            return "redirect:/msg/userLoginNo";
         }
 
+        // 날짜 기본값 설정
+		/*
+		 * if (startOrder == null || startOrder.isEmpty()) { startOrder = new
+		 * SimpleDateFormat("yyyy-MM-dd").format(new Date()); } if (endOrder == null ||
+		 * endOrder.isEmpty()) { endOrder = new
+		 * SimpleDateFormat("yyyy-MM-dd").format(new Date()); }
+		 */
+
         PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrder", userIdx, "");
-        List<OrderVO> orderList = orderService.getUserOrderList(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO);
+
+        //List<OrderVO> orderList = orderService.getUserOrderList(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO);
+        List<OrderVO> orderList = orderService.getUserOrderList(userIdx, conditionOrderStatus, pageVO);
 
         model.addAttribute("orderList", orderList);
         model.addAttribute("pageVO", pageVO);
+        //model.addAttribute("startOrder", startOrder);
+        //model.addAttribute("endOrder", endOrder);
         return "users/userOrderList";
+    }
+
+    
+    // 유저가 좋아요한 상품 목록 조회
+    @GetMapping("/userLiked")
+    public String getLikedProducts(HttpSession session, Model model) {
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
+        if (userIdx == null) {
+            return "redirect:/users/userLogin";
+        }
+
+        List<ShopVO> likedProducts = shopService.getLikedProducts(userIdx);
+        model.addAttribute("likedProducts", likedProducts);
+        return "users/userLiked";
+    }
+
+    // 좋아요 취소
+    @GetMapping("/removeLike")
+    public String removeLike(@RequestParam("productIdx") int productIdx, HttpSession session) {
+        Integer userIdx = (Integer) session.getAttribute("sUidx");
+        int result = shopService.removeLike(userIdx, productIdx);
+
+        if (result > 0) {
+            return "users/userMain";
+        } else {
+            return "users/userLiked"; // 실패 시 에러 페이지
+        }
     }
 }

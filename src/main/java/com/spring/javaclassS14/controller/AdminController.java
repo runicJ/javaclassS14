@@ -478,56 +478,33 @@ public class AdminController {
     }
 
     // 2. 설문 저장 (Admin만 가능)
-    @ResponseBody
     @PostMapping("/survey/surveyInput")
-    public String surveyInputPost(
-            @RequestParam("fName") MultipartFile fName,
-            @RequestParam("surveyVOJson") String surveyVOJson,
-            HttpSession session, HttpServletRequest request) {
-
+    @ResponseBody
+    public String surveyInputPost(@RequestParam("fName") MultipartFile fName,
+                                  @RequestParam("surveyVOJson") String surveyVOJson,
+                                  HttpSession session, HttpServletRequest request) {
         Integer userIdx = (Integer) session.getAttribute("sUidx");
 
         if (userIdx != null && userIdx.equals(1)) {
             ObjectMapper objectMapper = new ObjectMapper();
-            SurveyVO surveyVO = null;
+            SurveyVO surveyVO;
             try {
-                // JSON 데이터를 Map으로 변환
-                Map<String, Object> jsonMap = objectMapper.readValue(surveyVOJson, Map.class);
-                surveyVO = new SurveyVO();
-                surveyVO.setSurveyTitle((String) jsonMap.get("surveyTitle"));
-                surveyVO.setSurveyDesc((String) jsonMap.get("surveyDesc"));
-                surveyVO.setUseFlag((String) jsonMap.get("useFlag"));
+                // JSON 데이터를 SurveyVO 객체로 변환
+                surveyVO = objectMapper.readValue(surveyVOJson, SurveyVO.class);
                 surveyVO.setUserIdx(userIdx);
-
-                // 질문 리스트 설정
-                List<Map<String, Object>> questListMap = (List<Map<String, Object>>) jsonMap.get("questList");
-                List<SurveyQuestionVO> questList = new ArrayList<>();
-                for (Map<String, Object> questMap : questListMap) {
-                    SurveyQuestionVO questionVO = new SurveyQuestionVO();
-                    questionVO.setQuestIdx((Integer) questMap.get("questIdx"));
-                    questionVO.setQuestType((String) questMap.get("questType"));
-                    questionVO.setQuestContent((String) questMap.get("questContent"));
-
-                    // 옵션 리스트 설정
-                    List<Map<String, Object>> optionsMap = (List<Map<String, Object>>) questMap.get("options");
-                    List<SurveyOptionVO> options = new ArrayList<>();
-                    for (Map<String, Object> optionMap : optionsMap) {
-                        SurveyOptionVO optionVO = new SurveyOptionVO();
-                        optionVO.setOptionIdx((Integer) optionMap.get("optionIdx"));
-                        optionVO.setOptContent((String) optionMap.get("optContent"));
-                        options.add(optionVO);
-                    }
-                    questionVO.setOptions(options);
-                    questList.add(questionVO);
-                }
-                surveyVO.setQuestList(questList);
             } catch (IOException e) {
                 e.printStackTrace();
                 return "error";
             }
 
-            int res = surveyService.setSurveyInput(fName, surveyVO, request);
-            return String.valueOf(res);
+            // 서비스에서 전체 설문 데이터 저장 처리
+            int surveyIdx = surveyService.setSurveyInput(fName, surveyVO, request);
+
+            if (surveyIdx <= 0) {
+                return "error"; // 설문 저장 실패 시 에러 반환
+            }
+
+            return "success";
         } else {
             return "redirect:/msg/adminNo";
         }

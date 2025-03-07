@@ -5,7 +5,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>productInput</title>
 	<jsp:include page="/WEB-INF/views/include/admin/bs4.jsp" />
     <script src="${ctp}/ckeditor/ckeditor.js"></script>

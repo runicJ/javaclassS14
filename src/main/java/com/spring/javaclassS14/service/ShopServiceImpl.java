@@ -400,4 +400,14 @@ public class ShopServiceImpl implements ShopService {
 	public List<String> getTopPickTags() {
 		return shopDAO.getTopPickTags();
 	}
+
+	@Override
+	public List<ShopVO> getLikedProducts(int userIdx) {
+		return shopDAO.getLikedProducts(userIdx);
+	}
+
+	@Override
+	public int removeLike(int userIdx, int productIdx) {
+		return shopDAO.removeLike(userIdx, productIdx);
+	}
 }

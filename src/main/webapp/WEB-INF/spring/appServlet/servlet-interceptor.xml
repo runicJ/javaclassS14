@@ -46,8 +46,7 @@
 		</interceptor>
 	  	<!-- 2 -->
  		<interceptor>
-	    <mapping path="/community/**"/>
-	    <mapping path="/review/photoReview"/>
+	    <mapping path="/community/userChat"/>
 		<!-- 비회원 처리 인터셉트가 추가로 필요함(비회원 못막음) -->
 	    <beans:ref bean="level2Interceptor" />
 		</interceptor>

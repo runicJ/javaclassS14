@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>noticeDetails</title>
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
     <link rel="stylesheet" href="${ctp}/css/shop/elegant-icons.css" type="text/css">

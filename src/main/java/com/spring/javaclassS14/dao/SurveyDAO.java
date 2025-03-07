@@ -10,13 +10,7 @@ import com.spring.javaclassS14.vo.SurveyVO;
 public interface SurveyDAO {
 
     // 설문 저장 (새로운 설문을 DB에 추가)
-	public int setSurveyInput(@Param("surveyVO") SurveyVO surveyVO);
-
-    // 설문 질문 저장
-    public void setQuestionInput(@Param("questionVO") SurveyQuestionVO questionVO);
-
-    // 설문 질문의 선택지 저장
-    public void setOptionInput(@Param("optionVO") SurveyOptionVO optionVO);
+	public int setSurveyInput(SurveyVO surveyVO);
 
     // 특정 설문의 기본 정보 조회
     public SurveyVO getSurveyForm(@Param("surveyIdx") int surveyIdx);
@@ -37,10 +31,10 @@ public interface SurveyDAO {
     public SurveyVO getOneSurv(@Param("surveyIdx") int surveyIdx);
 
     // 사용자의 설문 응답 여부 확인
-    public int resSurvYn(@Param("surveyVO") SurveyVO surveyVO);
+    public int resSurvYn(@Param("userIdx") int userIdx, @Param("surveyIdx") int surveyIdx);
 
     // 설문 수정 (제목 및 설명 수정)
-    public void updateSurvey(@Param("surveyVO") SurveyVO surveyVO);
+    public void updateSurvey(SurveyVO surveyVO);
 
     // 페이징 적용된 설문 리스트 조회
     public List<SurveyVO> getSurveyEventListPaged(@Param("currentPage") int currentPage, @Param("cntPerPage") int cntPerPage);
@@ -49,7 +43,7 @@ public interface SurveyDAO {
     public void delOldSurvey(@Param("surveyIdx") int surveyIdx);
 
     // 설문 수정 후 새로운 데이터 삽입
-    public void insertNewSurv(@Param("surveyVO") SurveyVO surveyVO);
+    public void insertNewSurv(SurveyVO surveyVO);
 
     // 특정 관리자의 설문 목록 조회
     public List<SurveyVO> getSurveyList(@Param("userIdx") int userIdx);
@@ -61,4 +55,16 @@ public interface SurveyDAO {
     public List<SurveyAnswerVO> getSurveyAnswerStats(@Param("questIdx") int questIdx);
 
 	public int getTotalSurveys(@Param("userIdx") int userIdx);
+
+	public int saveSurveyQuestion(SurveyQuestionVO questionVO);
+
+	public int saveSurveyOption(SurveyOptionVO optionVO);
+
+	public int getLastSurveyId();
+
+	public int getLastQuestId();
+
+	public int insertSurveyAnswersBatch(@Param("answerList") List<SurveyAnswerVO> answerList);
+
+	public int countUserSurveyAnswers(@Param("userIdx") int userIdx, @Param("surveyIdx") int surveyIdx);
 }

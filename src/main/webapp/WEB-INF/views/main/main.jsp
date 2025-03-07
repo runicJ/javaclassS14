@@ -126,7 +126,7 @@
 	        
 	        // 카운트다운 시작
 	        const countdown = () => {
-                const countDate = new Date("Apr 19, 2025 00:00:00").getTime();
+                const countDate = new Date("Apr 19, 2026 00:00:00").getTime();
                 const now = new Date().getTime();
                 const gap = countDate - now;
 
@@ -257,6 +257,14 @@
 	            }
 	        });
 	    }
+	    
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(() => {
+                alert("링크가 복사되었습니다!");
+            }).catch(err => {
+                console.error('복사 실패:', err);
+            });
+        }
 	</script>
 </head>
 
@@ -502,14 +510,26 @@
                         <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}" style="object-fit:cover;">
                             <c:if test="${productVO.createDiff > -7}"><span class="label">New</span></c:if>
                             <ul class="product__hover">
+                            <c:if test="${not empty sUid}">
 	                            <li>
 			                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
 			                            <i class="fa-solid fa-heart"></i>
 			                            <span>관심등록</span>
 			                        </a>
 			                    </li>
-	                            <li><a href="${ctp}/"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
-	                            <li><a href="${ctp}/"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
+	                            <li>
+                                    <a href="javascript:void(0);" onclick="addToCart(${productVO.productIdx})">
+                                        <i class="fa-solid fa-bag-shopping"></i>
+                                        <span>장바구니</span>
+                                    </a>
+	                            </li>
+	                        </c:if>
+	                            <li>
+                                    <a href="javascript:void(0);" onclick="copyToClipboard('${ctp}/shop/productDetails?productIdx=${productVO.productIdx}')">
+                                        <i class="fa-solid fa-share"></i>
+                                        <span>공유하기</span>
+                                    </a>
+	                            </li>
                             </ul>
                         </div>
                         <div class="product__item__text">
@@ -573,6 +593,7 @@
 													<div class="value">${likedCount}</div>														
 												</a>
 											</div>
+											
 											<div class="item">
 												<a href="${ctp}/users/userMain">
 													<div class="icon"><i class="fa-solid fa-gear"></i>
@@ -581,7 +602,16 @@
 													</div>														
 												</a>
 											</div>
+											
 										</div>
+									    <!-- 로그인되지 않은 경우 로그인 버튼 표시 -->
+									    <c:if test="${empty sUid}">
+										    <div class="featured-author-quote">
+									            <a href="${ctp}/users/userLogin">
+									                <div class="btn btn-primary">로그인 하기</div>
+									            </a>
+									        </div>
+									    </c:if>
 										<!--
 										<div class="featured-author-quote">
 											"Eur costrict mobsa undivani krusvuw blos andugus pu aklosah"

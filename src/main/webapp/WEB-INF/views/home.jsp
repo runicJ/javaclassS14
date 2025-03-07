@@ -6,7 +6,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>괄호 안 쉼표</title>
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/css/swiper.min.css" integrity="sha256-DBYdrj7BxKM3slMeqBVWX2otx7x4eqoHRJCsSDJ0Nxw=" crossorigin="anonymous"/>
@@ -15,18 +15,17 @@
 	<script src="https://kit.fontawesome.com/df66332deb.js" crossorigin="anonymous"></script>
     <link rel="stylesheet" href="${ctp}/css/home/style.css" />
     <link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
-  </head>
+</head>
 
-  <body>
+<body>
+<div id="all">
+  	<div id="preloader">
+    	<div class="p">Dodo</div>
+	</div>
+	<div id="breaker"></div>
 
-    <div id="all">
-  <div id="preloader">
-    <div class="p">Dodo</div>
-</div>
-<div id="breaker"></div>
-
-      <div class="cursor scale"></div>
-      <div class="cursor-two  scale"></div>
+  <div class="cursor scale"></div>
+  <div class="cursor-two  scale"></div>
       <!-- HOME -->
       <div id="home">
     
@@ -41,7 +40,7 @@
               <li class="links about-link fade-down"><a href="${ctp}/users/userLogin">
               	<span>더 많은 정보를 원하시나요? <br>미리 로그인 하세요.</span>
               </a></li>
-              <li class="links contact-link fade-down"><a href="${ctp}/users/userResister">
+              <li class="links contact-link fade-down"><a href="${ctp}/users/userPolicy">
               	<span>우리와 함께 정보를 공유해요. <br>더 맑은 내일을 살아가요.</span>
               </a></li>
             </ul>
@@ -342,7 +341,7 @@
     </div>
 
 <!--CONTACT PAGE-->
-<div id="contact">
+<!-- <div id="contact">
   <div class="navigation navigation-contact">
         
     <div class="logo home-link contact-opacity">
@@ -379,7 +378,7 @@
 		        </div>
 			</div>
 		</div>
-	</div>
+	</div> -->
 </div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/Swiper/4.5.1/js/swiper.min.js" integrity="sha256-4sETKhh3aSyi6NRiA+qunPaTawqSMDQca/xLWu27Hg4=" crossorigin="anonymous"></script>
     <script src="${ctp}/js/home/jquery.min.js"></script>

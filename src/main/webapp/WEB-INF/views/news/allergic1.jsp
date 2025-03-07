@@ -263,9 +263,9 @@
         url,
       link: {
         mobileWebUrl: 'http://localhost:9090',
-        webUrl: 'http://localhost:9090',
-/*         mobileWebUrl: 'http://49.142.159.251:9090',
-        webUrl: 'http://49.142.159.251:9090', */
+        webUrl: 'http://localhost:9090'
+        //mobileWebUrl: 'http://49.142.159.251:9090',
+        //webUrl: 'http://49.142.159.251:9090'
       },
     });
   }

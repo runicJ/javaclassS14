@@ -7,7 +7,7 @@
 <html>
 <head>
 	<meta charset="UTF-8">
-	<meta name="viewport" content="width=divice-width, initial-scale=1.0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
 	<title>productList</title>
     <link rel="stylesheet" href="${ctp}/css/shop/jquery-ui.min.css" type="text/css">
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">

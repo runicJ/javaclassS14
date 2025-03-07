@@ -28,6 +28,5 @@ public interface OrderService {
 	public boolean updateOrderStatus(Integer orderIdx, String orderNumber);
 	public boolean cancelOrder(Integer orderIdx);
 	public List<OrderVO> getOrderDetail(int orderIdx);
-	public List<OrderVO> getUserOrderList(int userIdx, String startOrder, String endOrder,
-			String conditionOrderStatus, PageVO pageVO);
+	public List<OrderVO> getUserOrderList(int userIdx, String conditionOrderStatus, PageVO pageVO);
 }

@@ -179,9 +179,8 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<OrderVO> getUserOrderList(int userIdx, String startOrder, String endOrder, String conditionOrderStatus,
-			PageVO pageVO) {
-        return orderDAO.getUserOrderList(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO);
+	public List<OrderVO> getUserOrderList(int userIdx, String conditionOrderStatus, PageVO pageVO) {
+	    return orderDAO.getUserOrderList(userIdx, conditionOrderStatus, pageVO);
 	}
 
 }

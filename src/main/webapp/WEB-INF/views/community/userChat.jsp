@@ -50,7 +50,7 @@
   </style>
   <script>
     $(document).ready(function() {
-      /* let url = "ws://49.142.159.251:9090/${ctp}/chat"; */
+      //let url = "ws://49.142.159.251:9090/${ctp}/chat";
       let url = "ws://localhost:9090/${ctp}/chat";
       let ws;
 
