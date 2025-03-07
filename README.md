@@ -9,7 +9,7 @@
 > 기간: 2024.06.28. ~ 2024.08.05.(약 1달) => 2025.03 ~ 수정 중<br>
 > 인원: 1명
 
-### 사이트 링크: http://49.142.157.251:9090/javaclassS14/
+🚀 **사이트 링크**: 👉 [http://49.142.157.251:9090/javaclassS14/](http://49.142.157.251:9090/javaclassS14/)
 <hr>
 
 ## 🛠 기술 스택
@@ -48,7 +48,7 @@ Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
 - 태그 기반 추천 시스템(태그 연관 제품 추천)
 - 최근 본 제품 & 관심 제품 기능
 
-### 알레르기 정보 제공
+### 🌐 알레르기 정보 제공
 - 네이버, 구글, 네이처 알레르기 뉴스 크롤링
 - 알레르기 유형 크롤링
 - 유저 커뮤니티 채팅방 제공
@@ -79,15 +79,14 @@ Kakao API / CkEditor / 포트원 결제 모듈 / D3.js
 <hr>
 <br>
 <h1>이미지</h1>
-
 <img src="https://github.com/user-attachments/assets/515078e5-c555-4fcb-aeaa-7442b6aed6c5" width="500px">
 <img src="https://github.com/user-attachments/assets/b7470e84-7edc-4f75-9ec2-667ad2e26579" width="500px">
 <img src="https://github.com/user-attachments/assets/022d0de5-ce98-4326-b6fd-5a157d61a9ba" width="500px">
 
 <br/>  
 
-<h2>LICENSE</h2>
-<p>이 프로젝트는 MIT License 에 따라 라이선스가 부여됩니다.</p>
+## 📝 LICENSE
+이 프로젝트는 **MIT License**에 따라 배포됩니다. 자세한 내용은 [`LICENSE`](./LICENSE) 파일을 확인하세요.
 <br>
 
 <a href="https://github.com/runicJ/github-readme-stats">
