@@ -50,12 +50,16 @@
 	</select>
 
     <!-- 특정 질문에 대한 응답 통계 조회 -->
-    <select id="getSurveyAnswerStats" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
-        SELECT answerContent, COUNT(*) as count
-        FROM surveyAnswer
-        WHERE questIdx = #{questIdx}
-        GROUP BY answerContent
-    </select>
+	<select id="getSurveyAnswerStats" parameterType="int" resultType="com.spring.javaclassS14.vo.SurveyAnswerVO">
+	    SELECT 
+	        questIdx, 
+        	TRIM(IFNULL(answerContent, '미응답')) AS answerContent,
+			COUNT(*) AS responseCount	    
+		FROM surveyanswer
+    	WHERE surveyIdx = #{surveyIdx}
+	    GROUP BY questIdx, BINARY answerContent
+	    ORDER BY responseCount DESC;
+	</select>
 
     <!-- 설문 응답 저장 (Batch Insert) -->
 	<insert id="setSurveyAnswerInputBatch" parameterType="java.util.List">
@@ -141,4 +145,11 @@
 	        (#{answer.surveyIdx}, #{answer.userIdx}, #{answer.questIdx}, #{answer.answerContent}, #{answer.answerLong})
 	    </foreach>
 	</insert>
+	
+	<!-- 특정 설문의 useFlag 변경 -->
+	<update id="updateUseFlag">
+	    UPDATE survey 
+	    SET useFlag = #{useFlag} 
+	    WHERE surveyIdx = #{surveyIdx};
+	</update>
 </mapper>

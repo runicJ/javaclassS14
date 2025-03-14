@@ -60,6 +60,38 @@
                 location.href = '${ctp}/admin/survey/deleteSurvey?surveyIdx=' + surveyIdx;
             }
         }
+        
+        document.addEventListener("DOMContentLoaded", function() {
+            const buttons = document.querySelectorAll(".toggle-useFlag");
+
+            buttons.forEach(button => {
+                button.addEventListener("click", function() {
+                    let surveyIdx = this.getAttribute("data-surveyidx");
+                    let currentFlag = this.getAttribute("data-useflag");
+                    let newFlag = (currentFlag === 'y') ? 'n' : 'y';  // 현재 값 반전
+
+                    if (confirm("설문을 " + (newFlag === 'y' ? '사용' : '사용 안함') + " 상태로 변경하시겠습니까?")) {
+                        fetch("${ctp}/admin/survey/updateUseFlag", {
+                            method: "POST",
+                            headers: {
+                                "Content-Type": "application/x-www-form-urlencoded"
+                            },
+                            body: "surveyIdx=" + surveyIdx + "&useFlag=" + newFlag
+                        })
+                        .then(response => response.json())
+                        .then(data => {
+                            if (data.success) {
+                                alert("사용 여부가 변경되었습니다.");
+                                location.reload(); // 변경 사항 반영
+                            } else {
+                                alert("변경에 실패했습니다.");
+                            }
+                        })
+                        .catch(error => console.error("Error:", error));
+                    }
+                });
+            });
+        });
     </script>
 </head>
 <body>
@@ -98,10 +130,12 @@
 		                        </a>
 		                    </td>
                             <td>
-                                <c:choose>
-                                    <c:when test="${surv.useFlag == 'y'}">사용중</c:when>
-                                    <c:otherwise>사용 안함</c:otherwise>
-                                </c:choose>
+							    <button class="toggle-useFlag" data-surveyidx="${surv.surveyIdx}" data-useflag="${surv.useFlag}">
+							        <c:choose>
+							            <c:when test="${surv.useFlag eq 'y'}">사용</c:when>
+							            <c:otherwise>사용 안함</c:otherwise>
+							        </c:choose>
+							    </button>
                             </td>
                             <td>${fn:substring(surv.createDate, 0, 10)}</td>
                             <td>${fn:substring(surv.modDate, 0, 10)}</td>

@@ -52,7 +52,7 @@ public interface SurveyDAO {
 	public List<SurveyVO> getSurveyEventList();
 
     // 특정 질문에 대한 응답 통계 조회
-    public List<SurveyAnswerVO> getSurveyAnswerStats(@Param("questIdx") int questIdx);
+    public List<SurveyAnswerVO> getSurveyAnswerStats(@Param("questIdx") int questIdx, @Param("surveyIdx") int surveyIdx);
 
 	public int getTotalSurveys(@Param("userIdx") int userIdx);
 
@@ -67,4 +67,6 @@ public interface SurveyDAO {
 	public int insertSurveyAnswersBatch(@Param("answerList") List<SurveyAnswerVO> answerList);
 
 	public int countUserSurveyAnswers(@Param("userIdx") int userIdx, @Param("surveyIdx") int surveyIdx);
+
+	public void updateUseFlag(@Param("surveyIdx") int surveyIdx, @Param("useFlag") String useFlag);
 }

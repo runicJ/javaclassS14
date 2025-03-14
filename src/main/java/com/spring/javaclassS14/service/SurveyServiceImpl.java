@@ -155,7 +155,7 @@ public class SurveyServiceImpl implements SurveyService {
         List<SurveyQuestionVO> questions = surveyDAO.getSurveyQuestList(surveyIdx);
         for (SurveyQuestionVO question : questions) {
             // 각 질문의 응답 데이터 가져오기
-            List<SurveyAnswerVO> answers = surveyDAO.getSurveyAnswerStats(question.getQuestIdx());
+            List<SurveyAnswerVO> answers = surveyDAO.getSurveyAnswerStats(question.getQuestIdx(), question.getSurveyIdx());
             question.setAnswerList(answers);
         }
 
@@ -207,6 +207,11 @@ public class SurveyServiceImpl implements SurveyService {
 	@Override
 	public int resSurvYn(int userIdx, int surveyIdx) {
 		return surveyDAO.resSurvYn(userIdx, surveyIdx);
+	}
+
+	@Override
+	public void updateUseFlag(int surveyIdx, String useFlag) {
+		surveyDAO.updateUseFlag(surveyIdx, useFlag);
 	}
 
 }

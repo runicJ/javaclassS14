@@ -56,4 +56,7 @@ public interface SurveyService {
 
     // 설문 응답 여부 확인
 	public int resSurvYn(int userIdx, int surveyIdx);
+
+	// 관리자 설문지 사용 여부
+	public void updateUseFlag(int surveyIdx, String useFlag);
 }

@@ -17,14 +17,14 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.OrderService;
-import com.spring.javaclassS14.service.QnaService;
+import com.spring.javaclassS14.service.ProductQnaService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
-import com.spring.javaclassS14.vo.QnaVO;
+import com.spring.javaclassS14.vo.ProductQnaVO;
 import com.spring.javaclassS14.vo.ReviewVO;
 import com.spring.javaclassS14.vo.ShopVO;
 
@@ -41,7 +41,7 @@ public class ShopController {
     @Autowired
     OrderService orderService;
     @Autowired
-    QnaService qnaService;
+    ProductQnaService qnaService;
 
     @RequestMapping(value="/productList", method=RequestMethod.GET)
     public String productListGet(Model model,
@@ -114,7 +114,7 @@ public class ShopController {
         model.addAttribute("relatedVOS", relatedVOS);
 
     	PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "qna", "", "");
-    	List<QnaVO> vos = qnaService.getQnaList(pageVO.getStartIndexNo(), pageSize);
+    	List<ProductQnaVO> vos = qnaService.getQnaList(pageVO.getStartIndexNo(), pageSize);
     	model.addAttribute("vos", vos);
     	model.addAttribute("pageVO", pageVO);
 

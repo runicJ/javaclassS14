@@ -30,6 +30,7 @@ import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.google.gson.Gson;
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.AdminService;
@@ -43,8 +44,6 @@ import com.spring.javaclassS14.vo.CsworkVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.ShopVO;
-import com.spring.javaclassS14.vo.SurveyOptionVO;
-import com.spring.javaclassS14.vo.SurveyQuestionVO;
 import com.spring.javaclassS14.vo.SurveyVO;
 import com.spring.javaclassS14.vo.UserVO;
 
@@ -481,7 +480,7 @@ public class AdminController {
     @PostMapping("/survey/surveyInput")
     @ResponseBody
     public String surveyInputPost(@RequestParam("fName") MultipartFile fName,
-                                  @RequestParam("surveyVOJson") String surveyVOJson,
+                                  @RequestParam("surveyData") String surveyData,
                                   HttpSession session, HttpServletRequest request) {
         Integer userIdx = (Integer) session.getAttribute("sUidx");
 
@@ -490,7 +489,7 @@ public class AdminController {
             SurveyVO surveyVO;
             try {
                 // JSON 데이터를 SurveyVO 객체로 변환
-                surveyVO = objectMapper.readValue(surveyVOJson, SurveyVO.class);
+                surveyVO = objectMapper.readValue(surveyData, SurveyVO.class);
                 surveyVO.setUserIdx(userIdx);
             } catch (IOException e) {
                 e.printStackTrace();
@@ -579,8 +578,27 @@ public class AdminController {
 	        return "admin/survey/surveyList"; // 목록 페이지로 리디렉트
 	    }
 	    
+	    // 질문 리스트를 JSON으로 변환
+	    String questListJson = new Gson().toJson(surveyVO.getQuestList());
+	    
 	    model.addAttribute("survey", surveyVO);
+	    model.addAttribute("questListJson", questListJson);  // 추가
+	    
 	    return "admin/survey/surveyResult"; // 결과 페이지로 이동
+	}
+	
+	@PostMapping("/survey/updateUseFlag")
+	@ResponseBody
+	public Map<String, Object> updateUseFlag(@RequestParam("surveyIdx") int surveyIdx,
+	                                         @RequestParam("useFlag") String useFlag) {
+	    Map<String, Object> response = new HashMap<>();
+	    try {
+	        surveyService.updateUseFlag(surveyIdx, useFlag);
+	        response.put("success", true);
+	    } catch (Exception e) {
+	        response.put("success", false);
+	    }
+	    return response;
 	}
 
 	@RequestMapping(value = "/info/noticeInput", method=RequestMethod.GET)

@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.javaclassS14.dao.ProductQnaDAO">
+
+  <!-- 전체 QnA 개수 조회 -->
+  <select id="totRecCnt" resultType="int">
+    SELECT COUNT(*) FROM product_qna;
+  </select>
+  
+  <!-- QnA 목록 조회 (답변 포함) -->
+  <select id="getQnaList" resultType="com.spring.javaclassS14.vo.ProductQnaVO">
+    SELECT *, TIMESTAMPDIFF(MINUTE, qnaDate, NOW()) / 60 AS diffTime
+    FROM product_qna 
+    ORDER BY productQnaIdx DESC, answerFlag DESC
+    LIMIT #{startIndexNo}, #{pageSize};
+  </select>
+  
+  <!-- 사용자 이메일 조회 -->
+  <select id="getEmail" resultType="String">
+    SELECT email FROM users WHERE userIdx = #{userIdx};
+  </select>
+  
+  <!-- 전체 QnA 개수 조회 -->
+  <select id="getCountIdx" resultType="int">
+    SELECT COUNT(productQnaIdx) FROM product_qna;
+  </select>
+  
+  <!-- QnA의 최대 productQnaIdx 조회 -->
+  <select id="getMaxIdx" resultType="int">
+    SELECT IFNULL(MAX(productQnaIdx), 0) FROM product_qna;
+  </select>
+  
+  <!-- 특정 QnA 조회 -->
+  <select id="getQnaContent" resultType="com.spring.javaclassS14.vo.ProductQnaVO">
+    SELECT * FROM product_qna WHERE productQnaIdx = #{productQnaIdx};
+  </select>
+  
+  <!-- 특정 QnA의 답변 여부 확인 -->
+  <select id="getQnaIdxCheck" resultType="com.spring.javaclassS14.vo.ProductQnaVO">
+    SELECT * FROM product_qna WHERE productQnaIdx = #{productQnaIdx};
+  </select>
+  
+  <!-- QnA 질문/답변 입력 -->
+  <insert id="qnaInputOk">
+    INSERT INTO product_qna (userIdx, productIdx, qnaContent, qnaOpenFlag, qnaPwd, qnaDate, answerFlag, answerContent, answerDate, deleteFlag)
+    VALUES (#{vo.userIdx}, #{vo.productIdx}, #{vo.qnaContent}, #{vo.qnaOpenFlag}, #{vo.qnaPwd}, NOW(), 'n', NULL, NULL, 'n');
+  </insert>
+  
+  <!-- QnA 답변 등록 (관리자가 답변할 경우) -->
+  <update id="qnaAdminAnswerUpdateOk">
+    UPDATE product_qna 
+    SET answerContent = #{answerContent}, answerDate = NOW(), answerFlag = 'y' 
+    WHERE productQnaIdx = #{productQnaIdx};
+  </update>
+  
+  <!-- QnA 내용 수정 -->
+  <update id="setQnaContentUpdate">
+    UPDATE product_qna 
+    SET qnaContent = #{vo.qnaContent}, email = #{vo.email}, qnaDate = NOW()
+    WHERE productQnaIdx = #{vo.productQnaIdx};
+  </update>
+  
+  <!-- 삭제된 QnA 업데이트 (내용 변경) -->
+  <update id="setQnaCheckUpdate">
+    UPDATE product_qna 
+    SET qnaContent = #{qnaContent} 
+    WHERE productQnaIdx = #{productQnaIdx};
+  </update>
+  
+  <!-- 특정 QnA 삭제 -->
+  <delete id="setQnaDelete">
+    DELETE FROM product_qna WHERE productQnaIdx = #{productQnaIdx};
+  </delete>
+
+</mapper>
