@@ -3,6 +3,8 @@ package com.spring.javaclassS14.service;
 import java.util.List;
 import java.util.Map;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.web.multipart.MultipartFile;
 
 import com.spring.javaclassS14.vo.DeliveryAddressVO;
@@ -23,8 +25,6 @@ public interface UserService {
 	public UserVO getUserCheck(String name, String email);
 
 	public UserVO getUserNickNameEmailCheck(String nickName, String email);
-
-	public void setKakaoUserInput(String userId, String pwd, String nickName, String email);
 
 	public void setUserPwdUpdate(String userId, String tempPwd);
 
@@ -65,4 +65,8 @@ public interface UserService {
 	public boolean setDefaultAddress(int id);
 
 	public List<Map<String, Object>> getUserActivity(int userIdx);
+
+	public UserVO handleKakaoLogin(String code, HttpSession session);
+
+	public UserVO handleNaverLogin(String naverId, String email, String nickname);
 }

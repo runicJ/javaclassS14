@@ -28,6 +28,8 @@
    	    <mapping path="/recent/**"/>
 	    <!-- <mapping path="/shop/addToCart"/> -->
 	    <exclude-mapping path="/users/userLogin"/>
+	    <exclude-mapping path="/users/userKakaoLogin"/>
+	    <exclude-mapping path="/users/userNaverLogin"/>
 	    <exclude-mapping path="/users/userPolicy"/>
 	    <exclude-mapping path="/users/userRegister"/>
 	    <exclude-mapping path="/users/uidCheck"/>

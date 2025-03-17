@@ -10,6 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 import com.spring.javaclassS14.dao.OrderDAO;
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.OrderProductVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.PaymentVO;
@@ -32,7 +33,9 @@ public class OrderServiceImpl implements OrderService {
 
     @Override
     public int setOrder(OrderVO orderVO) {
-    	return orderDAO.setOrder(orderVO);
+    	orderDAO.setOrder(orderVO);
+        System.out.println("🛠 생성된 orderIdx: " + orderVO.getOrderIdx()); // 디버깅 로그 추가
+        return orderVO.getOrderIdx();
     }
 	 
 
@@ -77,7 +80,7 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public void setOrderProduct(OrderVO vo) {
+	public void setOrderProduct(OrderProductVO vo) {
 		orderDAO.setOrderProduct(vo);
 	}
 
@@ -179,8 +182,36 @@ public class OrderServiceImpl implements OrderService {
 	}
 
 	@Override
-	public List<OrderVO> getUserOrderList(int userIdx, String conditionOrderStatus, PageVO pageVO) {
-	    return orderDAO.getUserOrderList(userIdx, conditionOrderStatus, pageVO);
+    public List<OrderVO> getUserOrderList(int userIdx, String startOrder, String endOrder, String conditionOrderStatus, PageVO pageVO) {
+        // **DAO에서 주문 목록 가져오기**
+        List<OrderVO> orders = orderDAO.getUserOrders(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO.getStartIndexNo(), pageVO.getPageSize());
+
+        // **각 주문에 대한 상품 목록 추가**
+        for (OrderVO order : orders) {
+            List<OrderProductVO> orderProducts = orderDAO.getOrderProducts(order.getOrderIdx());
+            order.setOrderProducts(orderProducts);
+        }
+
+        return orders;
+    }
+
+	@Override
+	public List<OrderVO> getOrderByUserIdx(int userIdx) {
+		return orderDAO.getOrderByUserIdx(userIdx);
 	}
 
+	@Override
+	public List<OrderVO> getRecentOrders(int userIdx, int limit) {
+		return orderDAO.getRecentOrders(userIdx, limit);
+	}
+
+	@Override
+	public OrderVO getOrderDetails(String orderNumber, int userIdx) {
+		return orderDAO.getOrderDetails(orderNumber, userIdx);
+	}
+
+	@Override
+	public List<OrderProductVO> getOrderItems(String orderNumber) {
+		return orderDAO.getOrderItems(orderNumber);
+	}
 }

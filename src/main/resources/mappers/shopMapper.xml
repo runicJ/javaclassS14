@@ -171,8 +171,21 @@
     <resultMap id="CartVOResultMap" type="com.spring.javaclassS14.vo.CartVO">
         <result property="cartIdx" column="cartIdx"/>
         <result property="userIdx" column="userIdx"/>
-        <collection property="items" ofType="com.spring.javaclassS14.vo.CartItem" resultMap="CartItemResultMap"/>
+    	<collection property="items" ofType="com.spring.javaclassS14.vo.CartItem" column="cartIdx" select="getCartItemsByCartIdx"/>
     </resultMap>
+    
+    <select id="getCartItemsByCartIdx" parameterType="int" resultMap="CartItemResultMap">
+	    SELECT 
+	        c.productIdx, c.optionIdx, c.quantity, c.isSoldOut, c.addedDate,
+	        p.productThumb, p.productName, p.productPrice,
+	        IFNULL(o.optionName, '기본') AS optionName,
+	        IFNULL(g.optionGroupName, '기본') AS optionGroupName
+	    FROM cart c
+	    JOIN product p ON c.productIdx = p.productIdx
+	    LEFT JOIN product_option o ON c.optionIdx = o.optionIdx
+	    LEFT JOIN product_option_group g ON o.optionGroupIdx = g.optionGroupIdx
+	    WHERE c.cartIdx = #{cartIdx}
+	</select>
 
     <!-- 장바구니 항목 가져오기 -->
 	<select id="getProductCart" resultMap="CartVOResultMap">
@@ -235,10 +248,12 @@
 	</select>
     
 	<select id="getRelatedProducts" parameterType="map" resultType="com.spring.javaclassS14.vo.ShopVO">
-		select * from product where 
-		<foreach collection="tags" item="tag" separator=" OR ">
-			productTags like concat('%',#{tag},'%')
-		</foreach>
+		select * from product
+		<where>
+			<foreach collection="tags" item="tag" separator=" OR ">
+				productTags like concat('%',#{tag},'%')
+			</foreach>
+		</where>
 		order by favoriteCount desc, createdDate desc limit 4;
 	</select>
 
@@ -322,6 +337,10 @@
 		GROUP BY tag
 		ORDER BY COUNT(*) DESC
 		LIMIT 7;
+	</select>
+	
+	<select id="getCartItem" parameterType="map" resultType="com.spring.javaclassS14.vo.CartVO">
+	    SELECT * FROM cart WHERE cartIdx = #{cartIdx} AND productIdx = #{productIdx} AND userIdx = #{userIdx}
 	</select>	
 	
     <!-- 유저가 좋아요한 상품 목록 가져오기 -->
@@ -400,6 +419,12 @@
     
    	<update id="setReviewOrderUpdate">
 	  update productReview set re_order = re_order + 1 where productIdx = #{productIdx} and re_order > #{re_order};
+	</update>
+	
+	<update id="updateCartQuantity">
+	    UPDATE cart
+	    SET quantity = #{quantity}, totalPrice = #{totalPrice}
+	    WHERE cartIdx = #{cartIdx} AND productIdx = #{productIdx} AND userIdx = #{userIdx}
 	</update>
     
     

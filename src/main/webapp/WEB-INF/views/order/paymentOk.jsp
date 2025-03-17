@@ -23,43 +23,45 @@
 		    pay_method : 'card',
 		    merchant_uid : 'javaclassS14_' + new Date().getTime(),
 		    name : '${paymentVO.name}',
-		    amount : ${paymentVO.amount},
+		    amount : '${paymentVO.amount}',
 		    buyer_email : '${paymentVO.buyer_email}',
-		    buyer_name : '${paymentVO.buyer_uid}',
+		    buyer_name : '${paymentVO.buyer_name}',
 		    buyer_tel : '${paymentVO.buyer_tel}',
 		    buyer_addr : '${paymentVO.buyer_addr}',
 		    buyer_postcode : '${paymentVO.buyer_postcode}'
 		}, function(rsp) {
-			  var paySw = 'no';
-		    if ( rsp.success ) {
-		        var msg = '결제가 완료되었습니다.';
-		        msg += '\n고유ID : ' + rsp.imp_uid;
-		        msg += '\n상점 거래ID : ' + rsp.merchant_uid;
-		        msg += '\n결제 금액 : ' + rsp.paid_amount;
-		        msg += '\n카드 승인번호 : ' + rsp.apply_num;
-		        paySw = 'ok';
-		    } else {
-		        var msg = '결제에 실패하였습니다.';
-		        msg += '에러내용 : ' + rsp.error_msg;
-		    }
+	        var paySw = 'no';
+	        var msg = '';
+	        
+	        if (rsp.success) {
+	            paySw = 'ok';
+	            msg = '결제가 완료되었습니다.\n';
+	            msg += '고유ID: ' + rsp.imp_uid + '\n';
+	            msg += '상점 거래ID: ' + rsp.merchant_uid + '\n';
+	            msg += '결제 금액: ' + rsp.paid_amount + '원\n';
+	            msg += '카드 승인번호: ' + rsp.apply_num;
+	        } else {
+	            msg = '⚠️ 결제에 실패하였습니다.\n';
+	            msg += '이유: ' + rsp.error_msg;
+	        }
 		    alert(msg);
 		    if(paySw == 'no') {
-			    alert("다시 장바구니로 이동합니다.");
-		    	location.href='${ctp}/shop/productCart';
+		        alert("결제가 실패하였습니다.\n이유: " + rsp.error_msg + "\n장바구니로 이동합니다.");
+		        location.href='${ctp}/shop/productCart';
 		    }
 		    else {
-					var temp = "";
-					temp += '?name=${paymentVO.name}';
-					temp += '&amount=${paymentVO.amount}';
-					temp += '&buyer_email=${paymentVO.buyer_email}';
-					temp += '&buyer_name=${paymentVO.buyer_uid}';
-					temp += '&buyer_tel=${paymentVO.buyer_tel}';
-					temp += '&buyer_addr=${paymentVO.buyer_addr}';
-					temp += '&buyer_postcode=${paymentVO.buyer_postcode}';
-					temp += '&imp_uid=' + rsp.imp_uid;
-					temp += '&merchant_uid=' + rsp.merchant_uid;
-					temp += '&paid_amount=' + rsp.paid_amount;
-					temp += '&apply_num=' + rsp.apply_num;
+	            // 서버 검증을 위해 결제 정보 전달
+	            var temp = "?name=${paymentVO.name}";
+	            temp += "&amount=${paymentVO.amount}";
+	            temp += "&buyer_email=${paymentVO.buyer_email}";
+	            temp += "&buyer_name=${paymentVO.buyer_name}";
+	            temp += "&buyer_tel=${paymentVO.buyer_tel}";
+	            temp += "&buyer_addr=${paymentVO.buyer_addr}";
+	            temp += "&buyer_postcode=${paymentVO.buyer_postcode}";
+	            temp += "&imp_uid=" + rsp.imp_uid;
+	            temp += "&merchant_uid=" + rsp.merchant_uid;
+	            temp += "&paid_amount=" + rsp.paid_amount;
+	            temp += "&apply_num=" + rsp.apply_num;
 					
 					location.href='${ctp}/order/paymentResult'+temp;
 		    }
@@ -71,12 +73,12 @@
 <jsp:include page="/WEB-INF/views/include/user/nav.jsp"/>
 <p><br></p>
 <div class="container text-center">
- <section class="checkout spad">
-  <h2>결제처리 중</h2>
-  <hr/>
-  <h3>현재 결제가 진행중입니다.</h3>
-  <p><img src="${ctp}/images/payment.gif" width="200px"/></p>
-  <hr/>
+	<section class="checkout spad">
+    	<h2>결제 처리 중...</h2>
+  		<hr/>
+        <h3>잠시만 기다려 주세요. 결제가 진행 중입니다.</h3>
+  		<p><img src="${ctp}/images/payment.gif" width="200px"/></p>
+  		<hr/>
     </section>
 </div>
 <br/>

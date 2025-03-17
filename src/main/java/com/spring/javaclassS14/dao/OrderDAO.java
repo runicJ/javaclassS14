@@ -6,6 +6,7 @@ import org.apache.ibatis.annotations.Param;
 
 import com.spring.javaclassS14.vo.CartItem;
 import com.spring.javaclassS14.vo.CartVO;
+import com.spring.javaclassS14.vo.OrderProductVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.PaymentVO;
@@ -26,7 +27,7 @@ public interface OrderDAO {
     public PaymentVO getPaymentByOrderIdx(@Param("orderIdx") String orderIdx);
 	public int totRecCntMyOrder(@Param("userIdx") int userIdx);
     public List<OrderVO> getMyOrderStatus(@Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize, @Param("userIdx") int userIdx, @Param("startOrder") String startOrder, @Param("endOrder") String endOrder, @Param("conditionOrderStatus") String conditionOrderStatus);
-	public void setOrderProduct(@Param("orderVO") OrderVO orderVO);
+	public void setOrderProduct(OrderProductVO OrderProductVO);
 	public Integer getUserOrderCnt(@Param("userIdx") int userIdx);
 	public String getOrderStatus(@Param("orderIdx") Integer orderIdx);
 	public String getOrderStatusByNumber(@Param("orderNumber") String orderNumber);
@@ -34,5 +35,10 @@ public interface OrderDAO {
     public int updateOrderStatusByNumber(@Param("orderNumber") String orderNumber, @Param("nextStatus") String nextStatus);
 	public int cancelOrder(@Param("orderIdx") Integer orderIdx);
 	public List<OrderVO> getOrderDetail(@Param("orderIdx") int orderIdx);
-	public List<OrderVO> getUserOrderList(int userIdx, String conditionOrderStatus, PageVO pageVO);
+	public List<OrderVO> getUserOrders(@Param("userIdx") int userIdx, @Param("startOrder") String startOrder, @Param("endOrder") String endOrder, @Param("conditionOrderStatus") String conditionOrderStatus, @Param("startIndexNo") int startIndexNo, @Param("pageSize") int pageSize);
+	public List<OrderProductVO> getOrderProducts(@Param("orderIdx") int orderIdx);
+	public List<OrderVO> getOrderByUserIdx(@Param("userIdx") int userIdx);
+	public List<OrderVO> getRecentOrders(@Param("userIdx") int userIdx, @Param("limit") int limit);
+	public OrderVO getOrderDetails(@Param("orderNumber") String orderNumber, @Param("userIdx") int userIdx);
+	public List<OrderProductVO> getOrderItems(@Param("orderNumber") String orderNumber);
 }

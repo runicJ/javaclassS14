@@ -154,6 +154,10 @@
 		ORDER BY created_at DESC;
 	</select>
 
+    <!-- 이메일로 회원 조회 -->
+    <select id="getUserByEmail" resultType="com.spring.javaclassS14.vo.UserVO">
+        SELECT * FROM users WHERE email = #{email}
+    </select>
 	
 
 	<insert id="setUserRegisterOk">
@@ -161,7 +165,8 @@
 	</insert>
 	
 	<insert id="setKakaoUserInput">
-		insert into users (userId, userPwd, nickName, name, email) values (#{userId},#{userPwd},#{nickName},#{nickName},#{email});
+		insert into users (userId, userPwd, nickName, name, email, tel, level) 
+		values (#{userId}, #{userPwd}, #{nickName}, #{nickName}, #{email}, #{tel}, #{userLevel});
 	</insert>
 	
 	<insert id="setUserLog">
@@ -176,6 +181,12 @@
     <insert id="insertAddress">
     	INSERT INTO delivery_address (userIdx, address, defaultAddress)
     	VALUE (#{userIdx}, #{address}, #{defaultAddress})
+    </insert>
+    
+    <!-- 신규 회원 저장 -->
+    <insert id="insertUser">
+        INSERT INTO users (userId, email, nickName, name, userPwd)
+        VALUES (#{userId}, #{email}, #{nickName}, #{nickName}, #{userPwd})
     </insert>
 
 	

@@ -10,8 +10,12 @@
 	<title>userLogin</title>
 	<link rel="icon" type="image/png" href="${ctp}/images/favicon-mark.png">
   	<%@ include file = "/WEB-INF/views/include/user/bs4.jsp"%>
-  	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
-  	<script src="http://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
+	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script>
+		Kakao.init("3fe3ad77eb298aac7a938386f756b9b1"); // 여기에 JavaScript 키 입력 (REST API 키 아님)
+		console.log("Kakao SDK 초기화 상태:", Kakao.isInitialized()); // true여야 정상
+	</script>
   	<style>
   		ul {
   			margin: 0;
@@ -66,24 +70,33 @@
   		}
   		*/
   		// 카카오 로그인(자바스크립트 앱키 등록)
-     	Kakao.init("3fe3ad77eb298aac7a938386f756b9b1");
-  	    
-  	    function kakaoLogin() {
-  	    	window.Kakao.Auth.login({
-  	    		scope: 'profile_nickname, account_email',
-  	    		success:function(autoObj) {
-  	    			console.log(Kakao.Auth.getAccessToken(), "정상 토큰 발급됨...");
-  	    			window.Kakao.API.request({
-  	    				url : '/v2/user/me',
-  	    				success:function(res) {
-  	    					const kakao_account = res.kakao_account;
-  	    					console.log(kakao_account);
-  	    					location.href = "${ctp}/users/userKakaoLogin?nickName="+ kakao_account.profile.nickname+"&email="+kakao_account.email+"&accessToken="+Kakao.Auth.getAccessToken();
-  	    				}
-  	    			});
-  	    		}
-  	    	});
-  	    }
+  		function kakaoLogin() {
+  		    window.Kakao.Auth.authorize({
+  		        scope: 'profile_nickname, account_email, phone_number',
+	      		redirectUri: "http://localhost:9090/javaclassS14/users/userKakaoLogin"
+  		    });
+  		}
+  		
+  		// 네이버 로그인
+/* 		function naverLogin() {
+		    console.log("네이버 로그인 버튼 클릭됨!"); // ✅ 실행 확인용 로그
+		
+		    let clientId = "Ef3o1usAXraCQUMkzGlf";
+		    let redirectUri = "http://localhost:9090/javaclassS14/users/userNaverLogin"; // 네이버에서 로그인 후 리디렉트할 주소
+		    let state = "RANDOM_STATE"; // CSRF 방지용 state 값
+		    let scope = "name,email,mobile"; // 요청할 정보
+		
+		    let encodedRedirectUri = encodeURIComponent(redirectUri); // ✅ JavaScript에서 인코딩
+		    let naverAuthUrl = `https://nid.naver.com/oauth2.0/authorize?response_type=code
+		                         &client_id=${clientId}
+		                         &redirect_uri=${encodedRedirectUri}
+		                         &state=${state}
+		                         &scope=${scope}`;
+		
+		    console.log("네이버 로그인 URL: ", naverAuthUrl); // ✅ URL이 정상적으로 생성되는지 확인
+		
+		    window.location.href = naverAuthUrl; // 네이버 로그인 창으로 이동
+		} */
   	    
   	    function popupFindId() {
   	    	let popName = "popId"
@@ -149,10 +162,17 @@
 							<ul class="btn-group align-center" style="list-style:none;">
 								<li>
 	             					<a href="${ctp}/user/userGoogleLogin" class="login-app mr-4" style="background-color:#f3f2f0;border:#eee"><img class="app-i" src="${ctp}/images/google-icon.png" alt="google-icon" style="width:25px;height:auto;"></a>
-	             				</li>
+								</li>
 								<li>
-	             					<a id="naverIdLogin_loginButton" href="javascript:naverLogin(0)" class="login-app mr-4" style="background-color:#1ec800;padding:5px 0 0 0"><span style="font-size:28px;font-weight:bolder;color:#ffffff;">N</span></a>
-	             				</li>
+									<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code
+									&client_id=Ef3o1usAXraCQUMkzGlf
+									&redirect_uri=http://localhost:9090/javaclassS14/users/userNaverLogin
+									&state=RANDOM_STATE
+									&scope=name,email"
+									class="login-app" style="background-color:#1ec800;">
+									    <span style="font-size:28px; font-weight:bolder; color:#ffffff;">N</span>
+									</a>
+								</li>
 								<li>
 	             					<a href="javascript:kakaoLogin()" class="login-app" style="background-color:#fee500"><i class="app-i fa-solid fa-comment" style="font-size:22px;color:#391b1b"></i></a>
 	             				</li>

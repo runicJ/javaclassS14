@@ -24,7 +24,7 @@
 							<article class="article col-md-12">
 								<div class="inner">
 									<div class="padding">
-										<h2 class="text-center"><a href="${ctp}/users/myOrderList">최근 주문내역</a></h2>
+										<h2 class="text-center"><a href="${ctp}/users/userRecentOrders">최근 주문내역</a></h2>
 										<table class="table table-hover">
 											<tr>
 												<th>주문번호</th>
@@ -41,7 +41,11 @@
 												<c:otherwise>
 													<c:forEach var="orderVO" items="${orderVOS}">
 														<tr>
-															<td>${orderVO.orderNumber}</td>
+															<td>
+																<a href="${ctp}/users/userOrderDetails?orderNumber=${orderVO.orderNumber}">
+																	${orderVO.orderNumber}
+																</a>
+															</td>
 															<td><fmt:formatNumber value="${orderVO.totalPrice}"/></td>
 															<td>${fn:substring(orderVO.orderDate,0,10)}</td>
 															<td>${orderVO.orderStatus}</td>
@@ -51,7 +55,7 @@
 											</c:choose>
 										</table>
 										<footer>
-											<a class="btn btn-primary more" href="${ctp}/users/myOrderList">
+											<a class="btn btn-primary more" href="${ctp}/users/userOrderList">
 												<span>더보기</span>
 											</a>
 										</footer>

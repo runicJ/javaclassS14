@@ -22,7 +22,7 @@ public interface UserDAO {
 
 	public UserVO getUserNickNameEmailCheck(@Param("nickName") String nickName, @Param("email") String email);
 
-	public void setKakaoUserInput(@Param("userId") String userId, @Param("userPwd") String pwd, @Param("nickName") String nickName, @Param("email") String email);
+	public void setKakaoUserInput(@Param("userId") String userId, @Param("userPwd") String pwd, @Param("nickName") String nickName, @Param("email") String email, @Param("tel") String tel, @Param("userLevel") double userLevel);
 
 	public void setUserPwdUpdate(@Param("userId") String userId, @Param("userPwd") String tempPwd);
 
@@ -81,5 +81,9 @@ public interface UserDAO {
 	public List<DeliveryAddressVO> getUserAddresses(@Param("userIdx") int userIdx);
 
 	public List<Map<String, Object>> getUserActivity(@Param("userIdx") int userIdx);
+
+	public UserVO getUserByEmail(@Param("email") String email);
+
+	public void insertUser(UserVO newUser);
 
 }

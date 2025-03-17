@@ -114,4 +114,8 @@ public interface ShopService {
 
 	public int removeLike(int userIdx, int productIdx);
 
+	public CartVO getCartItem(int cartIdx, int productIdx, Integer userIdx);
+
+	public void updateCartQuantity(int cartIdx, int productIdx, int quantity, int totalPrice, Integer userIdx);
+
 }

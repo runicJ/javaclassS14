@@ -95,7 +95,7 @@
 									</a>
 								</div>
 								<div class="userItem">
-									<a href="${ctp}/users/myOrderList">
+									<a href="${ctp}/users/userOrderList">
 										<div class="value">${orderCount}</div>														
 										<div class="name">주문</div>
 									</a>

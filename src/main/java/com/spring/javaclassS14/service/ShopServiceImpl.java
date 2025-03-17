@@ -410,4 +410,14 @@ public class ShopServiceImpl implements ShopService {
 	public int removeLike(int userIdx, int productIdx) {
 		return shopDAO.removeLike(userIdx, productIdx);
 	}
+
+	@Override
+	public CartVO getCartItem(int cartIdx, int productIdx, Integer userIdx) {
+	    return shopDAO.getCartItem(cartIdx, productIdx, userIdx);
+	}
+
+	@Override
+	public void updateCartQuantity(int cartIdx, int productIdx, int quantity, int totalPrice, Integer userIdx) {
+		shopDAO.updateCartQuantity(cartIdx, productIdx, quantity, totalPrice, userIdx);
+	}
 }

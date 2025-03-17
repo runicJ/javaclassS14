@@ -83,7 +83,12 @@ public class PageProcess {
         pageVO.setCurBlock(curBlock);
         pageVO.setLastBlock(lastBlock);
 
-        pageVO.setPart((String) parameter);
+        // parameter가 String이면 그대로 저장, Integer이면 null 처리
+        if (parameter instanceof String) {
+            pageVO.setPart((String) parameter);
+        } else {
+            pageVO.setPart(null);
+        }
         pageVO.setSearchString(searchString);
 
         return pageVO;

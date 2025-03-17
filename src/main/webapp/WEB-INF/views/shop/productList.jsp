@@ -23,25 +23,63 @@
 		// URL 파라미터 가져오기
 		function getUrlParams() {
 		    const params = new URLSearchParams(window.location.search);
-		    return {
-		        sort: params.get("sort") || "product desc",
-		        averageRating: params.get("averageRating") || "0",
-		        minPrice: params.get("minPrice") || "0",
-		        maxPrice: params.get("maxPrice") || "999999999",
-		        keyword: params.get("keyword") || "",
-		        part: params.get("part") || ""
-		    };
+		    let paramObj = {};
+
+		    // 기존 URL 파라미터 저장
+		    params.forEach((value, key) => {
+		    	if (value !== null && value !== '') {
+		    		paramObj[key] = value;
+		    	}
+		    });
+
+		    return paramObj;
 		}
 
-		// URL 파라미터 업데이트
+		// URL 파라미터 업데이트 (기존 값 유지하면서 변경 가능)
 		function updateUrlParams(newParams) {
-		    const params = { ...getUrlParams(), ...newParams }; // 기존 파라미터와 새로운 파라미터 병합
-		    const queryString = Object.keys(params)
-		        .map(key => key + "=" + encodeURIComponent(params[key]))
-		        .join("&");
-		    window.location.href = "${ctp}/shop/productList?" + queryString; // 병합된 URL로 이동
+		    const params = getUrlParams(); // 기존 파라미터 가져오기
+		    Object.assign(params, newParams); // 새로운 값 병합
+
+		    // 빈 값이나 null 값 제거 (불필요한 URL 제거)
+		    Object.keys(params).forEach(key => {
+		        if (!params[key]) {
+		            delete params[key];
+		        }
+		    });
+
+		    const queryString = new URLSearchParams(params).toString();
+		    window.history.pushState({}, '', `${window.location.pathname}?${queryString}`);
+
+		    // 필터 변경 시 상품 목록을 비동기로 갱신
+		    updateProductList();
 		}
 
+		// AJAX로 상품 목록 업데이트
+		function updateProductList() {
+		    $.ajax({
+		        url: window.location.href, // 현재 URL을 기반으로 데이터 요청
+		        type: 'GET',
+		        dataType: 'html',
+		        success: function(response) {
+		            let newContent = $(response).find("#productListContainer").html();
+		            if (newContent) {
+		                $("#productListContainer").html(newContent);
+		                
+		                // AJAX로 갱신된 이미지에 set-bg 속성 적용
+		                $(".set-bg").each(function () {
+		                    let bg = $(this).attr("data-setbg");
+		                    $(this).css("background-image", "url(" + bg + ")");
+		                });
+		            } else {
+		                alert("상품 목록 업데이트에 실패했습니다. 관리자에게 문의하세요.");
+		            }
+		        },
+		        error: function() {
+		            alert("상품 목록을 불러오는 중 오류가 발생했습니다.");
+		        }
+		    });
+		}
+		
 		// 필터 적용 (공통)
 		function applyFilter(type, value) {
 		    const params = {};
@@ -67,10 +105,10 @@
 		    updateUrlParams({ averageRating: rating }); // URL 파라미터에 별점 값 추가
 		}
 
-		// 검색어 적용
+		// 검색어 적용 (새로고침 없이 동작)
 		function applySearch() {
-		    const keyword = document.querySelector('input[name="keyword"]').value;
-		    updateUrlParams({ keyword });
+		    const keyword = document.getElementById('searchKeyword').value.trim();
+		    updateUrlParams({ keyword: keyword || null }); // 빈 값이면 URL에서 제거
 		}
 		
 		// 좋아요 토글
@@ -91,6 +129,11 @@
 		            alert("관심등록 처리 중 오류가 발생했습니다.");
 		        }
 		    });
+		}
+		
+		// 모든 필터 초기화
+		function resetFilters() {
+		    updateUrlParams({ sort: null, averageRating: null, minPrice: null, maxPrice: null, keyword: null, part: null });
 		}
 	</script>
 </head>
@@ -125,13 +168,11 @@
                 <div class="col-lg-3">
                     <div class="shop__sidebar">
                         <div>
-                        	<form action="${ctp}/shop/productList">
-                            	<button type="submit" class="btn btn-primary">필터 초기화</button>
-                            </form>
+							<button type="button" class="btn btn-danger" onclick="resetFilters()">필터 초기화</button>
                         </div>
 						<div class="shop__sidebar__search">
 						    <form onsubmit="applySearch(); return false;">
-						        <input type="text" name="keyword" placeholder="검색어 입력" value="${keyword}">
+						        <input type="text" name="keyword" id="searchKeyword" placeholder="검색어 입력" value="${keyword}">
 						        <button type="submit"><span><i class="fa-solid fa-magnifying-glass"></i></span></button>
 						    </form>
 						</div>
@@ -200,15 +241,15 @@
 										    </div>
 										    <div class="range-slider">
 										        <div class="price-input">
-										            <input type="text" id="minamount" style="max-width:40%;">~
-										            <input type="text" id="maxamount" style="max-width:40%;">
+											        <input type="text" id="minamount" style="max-width:40%;" readonly> ~
+											        <input type="text" id="maxamount" style="max-width:40%;" readonly>
 										        </div>
 										    </div>
-										    <form id="priceRangeForm" onsubmit="applyPriceFilter(); return false;">
-										        <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
-										        <input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
-										        <button type="submit" class="btn btn-primary">가격 필터 적용</button>
-										    </form>
+									        <!-- 필터 적용할 가격 값 (숨김 필드) -->
+									        <input type="hidden" name="minPrice" id="hiddenMinPrice" value="${minPrice}">
+											<input type="hidden" name="maxPrice" id="hiddenMaxPrice" value="${maxPrice}">
+									        <!-- 필터 적용 버튼 -->
+											<button id="applyPriceFilter" class="btn btn-primary">가격 필터 적용</button>
 										</div>
 			                        </div>
 		                        </div>
@@ -237,45 +278,47 @@
                             </div>
                         </div>
                     </div>
-                    <div class="row">
-                    	<c:if test="${empty productVOS}">
-                    		<div class="col-lg-12 text-center">
-                    			<p>검색 조건에 맞는 제품이 존재하지 않습니다.</p>
-                    		</div>
-                    	</c:if>
-                    	<c:forEach var="productVO" items="${productVOS}">
-                        <div class="col-lg-4 col-md-6 col-sm-6">
-                            <div class="product__item sale">
-                                <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}">
-                                    <!-- <span class="label">Sale</span> -->
-                                    <ul class="product__hover">
-			                            <li>
-					                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
-					                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
-					                            <i class="fa-solid fa-heart"></i>
-					                            <span>관심등록</span>
-					                        </a>
-					                    </li>
-                                        <li><a href="#"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
-                                        <li><a href="#"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
-                                    </ul>
-                                </div>
-                                <div class="product__item__text">
-                                    <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
-                                    <p>${fn:substring(productVO.productDetails,0,35)}...</p>
-									<div>
-									    <c:forEach var="i" begin="1" end="${productVO.averageRating}" varStatus="iSt">
-									        <font color="#f7941d"><i class="fa-solid fa-star"></i></font>
-									    </c:forEach>
-									    <c:forEach var="i" begin="1" end="${5 - productVO.averageRating}" varStatus="iSt">
-									        <i class="fa-solid fa-star"></i>
-									    </c:forEach>
-									</div>
-                                    <h6>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
-                                </div>
-                            </div>
-                        </div>
-                        </c:forEach>
+                    <div id="productListContainer">
+	                    <div class="row">
+	                    	<c:if test="${empty productVOS}">
+	                    		<div class="col-lg-12 text-center">
+	                    			<p>검색 조건에 맞는 제품이 존재하지 않습니다.</p>
+	                    		</div>
+	                    	</c:if>
+	                    	<c:forEach var="productVO" items="${productVOS}">
+	                        <div class="col-lg-4 col-md-6 col-sm-6">
+	                            <div class="product__item sale">
+	                                <div class="product__item__pic set-bg" data-setbg="${ctp}/product/${productVO.productThumb}">
+	                                    <!-- <span class="label">Sale</span> -->
+	                                    <ul class="product__hover">
+				                            <li>
+						                        <!-- 관심등록 버튼 클릭 시 JavaScript 함수 호출 -->
+						                        <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
+						                            <i class="fa-solid fa-heart"></i>
+						                            <span>관심등록</span>
+						                        </a>
+						                    </li>
+	                                        <li><a href="#"><i class="fa-solid fa-share"></i><span>공유하기</span></a></li>
+	                                        <li><a href="#"><i class="fa-solid fa-bag-shopping"></i><span>장바구니</span></a></li>
+	                                    </ul>
+	                                </div>
+	                                <div class="product__item__text">
+	                                    <h5><a href="${ctp}/shop/productDetails?productIdx=${productVO.productIdx}">${productVO.productName}</a></h5>
+	                                    <p>${fn:substring(productVO.productDetails,0,35)}...</p>
+										<div>
+										    <c:forEach var="i" begin="1" end="${productVO.averageRating}" varStatus="iSt">
+										        <font color="#f7941d"><i class="fa-solid fa-star"></i></font>
+										    </c:forEach>
+										    <c:forEach var="i" begin="1" end="${5 - productVO.averageRating}" varStatus="iSt">
+										        <i class="fa-solid fa-star"></i>
+										    </c:forEach>
+										</div>
+	                                    <h6>￦ <fmt:formatNumber value="${productVO.productPrice}"/></h6>
+	                                </div>
+	                            </div>
+	                        </div>
+	                        </c:forEach>
+	                    </div>
                     </div>
                     <div class="row">
                         <div class="col-lg-12">
@@ -323,27 +366,63 @@
     <script src="${ctp}/js/shop/main.js"></script>
 <jsp:include page="/WEB-INF/views/include/user/footer.jsp" />
 <script>
-	/* Price Range Slider */
-	var rangeSlider = $(".price-range"),
-	minamount = $("#minamount"),
-	maxamount = $("#maxamount"),
-	minPrice = rangeSlider.data('min'),
-	maxPrice = rangeSlider.data('max');
-	rangeSlider.slider({
-	    range: true,
-	    min: minPrice,
-	    max: maxPrice,
-	    values: [minPrice, maxPrice],
-	    slide: function (event, ui) {
-	        minamount.val('￦' + ui.values[0]);
-	        maxamount.val('￦' + ui.values[1]);
-	        // 숨겨진 입력 필드 업데이트
-	        $("#hiddenMinPrice").val(ui.values[0]);
-	        $("#hiddenMaxPrice").val(ui.values[1]);
-	    }
+	$(document).ready(function () {
+	    let initialMinPrice = ${minPrice}; // 초기 최소 가격
+	    let initialMaxPrice = ${maxPrice}; // 초기 최대 가격
+	
+	    $(".price-range").slider({
+	        range: true,
+	        min: 1000,
+	        max: 5000000,
+	        values: [initialMinPrice, initialMaxPrice],
+	        slide: function (event, ui) {
+	            let newMinPrice = ui.values[0];
+	            let newMaxPrice = ui.values[1];
+	
+	            $("#minamount").val('￦' + newMinPrice);
+	            $("#maxamount").val('￦' + newMaxPrice);
+	            $("#hiddenMinPrice").val(newMinPrice);
+	            $("#hiddenMaxPrice").val(newMaxPrice);
+	
+	            // 버튼 활성화 (가격 조정 시)
+	            $("#applyPriceFilter").removeClass("btn-secondary disabled").addClass("btn-primary").prop("disabled", false);
+	        }
+	    });
+	
+	    // 가격 필터 적용 버튼 클릭 시 실행
+	    $("#applyPriceFilter").on("click", function () {
+	        if (!$(this).hasClass("disabled")) {
+	            let minPrice = $("#hiddenMinPrice").val();
+	            let maxPrice = $("#hiddenMaxPrice").val();
+	            
+	            $.ajax({
+	                url: "${ctp}/shop/productList",
+	                type: "GET",
+	                data: { minPrice: minPrice, maxPrice: maxPrice },
+	                success: function (response) {
+	                    let newContent = $(response).find("#productListContainer").html();
+	                    if (newContent) {
+	                        $("#productListContainer").html(newContent);
+	
+	                        // 🔥 AJAX로 갱신된 이미지에 set-bg 속성 적용
+	                        $(".set-bg").each(function () {
+	                            let bg = $(this).attr("data-setbg");
+	                            $(this).css("background-image", "url(" + bg + ")");
+	                        });
+	
+	                        // 🔥 필터 적용 후에도 버튼을 다시 활성화
+	                        $("#applyPriceFilter").removeClass("btn-secondary disabled").addClass("btn-primary").prop("disabled", false);
+	                    } else {
+	                        alert("상품 목록 업데이트에 실패했습니다. 관리자에게 문의하세요.");
+	                    }
+	                },
+	                error: function () {
+	                    alert("가격 필터 적용 중 오류가 발생했습니다.");
+	                }
+	            });
+	        }
+	    });
 	});
-	minamount.val('￦' + rangeSlider.slider("values", 0));
-	maxamount.val('￦' + rangeSlider.slider("values", 1));
 </script>
 </body>
 </html>

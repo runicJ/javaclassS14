@@ -115,32 +115,34 @@
 		WHERE o.orderIdx = #{orderIdx}
 	</select>
 	
-	<select id="getUserOrderList" parameterType="map" resultType="com.spring.javaclassS14.vo.OrderVO">
+	<select id="getUserOrders" parameterType="map" resultType="com.spring.javaclassS14.vo.OrderVO">
 	    SELECT 
-	        o.orderIdx AS orderId,  
-	        o.userIdx AS userId,  
-	        o.totalPrice AS orderTotal,  
-	        o.orderStatus,  
-	        o.orderDate,
-	        p.productIdx,  
-	        p.productName,  
-	        p.productThumb,  
-	        p.productPrice,  
-	        p.productDiscount,
-	        op.orderQuantity,  
-	        op.price AS orderPrice,
-	        COALESCE(opt.optionName, '기본 옵션') AS optionName,
-	        COALESCE(opt.optionPrice, 0) AS optionPrice
+	        o.orderIdx, o.userIdx, o.orderNumber, o.orderDate, o.totalPrice, o.orderStatus,
+	        d.receiverName AS receiverName, d.receiverTel AS receiverTel, d.receiverAddress AS receiverAddress
 	    FROM orders_p o
-	    JOIN order_product op ON o.orderIdx = op.orderIdx
-	    JOIN product p ON op.productIdx = p.productIdx
-	    LEFT JOIN product_option opt ON op.optionIdx = opt.optionIdx
+	    JOIN order_delivery d ON o.orderIdx = d.orderIdx
 	    WHERE o.userIdx = #{userIdx}
-	    <if test="conditionOrderStatus != null and conditionOrderStatus != '전체'">
+	    <if test="startOrder != null and startOrder != ''">
+	        AND o.orderDate &gt;= #{startOrder}
+	    </if>
+	    <if test="endOrder != null and endOrder != ''">
+	        AND o.orderDate &lt;= #{endOrder}
+	    </if>
+	    <if test="conditionOrderStatus != '전체'">
 	        AND o.orderStatus = #{conditionOrderStatus}
 	    </if>
 	    ORDER BY o.orderDate DESC
-	    LIMIT #{startIndex}, #{pageSize};
+	    LIMIT #{startIndexNo}, #{pageSize}
+	</select>
+	
+	<select id="getOrderProducts" parameterType="int" resultType="com.spring.javaclassS14.vo.OrderProductVO">
+	    SELECT 
+	        op.orderProductIdx, op.orderIdx, op.productIdx, op.orderQuantity, op.price,
+	        p.productName, p.productThumb, op.optionIdx, opt.optionGroupName, opt.optionName
+	    FROM order_product op
+	    JOIN product p ON op.productIdx = p.productIdx
+	    LEFT JOIN product_option opt ON op.optionIdx = opt.optionIdx
+	    WHERE op.orderIdx = #{orderIdx}
 	</select>
 	
 	<select id="totRecCntMyOrder" parameterType="int" resultType="int">
@@ -149,12 +151,37 @@
 	    WHERE userIdx = #{userIdx}
 	</select>
 
+	<select id="getOrderByUserIdx" resultType="com.spring.javaclassS14.vo.OrderVO">
+	    SELECT * 
+	    FROM orders_p 
+	    WHERE userIdx = #{userIdx} 
+	    ORDER BY orderDate DESC
+	</select>
 
-	<insert id="setOrder" parameterType="com.spring.javaclassS14.vo.OrderVO">
-	    <selectKey keyProperty="orderIdx" order="AFTER" resultType="int">
-	        SELECT LAST_INSERT_ID()
-	    </selectKey>
-    	INSERT INTO orders_p (userIdx, totalPrice, couponIdx, pointUse, orderStatus, orderDate, orderNumber)
+	<select id="getRecentOrders" parameterType="map" resultType="com.spring.javaclassS14.vo.OrderVO">
+		SELECT * FROM orders_p
+		WHERE userIdx = #{userIdx}
+		ORDER BY orderDate DESC
+		LIMIT #{limit}
+	</select>
+	
+	<select id="getOrderDetails" parameterType="map" resultType="com.spring.javaclassS14.vo.OrderVO">
+	    SELECT * FROM orders_p
+	    WHERE orderNumber = #{orderNumber} AND userIdx = #{userIdx}
+	</select>
+	
+	<select id="getOrderItems" parameterType="string" resultType="com.spring.javaclassS14.vo.OrderProductVO">
+	    SELECT op.productIdx, p.productName, op.orderQuantity, op.price
+	    FROM order_product op
+	    JOIN product p ON op.productIdx = p.productIdx
+	    JOIN orders_p o ON op.orderIdx = o.orderIdx
+	    WHERE o.orderNumber = #{orderNumber}
+	</select>
+	
+
+    <!-- 주문 삽입 -->
+	<insert id="setOrder" parameterType="com.spring.javaclassS14.vo.OrderVO" useGeneratedKeys="true" keyProperty="orderIdx">
+	    INSERT INTO orders_p (userIdx, totalPrice, couponIdx, pointUse, orderStatus, orderDate, orderNumber)
 	    VALUES (
 	        #{userIdx}, 
 	        #{totalPrice}, 
@@ -171,13 +198,16 @@
 	    );
 	</insert>
 
-	<insert id="setOrderProduct">
+    <!-- 주문 상품 추가 -->
+	<insert id="setOrderProduct" parameterType="com.spring.javaclassS14.vo.OrderProductVO">
 	    INSERT INTO order_product (orderIdx, productIdx, orderQuantity, price, optionIdx)
-	    VALUES (#{orderVO.orderIdx}, #{orderVO.productIdx}, #{orderVO.orderQuantity}, #{orderVO.price}, #{orderVO.optionIdx});
+	    VALUES (#{orderIdx}, #{productIdx}, #{orderQuantity}, #{price}, #{optionIdx})
 	</insert>
 
-	<insert id="setDelivery" parameterType="com.spring.javaclassS14.vo.OrderVO">
-	  INSERT INTO order_delivery VALUES (default, #{orderVO.orderIdx}, #{orderVO.receiverName}, #{orderVO.receiverTel}, #{orderVO.receiverAddress});
+    <!-- 배송 정보 추가 -->
+	<insert id="setDelivery">
+	    INSERT INTO order_delivery (orderIdx, receiverName, receiverTel, receiverAddress)
+	    VALUES (#{orderVO.orderIdx}, #{orderVO.receiverName}, #{orderVO.receiverTel}, #{orderVO.receiverAddress});
 	</insert>
 
 
@@ -186,20 +216,22 @@
 		UPDATE users SET point = point + #{point} WHERE userIdx = #{userIdx}
 	</update>
   
- 	<update id="updateOrderStatus">
-	  	UPDATE orders_p SET orderStatus = #{nextStatus}
-	  	WHERE orderIdx = #{orderIdx}
-	</update>
+    <!-- 주문 상태 변경 -->
+    <update id="updateOrderStatus">
+        UPDATE orders_p SET orderStatus = #{nextStatus}
+        WHERE orderIdx = #{orderIdx}
+    </update>
   
 	<update id="updateOrderStatusByNumber">
 		UPDATE orders_p SET orderStatus = #{nextStatus}
 		WHERE orderNumber = #{orderNumber}
 	</update>
 	
-	<update id="cancelOrder">
-		UPDATE orders_p SET orderStatus = '취소'
-		WHERE orderIdx = #{orderIdx}
-	</update>
+    <!-- 주문 취소 -->
+    <update id="cancelOrder">
+        UPDATE orders_p SET orderStatus = '취소'
+        WHERE orderIdx = #{orderIdx}
+    </update>
 
 
 

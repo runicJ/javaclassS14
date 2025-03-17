@@ -133,4 +133,8 @@ public interface ShopDAO {
 
 	public int removeLike(@Param("userIdx") int userIdx, @Param("productIdx") int productIdx);
 
+	public CartVO getCartItem(@Param("cartIdx") int cartIdx, @Param("productIdx") int productIdx, @Param("userIdx") Integer userIdx);
+
+	public void updateCartQuantity(@Param("cartIdx") int cartIdx, @Param("productIdx") int productIdx, @Param("quantity") int quantity, @Param("totalPrice") int totalPrice, @Param("userIdx") Integer userIdx);
+
 }

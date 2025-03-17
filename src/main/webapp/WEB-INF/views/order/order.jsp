@@ -89,6 +89,7 @@
     <jsp:include page="/WEB-INF/views/include/user/header.jsp"/>
     <jsp:include page="/WEB-INF/views/include/user/nav.jsp"/>
     <p><br/></p>
+	<section>
     <div class="container">
         <div id="preloder">
             <div class="loader"></div>
@@ -116,35 +117,32 @@
                     <th>총상품금액</th>
                 </tr>
                 <c:set var="orderTotalPrice" value="0"/>
-                <c:forEach var="vo" items="${sOrderVOS}">
+				<c:set var="shippingCharge" value="${sOrderVOS[0].charge ne null ? sOrderVOS[0].charge : 0}"/>
+                
+				<c:forEach var="vo" items="${sOrderProducts}">
+					<c:set var="itemTotalPrice" value="${vo.price * vo.orderQuantity}"/>
+	                <c:set var="orderTotalPrice" value="${orderTotalPrice + itemTotalPrice}"/>
                     <tr align="center">
                         <td><img src="${ctp}/product/${vo.productThumb}" width="150px"/></td>
                         <td align="left">
-                            <p class="text-center"><br/>
-                                모델명 : <span style="color:orange;font-weight:bold;">${vo.productName}</span><br/>
-                                &nbsp; <b><fmt:formatNumber value="${vo.productPrice}"/>원</b>
-                            </p><br/>
-                            <c:set var="optionNames" value="${fn:split(vo.optionName, ',')}"/>
-                            <c:set var="quantity" value="${fn:split(vo.quantity, ',')}"/>
-                            <p>
-                                - 주문 옵션 내역 : 총 ${fn:length(optionNames)}개<br/>
+                            <p><b>모델명:</b> <span style="color:orange;">${vo.productName}</span><br/>
+                               <b>옵션:</b> <span style="color:blue;">${vo.optionName}</span> (${vo.orderQuantity}개)
                             </p>
                         </td>
-                        <td>
-                            <b>총 : <fmt:formatNumber value="${vo.totalPrice}" pattern='#,###원'/></b><br/><br/>
-                        </td>
+                        <td><b><fmt:formatNumber value="${itemTotalPrice}" pattern='#,###원'/></b></td>
                     </tr>
-                    <c:set var="orderTotalPrice" value="${orderTotalPrice + vo.totalPrice}"/>
                 </c:forEach>
+				<c:set var="finalTotalPrice" value="${orderTotalPrice + shippingCharge}"/>
             </table>
             <table style="margin:auto; width:90%">
                 <tr>
                     <td>
-                        <div style="padding:8px; background-color:#eee; text-align:center;">
-                            <b>총 주문(결제) 금액</b> : 상품가격(<fmt:formatNumber value="${orderTotalPrice}" pattern='#,###원'/>) +
-                            배송비(<fmt:formatNumber value="${sOrderVOS[0].charge}" pattern='#,###원'/>) =
-                            총 <font size="5" color="orange"><b><fmt:formatNumber value="${orderTotalPrice + sOrderVOS[0].charge}" pattern='#,###'/></b></font>원
-                        </div>
+						<div style="padding:8px; background-color:#eee; text-align:center;">
+						    <b>총 주문(결제) 금액</b> : 
+						    상품가격(<fmt:formatNumber value="${orderTotalPrice}" pattern='#,###원'/>) +
+						    배송비(<fmt:formatNumber value="${shippingCharge}" pattern='#,###원'/>) =
+						    <b><font size="5" color="orange"><fmt:formatNumber value="${finalTotalPrice}" pattern='#,###원'/></font></b>
+						</div>
                     </td>
                 </tr>
             </table>
@@ -241,7 +239,7 @@
                         <p>카드번호 : <input type="text" name="payMethodCard" id="payMethodCard"/></p>
                     </div>
                     <div id="bank" class="container tab-pane fade"><br>
-                        <h3>은행결제(무통장입금)</h3>
+                        <h3>무통장입금</h3>
                         <p>
                             <select name="paymentBank" id="paymentBank">
                                 <option value="">은행선택</option>
@@ -256,7 +254,7 @@
                     </div>
                     <div id="telCheck" class="container tab-pane fade"><br>
                         <h3>전화상담</h3>
-                        <p>콜센터(☎) : 02-1234-1234</p>
+                        <p>콜센터(☎) : 043-1234-1234</p>
                     </div>
                 </div>
                 <hr/>
@@ -278,6 +276,7 @@
             </form>
         </section>
     </div>
+    </section>
     <p><br/></p>
     <script src="${ctp}/js/shop/jquery.nice-select.min.js"></script>
     <script src="${ctp}/js/shop/jquery.slicknav.js"></script>

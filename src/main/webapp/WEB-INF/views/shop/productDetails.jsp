@@ -31,7 +31,7 @@
                 let basePrice = parseInt(${productVO.productPrice});
                 let totalOptionPrice = basePrice + addPrice;
                 let commaPrice = numberWithCommas(totalOptionPrice);
-                let quantity = parseInt($("#numBoxMain").val());
+                let quantity = parseInt($("#numBoxMain").val());  // 기본 수량 가져오기
 
                 if ($("#layer" + optionIdx).length == 0) {
                     idxArray.push(optionIdx);
@@ -47,7 +47,9 @@
                     str += '<input type="hidden" name="items[' + index + '].isSoldOut" value="false"/>';
                     str += '</div>';
                     $("#product1").append(str);
-                    onTotal();
+                    
+                    // 기본 수량을 반영하여 가격 업데이트 실행
+                    numChange(optionIdx);
                 } 
                 else {
                     alert("이미 선택한 옵션입니다.");
@@ -56,7 +58,7 @@
         });
 
         function remove(optionIdx) {
-            $("div").remove("#layer" + optionIdx);
+            $("#layer" + optionIdx).remove();
 
             if ($(".price").length) onTotal();
             else location.reload();
@@ -64,36 +66,34 @@
 
         function onTotal() {
             let total = 0;
-            for (let i = 0; i < idxArray.length; i++) {
-                if ($("#layer" + idxArray[i]).length != 0) {
-                    total += parseInt(document.getElementById("price" + idxArray[i]).value);
-                }
-            }
+            $(".layer").each(function () {
+                let id = $(this).attr("id").replace("layer", ""); 
+                total += parseInt($("#price" + id).val());
+            });
             document.getElementById("totalPrice").value = numberWithCommas(total);
         }
-
+        
         function numChange(optionIdx) {
-            let basePrice = parseInt(${productVO.productPrice});
-            let addPrice = parseInt($("#price" + optionIdx).data("addPrice"));
-            let quantity = parseInt(document.getElementById("numBox" + optionIdx).value);
-            let totalPrice = (basePrice + addPrice) * quantity;
-            document.getElementById("imsiPrice" + optionIdx).value = numberWithCommas(totalPrice);
-            document.getElementById("price" + optionIdx).value = totalPrice;
+            let basePrice = parseInt($("#price" + optionIdx).data("addPrice")) + parseInt(${productVO.productPrice});
+            let quantity = parseInt($("#numBox" + optionIdx).val());
+            let totalPrice = basePrice * quantity;
+            $("#imsiPrice" + optionIdx).val(numberWithCommas(totalPrice));
+            $("#price" + optionIdx).val(totalPrice);
             onTotal();
         }
-
+        
         function cart() {
             if (document.getElementById("totalPrice").value == 0) {
                 alert("옵션을 선택해주세요");
                 return false;
-            } 
-            else {
-                myform.action = "${ctp}/shop/productDetails";
-                myform.submit();
+            } else {
+                document.forms["myform"].action = "${ctp}/shop/productDetails";
+                document.forms["myform"].submit();
             }
         }
 
         function numberWithCommas(x) {
+        	if (isNan(x)) return "0";
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }
 
@@ -107,20 +107,20 @@
                 url: "${ctp}/shop/productLikedToggle",
                 type: "post",
                 data: { productIdx: productIdx },
-                success: function(res) {
-                    let icon = document.getElementById("liked-icon-" + productIdx);
-                    let wishCnt = document.getElementById("likedCnt");
-                    if (res.trim() == "true") {
-                        alert("해당 상품을 위시리스트에서 제거하였습니다.");
-                        icon.classList.remove('fa-solid', 'fa-heart');
-                        icon.classList.add('fa-regular', 'fa-heart');
-                        wishCnt.textContent = parseInt(wishCnt.textContent) - 1;
-                    } else {
-                        alert("해당 상품을 위시리스트에 추가하였습니다.");
-                        icon.classList.remove('fa-regular', 'fa-heart');
-                        icon.classList.add('fa-solid', 'fa-heart');
-                        icon.style.color = 'red';
-                        wishCnt.textContent = parseInt(wishCnt.textContent) + 1;
+                success: function(response) {
+                    if (response.success) {
+                        let icon = $(element).find('i');
+                        let wishCnt = $("#likedCnt");
+
+                        if (response.isInterested) {
+                            icon.removeClass("fa-regular fa-heart").addClass("fa-solid fa-heart").css("color", "red");
+                            wishCnt.text(response.likedCount); // 서버에서 받은 찜한 개수로 업데이트
+                            alert("관심등록 되었습니다.");
+                        } else {
+                            icon.removeClass("fa-solid fa-heart").addClass("fa-regular fa-heart").css("color", "");
+                            wishCnt.text(response.likedCount);
+                            alert("관심등록이 취소되었습니다.");
+                        }
                     }
                 },
                 error: function() {
@@ -284,30 +284,31 @@
         }
         
         function toggleLiked(productIdx, element) {
-            if (sUid == null || sUid == "") {
+            if (!sUid) {
                 alert("로그인 이후에 가능한 메뉴입니다!");
                 return false;
             }
 
             $.ajax({
-                url: '${ctp}/recent/saveLikedProduct',  // 관심등록/취소 처리하는 URL
+                url: '${ctp}/recent/saveLikedProduct',
                 type: 'POST',
                 data: { productIdx: productIdx },
                 success: function(response) {
                     if (response.success) {
-                        // 관심등록 상태에 따라 하트 색상 변경
+                        let icon = $(element).find('i');
+
                         if (response.isInterested) {
-                            $(element).find('i').css('color', 'red');
+                            icon.removeClass("fa-regular fa-heart").addClass("fa-solid fa-heart").css("color", "red");
                             alert("관심등록 되었습니다.");
                         } else {
-                            $(element).find('i').css('color', '');
+                            icon.removeClass("fa-solid fa-heart").addClass("fa-regular fa-heart").css("color", "");
                             alert("관심등록이 취소되었습니다.");
                         }
                     } else {
                         alert("처리 중 오류가 발생했습니다.");
                     }
                 },
-                error: function(xhr, status, error) {
+                error: function() {
                     alert("관심등록 처리 중 오류가 발생했습니다.");
                 }
             });
@@ -437,10 +438,10 @@
 							</div>
                             
                             <div class="product__details__btns__option">
-                                <a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
-                                    <i class="fa-solid fa-heart"></i>
-                                    <span>관심등록</span>
-                                </a>
+								<a href="javascript:void(0);" onclick="toggleLiked(${productVO.productIdx}, this)">
+								    <i id="liked-icon-${productVO.productIdx}" class="${productVO.isLiked != 0 ? 'fa-solid' : 'fa-regular'} fa-heart" style="${productVO.isLiked != 0 ? 'color:red;' : ''};"></i>
+								    <span>관심등록</span>
+								</a>
                                 <a href="javascript:void(0);" onclick="copyURL()"><i class="fa-solid fa-square-share-nodes"></i> 공유하기</a>
                             </div>
                             
@@ -454,7 +455,6 @@
                                                 <input type="number" name="quantity" min="1" value="1" id="numBoxMain">
                                             </div>
                                         </div>
-                                        <!--
                                         <a type="button" onclick="likedToggle(${productVO.productIdx})" class="btn btn-inline-light">
                                             <c:if test="${productVO.isLiked != 0}">
                                                 <i id="liked-icon-${productVO.productIdx}" class="fa-solid fa-heart" style="color:red;"></i>
@@ -464,7 +464,6 @@
                                             </c:if>
                                             <span>명 관심등록</span>
                                         </a>
-                                        -->
                                     </div>
                                     <div class="product__details__option">
                                         <c:if test="${empty optionGroupVOS}">

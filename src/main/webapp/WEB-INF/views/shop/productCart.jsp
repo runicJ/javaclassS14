@@ -16,14 +16,17 @@
     <link rel="stylesheet" href="${ctp}/css/shop/style.css" type="text/css">
     <jsp:include page="/WEB-INF/views/include/user/bs4.jsp" />
     <script>       
-     // 주문할 총 가격 계산하기
         // 주문할 총 가격 계산하기
 		function onTotal() {
 		    let total = 0;
-		    let checkedItems = $(".quantity__item input:checked").closest("tr").find(".cart__price");
+		    let checkedItems = $(".quantity__item input:checked").closest("tr");
+		    
 		    checkedItems.each(function() {
-		        total += parseFloat($(this).text().replace(/,/g, ''));
+		        let price = parseFloat($(this).find(".cart__price").text().replace(/,/g, ''));
+		        let quantity = parseInt($(this).find(".pro-qty-2 input").val(), 10);
+		        total += price * quantity;
 		    });
+		    
 		    document.getElementById("total").innerText = numberWithCommas(total);
 		
 		    // 배송비 결정(50000원 이상이면 배송비는 0원으로 처리)
@@ -58,7 +61,7 @@
             });
         }
 
-     // 상품 체크박스에 상품을 구매하기 위해 체크했을 때 처리하는 함수
+     	// 상품 체크박스에 상품을 구매하기 위해 체크했을 때 처리하는 함수
         function onCheck() {
             let allChecked = true;
             $(".quantity__item input[type='checkbox']").each(function() {
@@ -74,7 +77,7 @@
             onTotal();
         }
 
-     // allCheck 체크박스를 체크/해제할 때 수행하는 함수
+     	// allCheck 체크박스를 체크/해제할 때 수행하는 함수
         function allCheck() {
             let isChecked = document.getElementById("allcheck").checked;
             $(".quantity__item input[type='checkbox']").prop('checked', isChecked);
@@ -115,8 +118,53 @@
 		    // 폼 제출
 		    document.myform.submit();
 		}
-     
-        // 천단위마다 쉼표처리
+        
+        $(document).ready(function() {
+            $(".pro-qty-2 input").on("change", function() {
+                onTotal();
+            });
+        });
+        
+        $(document).ready(function() {
+            $(".pro-qty-2 input").on("change", function() {
+                let $row = $(this).closest("tr");
+                let cartIdx = $row.find("input[type='checkbox']").val();
+                let productIdx = $row.find("a").attr("href").split("=")[1]; // productIdx 추출
+                let quantity = $(this).val();
+
+                if (quantity < 1) {
+                    alert("최소 수량은 1개입니다.");
+                    $(this).val(1);
+                    return;
+                }
+
+                $.ajax({
+                    url: "${ctp}/shop/productCartUpdate",
+                    type: "POST",
+                    data: { cartIdx: cartIdx, productIdx: productIdx, quantity: quantity },
+                    success: function(response) {
+                        console.log("응답 데이터:", response);
+
+                        if (response.status === "success") {
+                            // 개별 상품 총 금액 업데이트
+                            $row.find(".cart__price").text(numberWithCommas(response.itemTotalPrice) + " 원");
+
+                            // 전체 총 금액 업데이트
+                            $("#total").text(numberWithCommas(response.totalPrice));
+                            $("#charge").text(numberWithCommas(response.shippingCost));
+                            $("#lastPrice").text(numberWithCommas(response.finalPrice));
+                        } else {
+                            alert("수량 변경에 실패했습니다.");
+                        }
+                    },
+                    error: function() {
+                        alert("서버 오류가 발생했습니다.");
+                    }
+                });
+            });
+        });
+
+        // 숫자를 천 단위 콤마 추가하여 반환하는 함수
         function numberWithCommas(x) {
             return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
         }

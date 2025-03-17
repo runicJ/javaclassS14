@@ -2,7 +2,6 @@ package com.spring.javaclassS14.controller;
 
 import java.text.SimpleDateFormat;
 import java.time.LocalDateTime;
-import java.util.Collections;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
@@ -15,7 +14,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.json.JSONObject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpMethod;
 import org.springframework.http.ResponseEntity;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
@@ -23,7 +26,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -31,16 +33,17 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.mysql.fabric.Response;
 import com.spring.javaclassS14.common.AllProvide;
 import com.spring.javaclassS14.pagination.PageProcess;
 import com.spring.javaclassS14.service.OrderService;
 import com.spring.javaclassS14.service.ShopService;
 import com.spring.javaclassS14.service.UserService;
 import com.spring.javaclassS14.vo.DeliveryAddressVO;
+import com.spring.javaclassS14.vo.OrderProductVO;
 import com.spring.javaclassS14.vo.OrderVO;
 import com.spring.javaclassS14.vo.PageVO;
 import com.spring.javaclassS14.vo.SaveInterestVO;
@@ -274,67 +277,68 @@ public class UserController {
 		}
 	}
 	
-	//카카오 로그인
+	// 카카오 로그인
 	@RequestMapping(value = "/userKakaoLogin", method = RequestMethod.GET)
-	public String kakaoLoginGet(String nickName , String email, String accessToken,
-			HttpServletRequest request,
-			HttpSession session
-		) throws MessagingException {
-		
-		// 카카오 로그아웃을 위한 카카오앱키를 세션에 저장시켜둔다.
-		session.setAttribute("sAccessToken", accessToken);
-		
-		// 카카오 로그인한 회원인 경우에는 우리 회원인지를 조사한다.(넘어온 이메일을 @를 기준으로 아이디와 분리해서 기존 memeber2테이블의 아이디와 비교한다.)
-		UserVO vo = userService.getUserNickNameEmailCheck(nickName, email);
-		
-		// 현재 카카오로그인에의한 우리회원이 아니였다면, 자동으로 우리회원에 가입처리한다.
-		// 필수입력:아이디, 닉네임, 이메일, 성명(닉네임으로 대체), 비밀번호(임시비밀번호 발급처리)
-		String newMember = "NO"; // 신규회원인지에 대한 정의(신규회원:OK, 기존회원:NO)
-		if(vo == null) {
-			// 아이디 결정하기
-			String userId = email.substring(0, email.indexOf("@"));
-			
-			// 만약에 기존에 같은 아이디가 존재한다면 가입처리 불가...
-			UserVO vo2 = userService.getUserIdCheck(userId);
-			if(vo2 != null) return "redirect:/msg/uidSameSearch";
-			
-			// 비밀번호(임시비밀번호 발급처리)
-			UUID uuid = UUID.randomUUID();
-			String pwd = uuid.toString().substring(0,8);
-			session.setAttribute("sImsiPwd", pwd);
-			
-			// 새로 발급된 비밀번호를 암호화 시켜서 db에 저장처리한다.(카카오 로그인한 신입회원은 바로 정회원으로 등업 시켜준다.)
-			userService.setKakaoUserInput(userId, passwordEncoder.encode(pwd), nickName, email);
-			
-			// 새로 발급받은 임시비밀번호를 메일로 전송한다.
-			allProvide.mailSend(email, "임시 비밀번호를 발급하였습니다.", pwd);
-			
-			// 새로 가입처리된 회원의 정보를 다시 vo에 담아준다.
-			vo = userService.getUserIdCheck(userId);
-			
-			// 비밀번호를 새로 발급처리했을때 sLogin세션을 발생시켜주고, memberMain창에 비밀번호 변경메세지를 지속적으로 뿌려준다.
-			session.setAttribute("sLogin", "OK");
-			
-			newMember = "OK";
-		}
-		
-		// 로그인 인증완료시 처리할 부분(1.세션, 3.기타 설정값....)
-		// 1.세션처리
-		String strLevel = "";
-		if(vo.getLevel() == 0) strLevel = "관리자";
-		else if(vo.getLevel() == 0.5) strLevel = "귀한분";
-		else if(vo.getLevel() == 1) strLevel = "전문가";
-		else if(vo.getLevel() == 2) strLevel = "숙련자";
-		else if(vo.getLevel() == 3) strLevel = "지식인";
-		
-		session.setAttribute("sUid", vo.getUserId());
-		session.setAttribute("sNickName", vo.getNickName());
-		session.setAttribute("sLevel", vo.getLevel());
-		session.setAttribute("strLevel", strLevel);
-		
-		// 로그인 완료후 모든 처리가 끝나면 필요한 메세지처리후 memberMain으로 보낸다.
-		if(newMember.equals("NO")) return "redirect:/msg/userLoginOk?uid="+vo.getUserId();
-		else return "redirect:/msg/userLoginNewOk?uid="+vo.getUserId();
+    public String kakaoLogin(@RequestParam("code") String code, HttpSession session) {
+        // UserService에서 카카오 로그인 전체 프로세스 실행
+        UserVO vo = userService.handleKakaoLogin(code, session);
+
+        if (vo == null) {
+            return "redirect:/msg/uidSameSearch";  // 아이디 중복 시 처리
+        }
+
+        // 기존 회원과 신규 회원을 구분하여 리다이렉트
+        return session.getAttribute("sLogin") == null ? 
+            "redirect:/msg/userLoginOk?uid=" + vo.getUserId() : 
+            "redirect:/msg/userLoginNewOk?uid=" + vo.getUserId();
+    }
+	
+	// 네이버 로그인
+	@GetMapping("/userNaverLogin")
+	public String userNaverLogin(@RequestParam String code, @RequestParam String state, HttpSession session) {
+	    String clientId = "Ef3o1usAXraCQUMkzGlf"; // 네이버 클라이언트 ID
+	    String clientSecret = "JhnaBs6ICm"; // 네이버 클라이언트 Secret
+	    String redirectURI = "http://localhost:9090/javaclassS14/users/userNaverLogin";
+
+	    // 네이버 Access Token 요청
+	    String tokenUrl = "https://nid.naver.com/oauth2.0/token?grant_type=authorization_code"
+	                    + "&client_id=" + clientId
+	                    + "&client_secret=" + clientSecret
+	                    + "&redirect_uri=" + redirectURI
+	                    + "&code=" + code
+	                    + "&state=" + state;
+
+	    // 네이버 서버에 요청하여 access_token 받기
+	    RestTemplate restTemplate = new RestTemplate();
+	    ResponseEntity<String> response = restTemplate.getForEntity(tokenUrl, String.class);
+
+	    JSONObject jsonObject = new JSONObject(response.getBody());
+	    String accessToken = jsonObject.getString("access_token");
+
+	    // 네이버 사용자 정보 요청
+	    HttpHeaders headers = new HttpHeaders();
+	    headers.add("Authorization", "Bearer " + accessToken);
+	    HttpEntity<String> entity = new HttpEntity<>(headers);
+	    
+	    ResponseEntity<String> userInfoResponse = restTemplate.exchange(
+	        "https://openapi.naver.com/v1/nid/me", HttpMethod.GET, entity, String.class
+	    );
+
+	    // 사용자 정보 가져오기
+	    JSONObject userInfo = new JSONObject(userInfoResponse.getBody());
+	    String naverId = userInfo.getJSONObject("response").getString("id");
+	    String email = userInfo.getJSONObject("response").getString("email");
+	    String nickname = userInfo.getJSONObject("response").getString("nickname");
+
+	    // 서비스 계층을 통해 로그인 또는 회원가입 처리
+	    UserVO user = userService.handleNaverLogin(naverId, email, nickname);
+
+	    // ✅ 세션에 사용자 정보 저장 (로그인 처리)
+	    session.setAttribute("sUid", user.getUserId());
+	    session.setAttribute("sNickName", user.getNickName());
+	    session.setAttribute("sLogin", "OK"); // 로그인 상태
+
+	    return "redirect:/msg/userLoginOk?uid=" + user.getUserId();
 	}
 	
 	// 로그아웃 처리
@@ -605,42 +609,6 @@ public class UserController {
 		}
 		return ResponseEntity.ok(Map.of("msg", "대표 배송지가 설정되었습니다."));
 	}
-
-    // 나의 주문 내역 및 상태 보기
-    @RequestMapping(value = "/myOrderList", method = RequestMethod.GET)
-    public String getMyOrder(Model model, HttpServletRequest request, HttpSession session,
-                             @RequestParam(required = false) String startOrder,
-                             @RequestParam(required = false) String endOrder,
-                             @RequestParam(name = "pag", defaultValue = "1", required = false) int pag,
-                             @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
-                             @RequestParam(name = "conditionOrderStatus", defaultValue = "전체", required = false) String conditionOrderStatus) {
-
-        Integer userIdx = (Integer) session.getAttribute("sUidx");
-        if (userIdx == null) {
-            model.addAttribute("msg", "로그인이 필요합니다. 다시 로그인 해주세요.");
-            return "redirect:/user/login";
-        }
-
-        // 조건을 '@'로 연결하여 검색 조건으로 사용
-        String searchString = (startOrder != null ? startOrder : "") + "@" + 
-                              (endOrder != null ? endOrder : "") + "@" + 
-                              conditionOrderStatus;
-
-        // 총 레코드 수 및 페이징 정보 계산
-        //PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrder", userIdx, searchString);
-
-        // 주문 목록 조회
-        //List<OrderVO> vos = orderService.getMyOrderStatus(pageVO.getStartIndexNo(), pageSize, userIdx, startOrder, endOrder, conditionOrderStatus);
-        
-        // 모델에 조회된 결과 추가
-        //model.addAttribute("vos", vos);
-        model.addAttribute("startOrder", startOrder);
-        model.addAttribute("endOrder", endOrder);
-        model.addAttribute("conditionOrderStatus", conditionOrderStatus);
-        //model.addAttribute("pageVO", pageVO);
-
-        return "users/userOrderList";
-    }
     
     @GetMapping("/userActivity")
     public String getUserActivity(HttpSession session, Model model) {
@@ -657,38 +625,82 @@ public class UserController {
     
     @GetMapping("/userOrderList")
     public String getOrderList(
-        @RequestParam(value = "pag", defaultValue = "1") int pag,
-        @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
-        @RequestParam(name = "conditionOrderStatus", required = false) String conditionOrderStatus,
-        //@RequestParam(value = "startOrder", required = false) String startOrder,
-        //@RequestParam(value = "endOrder", required = false) String endOrder,
-        Model model, HttpSession session) {
+            @RequestParam(value = "pag", defaultValue = "1") int pag,
+            @RequestParam(name = "pageSize", defaultValue = "5", required = false) int pageSize,
+            @RequestParam(name = "conditionOrderStatus", defaultValue = "전체", required = false) String conditionOrderStatus,
+            @RequestParam(value = "startOrder", required = false) String startOrder,
+            @RequestParam(value = "endOrder", required = false) String endOrder,
+            Model model, HttpSession session) {
 
+        // 세션에서 사용자 ID 가져오기
         Integer userIdx = (Integer) session.getAttribute("sUidx");
         if (userIdx == null) {
             return "redirect:/msg/userLoginNo";
         }
 
-        // 날짜 기본값 설정
-		/*
-		 * if (startOrder == null || startOrder.isEmpty()) { startOrder = new
-		 * SimpleDateFormat("yyyy-MM-dd").format(new Date()); } if (endOrder == null ||
-		 * endOrder.isEmpty()) { endOrder = new
-		 * SimpleDateFormat("yyyy-MM-dd").format(new Date()); }
-		 */
+        // 날짜 기본값 설정 (없으면 오늘 날짜로 설정)
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
+        Date today = new Date();
+        if (startOrder == null || startOrder.isEmpty()) {
+            startOrder = sdf.format(today);
+        }
+        if (endOrder == null || endOrder.isEmpty()) {
+            endOrder = sdf.format(today);
+        }
 
-        PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrder", userIdx, "");
+        // 페이징 정보 가져오기
+        PageVO pageVO = pageProcess.totRecCnt(pag, pageSize, "myOrder", userIdx, conditionOrderStatus);
 
-        //List<OrderVO> orderList = orderService.getUserOrderList(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO);
-        List<OrderVO> orderList = orderService.getUserOrderList(userIdx, conditionOrderStatus, pageVO);
+        // 주문 목록 가져오기
+        List<OrderVO> orderList = orderService.getUserOrderList(userIdx, startOrder, endOrder, conditionOrderStatus, pageVO);
 
-        model.addAttribute("orderList", orderList);
+        // 모델에 조회된 데이터 추가
+        model.addAttribute("orderList", orderList); // JSP에서 사용될 데이터
         model.addAttribute("pageVO", pageVO);
-        //model.addAttribute("startOrder", startOrder);
-        //model.addAttribute("endOrder", endOrder);
+        model.addAttribute("startOrder", startOrder);
+        model.addAttribute("endOrder", endOrder);
+        model.addAttribute("conditionOrderStatus", conditionOrderStatus);
+
         return "users/userOrderList";
     }
-
+    
+    // 유저 최근 주문 내역
+    @GetMapping("userRecentOrders")
+    public String getRecentOrders(HttpSession session, Model model)	{
+    	Integer userIdx = (Integer) session.getAttribute("sUidx");
+    	if (userIdx == null) {
+    		return "redirect:/msg/userLoginNo";
+    	}
+    	
+    	// 최근 주문 5개만 조회
+    	List<OrderVO> recentOrders = orderService.getRecentOrders(userIdx, 5);
+    	
+    	model.addAttribute("recentOrders", recentOrders);
+    	return "users/userMain";
+    }
+    
+    // 유저 주문 상세정보
+    @GetMapping("userOrderDetails")
+    public String getOrderDetails(@RequestParam("orderNumber") String orderNumber, Model model, HttpSession session) {
+    	Integer userIdx = (Integer) session.getAttribute("sUidx");
+    	if (userIdx == null) {
+    		return "redirect:/msg/userLoginNo";
+    	}
+    	
+    	// 주문 상세 정보 가져오기(주문 기본 정보 + 주문한 상품 목록)
+    	OrderVO orderDetails = orderService.getOrderDetails(orderNumber, userIdx);
+    	List<OrderProductVO> orderItems = orderService.getOrderItems(orderNumber);
+    	
+    	if (orderDetails == null) {
+    		return "redirect:/msg/orderNotFound";
+    	}
+    	
+    	// JSP에서 사용할 데이터 추가
+    	model.addAttribute("orderDetails", orderDetails);
+    	model.addAttribute("orderItems", orderItems);
+    	
+    	return "users/userOrderDetails";  // 주문 상세 페이지
+    }
     
     // 유저가 좋아요한 상품 목록 조회
     @GetMapping("/userLiked")
