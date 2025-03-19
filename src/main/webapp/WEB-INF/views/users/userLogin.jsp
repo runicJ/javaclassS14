@@ -12,6 +12,7 @@
   	<%@ include file = "/WEB-INF/views/include/user/bs4.jsp"%>
 	<script src="https://static.nid.naver.com/js/naveridlogin_js_sdk_2.0.2.js" charset="utf-8"></script>
 	<script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+	<script src="https://accounts.google.com/gsi/client" async defer></script>
 	<script>
 		Kakao.init("3fe3ad77eb298aac7a938386f756b9b1"); // 여기에 JavaScript 키 입력 (REST API 키 아님)
 		console.log("Kakao SDK 초기화 상태:", Kakao.isInitialized()); // true여야 정상
@@ -98,6 +99,45 @@
 		    window.location.href = naverAuthUrl; // 네이버 로그인 창으로 이동
 		} */
   	    
+	    window.onload = function () {
+	        google.accounts.id.initialize({
+	            client_id: "574823940925-80u6kt99t4qntsq370ml9qr8qrhf77mv.apps.googleusercontent.com",
+	            callback: handleCredentialResponse
+	        });
+
+	        google.accounts.id.renderButton(
+	            document.getElementById("google-login-button"), // ✅ 버튼 ID를 지정해서 랜더링 가능
+	            { theme: "outline", size: "large" }  // 옵션 설정 가능
+	        );
+	    };
+	    
+	    function googleLogin() {
+	        google.accounts.id.prompt(); // ✅ Google 로그인 창 띄우기
+	    }
+	    
+	    function handleCredentialResponse(response) {
+	        console.log("Google 로그인 성공:", response);
+
+	        // Google에서 제공한 ID 토큰을 백엔드로 전송
+	        fetch("${ctp}/users/userGoogleLogin", {
+	            method: "POST",
+	            headers: {
+	                "Content-Type": "application/json"
+	            },
+	            body: JSON.stringify({ credential: response.credential })
+	        })
+	        .then(res => res.json())
+	        .then(data => {
+	            if (data.success) {
+	                alert("로그인 성공!");
+	                window.location.href = "${ctp}/";
+	            } else {
+	                alert("로그인 실패. 다시 시도해주세요.");
+	            }
+	        })
+	        .catch(error => console.error("Error:", error));
+	    }
+		
   	    function popupFindId() {
   	    	let popName = "popId"
   	    	let popWidth = 500;
@@ -161,7 +201,9 @@
 						<div class="text-center">
 							<ul class="btn-group align-center" style="list-style:none;">
 								<li>
-	             					<a href="${ctp}/user/userGoogleLogin" class="login-app mr-4" style="background-color:#f3f2f0;border:#eee"><img class="app-i" src="${ctp}/images/google-icon.png" alt="google-icon" style="width:25px;height:auto;"></a>
+								    <a href="javascript:googleLogin()" class="login-app mr-4" style="background-color:#f3f2f0;border:#eee">
+								        <img class="app-i" src="${ctp}/images/google-icon.png" alt="google-icon" style="width:25px;height:auto;">
+								    </a>
 								</li>
 								<li>
 									<a href="https://nid.naver.com/oauth2.0/authorize?response_type=code
@@ -169,7 +211,7 @@
 									&redirect_uri=http://localhost:9090/javaclassS14/users/userNaverLogin
 									&state=RANDOM_STATE
 									&scope=name,email"
-									class="login-app" style="background-color:#1ec800;">
+									class="login-app mr-4" style="background-color:#1ec800;">
 									    <span style="font-size:28px; font-weight:bolder; color:#ffffff;">N</span>
 									</a>
 								</li>
